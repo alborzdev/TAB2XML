@@ -6,9 +6,10 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("My second version!");
 		System.out.println("Lian");
-		System.out.println("Derry");
+		//zoop
 		System.out.println("Aidan");
 		System.out.println("Alborz");
+		System.out.println("Derry again");
 	}
 
 }
