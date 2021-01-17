@@ -1,4 +1,4 @@
-package tab2mxl;
+package config;
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
