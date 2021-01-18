@@ -1,13 +1,24 @@
 package tab2mxl;
 import javax.swing.*;
 import java.awt.*;
+
+import config.ConfigReader;;
+
 class gui_test{
 	public static void main(String args[]) {
 
 		// Frame
 		JFrame frame = new JFrame("My First GUI");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(400, 400);
+
+		//get preferred window width from config file (value is string)
+		String s_width = ConfigReader.getConfig().getAttr("pref_width");
+		//parse value to integer
+		int width = Integer.parseInt(s_width);
+		//same for height, but all in one line
+		int height = Integer.parseInt(ConfigReader.getConfig().getAttr("pref_height"));
+		//set frame size based on values from config.ini
+		frame.setSize(width, height);
 
 		// Button
 		JButton button = new JButton("Convert");
