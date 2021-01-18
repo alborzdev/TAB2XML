@@ -1,17 +1,15 @@
 package tab2mxl;
 
+import config.*;
+
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("My second version!");
-		System.out.println("Lian");
-		//zoop
-		System.out.println("Aidan");
-		System.out.println("Alborz");
-		System.out.println("Derry again");
-		System.out.println("Isaiah");
-		System.out.println("Quick pull test");
+		System.out.println("test ConfigReader");
+		ConfigReader cfg = new ConfigReader("../config.ini");
+		System.out.println(cfg.getAttr("attr1"));
+		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 	}
 
 }
