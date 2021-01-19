@@ -1,7 +1,10 @@
 package tab2mxl;
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import java.io.File;  
 import config.ConfigReader;;
 
 class gui_test{
@@ -39,6 +42,16 @@ class gui_test{
 		frame.getContentPane().add(BorderLayout.CENTER, ta);
 		frame.getContentPane().add(BorderLayout.SOUTH, button);
 		frame.setVisible(true);
-
+		
+		//
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text Files", "txt")); 
+		fileChooser.setAcceptAllFileFilterUsed(true);
+		int result = fileChooser.showOpenDialog(fileChooser);
+		if (result == JFileChooser.APPROVE_OPTION) {
+		    File selectedFile = fileChooser.getSelectedFile();
+		    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+		}
 	}
 }
