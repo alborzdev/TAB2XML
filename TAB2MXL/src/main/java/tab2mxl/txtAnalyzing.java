@@ -21,7 +21,7 @@ public class txtAnalyzing {
 		//String to hold lines of one measure
 		String lines = "";
 		
-		//goes through each line the file has
+		//goes through each line the file has in it
 		while(scan.hasNextLine()) {
 			
 			//stores the current line in lines
@@ -29,7 +29,8 @@ public class txtAnalyzing {
 
 		}
 		
-		//outputs the final string
+
+		//outputs the final string 
 		System.out.println(lines);
 		
 	}
