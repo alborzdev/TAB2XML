@@ -1,6 +1,7 @@
 package tab2mxl;
 
 import config.*;
+import test.*;
 
 public class Main {
 
@@ -11,6 +12,11 @@ public class Main {
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(cfg.getAttr("attr1"));
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+
+		TabReader tb = new TabReader();
+		for(int i = 0; i<7; i++) {
+			tb.readMeasure();
+		}
 
 	}
 
