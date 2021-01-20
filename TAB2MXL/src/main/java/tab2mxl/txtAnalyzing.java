@@ -43,7 +43,8 @@ public class txtAnalyzing {
 		while(scan.hasNextLine()) {
 			
 			//stores the current line in lines
-			lines += "\n" + scan.nextLine();
+			//Shifted new line '\n' to the end instead of the front -Aidan
+			lines += scan.nextLine()+ "\n" ;
 		}
 		
 
