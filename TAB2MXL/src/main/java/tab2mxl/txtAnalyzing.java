@@ -12,6 +12,7 @@ public class txtAnalyzing {
 	public static void main(String[] args) {
 		//JUST IMPLEMENTED FOR TESTING
 		//finds path of txt file
+		//test comment
 		String path = System.getProperty("user.dir")+"/src/main/java/tab.txt";
 		String song = "";
 		
