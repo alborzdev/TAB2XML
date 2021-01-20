@@ -9,11 +9,7 @@ import config.ConfigReader;;
 
 class gui_test{
 	public static void main(String args[]) {
-		//hello!
-		//Hi!
-		//Helloooooo!
-		//hi anything
-		//heyooo!
+		
 		// Frame
 		JFrame frame = new JFrame("My First GUI");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
