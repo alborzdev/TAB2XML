@@ -1,13 +1,18 @@
 package tab2mxl;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import java.io.File;  
-import config.ConfigReader;;
+import java.io.File;
+import java.io.FileNotFoundException;
 
-class gui_test{
+import config.ConfigReader;
+
+class gui{
 	public static void main(String args[]) {
 		
 		// Frame
@@ -21,7 +26,7 @@ class gui_test{
 		//same for height, but all in one line
 		int height = Integer.parseInt(ConfigReader.getConfig().getAttr("pref_height"));
 		//set frame size based on values from config.ini
-		frame.setSize(width, height);
+		frame.setSize(600, 500);//add width and height back
 
 		// Button
 		JButton button = new JButton("Convert");
@@ -44,28 +49,39 @@ class gui_test{
 		frame.getContentPane().add(BorderLayout.SOUTH, button);
 		frame.setVisible(true);
 		
-		//Text Area Contents
+		//Listeners
+		button.addActionListener(new ActionListener() { 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.print(ta.getText());
+			} 
+		} );
 		
-		ta.insert("Hello World", 0);
-		
-		System.out.println(ta.getText());
-		
-		//
-		
-		File selectedFile = null; //user selected file directory
-		
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text Files", "txt")); 
-		fileChooser.setAcceptAllFileFilterUsed(true);
-		int result = fileChooser.showOpenDialog(fileChooser);
-		if (result == JFileChooser.APPROVE_OPTION) {
-		    selectedFile = fileChooser.getSelectedFile();
-		    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-		}
-		
-		ta.insert(selectedFile.toString(), 0);
-		
+		mi1.addActionListener(new ActionListener() { 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				File selectedFile = null; //user selected file directory
+				
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text Files", "txt")); 
+				fileChooser.setAcceptAllFileFilterUsed(true);
+				int result = fileChooser.showOpenDialog(fileChooser);
+				if (result == JFileChooser.APPROVE_OPTION) {
+				    selectedFile = fileChooser.getSelectedFile();
+				    
+				    try {
+				    	ta.insert( txtAnalyzing.analyze(selectedFile.toString()) , 0);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+				    
+				    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+				}
+				
+			} 
+		} );
 		
 		
 		
