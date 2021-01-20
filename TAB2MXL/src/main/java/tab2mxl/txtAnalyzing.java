@@ -1,10 +1,12 @@
 package tab2mxl;
+import java.io.IOException;  // Import the IOException class to handle errors
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
-
+import java.io.FileWriter;   // Import the FileWriter class
 public class txtAnalyzing {
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -29,7 +31,15 @@ public class txtAnalyzing {
 
 		}
 		
-
+		try {
+		      FileWriter myWriter = new FileWriter(System.getProperty("user.dir") + "/testTab.txt");
+		      myWriter.write(lines);
+		      myWriter.close();
+		      System.out.println("Successfully wrote to the file.");
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
 		//outputs the final string 
 		System.out.println(lines);
 		
