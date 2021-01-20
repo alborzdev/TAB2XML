@@ -41,6 +41,7 @@ public class txtAnalyzing {
 		      e.printStackTrace();
 		    }
 		//outputs the final string 
+		//test
 		System.out.println(lines);
 		
 	}
