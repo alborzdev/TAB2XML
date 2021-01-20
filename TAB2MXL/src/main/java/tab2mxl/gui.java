@@ -12,6 +12,7 @@ class gui_test{
 		//hello!
 		//Hi!
 		//Helloooooo!
+		//hi anything
 		// Frame
 		JFrame frame = new JFrame("My First GUI");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
