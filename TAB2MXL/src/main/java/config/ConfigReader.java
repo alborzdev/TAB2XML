@@ -4,17 +4,22 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class ConfigReader {
-    private String filepath;
+    //private String filepath;
     private File config;
     private ArrayList<ConfigNode> configData;
+    private static ConfigReader instance = new ConfigReader("../config.ini");
     
 
-    public ConfigReader(String filepath){
-        this.filepath = filepath;
+    private ConfigReader(String filepath){
+        //this.filepath = filepath;
         this.config = new File(filepath);
         this.configData = new ArrayList<ConfigNode>();
         readFile();
-        System.out.println("DEBUG: ConfigReader ready to use");
+        //System.out.println("DEBUG: ConfigReader ready to use");
+    }
+
+    public static ConfigReader getConfig(){
+        return instance;
     }
 
     public String getAttr(String attr){
@@ -36,18 +41,19 @@ public class ConfigReader {
                 temp = sc.nextLine().split(":", 2);
                 configData.add(new ConfigNode(temp[0],temp[1]));
             }
+            sc.close();
         }catch(Exception e){
             System.out.println("DEBUG: configuration file error");
             System.out.println(e.toString());
         }
     }
 
-    public class ConfigNode{
+    private class ConfigNode{
         String name, value;
         public ConfigNode(String name, String value){
             this.name = name;
             this.value = value;
-            System.out.println("DEBUG: configuration node created: " +name+":"+value);
+            //System.out.println("DEBUG: configuration node created: " +name+":"+value);
         }
 
         public String getName(){
