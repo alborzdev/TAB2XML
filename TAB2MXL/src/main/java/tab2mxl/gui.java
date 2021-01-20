@@ -36,6 +36,7 @@ class gui_test{
 
 		// Text Area at the Center
 		JTextArea ta = new JTextArea();
+		
 
 		// Adding Components to the frame.
 		frame.getContentPane().add(BorderLayout.NORTH, mb);
@@ -43,15 +44,31 @@ class gui_test{
 		frame.getContentPane().add(BorderLayout.SOUTH, button);
 		frame.setVisible(true);
 		
+		//Text Area Contents
+		
+		ta.insert("Hello World", 0);
+		
+		System.out.println(ta.getText());
+		
 		//
+		
+		File selectedFile = null; //user selected file directory
+		
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text Files", "txt")); 
 		fileChooser.setAcceptAllFileFilterUsed(true);
 		int result = fileChooser.showOpenDialog(fileChooser);
 		if (result == JFileChooser.APPROVE_OPTION) {
-		    File selectedFile = fileChooser.getSelectedFile();
+		    selectedFile = fileChooser.getSelectedFile();
 		    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 		}
+		
+		ta.insert(selectedFile.toString(), 0);
+		
+		
+		
+		
 	}
+	
 }
