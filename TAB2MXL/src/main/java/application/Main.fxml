@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="393.0" prefWidth="676.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <children>
+      <TextArea fx:id="textarea" layoutX="13.0" layoutY="52.0" prefHeight="240.0" prefWidth="646.0" promptText="Paste your tab here or upload a .txt file" wrapText="true" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="52.0" />
+      <Button layoutX="286.0" layoutY="315.0" mnemonicParsing="false" onAction="#doOpen" prefHeight="25.0" prefWidth="100.0" text="Upload .txt file" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="315.0" />
+      <MenuBar layoutY="1.0" style="-fx-background-color: light-grey;">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem onAction="#doExit" text="Exit">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#doOpen" text="Open">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <Button layoutX="286.0" layoutY="354.0" mnemonicParsing="false" onAction="#convertFile" prefHeight="25.0" prefWidth="100.0" text="Convert to .xml" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="354.0" />
+   </children>
+</AnchorPane>
