@@ -26,12 +26,17 @@ public class MainController implements Initializable {
 	
 	private Stage stage;
 	private File file;
-//	private File file;
 
 	@FXML
 	private TextArea textarea;
 
-	
+	/**
+	 * This method allows Open/Upload button to select a .txt file and display it in text area
+	 * @param event
+	 * @throws FileNotFoundException
+	 * ISSUE: When importing a .txt file the text wraps weirdly in the text area. 
+	 * This might cause an issue when parsing tab
+	 */
 	public void doOpen(ActionEvent event) throws FileNotFoundException {
 		//file chooser
 		FileChooser filechooser= new FileChooser(); 
@@ -51,6 +56,11 @@ public class MainController implements Initializable {
 		
 	}
 	
+	/**
+	 * Currently converts .txt back to a .txt file. Lets user specify name and path
+	 * @param event
+	 * @throws IOException
+	 */
 	public void convertFile(ActionEvent event) throws IOException {
 		FileChooser saver = new FileChooser();
 	
@@ -71,15 +81,16 @@ public class MainController implements Initializable {
 		
 	}
   
-	
+	/*
+	 * Exit button - exit app
+	 * */
 	public void doExit(ActionEvent event) {
 		Platform.exit();
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
-		
+	//initializer
 	}
 
 	public void init(Stage primaryStage) {
