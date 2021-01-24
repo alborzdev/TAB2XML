@@ -46,6 +46,7 @@ public class MainController implements Initializable {
 		
 		if(file!=null) { 
 			textarea.appendText( tab2mxl.txtAnalyzing.analyze(file.toString()) );
+			System.out.println("Conflict");
 		}
 		
 		
