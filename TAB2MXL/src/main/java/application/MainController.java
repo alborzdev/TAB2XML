@@ -45,14 +45,9 @@ public class MainController implements Initializable {
 		file = filechooser.showOpenDialog(stage); 
 
 		if(file!=null) { 
-			System.out.println("Chosen file: " + file);
-			Scanner scan = new Scanner(file); 
-			while(scan.hasNextLine()) {
-				textarea.appendText(scan.nextLine());
-				
-			}
-			scan.close();
+			textarea.appendText( tab2mxl.txtAnalyzing.analyze(file.toString()) );
 		}
+		
 		
 	}
 	
