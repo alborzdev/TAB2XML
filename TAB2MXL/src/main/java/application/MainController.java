@@ -43,7 +43,7 @@ public class MainController implements Initializable {
 		filechooser.setTitle("Open text file"); 
 		filechooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter(".txt files", "*.txt") );
 		file = filechooser.showOpenDialog(stage); 
-
+		
 		if(file!=null) { 
 			System.out.println("Chosen file: " + file);
 			Scanner scan = new Scanner(file); 
