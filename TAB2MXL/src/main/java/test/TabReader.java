@@ -20,9 +20,8 @@ public class TabReader {
 		measure = new String[string_count];
 		curr_line = 0;
 		curr_measure = 0;
-		
 		evaluateLine();
-
+    
 		
 	}
 	
