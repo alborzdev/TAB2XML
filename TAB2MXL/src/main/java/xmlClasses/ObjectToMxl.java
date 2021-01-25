@@ -28,11 +28,17 @@ public static void main(String[] args) throws Exception{
     Note n = new Note(4, "whole", pi);
     
     Measure m = new Measure(1, att, n);
+    Measure m1 = new Measure(2, new Note(2, "half", new Pitch("B", 2) ) );
     
-    Part p = new Part("P1", m);
+    ArrayList<Measure> measures = new ArrayList<Measure>();
+    measures.add(m);
+    measures.add(m1);
+    
+    
+    Part p = new Part("P1", measures);
     		
     Score_Partwise spw = new Score_Partwise(3.1, pl, p);  
-    marshallerObj.marshal(spw, new FileOutputStream("musicTest.xml"));  
+    marshallerObj.marshal(spw, new FileOutputStream("musicTest2.xml"));  
        
 }  
 }  

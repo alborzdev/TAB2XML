@@ -1,15 +1,18 @@
 package xmlClasses;
 
+
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 public class Part {
 	
 	private String id;
-	private Measure measure;
+	private ArrayList<Measure> measure;
 	public Part() {}  
 	
-	public Part(String id, Measure measure) {  
+	public Part(String id, ArrayList<Measure> measure) {  
 	    super();  
 	    this.id = id;
 	    this.measure = measure;
@@ -24,10 +27,10 @@ public class Part {
 	}
 	
 	@XmlElement
-	public Measure getMeasure() {  
+	public ArrayList<Measure> getMeasure() {  
 	    return measure;  
 	}  
-	public void setMeasure(Measure measure) {  
+	public void setMeasure(ArrayList<Measure> measure) {  
 		this.measure = measure;
 	}
 }
