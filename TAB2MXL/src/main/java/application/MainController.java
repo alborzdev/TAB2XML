@@ -68,13 +68,12 @@ public class MainController implements Initializable {
         FileWriter write;
 		try {
 			write = new FileWriter(loc);
-			write.write(textarea.getText());
+			write.write(getText());
        	  	write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        	 
-		
+	//	xmlClasses.ObjectToMxl.main(null);
 	}
   
 	/*
@@ -92,5 +91,9 @@ public class MainController implements Initializable {
 	public void init(Stage primaryStage) {
 		this.stage = primaryStage;
 		
+	}
+	
+	public String getText() {
+		return textarea.getText();
 	}
 }
