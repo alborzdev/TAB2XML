@@ -34,11 +34,12 @@ public class TabReader {
 			evaluateLine();
 			readMeasure();
 		}else {
-			System.out.println("DEBUG: measure read:");
+			
 			for(int i=0; i<string_count; i++) {
 				measure[i] = strings[i].split(measureDelimiterRegex)[curr_measure + 1]; //+1 to skip the tuning data
-				System.out.println(measure[i]);
 			}
+			System.out.println("DEBUG: measure read:");
+			this.printMeasure();
 			curr_measure ++;
 			
 		}
@@ -51,6 +52,10 @@ public class TabReader {
 				System.out.println(str);
 			}
 			
+		}
+		
+		public String[] getMeasure() {
+			return measure;
 		}
 
 	//rough method to grab an entire row of measures at a time
