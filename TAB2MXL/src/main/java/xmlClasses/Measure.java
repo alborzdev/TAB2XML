@@ -16,6 +16,11 @@ public class Measure {
 	    this.att = att;
 	    this.note = note;  
 	} 
+	public Measure(int number, Note note) {  
+	    super();  
+	    this.number = number;
+	    this.note = note;  
+	} 
 	
 	@XmlAttribute
 	public int getNumber() {  

@@ -27,7 +27,7 @@ public class Main extends Application {
 		Parent root = loader.load();
 		MainController controller = loader.getController();
 		controller.init(primaryStage);
-		System.out.println("Hello!! Lian");
+
 		Scene scene = new Scene(root);
 	
 		primaryStage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));

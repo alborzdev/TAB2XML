@@ -30,5 +30,15 @@
                 <type>whole</type>
             </note>
         </measure>
+        <measure number="2">
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>2</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+            </note>
+        </measure>
     </part>
 </score-partwise>
