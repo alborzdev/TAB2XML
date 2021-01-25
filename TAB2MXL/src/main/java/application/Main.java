@@ -28,6 +28,7 @@ public class Main extends Application {
 		MainController controller = loader.getController();
 		controller.init(primaryStage);
 		
+		System.out.println("Conflict!");
 		Scene scene = new Scene(root);
 	
 		primaryStage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
