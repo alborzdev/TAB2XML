@@ -11,7 +11,7 @@ public class Main {
 		System.out.println("testing push verison 2");
 		System.out.println("testing push");
 		System.out.println("test ConfigReader");
-		System.out.println("new thing");
+		System.out.println("newer thing");
 		//ConfigReader cfg = new ConfigReader("../config.ini");
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(cfg.getAttr("attr1"));
