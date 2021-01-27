@@ -15,6 +15,7 @@ public class Main {
 		System.out.println("newer thing");
 		System.out.println("newer things");
 		System.out.println("LAB CHANGE");
+		System.out.println("Another Change");
 		//ConfigReader cfg = new ConfigReader("../config.ini");
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(cfg.getAttr("attr1"));
