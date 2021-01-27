@@ -7,6 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		//helooo
+		//Change for conflict
 		// TODO Auto-generated method stub
 		System.out.println("My line is even better");
 		System.out.println("testing push verison 2");
@@ -21,6 +22,7 @@ public class Main {
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println("Aidan messed up this time lollllll");
 		System.out.println("Isaiah's change number 2");
+		System.out.println("Conflict for Labtask");
 		System.out.println("Isaiah's change");
 		System.out.println(cfg.getAttr("attr1")); 
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
