@@ -8,6 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 		//helooo
 		// TODO Auto-generated method stub
+		System.out.println("testing push");
 		System.out.println("test ConfigReader");
 		//ConfigReader cfg = new ConfigReader("../config.ini");
 		ConfigReader cfg = ConfigReader.getConfig();
