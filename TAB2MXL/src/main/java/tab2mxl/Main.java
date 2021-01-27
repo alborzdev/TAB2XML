@@ -15,10 +15,11 @@ public class Main {
 		System.out.println("newer thing");
 		System.out.println("newer things");
 		System.out.println("LAB CHANGE");
-		System.out.println("Another Change");
+		System.out.println("Another Change2");
 		//ConfigReader cfg = new ConfigReader("../config.ini");
+		
 		ConfigReader cfg = ConfigReader.getConfig();
-		System.out.println(cfg.getAttr("attr1")); //alborz messed up the first time lol
+		System.out.println(cfg.getAttr("attr1")); 
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 		TabReader tb = new TabReader();
 		for(int i = 0; i<7; i++) {
