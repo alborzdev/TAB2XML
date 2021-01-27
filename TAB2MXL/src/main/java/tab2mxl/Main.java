@@ -20,7 +20,8 @@ public class Main {
 		
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println("Aidan messed up this time lollllll");
-		System.out.println(cfg.getAttr("attr1"));
+		System.out.println("Isaiah's change");
+		System.out.println(cfg.getAttr("attr1")); 
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 		TabReader tb = new TabReader();
 		for(int i = 0; i<7; i++) {
