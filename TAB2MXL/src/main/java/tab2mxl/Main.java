@@ -13,7 +13,11 @@ public class Main {
 		System.out.println("testing push");
 		System.out.println("test ConfigReader");
 		System.out.println("newer thing");
+		System.out.println("newer things");
+		System.out.println("LAB CHANGE");
+		System.out.println("Another Change2");
 		//ConfigReader cfg = new ConfigReader("../config.ini");
+		
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(":D");
 		System.out.println("Aidan messed up this time lol");
