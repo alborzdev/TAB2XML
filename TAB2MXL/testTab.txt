@@ -1,37 +1,7 @@
-<<<<<<< HEAD
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
 
-public class test {
-	//test read .txt file and export it onto desktop
-	
-		public static void main(String[] args) throws IOException {
-
-			// http://textfiles.com/100/captmidn.txt
-
-			File file = new File("/Users/Lian/Desktop/test.txt");
-			Scanner scan = new Scanner(file);
-
-			String fileContent = "";
-			while (scan.hasNextLine()) {
-				fileContent = fileContent.concat(scan.nextLine() + "\n");
-			}
-
-			FileWriter writer = new FileWriter("/Users/Lian/Desktop/newfile.txt");
-			writer.write(fileContent);
-			writer.close();
-
-		}
-
-	}
-=======
 e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|
 B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|
 G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|
 D|-7-------6-------|-5-------4-------|-3---------------|-----------------|
 A|-----------------|-----------------|-----------------|-2-0-0---0--/8-7-|
 E|-----------------|-----------------|-----------------|-----------------|
->>>>>>> branch 'master' of https://github.com/alborzdev/2311-Project

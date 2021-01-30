@@ -15,7 +15,7 @@
          <font>
             <Font name="Courier New" size="12.0" />
          </font></TextArea>
-      <Button layoutX="286.0" layoutY="315.0" onAction="#doOpen" prefHeight="25.0" prefWidth="100.0" text="Upload .txt file" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="315.0" />
+      <Button layoutX="286.0" layoutY="315.0" onAction="#doOpen" prefHeight="25.0" prefWidth="100.0" text="Upload .txt file" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="290.0" />
       <MenuBar layoutY="1.0" style="-fx-background-color: light-grey;">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -39,6 +39,6 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="286.0" layoutY="354.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#convertFile" prefHeight="25.0" prefWidth="100.0" text="Convert to .xml" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="354.0" />
+      <Button layoutX="286.0" layoutY="354.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#convertFile" prefHeight="25.0" prefWidth="100.0" text="Convert to .xml" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="290.0" />
    </children>
 </AnchorPane>

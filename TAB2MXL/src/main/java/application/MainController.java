@@ -34,8 +34,7 @@ public class MainController implements Initializable {
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
 	 * @param event
 	 * @throws FileNotFoundException
-	 * ISSUE: When importing a .txt file the text wraps weirdly in the text area. 
-	 * This might cause an issue when parsing tab
+	 * 
 	 */
 	public void doOpen(ActionEvent event) throws FileNotFoundException {
 		//file chooser
