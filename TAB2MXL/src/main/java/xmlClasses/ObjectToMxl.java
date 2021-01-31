@@ -49,7 +49,7 @@ public static void mxlMaker() throws Exception{
     Work w = new Work("Hot cross BUNS");
     Score_Partwise spw = new Score_Partwise(3.1, pl, p, id, w);  
     marshallerObj.marshal(spw, new FileOutputStream("musicTest2.xml"));  
-
+    System.out.println("it worked!");
        
 	}  
 }  

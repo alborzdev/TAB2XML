@@ -65,7 +65,7 @@ public class MainController implements Initializable {
 	 * @throws Exception 
 	 */
 	public void convertFile(ActionEvent event) throws Exception {
-		xmlClasses.ObjectToMxl.main(null);
+		xmlClasses.ObjectToMxl.mxlMaker();
 //		FileChooser saver = new FileChooser();
 //	
 //		FileChooser.ExtensionFilter extFilter = 
