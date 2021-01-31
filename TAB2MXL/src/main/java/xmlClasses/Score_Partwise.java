@@ -13,14 +13,16 @@ public class Score_Partwise {
 	private double version;
 	private Part_List part_list;
 	private Part part;
+	private Identification id;
 	
 	public Score_Partwise() {}  
 	
-	public Score_Partwise(double version, Part_List part_list, Part part) {  
+	public Score_Partwise(double version, Part_List part_list, Part part, Identification id) {  
 	    super();  
 	    this.version = version; 
 	    this.part_list = part_list;
 	    this.part = part;
+	    this.id = id;
 	    
 	} 
 	
@@ -46,5 +48,12 @@ public class Score_Partwise {
 	}  
 	public void setPart(Part part) {  
 	    this.part = part;  
+	}  
+	@XmlElement(name="identification")
+	public Identification getId() {  
+	    return id;  
+	}  
+	public void setId(Identification id) {  
+	    this.id = id;  
 	}  
 }

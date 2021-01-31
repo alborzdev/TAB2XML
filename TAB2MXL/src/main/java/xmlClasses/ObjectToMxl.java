@@ -30,9 +30,12 @@ public static void main(String[] args) throws Exception{
     ArrayList <Measure> measures = new ArrayList<Measure>();
     measures.add(m);
     Part p = new Part("P1", measures);
+    
+    Creator cr = new Creator("composer", "Aidan Mozart");
+    Identification id = new Identification(cr);
     		
-    Score_Partwise spw = new Score_Partwise(3.1, pl, p);  
-    marshallerObj.marshal(spw, new FileOutputStream("musicTest.xml"));  
+    Score_Partwise spw = new Score_Partwise(3.1, pl, p, id);  
+    marshallerObj.marshal(spw, new FileOutputStream("musicTest2.xml"));  
        
 }  
 }  
