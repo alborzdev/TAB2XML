@@ -10,7 +10,10 @@ public class Part {
 	
 	private String id;
 	private ArrayList<Measure> measure;
-	public Part() {}  
+	public Part() {
+		id="";
+		measure = new ArrayList<Measure>();
+	}  
 	
 	public Part(String id, ArrayList<Measure> measure) {  
 	    super();  
@@ -33,4 +36,10 @@ public class Part {
 	public void setMeasure(ArrayList<Measure> measure) {  
 		this.measure = measure;
 	}
+	
+	//PartWritter
+	public void addMeasure(Measure m) {
+		measure.add(m);
+	}
+	
 }

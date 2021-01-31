@@ -1,22 +1,26 @@
 package xmlClasses;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 public class Measure {
 	private int number;
 	private Attributes att;
-	private Note note;
+	private ArrayList<Note> note;
 	
-	public Measure() {}  
+	public Measure() {
+		
+	}  
 	
-	public Measure(int number, Attributes att, Note note) {  
+	public Measure(int number, Attributes att, ArrayList<Note> note) {  
 	    super();  
 	    this.number = number;
 	    this.att = att;
 	    this.note = note;  
 	} 
-	public Measure(int number, Note note) {  
+	public Measure(int number, ArrayList<Note> note) {  
 	    super();  
 	    this.number = number;
 	    this.note = note;  
@@ -39,10 +43,16 @@ public class Measure {
 	}
 	
 	@XmlElement
-	public Note getNote() {  
+	public ArrayList<Note> getNote() {  
 	    return note;  
 	}  
-	public void setNote(Note note) {  
+	public void setNote(ArrayList<Note> note) {  
 	    this.note = note;  
 	}
+	
+	//PartWritter
+	public void addNote(Note n) {
+		note.add(n);
+	}
+	
 }
