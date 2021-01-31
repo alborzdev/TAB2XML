@@ -39,6 +39,6 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="286.0" layoutY="354.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#convertFile" prefHeight="25.0" prefWidth="100.0" text="Convert to .xml" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="290.0" />
+      <Button layoutX="309.0" layoutY="353.0" mnemonicParsing="false" onAction="#SceneChange" text="Next&gt;&gt;" AnchorPane.bottomAnchor="14.666666666666668" AnchorPane.leftAnchor="309.0" AnchorPane.rightAnchor="309.6666666666667" />
    </children>
 </AnchorPane>

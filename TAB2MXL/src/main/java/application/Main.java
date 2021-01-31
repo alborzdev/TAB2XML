@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-
+//composer, lyricist, name, title
 public class Main extends Application {
 
 	public static void main(String[] args) {
@@ -28,10 +28,10 @@ public class Main extends Application {
 		MainController controller = loader.getController();
 		controller.init(primaryStage);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 700, 500);
 		primaryStage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Tab 2 XML");
+		primaryStage.setTitle("Tab 2 .xml");
 		primaryStage.show();		
 		
 	}

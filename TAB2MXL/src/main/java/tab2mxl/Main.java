@@ -11,8 +11,8 @@ public class Main {
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(cfg.getAttr("attr1"));
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
-		TabReader tb = new TabReader();
-		for(int i = 0; i<7; i++) {
+		TabReaderV2 tb = new TabReaderV2();
+		for(int i = 0; i<9; i++) {
 			tb.readMeasure();
 		}
 

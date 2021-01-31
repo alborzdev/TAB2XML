@@ -11,10 +11,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import javax.xml.bind.JAXBException;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -43,7 +49,8 @@ public class MainController implements Initializable {
 		filechooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter(".txt files", "*.txt") );
 		file = filechooser.showOpenDialog(stage); 
 		
-		if(file!=null) { 
+		if(file!=null) {
+			//Sends Textarea to Backend to anaylize/parse
 			textarea.appendText( tab2mxl.txtAnalyzing.analyze(file.toString()) );
 			
 		}
@@ -52,29 +59,45 @@ public class MainController implements Initializable {
 	}
 	
 	/**
-	 * Currently converts .txt back to a .txt file. Lets user specify name and path
+	 * Lets user specify name and path
+	 * Need to connect backend & frontend so we can convert to .xml
 	 * @param event
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public void convertFile(ActionEvent event) throws IOException {
-		FileChooser saver = new FileChooser();
-	
-		FileChooser.ExtensionFilter extFilter = 
-                new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-           saver.getExtensionFilters().add(extFilter);
-        	//saver.showSaveDialog(stage);
-        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
-        FileWriter write;
-		try {
-			write = new FileWriter(loc);
-			write.write(getText());
-       	  	write.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	//	xmlClasses.ObjectToMxl.main(null);
+	public void convertFile(ActionEvent event) throws Exception {
+		xmlClasses.ObjectToMxl.main(null);
+//		FileChooser saver = new FileChooser();
+//	
+//		FileChooser.ExtensionFilter extFilter = 
+//                new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+//           saver.getExtensionFilters().add(extFilter);
+//        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
+//        FileWriter write;
+//     
+//		try {
+//			write = new FileWriter(loc);
+//			//SHOULD RECIEVE XML FROM BACKEND
+//			write.write(getText());
+//       	  	write.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
 	}
   
+	/*
+	 * @description: changes scene to adding additional info 
+	 */
+	public void SceneChange(ActionEvent event) throws IOException {
+		Parent Scene2root = FXMLLoader.load(getClass().getResource("AdditionalInformation.fxml"));
+		Scene AddInfoScene = new Scene(Scene2root, 700, 500);
+		
+		//this gets scene information
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		window.setScene(AddInfoScene);
+		window.show();
+	}
+	
 	/*
 	 * Exit button - exit app
 	 * */
@@ -95,4 +118,26 @@ public class MainController implements Initializable {
 	public String getText() {
 		return textarea.getText();
 	}
+	
+	/**
+	 * GETTERS FOR ADDITIONAL INFORMATION
+	 */
+	@FXML
+	private TextField name;
+	private TextField composer;
+	private TextArea lyricist;
+	private TextField title;
+	public String getName(ActionEvent event) throws IOException {
+		return name.getText();
+	}
+	public String getComposer(ActionEvent event) throws IOException {
+		return composer.getText();
+	}
+	public String getLyricist(ActionEvent event) throws IOException {
+		return lyricist.getText();
+	}
+	public String getTitle(ActionEvent event) throws IOException {
+		return title.getText();
+	}
+	
 }
