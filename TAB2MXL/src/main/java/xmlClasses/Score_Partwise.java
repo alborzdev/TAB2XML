@@ -8,22 +8,23 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "score-partwise")
-@XmlType(propOrder={"partList", "part"})
+@XmlType(propOrder={"work", "id", "partList", "part"})
 public class Score_Partwise {
 	private double version;
 	private Part_List part_list;
 	private Part part;
 	private Identification id;
+	private Work w;
 	
 	public Score_Partwise() {}  
 	
-	public Score_Partwise(double version, Part_List part_list, Part part, Identification id) {  
+	public Score_Partwise(double version, Part_List part_list, Part part, Identification id, Work w) {  
 	    super();  
 	    this.version = version; 
 	    this.part_list = part_list;
 	    this.part = part;
 	    this.id = id;
-	    
+	    this.w = w;
 	} 
 	
 	@XmlAttribute  
@@ -49,11 +50,21 @@ public class Score_Partwise {
 	public void setPart(Part part) {  
 	    this.part = part;  
 	}  
+	
 	@XmlElement(name="identification")
 	public Identification getId() {  
 	    return id;  
 	}  
+	
 	public void setId(Identification id) {  
 	    this.id = id;  
+	} 
+	@XmlElement(name="work")
+	public Work getWork() {  
+	    return w;  
 	}  
+	
+	public void setWork(Work w) {  
+	    this.w = w;  
+	} 
 }

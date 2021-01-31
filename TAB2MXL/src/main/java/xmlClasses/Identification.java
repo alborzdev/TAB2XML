@@ -1,26 +1,29 @@
 package xmlClasses;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAttribute;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 public class Identification {
-	private Creator creator;
+	private ArrayList <Creator> creators;
 	
 	public Identification() {}  
 	
-	public Identification(Creator creator) {  
+	public Identification(ArrayList <Creator> creators) {  
 	    super();  
-	    this.creator = creator;  
+	    this.creators = creators;  
 	} 
 	
 	@XmlElement(name="creator")
-	public Creator getCreator() {  
-	    return creator;  
+	public ArrayList <Creator> getCreators() {  
+	    return creators;  
 	}  
-	public void setCreator(Creator creator) {  
-	    this.creator = creator;  
+	
+	public void setCreator(ArrayList <Creator> creators) {  
+	    this.creators = creators;  
 	}
 
 }

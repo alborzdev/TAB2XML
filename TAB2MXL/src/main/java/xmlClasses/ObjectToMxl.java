@@ -31,11 +31,14 @@ public static void main(String[] args) throws Exception{
     measures.add(m);
     Part p = new Part("P1", measures);
     
-    Creator cr = new Creator("composer", "Aidan Mozart");
-    Identification id = new Identification(cr);
+    ArrayList <Creator> creators = new ArrayList<Creator>();
+    creators.add(new Creator("composer", "Aidan Mozart")); 
+    creators.add(new Creator("lyricist", "Its ya boy")); 
+    Identification id = new Identification(creators);
     		
-    Score_Partwise spw = new Score_Partwise(3.1, pl, p, id);  
+    Work w = new Work("Hot cross BUNS");
+    Score_Partwise spw = new Score_Partwise(3.1, pl, p, id, w);  
     marshallerObj.marshal(spw, new FileOutputStream("musicTest2.xml"));  
        
-}  
+	}  
 }  
