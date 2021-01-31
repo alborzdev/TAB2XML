@@ -11,8 +11,12 @@ import javax.xml.bind.Marshaller;
 //fix
 public class ObjectToMxl {  
 	
-	
-public static void main(String[] args) throws Exception{  
+
+public static void main(String[] args) throws Exception {
+	mxlMaker();
+}
+
+public static void mxlMaker() throws Exception{  
     JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
   
     Marshaller marshallerObj = contextObj.createMarshaller();  
