@@ -1,13 +1,17 @@
 package xmlClasses;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;  
 import java.util.ArrayList;  
   
-import javax.xml.bind.JAXBContext;  
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;  
   
 //fix
 public class ObjectToMxl {  
+	
+	
 public static void main(String[] args) throws Exception{  
     JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
   
@@ -32,7 +36,8 @@ public static void main(String[] args) throws Exception{
     Part p = new Part("P1", measures);
     		
     Score_Partwise spw = new Score_Partwise(3.1, pl, p);  
-    marshallerObj.marshal(spw, new FileOutputStream("musicTest.xml"));  
+    //Change this to your directory!
+    marshallerObj.marshal(spw, new FileOutputStream("C:/Users/Lian/Downloads/musicTest.xml"));  
        
 }  
 }  
