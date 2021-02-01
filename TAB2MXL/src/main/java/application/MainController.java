@@ -133,7 +133,6 @@ public class MainController implements Initializable {
 	private TextArea previewXML;
 	//method that displays preview of xml file
 	public void preview(ActionEvent event) throws Exception {
-		//File prev = new File("musicTest2.xml");
 		previewXML.appendText(xmlClasses.ObjectToMxl.mxlMaker());
 	}
 	
