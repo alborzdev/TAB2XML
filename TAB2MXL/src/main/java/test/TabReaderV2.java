@@ -24,6 +24,16 @@ public class TabReaderV2 {
 		evaluateLine();
 	}
 	
+	public TabReaderV2(String filepath) {
+		string_count = Integer.parseInt(cfg.getAttr("string_count"));
+		file = new File(filepath);
+		eof = false;
+		// measures start at 1, index 0 exists, but is reserved for tuning data
+		next_line = 0;
+		curr_measure = 1;
+		evaluateLine();
+	}
+	
 	//read one measure at a time
 	public void readMeasure() {
 		//System.out.println("DEBUG: curr_measure: "+curr_measure);

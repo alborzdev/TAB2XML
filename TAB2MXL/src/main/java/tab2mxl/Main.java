@@ -7,6 +7,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		//line to bring dev branch away from "even with master"
+		
 		//ConfigReader cfg = new ConfigReader("../config.ini");
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(cfg.getAttr("attr1"));
