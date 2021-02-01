@@ -21,7 +21,12 @@ public static void mxlMaker() throws Exception{
     JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
   
     Marshaller marshallerObj = contextObj.createMarshaller();  
-    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);  
+    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    
+    //gives a MusicXML DTD to XML document
+    marshallerObj.setProperty("com.sun.xml.internal.bind.xmlHeaders", "\n<!DOCTYPE score-partwise PUBLIC\n"
+    		+ " \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\"\n"
+    		+ " \"http://www.musicxml.org/dtds/partwise.dtd\">");
     
     Score_Part sp = new Score_Part("P1", "Music");
     
