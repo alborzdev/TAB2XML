@@ -19,6 +19,10 @@ public class Part {
 	    super();  
 	    this.id = id;
 	    this.measure = measure;
+	}
+	public Part(String id) {  
+	    super();  
+	    this.id = id;
 	} 
 	
 	@XmlAttribute
