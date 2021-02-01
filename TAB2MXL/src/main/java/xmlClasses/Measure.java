@@ -54,7 +54,7 @@ public class Measure {
 	    this.note = note;  
 	}
 	
-	//PartWritter
+	//PartWriter
 	public void addNote(Note n) {
 		note.add(n);
 	}
