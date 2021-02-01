@@ -3,7 +3,9 @@ import java.io.File;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.Group;
@@ -28,7 +30,8 @@ public class Main extends Application {
 		MainController controller = loader.getController();
 		controller.init(primaryStage);
 
-		Scene scene = new Scene(root, 700, 500);
+		Scene scene = new Scene(root, 720, 500);
+
 		primaryStage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Tab 2 .xml");
@@ -37,48 +40,3 @@ public class Main extends Application {
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Main.fxml"));
-
-//			Scene scene = new Scene(root);
-			 primaryStage.setTitle("JavaFX App");
-
-		        FileChooser fileChooser = new FileChooser();
-
-		        Button button = new Button("Select File");
-		        button.setOnAction(e -> {
-		            File selectedFile = fileChooser.showOpenDialog(primaryStage);
-		        });
-
-		        VBox vBox = new VBox(button);
-		        Scene scene = new Scene(vBox, 960, 600);
-
-		        primaryStage.setScene(scene);
-		        primaryStage.show();
-		        fileChooser.getExtensionFilters().addAll(
-		        	     new FileChooser.ExtensionFilter("Text Files", "*.txt")
-		        	);
-			primaryStage.setTitle("T2X");
-			primaryStage.setScene(scene);
-			primaryStage.show();
-
-*/

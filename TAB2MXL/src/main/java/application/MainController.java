@@ -65,23 +65,23 @@ public class MainController implements Initializable {
 	 * @throws Exception 
 	 */
 	public void convertFile(ActionEvent event) throws Exception {
-		xmlClasses.ObjectToMxl.mxlMaker();
-//		FileChooser saver = new FileChooser();
-//	
-//		FileChooser.ExtensionFilter extFilter = 
-//                new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-//           saver.getExtensionFilters().add(extFilter);
-//        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
-//        FileWriter write;
-//     
-//		try {
-//			write = new FileWriter(loc);
-//			//SHOULD RECIEVE XML FROM BACKEND
-//			write.write(getText());
-//       	  	write.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		//xmlClasses.ObjectToMxl.mxlMaker();
+		FileChooser saver = new FileChooser();
+		
+		FileChooser.ExtensionFilter extFilter = 
+                new FileChooser.ExtensionFilter("xml files (*.xml)", "*.xml");
+           saver.getExtensionFilters().add(extFilter);
+        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
+        FileWriter write;
+     
+		try {
+			write = new FileWriter(loc);
+			//SHOULD RECIEVE XML FROM BACKEND
+			write.write(xmlClasses.ObjectToMxl.mxlMaker());
+       	  	write.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
   
@@ -144,9 +144,7 @@ public class MainController implements Initializable {
 	//method that displays preview of xml file
 	public void preview(ActionEvent event) throws IOException {
 		File prev = new File("musicTest2.xml");
-	//	Sytem.out.println()
 		previewXML.appendText(tab2mxl.txtAnalyzing.analyze(prev.toString()));
-		//previewXML.appendText(xmlClasses.ObjectToMxl.getText());
 	}
 	
 }
