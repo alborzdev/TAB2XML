@@ -139,5 +139,12 @@ public class MainController implements Initializable {
 	public String getTitle(ActionEvent event) throws IOException {
 		return title.getText();
 	}
+	@FXML
+	private TextArea previewXML;
+	//method that displays preview of xml file
+	public void preview(ActionEvent event) {
+		System.out.println(xmlClasses.ObjectToMxl.getText());
+		previewXML.appendText(xmlClasses.ObjectToMxl.getText());
+	}
 	
 }

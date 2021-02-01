@@ -11,7 +11,7 @@ import javax.xml.bind.Marshaller;
 //fix
 //anotha one
 public class ObjectToMxl {  
-	
+	static String prev = new String();
 
 public static void main(String[] args) throws Exception {
 	mxlMaker();
@@ -55,6 +55,11 @@ public static void mxlMaker() throws Exception{
     Score_Partwise spw = new Score_Partwise(3.1, pl, p, id, w);  
     marshallerObj.marshal(spw, new FileOutputStream("musicTest2.xml"));  
     System.out.println("it worked!");
+    prev = marshallerObj.toString();
        
 	}  
+
+	public static String getText() {
+		return prev;
+	}
 }  
