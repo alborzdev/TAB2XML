@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -82,6 +83,10 @@
                </font>
             </Label>
          </top>
+         <center>
+            <TextArea fx:id="previewXML" editable="false" prefHeight="250.0" prefWidth="296.0" promptText="Preview xml file" wrapText="true" BorderPane.alignment="CENTER" />
+         </center>
       </BorderPane>
+      <Button layoutX="475.0" layoutY="385.0" mnemonicParsing="false" onAction="#preview" text="Preview" />
    </children>
 </AnchorPane>

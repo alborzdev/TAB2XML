@@ -1,7 +1,11 @@
 package xmlClasses;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;  
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;  
   
 import javax.xml.bind.JAXBContext;
@@ -11,7 +15,7 @@ import javax.xml.bind.Marshaller;
 //fix
 //anotha one
 public class ObjectToMxl {  
-	
+	static String prev = new String();
 
 public static void main(String[] args) throws Exception {
 	mxlMaker();
@@ -54,7 +58,19 @@ public static void mxlMaker() throws Exception{
     Work w = new Work("Hot cross BUNS");
     Score_Partwise spw = new Score_Partwise(3.1, pl, p, id, w);  
     marshallerObj.marshal(spw, new FileOutputStream("musicTest2.xml"));  
-    System.out.println("it worked!");
-       
+
 	}  
+
+	public static String getText() throws IOException {
+
+             BufferedReader in
+                     = new BufferedReader(new FileReader("C:\\Users\\Lian\\git\\2311-Projectt\\TAB2MXL"));
+             StringBuffer output = new StringBuffer();
+             String st;
+             while ((st=in.readLine()) != null) {
+                      output.append(st);
+             }
+             return output.toString();
+  
+	}
 }  
