@@ -37,7 +37,7 @@ public class Part {
 		this.measure = measure;
 	}
 	
-	//PartWritter
+	//PartWriter
 	public void addMeasure(Measure m) {
 		measure.add(m);
 	}

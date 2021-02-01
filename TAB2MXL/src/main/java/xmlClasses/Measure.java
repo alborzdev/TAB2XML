@@ -25,6 +25,10 @@ public class Measure {
 	    this.number = number;
 	    this.note = note;  
 	} 
+	public Measure(int number) {  
+	    super();  
+	    this.number = number;
+	}
 	
 	@XmlAttribute
 	public int getNumber() {  
@@ -50,7 +54,7 @@ public class Measure {
 	    this.note = note;  
 	}
 	
-	//PartWritter
+	//PartWriter
 	public void addNote(Note n) {
 		note.add(n);
 	}

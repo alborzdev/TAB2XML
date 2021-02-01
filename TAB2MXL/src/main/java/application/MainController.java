@@ -1,18 +1,11 @@
 package application;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-
-import javax.xml.bind.JAXBException;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -59,29 +50,28 @@ public class MainController implements Initializable {
 	}
 	
 	/**
-	 * Lets user specify name and path
-	 * Need to connect backend & frontend so we can convert to .xml
+	 * Lets user specify name and path of xml file
 	 * @param event
 	 * @throws Exception 
 	 */
 	public void convertFile(ActionEvent event) throws Exception {
-		xmlClasses.ObjectToMxl.mxlMaker();
-//		FileChooser saver = new FileChooser();
-//	
-//		FileChooser.ExtensionFilter extFilter = 
-//                new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-//           saver.getExtensionFilters().add(extFilter);
-//        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
-//        FileWriter write;
-//     
-//		try {
-//			write = new FileWriter(loc);
-//			//SHOULD RECIEVE XML FROM BACKEND
-//			write.write(getText());
-//       	  	write.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		//xmlClasses.ObjectToMxl.mxlMaker();
+		FileChooser saver = new FileChooser();
+		
+		FileChooser.ExtensionFilter extFilter = 
+                new FileChooser.ExtensionFilter("xml files (*.xml)", "*.xml");
+           saver.getExtensionFilters().add(extFilter);
+        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
+        FileWriter write;
+     
+		try {
+			write = new FileWriter(loc);
+			//SHOULD RECIEVE XML FROM BACKEND
+			write.write(xmlClasses.ObjectToMxl.mxlMaker());
+       	  	write.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
   
@@ -142,11 +132,9 @@ public class MainController implements Initializable {
 	@FXML
 	private TextArea previewXML;
 	//method that displays preview of xml file
-	public void preview(ActionEvent event) throws IOException {
-		File prev = new File("musicTest2.xml");
-	//	Sytem.out.println()
-		previewXML.appendText(tab2mxl.txtAnalyzing.analyze(prev.toString()));
-		//previewXML.appendText(xmlClasses.ObjectToMxl.getText());
+	public void preview(ActionEvent event) throws Exception {
+		//File prev = new File("musicTest2.xml");
+		previewXML.appendText(xmlClasses.ObjectToMxl.mxlMaker());
 	}
 	
 }
