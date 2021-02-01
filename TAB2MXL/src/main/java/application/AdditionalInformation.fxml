@@ -84,8 +84,9 @@
             </Label>
          </top>
          <center>
-            <TextArea fx:id="previewXML" prefHeight="250.0" prefWidth="296.0" promptText="Preview xml file" wrapText="true" BorderPane.alignment="CENTER" />
+            <TextArea fx:id="previewXML" editable="false" prefHeight="250.0" prefWidth="296.0" promptText="Preview xml file" wrapText="true" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
+      <Button layoutX="475.0" layoutY="385.0" mnemonicParsing="false" onAction="#preview" text="Preview" />
    </children>
 </AnchorPane>
