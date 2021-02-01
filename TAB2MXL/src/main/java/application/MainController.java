@@ -1,18 +1,11 @@
 package application;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-
-import javax.xml.bind.JAXBException;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -59,8 +50,7 @@ public class MainController implements Initializable {
 	}
 	
 	/**
-	 * Lets user specify name and path
-	 * Need to connect backend & frontend so we can convert to .xml
+	 * Lets user specify name and path of xml file
 	 * @param event
 	 * @throws Exception 
 	 */
@@ -142,9 +132,9 @@ public class MainController implements Initializable {
 	@FXML
 	private TextArea previewXML;
 	//method that displays preview of xml file
-	public void preview(ActionEvent event) throws IOException {
-		File prev = new File("musicTest2.xml");
-		previewXML.appendText(tab2mxl.txtAnalyzing.analyze(prev.toString()));
+	public void preview(ActionEvent event) throws Exception {
+		//File prev = new File("musicTest2.xml");
+		previewXML.appendText(xmlClasses.ObjectToMxl.mxlMaker());
 	}
 	
 }

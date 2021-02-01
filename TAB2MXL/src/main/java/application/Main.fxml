@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="361.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <MenuBar layoutY="1.0" style="-fx-background-color: light-grey;">
@@ -36,7 +35,6 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="309.0" layoutY="353.0" mnemonicParsing="false" onAction="#SceneChange" text="Next&gt;&gt;" AnchorPane.bottomAnchor="14.666666666666686" AnchorPane.leftAnchor="309.0" AnchorPane.rightAnchor="309.6666666666667" />
       <BorderPane layoutX="9.0" layoutY="51.0" prefHeight="254.0" prefWidth="657.0">
          <left>
             <TextArea fx:id="textarea" prefHeight="254.0" prefWidth="663.0" promptText="Paste your tab here or upload a .txt file" wrapText="true" BorderPane.alignment="CENTER">
@@ -48,6 +46,9 @@
          <bottom>
             <Button onAction="#doOpen" prefHeight="25.0" prefWidth="100.0" text="Upload .txt file" BorderPane.alignment="CENTER" />
          </bottom>
+         <right>
+            <Button mnemonicParsing="false" onAction="#SceneChange" text="Next&gt;&gt;" BorderPane.alignment="CENTER" />
+         </right>
       </BorderPane>
    </children>
 </AnchorPane>
