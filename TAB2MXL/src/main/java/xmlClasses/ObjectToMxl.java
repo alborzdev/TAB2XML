@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;  
   
-//fix
-//anotha one
+//Testing Change
 public class ObjectToMxl {  
 	static String xmlString = new String();
 
