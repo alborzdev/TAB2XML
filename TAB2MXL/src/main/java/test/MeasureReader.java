@@ -39,8 +39,8 @@ public class MeasureReader {
 					System.out.println("DEBUG: string payed: "+i+" fret played: "+shifts[i]);
 					System.out.println(calculateNote(i,shifts[i]));
 				}
-				
 			}
+			
 		}
 	}
 	
