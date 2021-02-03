@@ -24,6 +24,10 @@ public class Measure {
 	    super();  
 	    this.number = number;
 	    this.note = note;  
+	}
+	public Measure(int number, Attributes att) {  
+	    super();  
+	    this.att = att;
 	} 
 	public Measure(int number) {  
 	    super();  
