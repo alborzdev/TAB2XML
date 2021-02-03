@@ -7,14 +7,14 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		//line to bring dev branch away from "even with master"
-		
 		//ConfigReader cfg = new ConfigReader("../config.ini");
+
+		
+		//change
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(cfg.getAttr("attr1"));
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
-		TabReaderV2 tb = new TabReaderV2();
+		TabReaderV2 tb = new TabReaderV2(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
 		
 		tb.readMeasure();
 		
