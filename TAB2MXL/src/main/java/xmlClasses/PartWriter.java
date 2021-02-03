@@ -15,6 +15,7 @@ public class PartWriter {
 	private Measure currentMeasure;
 	private static int parts_created=0;
 	
+	//Lab change
 	//Constructor
 	PartWriter(){
 		part = new Part("P"+parts_created+1);
