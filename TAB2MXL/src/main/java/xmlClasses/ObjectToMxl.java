@@ -13,7 +13,8 @@ public class ObjectToMxl {
 
 public static void main(String[] args) throws Exception {
 	mxlMaker();
-	System.out.println("test merge");
+	System.out.println("Testing merge");
+	
 }
 
 public static String mxlMaker() throws Exception{  
