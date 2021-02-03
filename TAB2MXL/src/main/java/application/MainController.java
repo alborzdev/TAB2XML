@@ -6,6 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -25,7 +30,8 @@ public class MainController implements Initializable {
 	private File file;
 
 	@FXML
-	private TextArea textarea;
+	//private TextArea textarea;
+	private JFXTextArea textarea;
 
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
@@ -88,6 +94,15 @@ public class MainController implements Initializable {
 		window.show();
 	}
 	
+	public void backButton(ActionEvent event) throws IOException {
+		Parent Scene2root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+		Scene AddInfoScene = new Scene(Scene2root, 700, 500);
+		
+		//this gets scene information
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		window.setScene(AddInfoScene);
+		window.show();
+	}
 	/*
 	 * Exit button - exit app
 	 * */
@@ -133,7 +148,6 @@ public class MainController implements Initializable {
 	private TextArea previewXML;
 	//method that displays preview of xml file
 	public void preview(ActionEvent event) throws Exception {
-		//File prev = new File("musicTest2.xml");
 		previewXML.appendText(xmlClasses.ObjectToMxl.mxlMaker());
 	}
 	
