@@ -32,7 +32,7 @@ public class PartWriter {
 		part.addMeasure(currentMeasure);
 	}
 	
-	//Create Note with its pitch object and adding it to the current measure.
+	//Create Note with its Pitch object and adding it to the current measure.
 	public void nextNote(int duration, String type, String step, int octave){
 		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave ) ) );
 		
