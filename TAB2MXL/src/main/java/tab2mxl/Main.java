@@ -15,7 +15,7 @@ public class Main {
 		System.out.println(cfg.getAttr("attr1"));
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 		TabReaderV2 tb = new TabReaderV2(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
-		
+		System.out.print("Lian");
 		tb.readMeasure();
 		MeasureReader ms = new MeasureReader(tb.getMeasure(),4,4);
 		ms.readNote();
