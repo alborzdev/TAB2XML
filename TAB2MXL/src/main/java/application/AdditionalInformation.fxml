@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -10,12 +12,12 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="504.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
-      <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#convertFile" prefHeight="25.0" prefWidth="100.0" text="Convert to .xml" AnchorPane.bottomAnchor="37.66666666666667" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="197.0" />
       <MenuBar style="-fx-background-color: light-grey;">
          <menus>
             <Menu mnemonicParsing="false" text="File">
@@ -86,7 +88,27 @@
          <center>
             <TextArea fx:id="previewXML" editable="false" prefHeight="250.0" prefWidth="296.0" promptText="Preview xml file" wrapText="true" BorderPane.alignment="CENTER" />
          </center>
+         <bottom>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="21.0" prefWidth="296.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#backButton" text="Back">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#preview" text="Preview" />
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#convertFile" prefHeight="25.0" prefWidth="119.0" text="Convert to .xml">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="4.0" />
+               </padding>
+            </HBox>
+         </bottom>
       </BorderPane>
-      <Button layoutX="475.0" layoutY="385.0" mnemonicParsing="false" onAction="#preview" text="Preview" />
+      <ButtonBar layoutX="30.0" layoutY="378.0" prefHeight="40.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
