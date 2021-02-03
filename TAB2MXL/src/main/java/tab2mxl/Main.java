@@ -14,7 +14,6 @@ public class Main {
 		TabReaderV2 tb = new TabReaderV2();
 		
 		tb.readMeasure();
-		
 		MeasureReader ms = new MeasureReader(tb.getMeasure(),4,4);
 		ms.readNote();
 	}
