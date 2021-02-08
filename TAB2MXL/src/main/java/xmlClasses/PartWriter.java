@@ -39,4 +39,9 @@ public class PartWriter {
 		
 	}
 	
+	//Getter
+	public Part getPart() {
+		return part;
+	}
+	
 }
