@@ -15,14 +15,13 @@ public class Part {
 		measure = new ArrayList<Measure>();
 	}  
 	
-	public Part(String id, ArrayList<Measure> measure) {  
-	    super();  
+	public Part(String id, ArrayList<Measure> measure) {
 	    this.id = id;
 	    this.measure = measure;
 	}
 	public Part(String id) {  
-	    super();  
 	    this.id = id;
+	    measure = new ArrayList<Measure>();
 	} 
 	
 	@XmlAttribute

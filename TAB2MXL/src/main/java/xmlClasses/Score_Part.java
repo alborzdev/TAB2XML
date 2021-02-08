@@ -11,8 +11,7 @@ private String part_name;
 
 	public Score_Part() {}  
 	
-	public Score_Part(String id, String part_name) {  
-	    super();  
+	public Score_Part(String id, String part_name) { 
 	    this.id = id;  
 	    this.part_name = part_name;
 	} 
