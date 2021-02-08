@@ -18,7 +18,6 @@ public class Main {
 		//TabReaderV2 tb = new TabReaderV2(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 		TabReaderV2 tb = new TabReaderV2("./src/main/java/testTab.txt");
 		
-		//tb.readMeasure();
 		tb.readMeasure();
 		while(tb.hasNext()) {	
 			MeasureReaderV2 ms = new MeasureReaderV2(tb.getMeasure(),4,4);
