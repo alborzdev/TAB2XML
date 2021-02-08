@@ -21,7 +21,7 @@ public class Main {
 		
 		while(tb.hasNext()) {
 			tb.readMeasure();
-			MeasureReader ms = new MeasureReader(tb.getMeasure(),4,4);
+			MeasureReaderV2 ms = new MeasureReaderV2(tb.getMeasure(),4,4);
 			while(ms.hasNext()) {
 				ms.readNote();
 			}

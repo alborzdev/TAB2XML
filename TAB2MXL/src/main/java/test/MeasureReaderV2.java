@@ -1,4 +1,7 @@
 package test;
+import java.util.ArrayList;
+import java.util.List;
+
 import config.ConfigReader;
 
 public class MeasureReaderV2 {
@@ -11,7 +14,8 @@ public class MeasureReaderV2 {
 	//assuming no key signature
 	// A# = Bb, also
 	private String[] tuning = {"E","B","G","D","A","E"};
-	private String[] scale = {"A","#","B","C","#","D","#","E","F","#","G","#"};
+	private String[] scale = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
+	private String[] lengths = {"","whole","half","","quarter","","","","eighth"};//stupid simple division method, something-something logarithms would work better
 	boolean hasNextColumn; //has next column?
 	
 	//To do:
@@ -31,22 +35,30 @@ public class MeasureReaderV2 {
 	}
 	
 	
-	public String[][] readNote() {
-		String[][] out = null;
+	public List<String[]> readNote() {
+		List<String[]> out = new ArrayList<String[]>();
 		if(isEmpty(this.column)) {
 			this.readColumnV2();
 		}else {
 			int[] shifts = getFrets(this.column);
 			int length = nextNote(0) +1; //+1 to include current column
-			out = new String[shifts.length][4];
-			
-			for(int i: shifts) {
-				out[i][0]=""; //duration
-				out[i][0]=""; //type
-				out[i][0]=""; //pitch
-				out[i][0]=""; //octave
+			for(int i = 0; i<shifts.length; i++) {
+				if(shifts[i] >= 0) {
+					String[] noteProperties = {
+							""+length,											//raw duration
+							lengths[length/this.character_count],				//type
+							calculateNote(i,shifts[i]),							//step
+							"4"													//octave
+					};
+					out.add(noteProperties);
+					
+					
+					System.out.println("DEBUG: --------------------------------------");
+					for(String s: noteProperties) {
+						System.out.println("DEBUG: "+s);
+					}
+				}
 			}
-			
 		}
 		return out;
 	}
