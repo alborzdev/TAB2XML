@@ -128,10 +128,10 @@ public class MainController implements Initializable {
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
 	@FXML
-	private TextField name;
-	private TextField composer;
-	private TextArea lyricist;
-	private TextField title;
+	private TextField name=new TextField("");
+	private TextField composer = new TextField("");
+	private TextField lyricist=new TextField("");
+	private TextField title=new TextField("");
 	public String getName(ActionEvent event) throws IOException {
 		return name.getText();
 	}

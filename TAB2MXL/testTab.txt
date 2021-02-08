@@ -1,96 +1,21 @@
-//Lian Attily	| EECS2011	|	Assignment 4: Quicksort with median of medians pivot selection
-//Part 2: Analyze and compare my Sort.sort() with Arrays.sort()
+My shell executes fine for some piping commands like **ls | head -3**  and **ps -ef | grep systemd** but hang/freezes on ls | sort. I have no clue why  
 
-1)Generally speaking, the running time of my implementation of Quicksort with median-of-medians pivot selection method 
-is always slower than the Arrays.sort (check log pasted below). For an unsorted array with size 10_000_000, 
-Sort.sort is 3.5 times slower than the Arrays.sort. 
-Similarly, for an unsorted array of size 1_000_000, Sort.sort is 3.2 times slower than the Arrays.sort.
-
-	N=10
-	Time spent (Arrays.sort): 896.1 us 
-	N=10
-	Time spent (Sort.sort): 1732.6 us
-	--------------------------------------------------------
-	N=100
-	Time spent (Arrays.sort): 90.7 us 
-	N=100
-	Time spent (Sort.sort): 507.2 us
-	--------------------------------------------------------
-	N=1000
-	Time spent (Arrays.sort): 838.5 us 
-	N=1000
-	Time spent (Sort.sort): 5230.8 us
-	--------------------------------------------------------
-	N=10000
-	Time spent (Arrays.sort): 7505.6 us 
-	N=10000
-	Time spent (Sort.sort): 15389.7 us
-	--------------------------------------------------------
-	N=100000
-	Time spent (Arrays.sort): 41594.5 us 
-	N=100000
-	Time spent (Sort.sort): 71068.6 us
-	--------------------------------------------------------
-	N=1000000
-	Time spent (Arrays.sort): 124802.8 us 
-	N=1000000
-	Time spent (Sort.sort): 401945.1 us
-	--------------------------------------------------------
-	N=10000000
-	Time spent (Arrays.sort): 1112721.0 us 
-	N=10000000
-	Time spent (Sort.sort): 3981938.3 us
-	--------------------------------------------------------
-
-
-2)For a sorted array, Arrays.sort is significantly faster than my implementation of Quicksort (check log pasted below). 
-For a sorted array of 10_000_000 elements, Sort.sort is ~700 times slower than Arrays.sort 
-and ~900 times slower for a sorted array of size 1_000_000 than Arrays.sort. 
-Although, the running time of my Quicksort did not change much for a 
-sorted array (approximately the same whether the array is sorted or unsorted). 
-It appears that Arrays.sort can sort an already sorted array much more efficiently 
-than an unsorted array. 
-In conclusion, my implementation of Quicksort with the median-of-medians 
-selection  is still slower than the 
-Arrays.sort whether the array is sorted or unsorted.
-
-	N=10
-	Time spent (Arrays.sort): 0.4 us 
-	N=10
-	Time spent (Sort.sort): 3.3 us
-	--------------------------------------------------------
-	N=100
-	Time spent (Arrays.sort): 0.5 us 
-	N=100
-	Time spent (Sort.sort): 36.6 us
-	--------------------------------------------------------
-	N=1000
-	Time spent (Arrays.sort): 0.7 us 
-	N=1000
-	Time spent (Sort.sort): 198.4 us
-	--------------------------------------------------------
-	N=10000
-	Time spent (Arrays.sort): 3.7 us 
-	N=10000
-	Time spent (Sort.sort): 3555.8 us
-	--------------------------------------------------------
-	N=100000
-	Time spent (Arrays.sort): 61.0 us 
-	N=100000
-	Time spent (Sort.sort): 44728.4 us
-	--------------------------------------------------------
-	N=1000000
-	Time spent (Arrays.sort): 386.7 us 
-	N=1000000
-	Time spent (Sort.sort): 344301.8 us
-	--------------------------------------------------------
-	N=10000000
-	Time spent (Arrays.sort): 5461.8 us 
-	N=10000000
-	Time spent (Sort.sort): 3940056.7 us
-	--------------------------------------------------------
-
-3) For an unsorted array of size 1_000_000 Sort.Sort/Arrays.sort = 401945.1/124802.8=3.2
-And for an unsorted array of size 10_000_000 Sort.Sort/Arrays.sort = 3981938.3/1112721.0=3.5
-Since the ratio of the running times of the two implementations is approximately constant factor of ~3, 
-one can conclude that the running time of both algorithms is linearithmic O(nlogn).
+    void piping_handle(char* args[], char* piping_args[], int pipefd[]){
+        int pid;
+        pid=fork();
+        if(pid==0){ //in grandchild
+            close(pipefd[0]); //parent doesnt need this end of the pipe
+            dup2(pipefd[1], 1);
+            close(pipefd[1]);
+            execvp(args[0], args);
+            perror(args[0]);
+            
+        }
+        else{ //in child of parent
+            close(pipefd[1]);   //child doesnt need this end of pipe
+            dup2(pipefd[0], 0);
+            close(pipefd[0]);
+            execvp(piping_args[0] , piping_args);
+            perror(piping_args[0]);
+        }
+    }

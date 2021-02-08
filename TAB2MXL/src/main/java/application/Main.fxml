@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -16,10 +17,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="412.0" prefWidth="851.0" snapToPixel="false" style="-fx-background-color: #222831;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<AnchorPane prefHeight="503.0" prefWidth="1081.0" snapToPixel="false" style="-fx-background-color: #475C7A;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2a365" height="37.0" layoutX="-5.0" layoutY="-8.0" stroke="BLACK" strokeType="INSIDE" width="1080.0" />
-      <MenuBar layoutY="1.0" style="-fx-background-color: #f2a365;">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ab6c82" height="531.0" layoutX="-124.0" layoutY="-14.0" stroke="#ab6c82" strokeType="INSIDE" style="-fx-rotate: 30;" width="181.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcbb6d" height="531.0" layoutX="-77.0" layoutY="-141.0" stroke="#fcbb6d" strokeType="INSIDE" style="-fx-rotate: 30;" width="181.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d8737f" height="37.0" layoutX="-5.0" layoutY="-8.0" stroke="#d8737f" strokeType="INSIDE" width="1268.0" />
+      <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #D8737F;">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -37,16 +40,16 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Help">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="User's guide" />
               </items>
             </Menu>
         </menus>
       </MenuBar>
-      <BorderPane layoutX="291.0" layoutY="54.0" prefHeight="305.0" prefWidth="498.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="291.0" AnchorPane.rightAnchor="287.0" AnchorPane.topAnchor="54.0">
+      <BorderPane layoutX="373.0" layoutY="54.0" prefHeight="410.0" prefWidth="585.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="305.0" AnchorPane.topAnchor="54.0">
          <left>
-            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="285.0" prefWidth="465.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #222831;" unFocusColor="#ececec" wrapText="true" BorderPane.alignment="CENTER">
+            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="390.0" prefWidth="563.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #D8737F; -fx-font-size: 11; -fx-font-family: &quot;Courier New&quot;;" unFocusColor="#d8737f" wrapText="true" BorderPane.alignment="CENTER">
                <font>
-                  <Font name="Courier New" size="12.0" />
+                  <Font name="Courier New" size="10.0" />
                </font>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -54,19 +57,19 @@
             </JFXTextArea>
          </left>
       </BorderPane>
-      <HBox alignment="CENTER" layoutX="1.0" layoutY="310.0" prefHeight="47.0" prefWidth="1076.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0">
+      <HBox alignment="CENTER" layoutX="476.0" layoutY="310.0" prefHeight="47.0" prefWidth="788.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="476.0" AnchorPane.rightAnchor="-1.0">
          <children>
-            <JFXButton onAction="#doOpen" style="-fx-background-color: #f2a365; -fx-background-radius: 5em;" text="Upload file">
+            <JFXButton onAction="#doOpen" style="-fx-background-color: #FCBB6D; -fx-background-radius: 5em;" text="Upload file">
                <font>
-                  <Font name="Quicksand Regular" size="12.0" />
+                  <Font name="Quicksand Regular" size="14.0" />
                </font>
                <effect>
                   <DropShadow />
                </effect>
             </JFXButton>
-            <JFXButton onAction="#preview" style="-fx-border-color: #f2a365; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Preview" textFill="#ececec">
+            <JFXButton onAction="#preview" style="-fx-border-color: #FCBB6D; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Preview" textFill="#ececec">
                <font>
-                  <Font name="Quicksand Regular" size="12.0" />
+                  <Font name="Quicksand Regular" size="14.0" />
                </font>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -74,41 +77,55 @@
             </JFXButton>
          </children>
       </HBox>
-      <BorderPane layoutX="789.0" layoutY="79.0" prefHeight="254.0" prefWidth="260.0">
+      <BorderPane layoutX="965.0" layoutY="125.0" prefHeight="254.0" prefWidth="260.0">
          <center>
-            <JFXTextArea fx:id="previewXML" editable="false" focusColor="WHITE" prefHeight="154.0" prefWidth="205.0" style="-fx-border-color: #B0C4DE; fx-text-fill: #ececec;" stylesheets="@application.css" wrapText="true" BorderPane.alignment="CENTER">
+            <JFXTextArea fx:id="previewXML" editable="false" focusColor="WHITE" prefHeight="154.0" prefWidth="205.0" promptText="Click preview to preview the XML file" style="-fx-border-color: #FCBB6D; -fx-background-color: #FCBB6D;" stylesheets="@application.css" unFocusColor="#fcbb6d" wrapText="true" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="10.0" right="10.0" />
                </BorderPane.margin>
             </JFXTextArea>
          </center>
       </BorderPane>
-      <VBox layoutX="34.0" layoutY="79.0" prefHeight="254.0" prefWidth="197.0">
+      <VBox layoutX="166.0" layoutY="219.0" prefHeight="144.0" prefWidth="197.0">
          <children>
-            <JFXTextField fx:id="name" promptText="Name" style="-fx-background-color: #f2a365;">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField promptText="Title" style="-fx-background-color: #f2a365;">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField promptText="Composer" style="-fx-background-color: #f2a365;">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField promptText="Lyricist" style="-fx-background-color: #f2a365; -fx-effect: drop shadow;">
+            <JFXTextField fx:id="name" promptText="Name" style="-fx-background-color: #D8737F;">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
                <font>
-                  <Font name="Quicksand Regular" size="12.0" />
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField promptText="Title" style="-fx-background-color: #D8737F;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField promptText="Composer" style="-fx-background-color: #D8737F;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField promptText="Lyricist" style="-fx-background-color: #D8737F;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
                </font>
             </JFXTextField>
          </children>
       </VBox>
+      <Label layoutX="197.0" layoutY="201.0" text="Additional Attributes" textFill="#fcbb6d">
+         <font>
+            <Font name="Quicksand Medium" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
