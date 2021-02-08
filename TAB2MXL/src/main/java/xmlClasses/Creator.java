@@ -13,8 +13,7 @@ public class Creator {
 	
 	public Creator() {}  
 	
-	public Creator(String type, String name) {  
-	    super();  
+	public Creator(String type, String name) {
 	    this.type = type;  
 	    this.name = name; 
 	} 
