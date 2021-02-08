@@ -34,7 +34,7 @@ public class MeasureReader {
 	
 	public void readNote() {
 		if(isEmpty(this.column)) {
-			this.readColumn();
+			this.readColumnV2();
 		}else {
 			int[] shifts = getFrets(this.column);
 			for(int i = 0; i<shifts.length; i++) {
