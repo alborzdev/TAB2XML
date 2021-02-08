@@ -46,7 +46,7 @@ public class MeasureReaderV2 {
 				if(shifts[i] >= 0) {
 					String[] noteProperties = {
 							""+length,											//raw duration
-							lengths[length/this.character_count],				//type
+							lengths[this.character_count/length],				//type
 							calculateNote(i,shifts[i]),							//step
 							"4"													//octave
 					};
