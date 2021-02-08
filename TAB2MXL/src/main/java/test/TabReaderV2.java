@@ -1,6 +1,5 @@
 package test;
 import java.util.Scanner;
-import java.util.regex.*;
 import java.io.*;
 
 import config.ConfigReader;
