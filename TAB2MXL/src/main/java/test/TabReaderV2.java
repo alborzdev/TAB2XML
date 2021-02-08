@@ -21,6 +21,7 @@ public class TabReaderV2 {
 		next_line = 0;
 		curr_measure = 1;
 		evaluateLine();
+		readMeasure();
 	}
 	
 	public TabReaderV2(String filepath) {
