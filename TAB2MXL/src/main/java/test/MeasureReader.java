@@ -13,9 +13,11 @@ public class MeasureReader {
 	// A# = Bb, also
 	private char[] tuning = {'E','B','G','D','A','E'};
 	private char[] scale = {'A','#','B','C','#','D','#','E','F','#','G','#'};
+	boolean hasNextColumn; //has next column?
 	
 	//To do:
 	//change type of column to string, read multiple columns for double digit frets
+	//better way to decode notes
 
 	
 	public MeasureReader(String[] measure, int beats, int beatlength) { //maybe need a better constuctor?
@@ -24,6 +26,7 @@ public class MeasureReader {
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
 		this.ts_beats = beats;
 		this.ts_beatlength = beatlength;
+		this.hasNextColumn = true;
 		curr_col = 0;
 		readColumn();
 	}
@@ -36,12 +39,31 @@ public class MeasureReader {
 			int[] shifts = getFrets(this.column);
 			for(int i = 0; i<shifts.length; i++) {
 				if(shifts[i] >= 0) {
-					System.out.println("DEBUG: string payed: "+i+" fret played: "+shifts[i]);
+					System.out.println("DEBUG: string played: "+i+" fret played: "+shifts[i]);
 					System.out.println(calculateNote(i,shifts[i]));
 				}
 			}
-			
+			int length = nextNote(0) +1; //+1 to include current column
+			System.out.println("DEBUG: length of note/chord: "+length);
+			System.out.println("DEBUG: ------------------------------------------------");
 		}
+	}
+	
+	public boolean hasNext() {
+		return this.hasNextColumn;
+	}
+	
+	private int nextNote(int count) {
+		if (this.readColumnV2()) {
+			if(isEmpty(this.column)) {
+				count = nextNote(count + 1);
+			}else {
+				return count;
+			}
+		}else {
+			return count;
+		}
+		return count;
 	}
 	
 	private char calculateNote(int string, int fret){
@@ -55,7 +77,7 @@ public class MeasureReader {
 		}
 		if(counter < 0) {
 			//fail
-			return '!'; //need to handle bad numbers and shit better? maybe not necessary at all?
+			return '!'; //need to handle bad numbers and stuff better? maybe not necessary at all?
 		}else {
 			int note = (counter+fret) % 12;
 			return scale[note];
@@ -95,5 +117,19 @@ public class MeasureReader {
 		curr_col ++;
 	}
 	
+	private boolean readColumnV2() {
+		boolean out = true;
+		try {
+			this.column = new char[string_count];
+			for(int i=0; i<string_count; i++) {
+				column[i] = measure[i].charAt(curr_col);
+			}
+			curr_col ++;
+		}catch (Exception e) {
+			out = false;
+		}
+		hasNextColumn = out;
+		return out;
+	}
 
 }

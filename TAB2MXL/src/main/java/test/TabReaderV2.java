@@ -55,6 +55,10 @@ public class TabReaderV2 {
 		}
 	}
 	
+	public boolean hasNext() {
+		return !eof;
+	}
+	
 	//testing method to print one measure at a time
 		public void printMeasure() {
 			for(int i=0; i<string_count; i++) {
