@@ -36,7 +36,7 @@ public class Main extends Application {
 		primaryStage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Tab 2 .xml");
-		primaryStage.setResizable(false);
+		//primaryStage.setResizable(false);
 		primaryStage.show();		
 		
 	}
