@@ -15,16 +15,17 @@ public class Main {
 		System.out.println(cfg.getAttr("attr1"));
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 		//TabReaderV2 tb = new TabReaderV2(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
-		TabReaderV2 tb = new TabReaderV2(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+		//TabReaderV2 tb = new TabReaderV2(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+		TabReaderV2 tb = new TabReaderV2("./src/main/java/testTab.txt");
 		
-		//tb.readMeasure();
-		
-		while(tb.hasNext()) {
-			tb.readMeasure();
+		tb.readMeasure();
+		while(tb.hasNext()) {	
 			MeasureReaderV2 ms = new MeasureReaderV2(tb.getMeasure(),4,4);
 			while(ms.hasNext()) {
 				ms.readNote();
 			}
+			tb.readMeasure();
+			//measure break
 		}
 	}
 

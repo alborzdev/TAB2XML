@@ -44,11 +44,24 @@ public class MeasureReaderV2 {
 			int length = nextNote(0) +1; //+1 to include current column
 			for(int i = 0; i<shifts.length; i++) {
 				if(shifts[i] >= 0) {
+					
+					
+					String step = calculateNote(i,shifts[i]);
+					String alter = "";
+					String accidental = "";
+					
+					if(step.length() > 1) {
+						alter = "1";
+						accidental = "sharp";
+					}
+					
 					String[] noteProperties = {
 							""+length,											//raw duration
-							lengths[length/this.character_count],				//type
-							calculateNote(i,shifts[i]),							//step
-							"4"													//octave
+							lengths[this.character_count/length],				//type
+							""+step.charAt(0),									//step
+							"4",												//octave
+							alter,												//alter
+							accidental											//accidental
 					};
 					out.add(noteProperties);
 					
