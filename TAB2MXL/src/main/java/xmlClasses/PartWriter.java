@@ -18,7 +18,7 @@ public class PartWriter {
 	//Lab change
 	//Constructor
 	PartWriter(){
-		part = new Part("P"+parts_created+1);
+		part = new Part("P"+(parts_created+1));
 	}
 	
 	//Empty measure
