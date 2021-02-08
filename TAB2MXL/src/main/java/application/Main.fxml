@@ -57,7 +57,7 @@
             </JFXTextArea>
          </left>
       </BorderPane>
-      <HBox alignment="CENTER" layoutX="476.0" layoutY="310.0" prefHeight="47.0" prefWidth="788.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="476.0" AnchorPane.rightAnchor="-1.0">
+      <HBox alignment="CENTER" layoutX="476.0" layoutY="310.0" prefHeight="47.0" prefWidth="752.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="476.0" AnchorPane.rightAnchor="35.0">
          <children>
             <JFXButton onAction="#doOpen" style="-fx-background-color: #FCBB6D; -fx-background-radius: 5em;" text="Upload file">
                <font>
