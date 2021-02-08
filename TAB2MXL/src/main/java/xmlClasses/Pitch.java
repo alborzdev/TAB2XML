@@ -11,7 +11,6 @@ public class Pitch {
 	public Pitch() {}  
 	
 	public Pitch(String step, int octave) {  
-	    super();  
 	    this.step = step;  
 	    this.octave = octave; 
 	} 

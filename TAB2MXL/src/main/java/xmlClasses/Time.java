@@ -12,8 +12,7 @@ public class Time {
 	
 	public Time() {}  
 	
-	public Time(int beats, int beat_type) {  
-	    super();  
+	public Time(int beats, int beat_type) {
 	    this.beats = beats;  
 	    this.beat_type = beat_type; 
 	} 

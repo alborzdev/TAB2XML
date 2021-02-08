@@ -8,7 +8,6 @@ public class Work {
 	public Work() {}  
 	
 	public Work(String work_title) {  
-	    super();  
 	    this.work_title = work_title;  
 	} 
 	

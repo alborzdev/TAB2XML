@@ -12,8 +12,7 @@ public class Note {
 	
 	public Note() {}  
 	
-	public Note(int duration, String type, Pitch pitch) {  
-	    super();  
+	public Note(int duration, String type, Pitch pitch) {
 	    this.duration = duration;  
 	    this.type = type; 
 	    this.pitch = pitch;

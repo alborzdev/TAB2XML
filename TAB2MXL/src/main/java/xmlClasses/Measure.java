@@ -15,22 +15,18 @@ public class Measure {
 	}  
 	
 	public Measure(int number, Attributes att, ArrayList<Note> note) {  
-	    super();  
 	    this.number = number;
 	    this.att = att;
 	    this.note = note;  
 	} 
-	public Measure(int number, ArrayList<Note> note) {  
-	    super();  
+	public Measure(int number, ArrayList<Note> note) {
 	    this.number = number;
 	    this.note = note;  
 	}
-	public Measure(int number, Attributes att) {  
-	    super();  
+	public Measure(int number, Attributes att) {
 	    this.att = att;
 	} 
-	public Measure(int number) {  
-	    super();  
+	public Measure(int number) {
 	    this.number = number;
 	}
 	
