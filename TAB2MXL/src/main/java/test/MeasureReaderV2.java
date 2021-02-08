@@ -1,7 +1,10 @@
 package test;
+import java.util.ArrayList;
+import java.util.List;
+
 import config.ConfigReader;
 
-public class MeasureReader {
+public class MeasureReaderV2 {
 	ConfigReader cfg = ConfigReader.getConfig();
 	private String[] measure;
 	private int character_count, string_count, curr_col, ts_beats, ts_beatlength;
@@ -10,8 +13,9 @@ public class MeasureReader {
 	//more hardcoded stuff assuming guitar with standard tuning EADGBe - to be changed - but how?
 	//assuming no key signature
 	// A# = Bb, also
-	private char[] tuning = {'E','B','G','D','A','E'};
-	private char[] scale = {'A','#','B','C','#','D','#','E','F','#','G','#'};
+	private String[] tuning = {"E","B","G","D","A","E"};
+	private String[] scale = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
+	private String[] lengths = {"","whole","half","","quarter","","","","eighth"};//stupid simple division method, something-something logarithms would work better
 	boolean hasNextColumn; //has next column?
 	
 	//To do:
@@ -19,7 +23,7 @@ public class MeasureReader {
 	//better way to decode notes
 
 	
-	public MeasureReader(String[] measure, int beats, int beatlength) { //maybe need a better constuctor?
+	public MeasureReaderV2(String[] measure, int beats, int beatlength) { //maybe need a better constuctor?
 		this.measure = measure;
 		this.character_count = measure[0].length();
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
@@ -31,21 +35,32 @@ public class MeasureReader {
 	}
 	
 	
-	public void readNote() {
+	public List<String[]> readNote() {
+		List<String[]> out = new ArrayList<String[]>();
 		if(isEmpty(this.column)) {
 			this.readColumnV2();
 		}else {
 			int[] shifts = getFrets(this.column);
+			int length = nextNote(0) +1; //+1 to include current column
 			for(int i = 0; i<shifts.length; i++) {
 				if(shifts[i] >= 0) {
-					System.out.println("DEBUG: string played: "+i+" fret played: "+shifts[i]);
-					System.out.println(calculateNote(i,shifts[i]));
+					String[] noteProperties = {
+							""+length,											//raw duration
+							lengths[length/this.character_count],				//type
+							calculateNote(i,shifts[i]),							//step
+							"4"													//octave
+					};
+					out.add(noteProperties);
+					
+					
+					System.out.println("DEBUG: --------------------------------------");
+					for(String s: noteProperties) {
+						System.out.println("DEBUG: "+s);
+					}
 				}
 			}
-			int length = nextNote(0) +1; //+1 to include current column
-			System.out.println("DEBUG: length of note/chord: "+length);
-			System.out.println("DEBUG: ------------------------------------------------");
 		}
+		return out;
 	}
 	
 	public boolean hasNext() {
@@ -65,18 +80,18 @@ public class MeasureReader {
 		return count;
 	}
 	
-	private char calculateNote(int string, int fret){
-		char baseNote = this.tuning[string];
+	private String calculateNote(int string, int fret){
+		String baseNote = this.tuning[string];
 		int counter = -1;
 		for (int i = 0; i<scale.length; i++) {
-			if(baseNote == scale[i]) {
+			if(baseNote.equalsIgnoreCase(scale[i])) {
 				counter = i;
 				break;
 			}
 		}
 		if(counter < 0) {
 			//fail
-			return '!'; //need to handle bad numbers and stuff better? maybe not necessary at all?
+			return "!"; //need to handle bad numbers and stuff better? maybe not necessary at all?
 		}else {
 			int note = (counter+fret) % 12;
 			return scale[note];
