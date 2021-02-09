@@ -86,6 +86,19 @@
                </BorderPane.margin>
             </JFXTextArea>
          </center>
+         <bottom>
+            <JFXButton onAction="#convertFile" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Export" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <BorderPane.margin>
+                  <Insets top="8.0" />
+               </BorderPane.margin>
+            </JFXButton>
+         </bottom>
       </BorderPane>
       <VBox layoutX="166.0" layoutY="219.0" prefHeight="144.0" prefWidth="197.0">
          <children>
@@ -97,7 +110,7 @@
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">
+            <JFXTextField fx:id="title" focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -105,7 +118,7 @@
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField focusColor="#3282b8" promptText="Composer" style="-fx-background-color: #a8c5d8;">
+            <JFXTextField fx:id="composer" focusColor="#3282b8" promptText="Composer" style="-fx-background-color: #a8c5d8;">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -113,7 +126,7 @@
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField focusColor="#3282b8" promptText="Lyricist" style="-fx-background-color: #a8c5d8;">
+            <JFXTextField fx:id="lyricist" focusColor="#3282b8" promptText="Lyricist" style="-fx-background-color: #a8c5d8;">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
