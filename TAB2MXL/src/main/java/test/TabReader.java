@@ -12,6 +12,7 @@ public class TabReader {
 	int measures_in_current_line;
 	String[] strings, measure;
 	String measureDelimiterRegex="\\|";
+	boolean hasNextLine;
 	
 	public TabReader() {
 		string_count = Integer.parseInt(cfg.getAttr("string_count"));
@@ -20,6 +21,7 @@ public class TabReader {
 		measure = new String[string_count];
 		curr_line = 0;
 		curr_measure = 0;
+		hasNextLine = true;
 		evaluateLine();
     
 		
@@ -43,7 +45,6 @@ public class TabReader {
 			curr_measure ++;
 			
 		}
-		
 	}
 	
 	//testing method to print one measure at a time
@@ -56,6 +57,10 @@ public class TabReader {
 		
 		public String[] getMeasure() {
 			return measure;
+		}
+		
+		public boolean hasNext() {
+			return this.hasNextLine;
 		}
 
 	//rough method to grab an entire row of measures at a time
@@ -94,6 +99,48 @@ public class TabReader {
 			System.out.println("DEBUG: something went wrong trying to evaluate line " +curr_line);
 			System.out.println(e.toString());
 		}
+
+	}
+	
+	private boolean evaluateLineV2() {
+		//assume format is the same as in test_file?
+		boolean out = true;
+		try{
+			Scanner sc = new Scanner(file);
+			String temp = "";
+			int line = (curr_line * (string_count+1));
+			
+			//move "cursor" to first string in line
+			for(int i=0; i<line; i++){
+				temp = sc.nextLine();
+			}
+			
+			for(int i=0; i<string_count; i++) {
+				strings[i] = sc.nextLine();
+			}
+
+			
+			//really really rough bit giving me bad feelings, but it seems to work
+			//count number of measures start at -1 becuase there is one bar on each side
+			int count = -1;
+			for(int i=0; i<strings[0].length(); i++){
+				if(strings[0].charAt(i) == '|'){
+					count++;
+				}
+			}
+			measures_in_current_line = count;
+			//end of bad feeling
+			
+			
+			sc.close();
+			curr_line++;
+		}catch(Exception e){
+			out = false;
+			System.out.println("DEBUG: something went wrong trying to evaluate line " +curr_line);
+			System.out.println(e.toString());
+		}
+		hasNextLine = out;
+		return out;
 
 	}
 	

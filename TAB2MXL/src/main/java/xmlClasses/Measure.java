@@ -25,9 +25,12 @@ public class Measure {
 	}
 	public Measure(int number, Attributes att) {
 	    this.att = att;
+	    this.number = number;
+	    this.note = new ArrayList<Note>();
 	} 
 	public Measure(int number) {
 	    this.number = number;
+	    this.note = new ArrayList<Note>();
 	}
 	
 	@XmlAttribute

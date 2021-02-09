@@ -18,7 +18,7 @@ public class PartWriter {
 	//Lab change
 	//Constructor
 	PartWriter(){
-		part = new Part("P"+parts_created+1);
+		part = new Part("P"+(parts_created+1));
 	}
 	
 	//Empty measure
@@ -37,6 +37,11 @@ public class PartWriter {
 	public void nextNote(int duration, String type, String step, int octave){
 		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave ) ) );
 		
+	}
+	
+	//Getter
+	public Part getPart() {
+		return part;
 	}
 	
 }
