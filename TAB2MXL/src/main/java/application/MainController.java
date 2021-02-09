@@ -31,7 +31,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	//private TextArea textarea;
-	private JFXTextArea textarea;
+	private static JFXTextArea textarea;
 
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
@@ -120,7 +120,7 @@ public class MainController implements Initializable {
 		
 	}
 	
-	public String getText() {
+	public static String getText() {
 		return textarea.getText();
 	}
 	
@@ -128,20 +128,23 @@ public class MainController implements Initializable {
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
 	@FXML
-	private TextField name=new TextField("");
-	private TextField composer = new TextField("");
-	private TextField lyricist=new TextField("");
-	private TextField title=new TextField("");
-	public String getName(ActionEvent event) throws IOException {
+	private static TextField name=new TextField("");
+	@FXML
+	private static TextField composer = new TextField("");
+	@FXML
+	private static TextField lyricist=new TextField("");
+	@FXML
+	private static TextField title=new TextField("");
+	public static String getName() throws IOException {
 		return name.getText();
 	}
-	public String getComposer(ActionEvent event) throws IOException {
+	public static String getComposer() throws IOException {
 		return composer.getText();
 	}
-	public String getLyricist(ActionEvent event) throws IOException {
+	public static String getLyricist() throws IOException {
 		return lyricist.getText();
 	}
-	public String getTitle(ActionEvent event) throws IOException {
+	public static String getTitle() throws IOException {
 		return title.getText();
 	}
 	@FXML
