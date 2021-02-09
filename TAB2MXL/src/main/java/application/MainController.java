@@ -136,6 +136,7 @@ public class MainController implements Initializable {
 	@FXML
 	private static TextField title=new TextField("");
 	public static String getName() throws IOException {
+
 		return name.getText();
 	}
 	public static String getComposer() throws IOException {
