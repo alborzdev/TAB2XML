@@ -113,5 +113,10 @@ public class TabReaderV2 {
 
 	}
 	
+	/* used for drum tabs to get drumkit */
+	public void resetMeasure() {
+		this.curr_measure = 0;
+	}
+	
 	
 }

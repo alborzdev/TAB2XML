@@ -17,40 +17,54 @@ public class DrumReader {
 		this.measure = measure;
 		curr_col = 0;
 		initializeDrumKit();
-		
+		readColumn(); //reads first line of notes
+	}
+	
+	public void setMeasure(String [] measure) {
+		this.measure = measure;
+		this.curr_col = 0;
 	}
 	
 	/*
-	 * NOT READY
-	 * Testing different approaches to reading notes
+	 * Reads one line of notes of a measure
 	 */
 	public String [] readNote() {
+		readColumn();
 		String [] notes = new String[6];
 		int col = this.curr_col;
-	    int note = 16;
+	    String note ="";
+	    double duration = 0.5;
+	    
 		for(int line = 0; line < column.length; line++) {
 			if(this.column[line] == 'o' || this.column[line] == 'x') {
 				//checks if this is a 16th 8th quarter or while note
-				while(this.measure[line].charAt(col) == '-') {
-					note = note / 2;
-				
+				try {
+
+				while(col < this.measure[line].length() && this.measure[line].charAt(col) == '-') {
+					duration += 0.5;
+					System.out.println("note: " + this.measure[line].charAt(col));
 					col++;
-					col++;
-					col++;
-					col++;
-					col++;
-					col++;
-					if(this.measure[line].length() <= col) {
-						break;
-					}
-					
+				}
+				duration *= 2;
+				}catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
+				if(duration == 1) {
+					note = "sixteenth";
+				}else if(duration == 2) {
+					note = "eigth";
+				}else if(duration == 4) {
+					note = "quarter";
+				}else if (duration == 8) {
+					note = "half";
 				}
 				
-				notes[line] = "1/" + note  + " note on " + this.drumKit.get(line);
+				notes[line] = "duration: " + duration + "\nnote: " + note + "\ndrumkit: " + this.drumKit.get(line);
 				
 			}
 			col = curr_col;
-			note = 16;
+			note = "";
+			duration = 0.5;
 		}
 		return notes;
 	}
@@ -66,12 +80,8 @@ public class DrumReader {
 		//go through initial line of instruments
 		for(int line = 0; line < this.column.length; line++) {
 			instrument = "";
-			
-			//go through all characters before measure line '|'
-			while(this.measure[line].charAt(col) != '|') {
-				instrument += this.measure[line].charAt(col);
-				col++;
-			}
+			instrument = this.measure[line].charAt(col) + "" + this.measure[line].charAt(col+1); //concatinates instrument
+			System.out.println("instrument: " + instrument);
 			col = this.curr_col-1;
 			//adds instrument into drumkit
 			this.drumKit.add(instrument);
