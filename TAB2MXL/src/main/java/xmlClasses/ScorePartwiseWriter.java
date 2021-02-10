@@ -1,5 +1,8 @@
 package xmlClasses;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import xmlClasses.Attributes;
 import xmlClasses.Clef;
 import xmlClasses.Key;
@@ -11,31 +14,24 @@ import xmlClasses.Time;
 
 public class ScorePartwiseWriter {
 	
-	private Score_Partwise sp;
+	private Score_Partwise spw;
 	private Work work;
 	private Identification id;
 	private Part_List pl;
-
+	ArrayList <Creator> creators = new ArrayList<Creator>();
+	private Score_Part sp;
+    
 	
-	//Lab change
-	//Constructor
-	ScorePartwiseWriter(){
-		sp = new Score_Partwise();
+	ScorePartwiseWriter(String tab, String title, String lyricist, String composer, Part part){
+		work.setWorkTitle(title);
+		creators.add(new Creator("composer", composer)); 
+		creators.add(new Creator("lyricist", lyricist)); 
+		id.setCreator(creators);
+		sp = new Score_Part("P1", "Music"); //HARD CODED
+		pl = new Part_List(sp);
+		spw = new Score_Partwise(3.1, pl, part, id, work);
 	}
 	
-	//Empty measure
-	//double version, Part_List part_list, Part part, Identification id, Work 
-	public void makePartwise(double version, Work work, Identification id, Part_List pl, Part part){
-		sp = new Score_Partwise(version, pl, part, id, work);
-		
-	}
 	
-	public void makeWork() {
-		work.setWorkTitle(application.MainController.getText());
-	}
-	
-	public void makeIdentification(String name, String lyr, String comp) {
-		id.setCreator(null);
-	}
 	
 }

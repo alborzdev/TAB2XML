@@ -1,6 +1,5 @@
 package test;
 import java.util.Scanner;
-import java.util.regex.*;
 import java.io.*;
 
 import config.ConfigReader;
@@ -53,6 +52,10 @@ public class TabReaderV2 {
 			this.printMeasure();
 			curr_measure ++;
 		}
+	}
+	
+	public boolean hasNext() {
+		return !eof;
 	}
 	
 	//testing method to print one measure at a time

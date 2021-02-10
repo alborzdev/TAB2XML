@@ -9,7 +9,6 @@ public class Key {
 	public Key() {}  
 	
 	public Key(int fifths) {  
-	    super();  
 	    this.fifths = fifths;  
 	} 
 	
