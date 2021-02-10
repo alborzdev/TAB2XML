@@ -32,7 +32,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	//private TextArea textarea;
-	private JFXTextArea textarea;
+	private static JFXTextArea textarea;
 
 	private static String tab;
 	Chain chain;

@@ -66,4 +66,5 @@ public class Score_Partwise {
 	public void setWork(Work w) {  
 	    this.w = w;  
 	} 
+	
 }
