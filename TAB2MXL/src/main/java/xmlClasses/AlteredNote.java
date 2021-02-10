@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "note")
-@XmlType(propOrder={"pitch", "duration", "type", "accidental"})
+//@XmlType(propOrder={"pitch", "duration", "type", "accidental"})
 public class AlteredNote extends Note{
 	private String accidental;
 	

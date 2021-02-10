@@ -5,9 +5,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "note")
-@XmlType(propOrder={"chord","pitch", "duration", "type"})
+//@XmlType(propOrder={"chord","pitch", "duration", "type"})
 public class ChordNote extends Note{
 	private String chord;
+	
+	public ChordNote() {
+		
+	}
 	
 	public ChordNote(int duration, String type, Pitch pitch) {
 		super(duration, type, pitch);
