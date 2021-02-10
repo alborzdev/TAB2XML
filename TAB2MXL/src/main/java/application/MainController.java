@@ -32,9 +32,8 @@ public class MainController implements Initializable {
 
 	@FXML
 	//private TextArea textarea;
-	private static JFXTextArea textarea;
+	private JFXTextArea textarea;
 
-	private static String tab;
 	Chain chain;
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
@@ -48,13 +47,15 @@ public class MainController implements Initializable {
 		filechooser.setTitle("Open text file"); 
 		filechooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter(".txt files", "*.txt") );
 		file = filechooser.showOpenDialog(stage); 
+		System.out.println(file.toString());
 		
 		if(file!=null) {
 			//Sends Textarea to Backend to anaylize/parse
 			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
 		}
-		tab=new String(textarea.getText());
 		
+		//tab=new String(textarea.getText());
+		System.out.println("HERE");
 	}
 	
 	/**
@@ -123,9 +124,9 @@ public class MainController implements Initializable {
 		
 	}
 	
-	public String getText() {
-		return tab;
-	}
+//	public String getText() {
+//		return tab;
+//	}
 	
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
