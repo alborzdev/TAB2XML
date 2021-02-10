@@ -68,10 +68,13 @@
                   <DropShadow />
                </effect>
             </JFXButton>
-            <JFXButton onAction="#preview" style="-fx-border-color: #3282b8; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Preview" textFill="#ececec">
+            <JFXButton onAction="#convertFile" style="-fx-border-color: #3282b8; -fx-border-radius: 5em; -fx-text-fill: white;" text="Export">
                <font>
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
@@ -87,15 +90,12 @@
             </JFXTextArea>
          </center>
          <bottom>
-            <JFXButton onAction="#convertFile" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Export" BorderPane.alignment="CENTER">
+            <JFXButton onAction="#preview" style="-fx-border-color: #3282b8; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Preview" textFill="#ececec" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
-               <effect>
-                  <DropShadow />
-               </effect>
                <BorderPane.margin>
-                  <Insets top="8.0" />
+                  <Insets top="7.0" />
                </BorderPane.margin>
             </JFXButton>
          </bottom>

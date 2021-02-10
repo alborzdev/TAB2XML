@@ -40,15 +40,23 @@ public class Chain {
 			MeasureReaderV2 MRv2 = new MeasureReaderV2(TRv2.getMeasure(), 4, 4);
 			PW.nextMeasure();
 			while(MRv2.hasNext()) {
+				boolean firstNoteAdded = false;
 				for(String[] s:MRv2.readNote()) {
-					System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
-					PW.nextNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
+					if(firstNoteAdded) {
+						System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
+						PW.nextChordNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
+					}else {
+						System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
+						PW.nextNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
+						firstNoteAdded = true;
+					}
 				}
 			}
 			TRv2.readMeasure();
 		}
 			
 	}
+	static String xmlString ;
 	
 	private void MARSHtoXML() throws Exception{  
 	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
@@ -72,11 +80,16 @@ public class Chain {
 	    		
 	    Work w = new Work("Hot cross BUNS");
 	    Score_Partwise spw = new Score_Partwise(3.1, pl, PW.getPart(), id, w);  
-	    marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
+	    //marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
 	    
 	    StringWriter sw = new StringWriter(); 
 	    marshallerObj.marshal(spw, sw);
 	    System.out.println(sw.toString());
-	}
+	    xmlString = sw.toString();
 	
+	}
+	public String getText() {
+	
+	    return xmlString;
+	}
 }
