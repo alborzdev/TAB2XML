@@ -24,20 +24,35 @@ public class DrumReader {
 	 * NOT READY
 	 * Testing different approaches to reading notes
 	 */
-	public void readNote() {
+	public String [] readNote() {
+		String [] notes = new String[6];
+		int col = this.curr_col;
+	    int note = 16;
 		for(int line = 0; line < column.length; line++) {
-			if(this.column[line] == '0' || this.column[line] == 'X') {
-				this.type = 1/16;
-				
+			if(this.column[line] == 'o' || this.column[line] == 'x') {
 				//checks if this is a 16th 8th quarter or while note
-				while(this.measure[line].charAt(this.curr_col) != '-') {
-					type *= 2;
+				while(this.measure[line].charAt(col) == '-') {
+					note = note / 2;
+				
+					col++;
+					col++;
+					col++;
+					col++;
+					col++;
+					col++;
+					if(this.measure[line].length() <= col) {
+						break;
+					}
+					
 				}
 				
-				System.out.println(type + "note on " + this.drumKit.get(line));
+				notes[line] = "1/" + note  + " note on " + this.drumKit.get(line);
 				
 			}
+			col = curr_col;
+			note = 16;
 		}
+		return notes;
 	}
 	
 	/*
@@ -46,7 +61,7 @@ public class DrumReader {
 	private void initializeDrumKit() {
 		readColumn();
 		String instrument = "";
-		int col = this.curr_col;
+		int col = this.curr_col -1;//prev col
 		
 		//go through initial line of instruments
 		for(int line = 0; line < this.column.length; line++) {
@@ -57,21 +72,27 @@ public class DrumReader {
 				instrument += this.measure[line].charAt(col);
 				col++;
 			}
-			
+			col = this.curr_col-1;
 			//adds instrument into drumkit
 			this.drumKit.add(instrument);
 		}
 		
 	}
 	
+	public ArrayList<String> getDrumKit() {
+		return this.drumKit;
+	}
+	
 	/* Takes one vertical line of notes from this.measure into this.column
 	 * Changed Derrui's guitar reader to work for drum tab
 	 */
-	private void readColumn() {
+	protected void readColumn() {
 		this.column = new char[this.measure.length];
 		for(int i=0; i<this.measure.length; i++) {
 			column[i] = measure[i].charAt(curr_col);
+			System.out.println("col" + column[i]);
 		}
 		curr_col ++;
+		
 	}
 }
