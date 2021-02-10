@@ -31,8 +31,9 @@ public class MainController implements Initializable {
 
 	@FXML
 	//private TextArea textarea;
-	private static JFXTextArea textarea;
+	private JFXTextArea textarea;
 
+	private static String tab;
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
 	 * @param event
@@ -48,10 +49,10 @@ public class MainController implements Initializable {
 		
 		if(file!=null) {
 			//Sends Textarea to Backend to anaylize/parse
-			textarea.appendText( tab2mxl.txtAnalyzing.analyze(file.toString()) );
+			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
 			
 		}
-		
+		tab=new String(textarea.getText());
 		
 	}
 	
@@ -96,7 +97,7 @@ public class MainController implements Initializable {
 	
 	public void backButton(ActionEvent event) throws IOException {
 		Parent Scene2root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-		Scene AddInfoScene = new Scene(Scene2root, 700, 500);
+		Scene AddInfoScene = new Scene(Scene2root, 700, 700);
 		
 		//this gets scene information
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -120,8 +121,8 @@ public class MainController implements Initializable {
 		
 	}
 	
-	public static String getText() {
-		return textarea.getText();
+	public String getText() {
+		return tab;
 	}
 	
 	/**
@@ -135,18 +136,21 @@ public class MainController implements Initializable {
 	private static TextField lyricist=new TextField("");
 	@FXML
 	private static TextField title=new TextField("");
-	public static String getName() throws IOException {
-
-		return name.getText();
+	public String getName() throws IOException {
+		String s=new String(name.getText());
+		return s;
 	}
-	public static String getComposer() throws IOException {
-		return composer.getText();
+	public String getComposer() throws IOException {
+		String s=new String(composer.getText());
+		return s;
 	}
-	public static String getLyricist() throws IOException {
-		return lyricist.getText();
+	public String getLyricist() throws IOException {
+		String s=new String(lyricist.getText());
+		return s;
 	}
-	public static String getTitle() throws IOException {
-		return title.getText();
+	public String getTitle() throws IOException {
+		String s=new String(title.getText());
+		return s;
 	}
 	@FXML
 	private TextArea previewXML;
