@@ -17,7 +17,7 @@ public class PartWriter {
 	
 	//Lab change
 	//Constructor
-	public PartWriter(){
+	PartWriter(){
 		part = new Part("P"+(parts_created+1));
 	}
 	

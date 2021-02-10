@@ -12,9 +12,8 @@ public class ObjectToMxl {
 	static String xmlString = new String();
 
 public static void main(String[] args) throws Exception {
-	
+	mxlMaker();
 	System.out.println("Testing merge");
-	System.out.println(mxlMaker());
 	
 }
 
