@@ -2,9 +2,11 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder={"pitch", "duration", "type"})
+@XmlSeeAlso({AlteredNote.class, ChordNote.class})
 public class Note {
 	private int duration;
 	private String type;
