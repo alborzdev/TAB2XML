@@ -19,6 +19,7 @@ public class Chain {
 	String COMPOSER;
 	String LOCATION;
 	PartWriter PW = new PartWriter();
+	ScorePartwiseWriter SPW;
 	
 	public Chain(File TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
 		this.TAB=TAB;
@@ -28,7 +29,11 @@ public class Chain {
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
 		TABtoPART();
+		System.out.println("Finished TtoP");
+		INFOtoPARTWISE();
+		System.out.println("Finished ItoP");
 		try {MARSHtoXML();} catch (Exception e) {e.printStackTrace();}
+		System.out.println("Finished MtoX");
 	}
 	
 	private void TABtoPART(){
@@ -58,6 +63,10 @@ public class Chain {
 	}
 	static String xmlString ;
 	
+	private void INFOtoPARTWISE() {
+		SPW = new ScorePartwiseWriter(NAME, TITLE, LYRICIST, COMPOSER, PW.getPart());
+	}
+	
 	private void MARSHtoXML() throws Exception{  
 	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
 	  
@@ -69,25 +78,15 @@ public class Chain {
 	    		+ " \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\"\n"
 	    		+ " \"http://www.musicxml.org/dtds/partwise.dtd\">");
 	    
-	    Score_Part sp = new Score_Part("P1", "Music");
-	    
-	    Part_List pl = new Part_List(sp);  
-	    
-	    ArrayList <Creator> creators = new ArrayList<Creator>();
-	    creators.add(new Creator("composer", "Aidan Mozart")); 
-	    creators.add(new Creator("lyricist", "Its ya boy")); 
-	    Identification id = new Identification(creators);
-	    		
-	    Work w = new Work("Hot cross BUNS");
-	    Score_Partwise spw = new Score_Partwise(3.1, pl, PW.getPart(), id, w);  
+	      
 	    //marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
-	    
 	    StringWriter sw = new StringWriter(); 
-	    marshallerObj.marshal(spw, sw);
+	    marshallerObj.marshal(SPW.getScore_Partwise(), sw);
 	    System.out.println(sw.toString());
 	    xmlString = sw.toString();
 	
 	}
+	
 	public String getText() {
 	
 	    return xmlString;
