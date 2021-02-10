@@ -52,7 +52,6 @@ public class MainController implements Initializable {
 		if(file!=null) {
 			//Sends Textarea to Backend to anaylize/parse
 			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
-			
 		}
 		tab=new String(textarea.getText());
 		
@@ -63,7 +62,7 @@ public class MainController implements Initializable {
 	 * @param event
 	 * @throws Exception 
 	 */
-	File loc;
+	private File loc;
 	public void convertFile(ActionEvent event) throws Exception {
 		//xmlClasses.ObjectToMxl.mxlMaker();
 		FileChooser saver = new FileChooser();
@@ -73,16 +72,16 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        chain = new Chain(file, getTitle(), getName(), getLyricist(), getComposer(), loc.getAbsolutePath());
-//		try {
-//			write = new FileWriter(loc);
-//			//SHOULD RECIEVE XML FROM BACKEND
-//			write.write(xmlClasses.ObjectToMxl.mxlMaker());
-//       	  	write.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
+        chain = new Chain(file, getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
+		try {
+			write = new FileWriter(loc);
+			//SHOULD RECIEVE XML FROM BACKEND
+			write.write(chain.getText());
+       	  	write.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
   
 	/*
@@ -132,34 +131,35 @@ public class MainController implements Initializable {
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
 	@FXML
-	private static TextField name=new TextField("");
+	private TextField name=new TextField("");
 	@FXML
-	private static TextField composer = new TextField("");
+	private TextField composer = new TextField("");
 	@FXML
-	private static TextField lyricist=new TextField("");
+	private TextField lyricist=new TextField("");
 	@FXML
-	private static TextField title=new TextField("");
+	private TextField title=new TextField("");
 	public String getName() throws IOException {
-		String s=new String(name.toString());
+		String s=new String(name.getText());
 		return s;
 	}
 	public String getComposer() throws IOException {
-		String s=new String(composer.toString());
+		String s=new String(composer.getText());
 		return s;
 	}
 	public String getLyricist() throws IOException {
-		String s=new String(lyricist.toString());
+		String s=new String(lyricist.getText());
 		return s;
 	}
 	public String getTitle() throws IOException {
-		String s=new String(title.toString());
+		String s=new String(title.getText());
+		System.out.println("Title = "+s);
 		return s;
 	}
 	@FXML
 	private TextArea previewXML;
 	//method that displays preview of xml file
 	public void preview(ActionEvent event) throws Exception {
-		previewXML.appendText(chain.toString());
+		previewXML.appendText(chain.getText());
 	}
 	
 }

@@ -49,6 +49,7 @@ public class Chain {
 		}
 			
 	}
+	static String xmlString ;
 	
 	private void MARSHtoXML() throws Exception{  
 	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
@@ -72,11 +73,16 @@ public class Chain {
 	    		
 	    Work w = new Work("Hot cross BUNS");
 	    Score_Partwise spw = new Score_Partwise(3.1, pl, PW.getPart(), id, w);  
-	    marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
+	    //marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
 	    
 	    StringWriter sw = new StringWriter(); 
 	    marshallerObj.marshal(spw, sw);
 	    System.out.println(sw.toString());
-	}
+	    xmlString = sw.toString();
 	
+	}
+	public String getText() {
+	
+	    return xmlString;
+	}
 }
