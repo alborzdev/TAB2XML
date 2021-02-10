@@ -1,21 +1,6 @@
-My shell executes fine for some piping commands like **ls | head -3**  and **ps -ef | grep systemd** but hang/freezes on ls | sort. I have no clue why  
-
-    void piping_handle(char* args[], char* piping_args[], int pipefd[]){
-        int pid;
-        pid=fork();
-        if(pid==0){ //in grandchild
-            close(pipefd[0]); //parent doesnt need this end of the pipe
-            dup2(pipefd[1], 1);
-            close(pipefd[1]);
-            execvp(args[0], args);
-            perror(args[0]);
-            
-        }
-        else{ //in child of parent
-            close(pipefd[1]);   //child doesnt need this end of pipe
-            dup2(pipefd[0], 0);
-            close(pipefd[0]);
-            execvp(piping_args[0] , piping_args);
-            perror(piping_args[0]);
-        }
-    }
+e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|
+B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|
+G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|
+D|-7-------6-------|-5-------4-------|-3---------------|-----------------|
+A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|
+E|-----------------|-----------------|-----------------|-----------------|

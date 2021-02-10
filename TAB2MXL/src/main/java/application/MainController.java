@@ -23,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import xmlClasses.Chain;
 
 public class MainController implements Initializable {
 	
@@ -33,6 +34,8 @@ public class MainController implements Initializable {
 	//private TextArea textarea;
 	private JFXTextArea textarea;
 
+	private static String tab;
+	Chain chain;
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
 	 * @param event
@@ -48,10 +51,9 @@ public class MainController implements Initializable {
 		
 		if(file!=null) {
 			//Sends Textarea to Backend to anaylize/parse
-			textarea.appendText( tab2mxl.txtAnalyzing.analyze(file.toString()) );
-			
+			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
 		}
-		
+		tab=new String(textarea.getText());
 		
 	}
 	
@@ -60,6 +62,7 @@ public class MainController implements Initializable {
 	 * @param event
 	 * @throws Exception 
 	 */
+	private File loc;
 	public void convertFile(ActionEvent event) throws Exception {
 		//xmlClasses.ObjectToMxl.mxlMaker();
 		FileChooser saver = new FileChooser();
@@ -67,13 +70,13 @@ public class MainController implements Initializable {
 		FileChooser.ExtensionFilter extFilter = 
                 new FileChooser.ExtensionFilter("xml files (*.xml)", "*.xml");
            saver.getExtensionFilters().add(extFilter);
-        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
+        	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-     
+        chain = new Chain(file, getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
 		try {
 			write = new FileWriter(loc);
 			//SHOULD RECIEVE XML FROM BACKEND
-			write.write(xmlClasses.ObjectToMxl.mxlMaker());
+			write.write(chain.getText());
        	  	write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -96,7 +99,7 @@ public class MainController implements Initializable {
 	
 	public void backButton(ActionEvent event) throws IOException {
 		Parent Scene2root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-		Scene AddInfoScene = new Scene(Scene2root, 700, 500);
+		Scene AddInfoScene = new Scene(Scene2root, 700, 700);
 		
 		//this gets scene information
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -121,7 +124,7 @@ public class MainController implements Initializable {
 	}
 	
 	public String getText() {
-		return textarea.getText();
+		return tab;
 	}
 	
 	/**
@@ -129,26 +132,34 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private TextField name=new TextField("");
+	@FXML
 	private TextField composer = new TextField("");
+	@FXML
 	private TextField lyricist=new TextField("");
+	@FXML
 	private TextField title=new TextField("");
-	public String getName(ActionEvent event) throws IOException {
-		return name.getText();
+	public String getName() throws IOException {
+		String s=new String(name.getText());
+		return s;
 	}
-	public String getComposer(ActionEvent event) throws IOException {
-		return composer.getText();
+	public String getComposer() throws IOException {
+		String s=new String(composer.getText());
+		return s;
 	}
-	public String getLyricist(ActionEvent event) throws IOException {
-		return lyricist.getText();
+	public String getLyricist() throws IOException {
+		String s=new String(lyricist.getText());
+		return s;
 	}
-	public String getTitle(ActionEvent event) throws IOException {
-		return title.getText();
+	public String getTitle() throws IOException {
+		String s=new String(title.getText());
+		System.out.println("Title = "+s);
+		return s;
 	}
 	@FXML
 	private TextArea previewXML;
 	//method that displays preview of xml file
 	public void preview(ActionEvent event) throws Exception {
-		previewXML.appendText(xmlClasses.ObjectToMxl.mxlMaker());
+		previewXML.appendText(chain.getText());
 	}
 	
 }
