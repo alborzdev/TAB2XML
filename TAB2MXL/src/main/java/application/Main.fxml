@@ -45,7 +45,7 @@
             </Menu>
         </menus>
       </MenuBar>
-      <BorderPane layoutX="373.0" layoutY="54.0" prefHeight="410.0" prefWidth="585.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="305.0" AnchorPane.topAnchor="54.0">
+      <BorderPane layoutX="396.0" layoutY="60.0" prefHeight="410.0" prefWidth="585.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="60.0">
          <left>
             <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="390.0" prefWidth="563.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
                <font>
@@ -58,7 +58,7 @@
          </left>
       </BorderPane>
 
-      <HBox alignment="CENTER" layoutX="476.0" layoutY="310.0" prefHeight="47.0" prefWidth="752.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="476.0" AnchorPane.rightAnchor="35.0">
+      <HBox alignment="CENTER" layoutX="552.0" layoutY="310.0" prefHeight="47.0" prefWidth="676.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="552.0" AnchorPane.rightAnchor="35.0">
          <children>
             <JFXButton onAction="#doOpen" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Upload file">
                <font>
@@ -81,7 +81,7 @@
             </JFXButton>
          </children>
       </HBox>
-      <BorderPane layoutX="965.0" layoutY="65.0" prefHeight="387.0" prefWidth="260.0">
+      <BorderPane layoutX="981.0" layoutY="72.0" prefHeight="387.0" prefWidth="260.0">
          <center>
             <JFXTextArea fx:id="previewXML" editable="false" focusColor="WHITE" prefHeight="383.0" prefWidth="240.0" promptText="Click preview to preview the XML file" style="-fx-background-color: #a8c5d8;" stylesheets="@application.css" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
                <BorderPane.margin>
@@ -100,8 +100,13 @@
             </JFXButton>
          </bottom>
       </BorderPane>
-      <VBox layoutX="166.0" layoutY="219.0" prefHeight="144.0" prefWidth="197.0">
+      <VBox layoutX="256.0" layoutY="219.0" prefHeight="152.0" prefWidth="140.0">
          <children>
+            <Label prefHeight="28.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
+               <font>
+                  <Font name="Quicksand Medium" size="14.0" />
+               </font>
+            </Label>
             <JFXTextField fx:id="name" focusColor="#3282b8" promptText="Name" style="-fx-background-color: #a8c5d8;">
                <VBox.margin>
                   <Insets bottom="10.0" />
@@ -136,10 +141,29 @@
             </JFXTextField>
          </children>
       </VBox>
-      <Label layoutX="197.0" layoutY="191.0" prefHeight="28.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
-         <font>
-            <Font name="Quicksand Medium" size="14.0" />
-         </font>
-      </Label>
+      <AnchorPane layoutX="14.0" layoutY="123.0" prefHeight="336.0" prefWidth="209.0">
+         <children>
+            <Label layoutX="40.0" layoutY="63.0" text="Welcome to Tab2XML" textFill="#d0e7ff" underline="true">
+               <font>
+                  <Font name="Quicksand Medium" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutY="142.0" text="1. Upload a tab file or paste your tab" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Quicksand Regular" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutY="165.0" text="2. (Optional) Add additional attributes" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Quicksand Regular" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutY="189.0" text="3. Click export to convert to MusicXML" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Quicksand Regular" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
