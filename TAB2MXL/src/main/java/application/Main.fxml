@@ -45,11 +45,11 @@
             </Menu>
         </menus>
       </MenuBar>
-      <BorderPane layoutX="396.0" layoutY="60.0" prefHeight="410.0" prefWidth="585.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="60.0">
+      <BorderPane layoutX="544.0" layoutY="53.0" prefHeight="410.0" prefWidth="684.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="544.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="53.0">
          <left>
-            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="390.0" prefWidth="563.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
+            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="390.0" prefWidth="670.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
                <font>
-                  <Font name="Courier New" size="10.0" />
+                  <Font name="Courier New" size="12.0" />
                </font>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -58,7 +58,7 @@
          </left>
       </BorderPane>
 
-      <HBox alignment="CENTER" layoutX="552.0" layoutY="310.0" prefHeight="47.0" prefWidth="676.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="552.0" AnchorPane.rightAnchor="35.0">
+      <HBox alignment="CENTER" layoutX="643.0" layoutY="310.0" prefHeight="47.0" prefWidth="585.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="643.0" AnchorPane.rightAnchor="35.0">
          <children>
             <JFXButton onAction="#doOpen" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Upload file">
                <font>
@@ -81,41 +81,14 @@
             </JFXButton>
          </children>
       </HBox>
-      <BorderPane layoutX="981.0" layoutY="72.0" prefHeight="387.0" prefWidth="260.0">
-         <center>
-            <JFXTextArea fx:id="previewXML" editable="false" focusColor="WHITE" prefHeight="383.0" prefWidth="240.0" promptText="Click preview to preview the XML file" style="-fx-background-color: #a8c5d8;" stylesheets="@application.css" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </BorderPane.margin>
-            </JFXTextArea>
-         </center>
-         <bottom>
-            <JFXButton onAction="#preview" style="-fx-border-color: #3282b8; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Preview" textFill="#ececec" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Quicksand Regular" size="14.0" />
-               </font>
-               <BorderPane.margin>
-                  <Insets top="7.0" />
-               </BorderPane.margin>
-            </JFXButton>
-         </bottom>
-      </BorderPane>
-      <VBox layoutX="256.0" layoutY="219.0" prefHeight="152.0" prefWidth="140.0">
+      <VBox layoutX="389.0" layoutY="176.0" prefHeight="152.0" prefWidth="140.0">
          <children>
             <Label prefHeight="28.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
                <font>
                   <Font name="Quicksand Medium" size="14.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="name" focusColor="#3282b8" promptText="Name" style="-fx-background-color: #a8c5d8;">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Quicksand Regular" size="14.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="title" focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">
+            <JFXTextField fx:id="name" focusColor="#3282b8" promptText="Name" style="-fx-background-color: #a8c5d8;" text="Title">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -141,7 +114,7 @@
             </JFXTextField>
          </children>
       </VBox>
-      <AnchorPane layoutX="14.0" layoutY="123.0" prefHeight="336.0" prefWidth="209.0">
+      <AnchorPane layoutX="73.0" layoutY="125.0" prefHeight="336.0" prefWidth="209.0">
          <children>
             <Label layoutX="40.0" layoutY="63.0" text="Welcome to Tab2XML" textFill="#d0e7ff" underline="true">
                <font>

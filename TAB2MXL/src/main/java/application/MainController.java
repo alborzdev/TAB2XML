@@ -31,7 +31,7 @@ public class MainController implements Initializable {
 	private File file;
 
 	@FXML
-	//private TextArea textarea;
+	
 	private JFXTextArea textarea;
 
 	Chain chain;
@@ -54,7 +54,6 @@ public class MainController implements Initializable {
 			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
 		}
 		
-		//tab=new String(textarea.getText());
 		System.out.println("HERE");
 	}
 	
@@ -124,9 +123,6 @@ public class MainController implements Initializable {
 		
 	}
 	
-//	public String getText() {
-//		return tab;
-//	}
 	
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
