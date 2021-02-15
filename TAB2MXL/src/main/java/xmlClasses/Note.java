@@ -11,6 +11,7 @@ public class Note {
 	private int duration;
 	private String type;
 	private Pitch pitch;
+	private int voice;
 	
 	public Note() {}  
 	
@@ -42,5 +43,13 @@ public class Note {
 	}  
 	public void setPitch(Pitch pitch) {  
 	    this.pitch = pitch;  
+	}
+	
+	@XmlElement
+	public int getVoice() {  
+	    return duration;  
+	}  
+	public void setVoice(int voice) {  
+	    this.voice = voice;  
 	}
 }

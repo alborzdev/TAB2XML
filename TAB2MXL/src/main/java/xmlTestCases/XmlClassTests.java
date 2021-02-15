@@ -53,4 +53,5 @@ public class XmlClassTests {
     public void testPartConstructor() {
         assertNotSame(part, part2);
     }
+    
 }
