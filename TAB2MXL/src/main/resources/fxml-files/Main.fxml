@@ -17,35 +17,37 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="503.0" prefWidth="1081.0" snapToPixel="false" style="-fx-background-color: #343434;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0f4c75" height="531.0" layoutX="-124.0" layoutY="-14.0" stroke="#ab6c82" strokeType="INSIDE" strokeWidth="0.0" style="-fx-rotate: 30;" width="181.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3282b8" height="531.0" layoutX="-77.0" layoutY="-141.0" stroke="#9bd7d1" strokeType="INSIDE" strokeWidth="0.0" style="-fx-rotate: 30;" width="181.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a8c5d8" height="37.0" layoutX="-5.0" layoutY="-8.0" stroke="#f26627" strokeType="INSIDE" strokeWidth="0.0" width="1268.0" />
-      <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #a8c5d8;">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem onAction="#doExit" text="Exit">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem onAction="#doOpen" text="Open">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-              <items>
-                <MenuItem mnemonicParsing="false" text="User's guide" />
-              </items>
-            </Menu>
-        </menus>
-      </MenuBar>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <MenuBar prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #a8c5d8;" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem onAction="#doExit" text="Exit">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <MenuItem onAction="#doOpen" text="Open">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#UserManual" text="User's guide" />
+                    </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </top></BorderPane>
       <BorderPane layoutX="544.0" layoutY="53.0" prefHeight="410.0" prefWidth="684.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="544.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="53.0">
          <left>
             <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="390.0" prefWidth="670.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
@@ -139,6 +141,5 @@
             </Label>
          </children>
       </AnchorPane>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
