@@ -10,6 +10,7 @@ public class Attributes {
 	private Key key;
 	private Time time;
 	private Clef clef;
+	private StaffDetails sd;
 	
 	
 	public Attributes() {}  
@@ -19,7 +20,14 @@ public class Attributes {
 	    this.key = key;
 	    this.time = time;
 	    this.clef = clef;
-	} 
+	}
+	public Attributes(int divisions, Key key, Time time, Clef clef, StaffDetails sd) {   
+	    this.divisions = divisions; 
+	    this.key = key;
+	    this.time = time;
+	    this.clef = clef;
+	    this.sd = sd;
+	}
 	
 	@XmlElement
 	public int getDivisions() {  
@@ -51,5 +59,13 @@ public class Attributes {
 	}  
 	public void setClef(Clef clef) {  
 	    this.clef = clef;  
+	}
+	
+	@XmlElement
+	public StaffDetails getSd(){
+		return sd;
+	}
+	public void setSd(StaffDetails sd) {
+		this.sd=sd;
 	}
 }
