@@ -1,5 +1,7 @@
 package xmlClasses;
 
+import java.util.ArrayList;
+
 import xmlClasses.Attributes;
 import xmlClasses.Clef;
 import xmlClasses.Key;
@@ -29,9 +31,30 @@ public class PartWriter {
 	
 	//Empty measure with attributes
 	public void nextMeasure(int divisions, int fifths, int beats, int beat_type, String sign, int line){
-		currentMeasure=new Measure(part.getMeasure().size()+1, new Attributes(divisions, new Key(fifths), new Time(beats, beat_type), new Clef(sign, line) ) );
+		currentMeasure=new Measure(
+				part.getMeasure().size()+1,
+				new Attributes(divisions,
+						new Key(fifths),
+						new Time(beats, beat_type),
+						new Clef(sign, line)
+				)
+		);
 		part.addMeasure(currentMeasure);
 	}
+	
+	//Empty measure with attributes + Staff Details
+		public void nextMeasure(int divisions, int fifths, int beats, int beat_type, String sign, int line, int stafflines, ArrayList<StaffTuning> stafftunings){
+			currentMeasure=new Measure(
+					part.getMeasure().size()+1,
+					new Attributes(divisions,
+							new Key(fifths),
+							new Time(beats, beat_type),
+							new Clef(sign, line),
+							new StaffDetails(stafflines, stafftunings)
+					)
+			);
+			part.addMeasure(currentMeasure);
+		}
 	
 	//Create Note with its Pitch object and adding it to the current measure.
 	public void nextNote(int duration, String type, String step, int octave){
