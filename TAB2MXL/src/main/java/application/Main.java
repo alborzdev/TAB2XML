@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 
 
 public class Main extends Application {
@@ -16,8 +17,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		System.out.println(getClass().getResource("/fxml-files/Main.fxml"));
-		FXMLLoader loader = FXMLLoader.load(getClass().getResource("/fxml-files/Main.fxml"));
-		Parent root = loader.load();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml-files/Main.fxml"));
+		AnchorPane root = loader.load();
 		MainController controller = loader.getController();
 		controller.init(primaryStage);
 
