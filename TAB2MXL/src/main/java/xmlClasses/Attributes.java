@@ -14,8 +14,7 @@ public class Attributes {
 	
 	public Attributes() {}  
 	
-	public Attributes(int divisions, Key key, Time time, Clef clef) {  
-	    super();  
+	public Attributes(int divisions, Key key, Time time, Clef clef) {   
 	    this.divisions = divisions; 
 	    this.key = key;
 	    this.time = time;

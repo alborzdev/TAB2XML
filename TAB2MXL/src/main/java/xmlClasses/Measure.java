@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 
 public class Measure {
 	private int number;
@@ -15,19 +16,22 @@ public class Measure {
 	}  
 	
 	public Measure(int number, Attributes att, ArrayList<Note> note) {  
-	    super();  
 	    this.number = number;
 	    this.att = att;
 	    this.note = note;  
 	} 
-	public Measure(int number, ArrayList<Note> note) {  
-	    super();  
+	public Measure(int number, ArrayList<Note> note) {
 	    this.number = number;
 	    this.note = note;  
-	} 
-	public Measure(int number) {  
-	    super();  
+	}
+	public Measure(int number, Attributes att) {
+	    this.att = att;
 	    this.number = number;
+	    this.note = new ArrayList<Note>();
+	} 
+	public Measure(int number) {
+	    this.number = number;
+	    this.note = new ArrayList<Note>();
 	}
 	
 	@XmlAttribute

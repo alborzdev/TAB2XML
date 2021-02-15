@@ -12,8 +12,7 @@ public class Identification {
 	
 	public Identification() {}  
 	
-	public Identification(ArrayList <Creator> creators) {  
-	    super();  
+	public Identification(ArrayList <Creator> creators) { 
 	    this.creators = creators;  
 	} 
 	
