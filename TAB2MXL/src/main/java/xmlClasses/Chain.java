@@ -28,12 +28,7 @@ public class Chain {
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
-		TABtoPART();
-		System.out.println("Finished TtoP");
-		INFOtoPARTWISE();
-		System.out.println("Finished ItoP");
-		try {MARSHtoXML();} catch (Exception e) {e.printStackTrace();}
-		System.out.println("Finished MtoX");
+		MethodLadder();
 	}
 	public Chain(String TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
 		this.TAB=TAB;
@@ -42,6 +37,10 @@ public class Chain {
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
+		MethodLadder();
+	}
+	
+	private void MethodLadder() {
 		TABtoPART();
 		System.out.println("Finished TtoP");
 		INFOtoPARTWISE();
