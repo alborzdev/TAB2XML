@@ -12,7 +12,7 @@ import test.MeasureReaderV2;
 import test.TabReaderV2;
 
 public class Chain {
-	File TAB;
+	String TAB;
 	String TITLE;
 	String NAME;
 	String LYRICIST;
@@ -22,6 +22,20 @@ public class Chain {
 	ScorePartwiseWriter SPW;
 	
 	public Chain(File TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
+		this.TAB=TAB.toString();
+		this.TITLE=TITLE;
+		this.NAME=NAME;
+		this.LYRICIST=LYRICIST;
+		this.COMPOSER=COMPOSER;
+		this.LOCATION=LOCATION;
+		TABtoPART();
+		System.out.println("Finished TtoP");
+		INFOtoPARTWISE();
+		System.out.println("Finished ItoP");
+		try {MARSHtoXML();} catch (Exception e) {e.printStackTrace();}
+		System.out.println("Finished MtoX");
+	}
+	public Chain(String TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
 		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.NAME=NAME;
@@ -38,7 +52,7 @@ public class Chain {
 	
 	private void TABtoPART(){
 		
-		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
+		TabReaderV2 TRv2 = new TabReaderV2(TAB);
 		
 		TRv2.readMeasure();
 		while(TRv2.hasNext()) {
