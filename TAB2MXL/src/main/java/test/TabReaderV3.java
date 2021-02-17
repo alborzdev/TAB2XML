@@ -28,12 +28,22 @@ public class TabReaderV3{
 	private boolean eof;
 	
 	public TabReaderV3() { //basic, config-driven constructor for easy testing - replace with parameter driven version in future
-		string_count = Integer.parseInt(cfg.getAttr("string_count"));
-		file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
-		eof = false;
+		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
+		this.file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+		this.eof = false;
 		// measures start at 1, index 0 exists - but is reserved for tuning data
-		next_tabLine = 0;
-		curr_measure = 1;
+		this.next_tabLine = 0;
+		this.curr_measure = 1;
+		this.evaluateLine();
+	}
+	
+	public TabReaderV3(String filepath, int string_count) { //basic, config-driven constructor for easy testing - replace with parameter driven version in future
+		this.string_count = string_count;
+		this.file = new File(filepath);
+		this.eof = false;
+		// measures start at 1, index 0 exists - but is reserved for tuning data
+		this.next_tabLine = 0;
+		this.curr_measure = 1;
 		this.evaluateLine();
 	}
 	
