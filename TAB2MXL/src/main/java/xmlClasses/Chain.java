@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import test.MeasureReaderV2;
-import test.TabReaderV2;
+import test.MeasureReaderV3;
+import test.TabReaderV3;
 
 public class Chain {
-	String TAB;
+	File TAB;
 	String TITLE;
 	String NAME;
 	String LYRICIST;
@@ -22,15 +22,6 @@ public class Chain {
 	ScorePartwiseWriter SPW;
 	
 	public Chain(File TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
-		this.TAB=TAB.toString();
-		this.TITLE=TITLE;
-		this.NAME=NAME;
-		this.LYRICIST=LYRICIST;
-		this.COMPOSER=COMPOSER;
-		this.LOCATION=LOCATION;
-		MethodLadder();
-	}
-	public Chain(String TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
 		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.NAME=NAME;
@@ -39,6 +30,15 @@ public class Chain {
 		this.LOCATION=LOCATION;
 		MethodLadder();
 	}
+//	public Chain(String TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
+//		this.TAB=TAB;
+//		this.TITLE=TITLE;
+//		this.NAME=NAME;
+//		this.LYRICIST=LYRICIST;
+//		this.COMPOSER=COMPOSER;
+//		this.LOCATION=LOCATION;
+//		MethodLadder();
+//	}
 	
 	private void MethodLadder() {
 		TABtoPART();
@@ -51,15 +51,16 @@ public class Chain {
 	
 	private void TABtoPART(){
 		
-		TabReaderV2 TRv2 = new TabReaderV2(TAB);
+		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), 6);// 6 - num of string
 		
-		TRv2.readMeasure();
-		while(TRv2.hasNext()) {
-			MeasureReaderV2 MRv2 = new MeasureReaderV2(TRv2.getMeasure(), 4, 4);
+		TRv3.readMeasure();
+		while(TRv3.hasNext()) {
+			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv3.getMeasure(), 6, 4, 4);//6 - num of string, 4 4 - time signature
 			PW.nextMeasure();
-			while(MRv2.hasNext()) {
+			while(MRv3.hasNext()) {
+				MRv3.readNotes();
 				boolean firstNoteAdded = false;
-				for(String[] s:MRv2.readNote()) {
+				for(String[] s:MRv3.getNotes()) {
 					if(firstNoteAdded) {
 						System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
 						PW.nextChordNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
@@ -70,7 +71,7 @@ public class Chain {
 					}
 				}
 			}
-			TRv2.readMeasure();
+			TRv3.readMeasure();
 		}
 			
 	}
