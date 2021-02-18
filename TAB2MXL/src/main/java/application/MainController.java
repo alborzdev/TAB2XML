@@ -103,7 +103,7 @@ public class MainController implements Initializable {
 	}
 	
 	/*
-	 *  @param event
+	 * @param event
 	 * @throws IOException
 	 * @description: changes scene to adding additional info 
 	 */
@@ -169,7 +169,6 @@ public class MainController implements Initializable {
 	}
 	public String getTitle() throws IOException {
 		String s=new String(title.getText());
-		System.out.println("Title = "+s);
 		return s;
 	}
 	@FXML
