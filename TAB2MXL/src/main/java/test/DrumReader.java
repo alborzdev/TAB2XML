@@ -3,6 +3,10 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.midi.Instrument;
+
+import java.lang.Math;
+
 public class DrumReader {
 	private String [] measure;
 	private char [] column;
@@ -36,7 +40,13 @@ public class DrumReader {
 	    ArrayList<String []> notes = new ArrayList<String[]>();
 		int col = this.curr_col;
 	    String type = "";
+	    String step = "";
+	    int octave = -1;
 	    double duration = 0.5;
+	    String instrument = "";
+	    int voice = 1;
+	    String displayStep = "";
+	    String notehead = "o";
 	    
 		for(int line = 0; line < column.length; line++) {
 			if(this.column[line] == 'o' || this.column[line] == 'x') {
@@ -52,6 +62,8 @@ public class DrumReader {
 				}catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
+				
+				//sets the duration of note
 				if(duration == 1) {
 					type = "sixteenth";
 				}else if(duration == 2) {
@@ -62,7 +74,44 @@ public class DrumReader {
 					type = "half";
 				}
 				
-				String [] note = {"" + duration, "" + type, "" + this.drumKit.get(line)};
+				//sets the instrument of this note
+				instrument = this.drumKit.get(line);
+				
+				//changes unpitched position of note
+				switch(line) {
+				case 0: step = "A"; octave = 5;
+				break;
+				
+				case 1: step = "F"; octave = 5;
+				break;
+				
+				case 2: step = "D"; octave = 5;
+				break;
+				
+				case 3: step = "B"; octave = 4;
+				break;
+				
+				case 4: step = "G"; octave = 4;
+				break;
+				
+				case 5: step = "E"; octave = 4;
+				break;
+				}
+				
+				//changes the notehead of HH and CC notes to xs
+				if(instrument.toLowerCase().equals("cc") || instrument.toLowerCase().equals("hh")) {
+					notehead = "x";
+				}
+				
+				
+				String [] note = {displayStep,	//step of note
+								  octave + "",	//octave of note
+								  Math.floor(duration) + "",	//duration
+								  instrument,	//instrument
+								  voice + "",	//voice
+								  type,
+								  notehead};
+								  
 				notes.add(note);
 				
 			}
