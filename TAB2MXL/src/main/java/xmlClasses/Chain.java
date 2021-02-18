@@ -2,6 +2,8 @@ package xmlClasses;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
@@ -30,15 +32,27 @@ public class Chain {
 		this.LOCATION=LOCATION;
 		MethodLadder();
 	}
-//	public Chain(String TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
-//		this.TAB=TAB;
-//		this.TITLE=TITLE;
-//		this.NAME=NAME;
-//		this.LYRICIST=LYRICIST;
-//		this.COMPOSER=COMPOSER;
-//		this.LOCATION=LOCATION;
-//		MethodLadder();
-//	}
+	public Chain(String TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
+		//turning the string into a file so the v3 readers can have a File input type
+		try {
+			String path = System.getProperty("user.dir") + "/testTab.txt";
+			FileWriter myWriter = new FileWriter(path);
+			myWriter.write(TAB);
+			myWriter.close();
+			this.TAB=new File(path);
+			System.out.println("Successfully wrote to the file.");
+		}catch (IOException e) {
+			System.out.println("An error occured in the Chain String constructor.");
+			e.printStackTrace();
+		}
+		
+		this.TITLE=TITLE;
+		this.NAME=NAME;
+		this.LYRICIST=LYRICIST;
+		this.COMPOSER=COMPOSER;
+		this.LOCATION=LOCATION;
+		MethodLadder();
+	}
 	
 	private void MethodLadder() {
 		TABtoPART();
@@ -75,7 +89,6 @@ public class Chain {
 		}
 			
 	}
-	static String xmlString ;
 	
 	private void INFOtoPARTWISE() {
 		SPW = new ScorePartwiseWriter(NAME, TITLE, LYRICIST, COMPOSER, PW.getPart());
@@ -97,12 +110,6 @@ public class Chain {
 	    StringWriter sw = new StringWriter(); 
 	    marshallerObj.marshal(SPW.getScore_Partwise(), sw);
 	    System.out.println(sw.toString());
-	    xmlString = sw.toString();
 	
-	}
-	
-	public String getText() {
-	
-	    return xmlString;
 	}
 }
