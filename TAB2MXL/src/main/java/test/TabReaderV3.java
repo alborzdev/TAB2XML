@@ -37,7 +37,7 @@ public class TabReaderV3{
 		this.evaluateLine();
 	}
 	
-	public TabReaderV3(String filepath, int string_count) { //basic, config-driven constructor for easy testing - replace with parameter driven version in future
+	public TabReaderV3(String filepath, int string_count) { //basic, parameter-driven constructor
 		this.string_count = string_count;
 		this.file = new File(filepath);
 		this.eof = false;
