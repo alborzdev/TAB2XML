@@ -17,6 +17,7 @@ public class MeasureReaderV3 {
 	// A# = Bb, also
 	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
+	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
 	boolean hasNextColumn; //has next column?
 	
 	//To do:
@@ -44,6 +45,38 @@ public class MeasureReaderV3 {
 		curr_col = 0;
 	}
 	
+	public void getNotes() {
+		List<String[]> out = new ArrayList<String[]>();
+		int[] shifts = getFrets(this.strColumn);
+		for(int i = 0; i<shifts.length; i++) {
+			if(shifts[i] >= 0) {
+				String step = calculateNote(i,shifts[i]);
+				String alter = "";
+				String accidental = "";
+				
+				if(step.length() > 1) {
+					alter = "1";
+					accidental = "sharp";
+				}
+				
+				String[] noteProperties = {
+						""+this.noteLength,									//raw duration
+						lengths[this.log2(16/this.noteLength)],				//type
+						""+step.charAt(0),									//step
+						"4",												//octave
+						alter,												//alter
+						accidental											//accidental
+				};
+				out.add(noteProperties);
+				
+				
+				System.out.println("DEBUG: --------------------------------------");
+				for(String s: noteProperties) {
+					System.out.println("DEBUG: "+s);
+				}
+			}
+		}
+	}
 	
 	public void readNotes() {
 		if(this.hasNextColumn) {
@@ -87,8 +120,7 @@ public class MeasureReaderV3 {
 				this.curr_col--;
 			}
 			this.stringArrayDump("read column", this.strColumn);
-			System.out.println("DEBUG: read note length: "+this.noteLength);
-			
+			System.out.println("DEBUG: read note length: "+this.noteLength);		
 		}
 		
 	}
@@ -116,17 +148,22 @@ public class MeasureReaderV3 {
 		
 	}
 	
-	private int[] getFrets(char[] column) {
+	private int[] getFrets(String[] Column) {
 		int[] out = new int[string_count];
 		for(int i=0; i<string_count; i++) {
 			try {
-				out[i] = Integer.parseInt(""+column[i]);
+				out[i] = Integer.parseInt(Column[i]);
 			}catch(NumberFormatException e) {
 				out[i] = -1;
 			}
 		}
 		return out;
 		
+	}
+	
+	private int log2 (int in) {
+		int out = (int) (Math.log(in) / Math.log(2));
+		return out;
 	}
 	
 	private boolean isEmpty(char[] column) {

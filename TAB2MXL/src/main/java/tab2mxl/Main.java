@@ -26,6 +26,7 @@ public class Main {
 			MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure(),4,4);
 			while(ms.hasNext()) {
 				ms.readNotes();
+				ms.getNotes();
 			}
 			tb.readMeasure();
 			//measure break
