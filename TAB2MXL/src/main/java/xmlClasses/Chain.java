@@ -87,9 +87,9 @@ public class Chain {
 	    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	    
 	    //gives a MusicXML DTD to XML document
-	    marshallerObj.setProperty("com.sun.xml.internal.bind.xmlHeaders", "\n<!DOCTYPE score-partwise PUBLIC\n"
+	    /*marshallerObj.setProperty("com.sun.xml.internal.bind.xmlHeaders", "\n<!DOCTYPE score-partwise PUBLIC\n"
 	    		+ " \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\"\n"
-	    		+ " \"http://www.musicxml.org/dtds/partwise.dtd\">");
+	    		+ " \"http://www.musicxml.org/dtds/partwise.dtd\">");*/
 	    
 	      
 	    //marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
