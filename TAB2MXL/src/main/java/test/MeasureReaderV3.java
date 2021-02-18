@@ -47,7 +47,7 @@ public class MeasureReaderV3 {
 		curr_col = 0;
 	}
 	
-	public void getNotes() {
+	public List<String[]> getNotes() {
 		List<String[]> out = new ArrayList<String[]>();
 		int[] shifts = getFrets(this.strColumn);
 		for(int i = 0; i<shifts.length; i++) {
@@ -78,6 +78,7 @@ public class MeasureReaderV3 {
 				}
 			}
 		}
+		return out;
 	}
 	
 	public void readNotes() {
