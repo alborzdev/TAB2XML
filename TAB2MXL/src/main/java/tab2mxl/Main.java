@@ -23,7 +23,7 @@ public class Main {
 		
 		tb.readMeasure();
 		while(tb.hasNext()) {	
-			MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure(),4,4);
+			MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure());
 			while(ms.hasNext()) {
 				ms.readNotes();
 				ms.getNotes();

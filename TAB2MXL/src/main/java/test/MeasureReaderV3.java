@@ -16,7 +16,9 @@ public class MeasureReaderV3 {
 	private int noteLength;
 	// A# = Bb, also
 	private String[] tuning = {"E","B","G","D","A","E"};
-	private String[] scale = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
+	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
+	private int[] octaves = {3,3,4,4,4,5};
+	private int[] baseShifts = {2,5,1,4,7,2};
 	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
 	boolean hasNextColumn; //has next column?
 	
@@ -25,12 +27,12 @@ public class MeasureReaderV3 {
 	//better way to decode notes
 
 	
-	public MeasureReaderV3(String[] measure, int beats, int beatlength) { //maybe need a better constuctor?
+	public MeasureReaderV3(String[] measure) { //maybe need a better constuctor?
 		this.measure = measure;
 		this.character_count = measure[0].length();
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
-		this.ts_beats = beats;
-		this.ts_beatlength = beatlength;
+		this.ts_beats = 4;
+		this.ts_beatlength = 4;
 		this.hasNextColumn = true;
 		curr_col = 0;
 	}
@@ -50,22 +52,22 @@ public class MeasureReaderV3 {
 		int[] shifts = getFrets(this.strColumn);
 		for(int i = 0; i<shifts.length; i++) {
 			if(shifts[i] >= 0) {
-				String step = calculateNote(i,shifts[i]);
+				String[] stepAndOctave = calculateNoteandOctave(i,shifts[i]);
 				String alter = "";
 				String accidental = "";
 				
-				if(step.length() > 1) {
+				if(stepAndOctave[0].length() > 1) {
 					alter = "1";
 					accidental = "sharp";
 				}
 				
 				String[] noteProperties = {
-						""+this.noteLength,									//raw duration
-						lengths[this.log2(16/this.noteLength)],				//type
-						""+step.charAt(0),									//step
-						"4",												//octave
-						alter,												//alter
-						accidental											//accidental
+						""+this.noteLength,																	//raw duration
+						lengths[this.log2((this.ts_beats*this.ts_beatlength)/this.noteLength)],				//type
+						""+stepAndOctave[0].charAt(0),																	//step
+						stepAndOctave[1],																				//octave
+						alter,																				//alter
+						accidental																			//accidental
 				};
 				out.add(noteProperties);
 				
@@ -144,6 +146,34 @@ public class MeasureReaderV3 {
 		}else {
 			int note = (counter+fret) % 12;
 			return scale[note];
+		}
+		
+	}
+	
+	private String[] calculateNoteandOctave(int string, int fret){
+		String baseNote = this.tuning[string];
+		int counter = -1;
+		for (int i = 0; i<scale.length; i++) {
+			if(baseNote.equalsIgnoreCase(scale[i])) {
+				counter = i;
+				break;
+			}
+		}
+		if(counter < 0) {
+			//fail
+			return null; //need to handle bad numbers and stuff better? maybe not necessary at all - all formatting filtering is done by tabreader
+		}else {
+			String[] out = new String[2];
+			int octave = this.octaves[this.string_count-string-1];
+			for(int i=0; i<fret; i++) {
+				if(((counter + i) % 12) == 0) {
+					octave ++;
+				}
+			}
+			int note = (counter+fret) % 12;
+			out[0] = scale[note];
+			out[1] = "" + octave;
+			return out;
 		}
 		
 	}
