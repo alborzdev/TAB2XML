@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DrumReader {
 	private String [] measure;
@@ -27,12 +28,14 @@ public class DrumReader {
 	
 	/*
 	 * Reads one line of notes of a measure
+	 * 
+	 * returns a list of String arrays containing information for one drum note
 	 */
-	public String [] readNote() {
+	public List<String []> readNote() {
 		readColumn();
-		String [] notes = new String[6];
+	    ArrayList<String []> notes = new ArrayList<String[]>();
 		int col = this.curr_col;
-	    String note ="";
+	    String type = "";
 	    double duration = 0.5;
 	    
 		for(int line = 0; line < column.length; line++) {
@@ -50,20 +53,21 @@ public class DrumReader {
 					System.out.println(e.getMessage());
 				}
 				if(duration == 1) {
-					note = "sixteenth";
+					type = "sixteenth";
 				}else if(duration == 2) {
-					note = "eigth";
+					type = "eigth";
 				}else if(duration == 4) {
-					note = "quarter";
+					type = "quarter";
 				}else if (duration == 8) {
-					note = "half";
+					type = "half";
 				}
 				
-				notes[line] = "duration: " + duration + "\nnote: " + note + "\ndrumkit: " + this.drumKit.get(line);
+				String [] note = {"" + duration, "" + type, "" + this.drumKit.get(line)};
+				notes.add(note);
 				
 			}
 			col = curr_col;
-			note = "";
+			type = "";
 			duration = 0.5;
 		}
 		return notes;
