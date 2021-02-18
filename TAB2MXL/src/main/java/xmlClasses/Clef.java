@@ -9,8 +9,7 @@ public class Clef {
 	
 	public Clef() {}  
 	
-	public Clef(String sign, int line) {  
-	    super();  
+	public Clef(String sign, int line) {    
 	    this.sign = sign;  
 	    this.line = line; 
 	} 

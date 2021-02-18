@@ -1,6 +1,5 @@
 package test;
 import java.util.Scanner;
-import java.util.regex.*;
 import java.io.*;
 
 import config.ConfigReader;
@@ -17,6 +16,16 @@ public class TabReaderV2 {
 	public TabReaderV2() {
 		string_count = Integer.parseInt(cfg.getAttr("string_count"));
 		file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+		eof = false;
+		// measures start at 1, index 0 exists, but is reserved for tuning data
+		next_line = 0;
+		curr_measure = 1;
+		evaluateLine();
+	}
+	
+	public TabReaderV2(String filepath) {
+		string_count = Integer.parseInt(cfg.getAttr("string_count"));
+		file = new File(filepath);
 		eof = false;
 		// measures start at 1, index 0 exists, but is reserved for tuning data
 		next_line = 0;
@@ -43,6 +52,10 @@ public class TabReaderV2 {
 			this.printMeasure();
 			curr_measure ++;
 		}
+	}
+	
+	public boolean hasNext() {
+		return !eof;
 	}
 	
 	//testing method to print one measure at a time

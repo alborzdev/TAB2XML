@@ -1,44 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE score-partwise PUBLIC
- "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
- "http://www.musicxml.org/dtds/partwise.dtd">
-<score-partwise version="3.1">
-    <work>
-        <work-title>Hot cross BUNS</work-title>
-    </work>
-    <identification>
-        <creator type="composer">Aidan Mozart</creator>
-        <creator type="lyricist">Its ya boy</creator>
-    </identification>
-    <part-list>
-        <score-part id="P1">
-            <part-name>Music</part-name>
-        </score-part>
-    </part-list>
-    <part id="P1">
-        <measure number="1">
-            <attributes>
-                <divisions>1</divisions>
-                <key>
-                    <fifths>0</fifths>
-                </key>
-                <time>
-                    <beats>4</beats>
-                    <beat-type>4</beat-type>
-                </time>
-                <clef>
-                    <sign>G</sign>
-                    <time>2</time>
-                </clef>
-            </attributes>
-            <note>
-                <pitch>
-                    <step>C</step>
-                    <octave>4</octave>
-                </pitch>
-                <duration>4</duration>
-                <type>whole</type>
-            </note>
-        </measure>
-    </part>
-</score-partwise>
+e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|
+B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|
+G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|
+D|-7-------6-------|-5-------4-------|-3---------------|-----------------|
+A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|
+E|-----------------|-----------------|-----------------|-----------------|

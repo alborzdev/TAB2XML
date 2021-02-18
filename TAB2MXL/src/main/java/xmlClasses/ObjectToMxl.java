@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;  
   
-//fix
-//anotha one
+//Testing Change
 public class ObjectToMxl {  
 	static String xmlString = new String();
 
 public static void main(String[] args) throws Exception {
 	mxlMaker();
+	System.out.println("Testing merge");
+	
 }
 
 public static String mxlMaker() throws Exception{  

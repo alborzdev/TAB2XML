@@ -1,11 +1,16 @@
 package application;
 
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,10 +19,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import xmlClasses.Chain;
 
 public class MainController implements Initializable {
 	
@@ -25,8 +33,10 @@ public class MainController implements Initializable {
 	private File file;
 
 	@FXML
-	private TextArea textarea;
+	
+	private JFXTextArea textarea;
 
+	Chain chain;
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
 	 * @param event
@@ -39,14 +49,14 @@ public class MainController implements Initializable {
 		filechooser.setTitle("Open text file"); 
 		filechooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter(".txt files", "*.txt") );
 		file = filechooser.showOpenDialog(stage); 
-		
+		textarea.clear();
+		if(file==null) {
+			System.out.println("No file has been selected");
+		}
 		if(file!=null) {
 			//Sends Textarea to Backend to anaylize/parse
-			textarea.appendText( tab2mxl.txtAnalyzing.analyze(file.toString()) );
-			
+			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
 		}
-		
-		
 	}
 	
 	/**
@@ -54,6 +64,7 @@ public class MainController implements Initializable {
 	 * @param event
 	 * @throws Exception 
 	 */
+	private File loc;
 	public void convertFile(ActionEvent event) throws Exception {
 		//xmlClasses.ObjectToMxl.mxlMaker();
 		FileChooser saver = new FileChooser();
@@ -61,21 +72,43 @@ public class MainController implements Initializable {
 		FileChooser.ExtensionFilter extFilter = 
                 new FileChooser.ExtensionFilter("xml files (*.xml)", "*.xml");
            saver.getExtensionFilters().add(extFilter);
-        	File loc = saver.showSaveDialog(stage);	//get file path specified by user
+        	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-     
-		try {
+        if(file!=null)chain = new Chain(file,getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
+//        else { System.out.println(textarea.getText());
+//        	chain = new Chain(textarea.getText(), getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
+//        	
+//        }
+        try {
 			write = new FileWriter(loc);
 			//SHOULD RECIEVE XML FROM BACKEND
-			write.write(xmlClasses.ObjectToMxl.mxlMaker());
+			write.write(chain.getText());
        	  	write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
-  
+	/**
+	 * 
+	 *
+	 */
+	@FXML
+	private MenuItem help;
+	public void UserManual(ActionEvent event) {
+		 FileWriter write;
+			try {
+				write = new FileWriter("user.home");
+				write.write("TAB2MXL_UserManual.pdf");
+	       	  	write.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
 	/*
+	 * @param event
+	 * @throws IOException
 	 * @description: changes scene to adding additional info 
 	 */
 	public void SceneChange(ActionEvent event) throws IOException {
@@ -88,6 +121,15 @@ public class MainController implements Initializable {
 		window.show();
 	}
 	
+	public void backButton(ActionEvent event) throws IOException {
+		Parent Scene2root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+		Scene AddInfoScene = new Scene(Scene2root, 700, 700);
+		
+		//this gets scene information
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		window.setScene(AddInfoScene);
+		window.show();
+	}
 	/*
 	 * Exit button - exit app
 	 * */
@@ -105,36 +147,39 @@ public class MainController implements Initializable {
 		
 	}
 	
-	public String getText() {
-		return textarea.getText();
-	}
 	
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
 	@FXML
-	private TextField name;
-	private TextField composer;
-	private TextArea lyricist;
-	private TextField title;
-	public String getName(ActionEvent event) throws IOException {
-		return name.getText();
+	private TextField name=new TextField("");
+	@FXML
+	private TextField composer = new TextField("");
+	@FXML
+	private TextField lyricist=new TextField("");
+	@FXML
+	private TextField title=new TextField("");
+	public String getName() throws IOException {
+		String s=new String(name.getText());
+		return s;
 	}
-	public String getComposer(ActionEvent event) throws IOException {
-		return composer.getText();
+	public String getComposer() throws IOException {
+		String s=new String(composer.getText());
+		return s;
 	}
-	public String getLyricist(ActionEvent event) throws IOException {
-		return lyricist.getText();
+	public String getLyricist() throws IOException {
+		String s=new String(lyricist.getText());
+		return s;
 	}
-	public String getTitle(ActionEvent event) throws IOException {
-		return title.getText();
+	public String getTitle() throws IOException {
+		String s=new String(title.getText());
+		return s;
 	}
 	@FXML
 	private TextArea previewXML;
 	//method that displays preview of xml file
 	public void preview(ActionEvent event) throws Exception {
-		//File prev = new File("musicTest2.xml");
-		previewXML.appendText(xmlClasses.ObjectToMxl.mxlMaker());
+		previewXML.appendText(chain.getText());
 	}
 	
 }

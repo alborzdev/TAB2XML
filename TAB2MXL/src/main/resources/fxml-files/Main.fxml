@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="503.0" prefWidth="1081.0" snapToPixel="false" style="-fx-background-color: #343434;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0f4c75" height="531.0" layoutX="-124.0" layoutY="-14.0" stroke="#ab6c82" strokeType="INSIDE" strokeWidth="0.0" style="-fx-rotate: 30;" width="181.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3282b8" height="531.0" layoutX="-77.0" layoutY="-141.0" stroke="#9bd7d1" strokeType="INSIDE" strokeWidth="0.0" style="-fx-rotate: 30;" width="181.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a8c5d8" height="37.0" layoutX="-5.0" layoutY="-8.0" stroke="#f26627" strokeType="INSIDE" strokeWidth="0.0" width="1268.0" />
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <MenuBar prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #a8c5d8;" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem onAction="#doExit" text="Exit">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <MenuItem onAction="#doOpen" text="Open">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#UserManual" text="User's guide" />
+                    </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </top></BorderPane>
+      <BorderPane layoutX="544.0" layoutY="53.0" prefHeight="410.0" prefWidth="684.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="544.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="53.0">
+         <left>
+            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="390.0" prefWidth="670.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Courier New" size="12.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
+            </JFXTextArea>
+         </left>
+      </BorderPane>
+
+                        <HBox alignment="CENTER" layoutX="643.0" layoutY="310.0" prefHeight="47.0" prefWidth="585.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="643.0" AnchorPane.rightAnchor="35.0">
+         <children>
+            <JFXButton onAction="#doOpen" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Upload file">
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </JFXButton>
+            <JFXButton onAction="#convertFile" style="-fx-border-color: #3282b8; -fx-border-radius: 5em; -fx-text-fill: white;" text="Export">
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+      <VBox layoutX="389.0" layoutY="176.0" prefHeight="152.0" prefWidth="140.0">
+         <children>
+            <Label prefHeight="28.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
+               <font>
+                  <Font name="Quicksand Medium" size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="name" focusColor="#3282b8" promptText="Name" style="-fx-background-color: #a8c5d8;" text="Title">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="composer" focusColor="#3282b8" promptText="Composer" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="lyricist" focusColor="#3282b8" promptText="Lyricist" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="73.0" layoutY="125.0" prefHeight="336.0" prefWidth="209.0">
+         <children>
+            <Label layoutX="40.0" layoutY="63.0" text="Welcome to Tab2XML" textFill="#d0e7ff" underline="true">
+               <font>
+                  <Font name="Quicksand Medium" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutY="142.0" text="1. Upload a tab file or paste your tab" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Quicksand Regular" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutY="165.0" text="2. (Optional) Add additional attributes" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Quicksand Regular" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutY="189.0" text="3. Click export to convert to MusicXML" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Quicksand Regular" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

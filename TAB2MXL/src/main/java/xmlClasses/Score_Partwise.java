@@ -18,8 +18,7 @@ public class Score_Partwise {
 	
 	public Score_Partwise() {}  
 	
-	public Score_Partwise(double version, Part_List part_list, Part part, Identification id, Work w) {  
-	    super();  
+	public Score_Partwise(double version, Part_List part_list, Part part, Identification id, Work w) {    
 	    this.version = version; 
 	    this.part_list = part_list;
 	    this.part = part;
@@ -67,4 +66,5 @@ public class Score_Partwise {
 	public void setWork(Work w) {  
 	    this.w = w;  
 	} 
+	
 }
