@@ -1,8 +1,7 @@
 package xmlTestCases;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -53,5 +52,4 @@ public class XmlClassTests {
     public void testPartConstructor() {
         assertNotSame(part, part2);
     }
-    
 }
