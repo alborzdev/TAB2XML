@@ -4,12 +4,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder={"divisions", "key", "time", "clef"})
+@XmlType(propOrder={"divisions", "key", "time", "clef", "sd"})
 public class Attributes {
 	private int divisions;
 	private Key key;
 	private Time time;
 	private Clef clef;
+	private StaffDetails sd;
 	
 	
 	public Attributes() {}  
@@ -19,6 +20,14 @@ public class Attributes {
 	    this.key = key;
 	    this.time = time;
 	    this.clef = clef;
+	} 
+	
+	public Attributes(int divisions, Key key, Time time, Clef clef, StaffDetails sd) {   
+	    this.divisions = divisions; 
+	    this.key = key;
+	    this.time = time;
+	    this.clef = clef;
+	    this.sd = sd;
 	} 
 	
 	@XmlElement
@@ -51,5 +60,13 @@ public class Attributes {
 	}  
 	public void setClef(Clef clef) {  
 	    this.clef = clef;  
+	}
+	
+	@XmlElement
+	public StaffDetails getStaffDetails() {  
+	    return sd;  
+	}  
+	public void setStaffDetails(StaffDetails sd) {  
+	    this.sd = sd;  
 	}
 }
