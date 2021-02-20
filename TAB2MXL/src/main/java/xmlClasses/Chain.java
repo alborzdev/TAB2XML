@@ -14,25 +14,59 @@ import test.MeasureReaderV3;
 import test.TabReaderV3;
 
 public class Chain {
+	
+	//---VARIABLES---
+	/**this File contains the user's tab to be parsed*/
 	File TAB;
+	
+	/**Contains the Title of the piece. Located top middle*/
 	String TITLE;
-	String NAME;
+	
+	/**Contains the Lyricist of the piece. Located top left*/
 	String LYRICIST;
+	
+	/**Contains the Title of the piece. Located top right*/
 	String COMPOSER;
+	
+	/**Contains the save location of the xml file.*/
 	String LOCATION;
+	
+	/**Contains the time signature as a 2 digit number. First digit being the numerator. Second being the denominator*/
+	int TIMESIG;
+	
+	/**HARDCODED: C major - Contains the key of the song*/
+	String KEY = "CM";
+	
+	/**This PartWriter object builds and stores the Part object*/
 	PartWriter PW = new PartWriter();
+	
+	/**This ScorePartwiseWriter object builds and stores the ScorePartwise Object*/
 	ScorePartwiseWriter SPW;
 	
-	public Chain(File TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
+	/**Stores the list of exceptions during chain to give back to GUI*/
+	ArrayList<Exception> ERROR;
+	
+	/**HARDCODED: 6 - represents number staff lines in the tab*/
+	int Stafflines = 6;
+	
+	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
+	String[][] TUNINGINFO = {{"E","2"},{"A","2"},{"D","3"},{"G","3"},{"B","3"},{"E","4"}};
+	
+	
+	//---CONSTRUCTORS---
+	
+	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
+					String LOCATION, int TIMESIG, String KEY){
 		this.TAB=TAB;
 		this.TITLE=TITLE;
-		this.NAME=NAME;
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
 		MethodLadder();
 	}
-	public Chain(String TAB, String TITLE, String NAME, String LYRICIST, String COMPOSER,String LOCATION){
+	public Chain(	String TAB, String TITLE, String NAME,
+					String LYRICIST, String COMPOSER,
+					String LOCATION, int TIMESIG, String KEY){
 		//turning the string into a file so the v3 readers can have a File input type
 		try {
 			String path = System.getProperty("user.dir") + "/testTab.txt";
@@ -44,10 +78,10 @@ public class Chain {
 		}catch (IOException e) {
 			System.out.println("An error occured in the Chain String constructor.");
 			e.printStackTrace();
+			ERROR.add(e);
 		}
 		
 		this.TITLE=TITLE;
-		this.NAME=NAME;
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
@@ -65,7 +99,7 @@ public class Chain {
 	
 	private void TABtoPART(){
 		
-		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), 6);// 6 - num of string
+		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), Stafflines);// 6 - num of string
 		
 		TRv3.readMeasure();
 		while(TRv3.hasNext()) {
@@ -91,7 +125,7 @@ public class Chain {
 	}
 	
 	private void INFOtoPARTWISE() {
-		SPW = new ScorePartwiseWriter(NAME, TITLE, LYRICIST, COMPOSER, PW.getPart());
+		SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
 	}
 	
 	private void MARSHtoXML() throws Exception{  
@@ -111,5 +145,9 @@ public class Chain {
 	    marshallerObj.marshal(SPW.getScore_Partwise(), sw);
 	    System.out.println(sw.toString());
 	
+	}
+	
+	public Exception getError() {
+		return ERROR;
 	}
 }
