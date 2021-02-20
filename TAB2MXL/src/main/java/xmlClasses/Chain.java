@@ -31,7 +31,7 @@ public class Chain {
 	/**Contains the save location of the xml file.*/
 	String LOCATION;
 	
-	/**Contains the time signature as a 2 digit number. First digit being the numerator. Second being the denominator*/
+	/**HARDCODED: 4/4 - Contains the time signature as a 2 digit number. First digit being the beat. Second being the beat-type*/
 	int TIMESIG;
 	
 	/**HARDCODED: C major - Contains the key of the song*/
@@ -43,18 +43,38 @@ public class Chain {
 	/**This ScorePartwiseWriter object builds and stores the ScorePartwise Object*/
 	ScorePartwiseWriter SPW;
 	
+	/**This stores the Attributes for the Measures*/
+	Attributes ATT;
+	
 	/**Stores the list of exceptions during chain to give back to GUI*/
 	ArrayList<Exception> ERROR;
 	
 	/**HARDCODED: 6 - represents number staff lines in the tab*/
-	int Stafflines = 6;
+	int STAFFLINES = 6;
 	
 	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
-	String[][] TUNINGINFO = {{"E","2"},{"A","2"},{"D","3"},{"G","3"},{"B","3"},{"E","4"}};
+	String[][] TUNINGINFO = {
+			new String[] {"E","2"},
+			new String[] {"A","2"},
+			new String[] {"D","3"},
+			new String[] {"G","3"},
+			new String[] {"B","3"},
+			new String[] {"E","4"}
+	};
 	
+	/**HARDCODED: TAB - represents the clef of the attribute*/
+	String CLEF = "TAB";
+	
+	/**HARDCODED: Divisions - ?????*/
+	int DIVISIONS = 2;
+	
+	/**HARDCODED: Line - ?????*/
+	int LINE = 5;
+	
+	/**HARDCODED: Fifths - ?????*/
+	int FIFTHS = 0;
 	
 	//---CONSTRUCTORS---
-	
 	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY){
 		this.TAB=TAB;
@@ -62,6 +82,7 @@ public class Chain {
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
+		this.TIMESIG=TIMESIG;
 		MethodLadder();
 	}
 	public Chain(	String TAB, String TITLE, String NAME,
@@ -85,9 +106,11 @@ public class Chain {
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
+		this.TIMESIG=TIMESIG;
 		MethodLadder();
 	}
 	
+	//---ACTIONS---
 	private void MethodLadder() {
 		TABtoPART();
 		System.out.println("Finished TtoP");
@@ -99,12 +122,20 @@ public class Chain {
 	
 	private void TABtoPART(){
 		
-		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), Stafflines);// 6 - num of string
+		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
 		
+		//Making the Attributes
+		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG%10, TIMESIG/10, CLEF, LINE, STAFFLINES);
+		AW.setTuning(TUNINGINFO);
+		ATT = AW.getAttributes();
+				
 		TRv3.readMeasure();
 		while(TRv3.hasNext()) {
 			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv3.getMeasure(), 6, 4, 4);//6 - num of string, 4 4 - time signature
-			PW.nextMeasure();
+			
+	
+			PW.nextMeasure(ATT);
+			ATT=null;
 			while(MRv3.hasNext()) {
 				MRv3.readNotes();
 				boolean firstNoteAdded = false;
@@ -147,7 +178,7 @@ public class Chain {
 	
 	}
 	
-	public Exception getError() {
+	public ArrayList<Exception> getError() {
 		return ERROR;
 	}
 }

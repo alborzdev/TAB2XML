@@ -22,11 +22,11 @@ public class Clef {
 	    this.sign = sign;  
 	}
 	
-	@XmlElement
-	public int getTime() {  
+	@XmlElement(name="line")
+	public int getLine() {  
 	    return line;  
 	}  
-	public void setTime(int line) {  
+	public void setLine(int line) {  
 	    this.line = line;  
 	}
 }

@@ -74,7 +74,7 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        if(file!=null)chain = new Chain(file,getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
+        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), 44, null);
 //        else { System.out.println(textarea.getText());
 //        	chain = new Chain(textarea.getText(), getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
 //        	
@@ -82,7 +82,7 @@ public class MainController implements Initializable {
         try {
 			write = new FileWriter(loc);
 			//SHOULD RECIEVE XML FROM BACKEND
-			write.write(chain.getText());
+			//write.write(chain.getText());
        	  	write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -175,11 +175,11 @@ public class MainController implements Initializable {
 		String s=new String(title.getText());
 		return s;
 	}
-	@FXML
-	private TextArea previewXML;
-	//method that displays preview of xml file
-	public void preview(ActionEvent event) throws Exception {
-		previewXML.appendText(chain.getText());
-	}
+//	@FXML
+//	private TextArea previewXML;
+//	//method that displays preview of xml file
+//	public void preview(ActionEvent event) throws Exception {
+//		previewXML.appendText(chain.getText());
+//	}
 	
 }

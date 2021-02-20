@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder={"divisions", "key", "time", "clef", "sd"})
+@XmlType(propOrder={"divisions", "key", "time", "clef", "staffDetails"})
 public class Attributes {
 	private int divisions;
 	private Key key;
