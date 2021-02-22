@@ -63,10 +63,10 @@ public class Chain {
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
-	String CLEF = "TAB";
+	String CLEF = "G";
 	
 	/**HARDCODED: Divisions - ?????*/
-	int DIVISIONS = 2;
+	int DIVISIONS;
 	
 	/**HARDCODED: Line - ?????*/
 	int LINE = 5;
@@ -78,6 +78,16 @@ public class Chain {
 	StringWriter SW;
 	
 	//---CONSTRUCTORS---
+	/**
+	 * 
+	 * @param TAB
+	 * @param TITLE
+	 * @param LYRICIST
+	 * @param COMPOSER
+	 * @param LOCATION
+	 * @param TIMESIG
+	 * @param KEY
+	 */
 	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY){
 		this.TAB=TAB;
@@ -86,10 +96,10 @@ public class Chain {
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
 		this.TIMESIG=TIMESIG;
+		this.KEY=KEY;
 		MethodLadder();
 	}
-	public Chain(	String TAB, String TITLE, String NAME,
-					String LYRICIST, String COMPOSER,
+	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY){
 		//turning the string into a file so the v3 readers can have a File input type
 		try {
@@ -110,6 +120,7 @@ public class Chain {
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
 		this.TIMESIG=TIMESIG;
+		this.KEY=KEY;
 		MethodLadder();
 	}
 	
@@ -128,7 +139,7 @@ public class Chain {
 		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
 		
 		//Making the Attributes
-		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG%10, TIMESIG/10, CLEF, LINE, STAFFLINES);
+		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
 		AW.setTuning(TUNINGINFO);
 		ATT = AW.getAttributes();
 				
