@@ -26,6 +26,11 @@ public class PartWriter {
 		currentMeasure=new Measure(part.getMeasure().size()+1);
 		part.addMeasure(currentMeasure);
 	}
+	//First measure/ Attribute measure
+		public void nextMeasure(Attributes att){
+			currentMeasure=new Measure(part.getMeasure().size()+1, att);
+			part.addMeasure(currentMeasure);
+		}
 	
 	//Empty measure with attributes
 	public void nextMeasure(int divisions, int fifths, int beats, int beat_type, String sign, int line){
