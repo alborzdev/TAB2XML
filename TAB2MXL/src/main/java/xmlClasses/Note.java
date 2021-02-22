@@ -18,7 +18,7 @@ public class Note {
 	    this.duration = duration;  
 	    this.type = type; 
 	    this.pitch = pitch;
-	} 
+	}
 	
 	@XmlElement
 	public int getDuration() {  

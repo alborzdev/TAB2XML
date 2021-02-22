@@ -2,8 +2,6 @@ package xmlClasses;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlType;
-
 public class AttributeWriter {
 	
 	private Attributes att;
@@ -15,8 +13,8 @@ public class AttributeWriter {
 	ArrayList<StaffTuning> st = new ArrayList<StaffTuning>();
     
 	
-	AttributeWriter(int fifths, int divisions, int beats, int beat_type, String clef, int line, int staffLines){
-		key = new Key(fifths); //HARD CODED
+	AttributeWriter(int divisions, int beats, int beat_type, String clef, int line, int staffLines){
+		key = new Key(0); //HARD CODED
 		time = new Time(beats, beat_type);
 		c = new Clef(clef, line);
 		this.divisions = divisions;
@@ -31,7 +29,7 @@ public class AttributeWriter {
 	
 	public void setTuning(String[][] tunings) {
 		for (int i = 0; i < tunings.length; i++) {
-            st.add(new StaffTuning( i+1, tunings[i][0], Integer.parseInt(tunings[i][1])));
+            st.add(new StaffTuning( i, tunings[i][0], Integer.parseInt(tunings[i][2])));
         }
 	}
 }
