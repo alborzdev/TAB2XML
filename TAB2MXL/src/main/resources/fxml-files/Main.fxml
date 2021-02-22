@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -91,7 +92,7 @@
                   <Font name="Quicksand Medium" size="14.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="name" focusColor="#3282b8" promptText="Name" style="-fx-background-color: #a8c5d8;" text="Title">
+            <JFXTextField fx:id="title" focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -115,6 +116,12 @@
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
             </JFXTextField>
+            <JFXComboBox fx:id="KeySig" focusColor="#a8c5d8" promptText="Key Signature" style="-fx-background-color: #a8c5d8;" />
+            <JFXComboBox fx:id="TimeSig" focusColor="#a8c5d8" promptText="Time Signature" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXComboBox>
          </children>
       </VBox>
       <AnchorPane layoutX="73.0" layoutY="125.0" prefHeight="336.0" prefWidth="209.0">

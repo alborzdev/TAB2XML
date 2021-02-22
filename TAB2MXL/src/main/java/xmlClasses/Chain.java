@@ -88,7 +88,7 @@ public class Chain {
 		this.TIMESIG=TIMESIG;
 		MethodLadder();
 	}
-	public Chain(	String TAB, String TITLE, String NAME,
+	public Chain(	String TAB, String TITLE, 
 					String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY){
 		//turning the string into a file so the v3 readers can have a File input type

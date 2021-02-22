@@ -8,20 +8,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -32,8 +25,14 @@ public class MainController implements Initializable {
 	private Stage stage;
 	private File file;
 
-	@FXML
+
+	@FXML 
+	private JFXComboBox<String> KeySig;
+	@FXML 
+	private JFXComboBox<String> TimeSig;
 	
+	
+	@FXML
 	private JFXTextArea textarea;
 
 	Chain chain;
@@ -55,7 +54,7 @@ public class MainController implements Initializable {
 		}
 		if(file!=null) {
 			//Sends Textarea to Backend to anaylize/parse
-			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
+			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
 		}
 	}
 	
@@ -74,11 +73,13 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), 44, null);
-//        else { System.out.println(textarea.getText());
-//        	chain = new Chain(textarea.getText(), getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
-//        	
-//        }
+        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey());
+        else { System.out.println(textarea.getText());
+        	chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey());     	
+        }
+        if(loc==null) {
+        	System.out.println("Exporting has been cancelled");
+        }
         try {
 			write = new FileWriter(loc);
 			//SHOULD RECIEVE XML FROM BACKEND
@@ -115,7 +116,21 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	//initializer
+		KeySig.getItems().add("C Major");
+		KeySig.getItems().add("G Major");
+		KeySig.getItems().add("D Major");
+		KeySig.getItems().add("A Major");
+		KeySig.getItems().add("E Major");
+		KeySig.getItems().add("B Major");
+		KeySig.getItems().add("F# Major");
+		KeySig.getItems().add("C# Major");
+		
+		TimeSig.getItems().add("3/4");
+		TimeSig.getItems().add("4/4");
+		TimeSig.getItems().add("5/4");
+		TimeSig.getItems().add("6/8");
+		TimeSig.getItems().add("7/8");
+		TimeSig.getItems().add("12/8");
 	}
 
 	public void init(Stage primaryStage) {
@@ -123,26 +138,38 @@ public class MainController implements Initializable {
 		
 	}
 	
-	@FXML 
-	private JToggle KeySig;
-	
 	
 	
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
-	@FXML
-	private TextField name=new TextField("");
+	
+	public String getKey() {
+		String s=new String(KeySig.getSelectionModel().getSelectedItem().toString());
+		System.out.println("selected key sig "+s);
+		return s;
+	}
+	
+	public int getTimeSig() {
+		int indx = TimeSig.getSelectionModel().getSelectedIndex();
+		switch(indx) {
+		case 0: return 34;
+		case 1: return 44;
+		case 2: return 54;
+		case 3: return 68;
+		case 4: return 78;
+		case 5: return 128;
+		default: return 44;
+		}
+	}
+	
 	@FXML
 	private TextField composer = new TextField("");
 	@FXML
 	private TextField lyricist=new TextField("");
 	@FXML
 	private TextField title=new TextField("");
-	public String getName() throws IOException {
-		String s=new String(name.getText());
-		return s;
-	}
+
 	public String getComposer() throws IOException {
 		String s=new String(composer.getText());
 		return s;
