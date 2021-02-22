@@ -74,7 +74,7 @@ public class MeasureReaderV3 {
 				out.add(noteProperties);
 				
 				
-				this.stringArrayDump("DEBUG: dumping noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
+				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
 			}
 		}
 		return out;
@@ -166,11 +166,7 @@ public class MeasureReaderV3 {
 		}else {
 			String[] out = new String[2];
 			int octave = this.octaves[this.string_count-string-1];
-			System.out.println("DEBUG: base octave: " + octave);
 			for(int i=1; i<=fret; i++) {
-				System.out.println("DEBUG: iteration: " + i + " octave: " + octave);
-				System.out.println("DEBUG: calculation: " + (counter + i) + " mod: " + ((counter + i) % 12));
-				System.out.println("DEBUG: note: " + this.scale[((counter + i) % 12)]);
 				if(((counter + i) % 12) == 0) {
 					octave ++;
 				}
