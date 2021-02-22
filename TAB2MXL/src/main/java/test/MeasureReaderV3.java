@@ -67,15 +67,14 @@ public class MeasureReaderV3 {
 						""+stepAndOctave[0].charAt(0),																	//step
 						stepAndOctave[1],																				//octave
 						alter,																				//alter
-						accidental																			//accidental
+						accidental,																			//accidental
+						""+i,																					//string
+						""+shifts[i]																			//fret
 				};
 				out.add(noteProperties);
 				
 				
-				System.out.println("DEBUG: --------------------------------------");
-				for(String s: noteProperties) {
-					System.out.println("DEBUG: "+s);
-				}
+				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
 			}
 		}
 		return out;
@@ -152,6 +151,7 @@ public class MeasureReaderV3 {
 	}
 	
 	private String[] calculateNoteandOctave(int string, int fret){
+		System.out.println("DEBUG: calculating note and octave for string: " + string + " fret: " + fret);
 		String baseNote = this.tuning[string];
 		int counter = -1;
 		for (int i = 0; i<scale.length; i++) {
@@ -166,7 +166,7 @@ public class MeasureReaderV3 {
 		}else {
 			String[] out = new String[2];
 			int octave = this.octaves[this.string_count-string-1];
-			for(int i=0; i<fret; i++) {
+			for(int i=1; i<=fret; i++) {
 				if(((counter + i) % 12) == 0) {
 					octave ++;
 				}

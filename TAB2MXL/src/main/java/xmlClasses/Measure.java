@@ -50,7 +50,7 @@ public class Measure {
 	    this.att = att;  
 	}
 	
-	@XmlElement
+	@XmlElement(name="note", type=Note.class)
 	public ArrayList<Note> getNote() {  
 	    return note;  
 	}  
