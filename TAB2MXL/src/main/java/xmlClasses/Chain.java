@@ -74,6 +74,9 @@ public class Chain {
 	/**HARDCODED: Fifths - ?????*/
 	int FIFTHS = 0;
 	
+	/***/
+	StringWriter SW;
+	
 	//---CONSTRUCTORS---
 	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY){
@@ -172,10 +175,13 @@ public class Chain {
 	    
 	      
 	    //marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
-	    StringWriter sw = new StringWriter(); 
-	    marshallerObj.marshal(SPW.getScore_Partwise(), sw);
-	    System.out.println(sw.toString());
+	    SW = new StringWriter(); 
+	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
+	    System.out.println(SW.toString());
 	
+	}
+	public String getXML() {
+		return SW.toString();
 	}
 	
 	public ArrayList<Exception> getError() {

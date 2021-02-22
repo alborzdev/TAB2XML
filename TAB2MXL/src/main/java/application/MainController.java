@@ -82,7 +82,7 @@ public class MainController implements Initializable {
         try {
 			write = new FileWriter(loc);
 			//SHOULD RECIEVE XML FROM BACKEND
-			//write.write(chain.getText());
+			write.write(chain.getXML());
        	  	write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
