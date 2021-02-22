@@ -96,6 +96,7 @@ public class Chain {
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
 		this.TIMESIG=TIMESIG;
+		this.KEY=KEY;
 		MethodLadder();
 	}
 	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
@@ -119,6 +120,7 @@ public class Chain {
 		this.COMPOSER=COMPOSER;
 		this.LOCATION=LOCATION;
 		this.TIMESIG=TIMESIG;
+		this.KEY=KEY;
 		MethodLadder();
 	}
 	
@@ -137,7 +139,7 @@ public class Chain {
 		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
 		
 		//Making the Attributes
-		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG%10, TIMESIG/10, CLEF, LINE, STAFFLINES);
+		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
 		AW.setTuning(TUNINGINFO);
 		ATT = AW.getAttributes();
 				
