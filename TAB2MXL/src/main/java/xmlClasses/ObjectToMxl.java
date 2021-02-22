@@ -38,7 +38,6 @@ public static String mxlMaker() throws Exception{
     Pitch pi = new Pitch("C", 4);
     ArrayList <Note> notes = new ArrayList <Note>();
     notes.add(new Note(4, "whole", pi));
-    notes.add(new Note("whole", pi));
     
     Measure m = new Measure(1, att, notes);
     ArrayList <Measure> measures = new ArrayList<Measure>();
