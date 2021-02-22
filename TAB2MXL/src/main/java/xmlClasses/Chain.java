@@ -63,7 +63,7 @@ public class Chain {
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
-	String CLEF = "TAB";
+	String CLEF = "G";
 	
 	/**HARDCODED: Divisions - ?????*/
 	int DIVISIONS = 2;
@@ -78,6 +78,16 @@ public class Chain {
 	StringWriter SW;
 	
 	//---CONSTRUCTORS---
+	/**
+	 * 
+	 * @param TAB
+	 * @param TITLE
+	 * @param LYRICIST
+	 * @param COMPOSER
+	 * @param LOCATION
+	 * @param TIMESIG
+	 * @param KEY
+	 */
 	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY){
 		this.TAB=TAB;
