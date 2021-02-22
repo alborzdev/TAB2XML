@@ -103,30 +103,6 @@ public class MainController implements Initializable {
 	}
 	
 	/*
-	 *  @param event
-	 * @throws IOException
-	 * @description: changes scene to adding additional info 
-	 */
-	public void SceneChange(ActionEvent event) throws IOException {
-		Parent Scene2root = FXMLLoader.load(getClass().getResource("AdditionalInformation.fxml"));
-		Scene AddInfoScene = new Scene(Scene2root, 700, 500);
-		
-		//this gets scene information
-		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-		window.setScene(AddInfoScene);
-		window.show();
-	}
-	
-	public void backButton(ActionEvent event) throws IOException {
-		Parent Scene2root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-		Scene AddInfoScene = new Scene(Scene2root, 700, 700);
-		
-		//this gets scene information
-		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-		window.setScene(AddInfoScene);
-		window.show();
-	}
-	/*
 	 * Exit button - exit app
 	 * */
 	public void doExit(ActionEvent event) {
