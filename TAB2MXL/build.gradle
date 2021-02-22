@@ -14,9 +14,11 @@ dependencies {
     //JFX dependancies
     implementation 'com.jfoenix:jfoenix:9.0.10'
     // https://mvnrepository.com/artifact/javax/javaee-api
-	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-
-    
+	//compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+	//compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+	//compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.1'
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
 }
 
 test {

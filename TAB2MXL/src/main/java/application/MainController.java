@@ -74,11 +74,15 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        chain = new Chain(file, getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
-		try {
+        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), 44, null);
+//        else { System.out.println(textarea.getText());
+//        	chain = new Chain(textarea.getText(), getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
+//        	
+//        }
+        try {
 			write = new FileWriter(loc);
 			//SHOULD RECIEVE XML FROM BACKEND
-			write.write(chain.getText());
+			write.write(chain.getXML());
        	  	write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -102,8 +106,8 @@ public class MainController implements Initializable {
 			}
 	}
 	
-	/*
-	 * Exit button - exit app
+	
+	/* Exit button - exit app
 	 * */
 	public void doExit(ActionEvent event) {
 		Platform.exit();
@@ -118,6 +122,10 @@ public class MainController implements Initializable {
 		this.stage = primaryStage;
 		
 	}
+	
+	@FXML 
+	private JToggle KeySig;
+	
 	
 	
 	/**
@@ -145,14 +153,13 @@ public class MainController implements Initializable {
 	}
 	public String getTitle() throws IOException {
 		String s=new String(title.getText());
-		System.out.println("Title = "+s);
 		return s;
 	}
-	@FXML
-	private TextArea previewXML;
-	//method that displays preview of xml file
-	public void preview(ActionEvent event) throws Exception {
-		previewXML.appendText(chain.getText());
-	}
+//	@FXML
+//	private TextArea previewXML;
+//	//method that displays preview of xml file
+//	public void preview(ActionEvent event) throws Exception {
+//		previewXML.appendText(chain.getText());
+//	}
 	
 }
