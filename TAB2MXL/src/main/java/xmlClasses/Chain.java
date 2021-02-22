@@ -131,6 +131,7 @@ public class Chain {
 	
 	//---ACTIONS---
 	private void MethodLadder() {
+		System.out.println("The instrument is: "+INSTRUMENT);
 		TABtoPART();
 		System.out.println("Finished TtoP");
 		INFOtoPARTWISE();
