@@ -14,15 +14,19 @@ public class Main {
 		ConfigReader cfg = ConfigReader.getConfig();
 		System.out.println(cfg.getAttr("attr1"));
 		System.out.println(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
-		TabReaderV2 tb = new TabReaderV2(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
+		//TabReaderV2 tb = new TabReaderV2(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
 		//TabReaderV2 tb = new TabReaderV2(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 		//TabReaderV2 tb = new TabReaderV2("./src/main/java/testTab.txt");
 		
+		//TabReaderV3 tb = new TabReaderV3();
+		TabReaderV3 tb = new TabReaderV3(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"),6);
+		
 		tb.readMeasure();
 		while(tb.hasNext()) {	
-			MeasureReaderV2 ms = new MeasureReaderV2(tb.getMeasure(),4,4);
+			MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure());
 			while(ms.hasNext()) {
-				ms.readNote();
+				ms.readNotes();
+				ms.getNotes();
 			}
 			tb.readMeasure();
 			//measure break

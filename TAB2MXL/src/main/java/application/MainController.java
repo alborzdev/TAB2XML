@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -47,14 +49,14 @@ public class MainController implements Initializable {
 		filechooser.setTitle("Open text file"); 
 		filechooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter(".txt files", "*.txt") );
 		file = filechooser.showOpenDialog(stage); 
-		System.out.println(file.toString());
-		
+		textarea.clear();
+		if(file==null) {
+			System.out.println("No file has been selected");
+		}
 		if(file!=null) {
 			//Sends Textarea to Backend to anaylize/parse
 			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()) );
 		}
-		
-		System.out.println("HERE");
 	}
 	
 	/**
@@ -72,19 +74,41 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        chain = new Chain(file, getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
-		try {
+        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), 44, null);
+//        else { System.out.println(textarea.getText());
+//        	chain = new Chain(textarea.getText(), getName(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath());
+//        	
+//        }
+        try {
 			write = new FileWriter(loc);
 			//SHOULD RECIEVE XML FROM BACKEND
-			write.write(chain.getText());
+			//write.write(chain.getText());
        	  	write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
-  
+	/**
+	 * 
+	 *
+	 */
+	@FXML
+	private MenuItem help;
+	public void UserManual(ActionEvent event) {
+		 FileWriter write;
+			try {
+				write = new FileWriter("user.home");
+				write.write("TAB2MXL_UserManual.pdf");
+	       	  	write.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
 	/*
+	 * @param event
+	 * @throws IOException
 	 * @description: changes scene to adding additional info 
 	 */
 	public void SceneChange(ActionEvent event) throws IOException {
@@ -149,14 +173,13 @@ public class MainController implements Initializable {
 	}
 	public String getTitle() throws IOException {
 		String s=new String(title.getText());
-		System.out.println("Title = "+s);
 		return s;
 	}
-	@FXML
-	private TextArea previewXML;
-	//method that displays preview of xml file
-	public void preview(ActionEvent event) throws Exception {
-		previewXML.appendText(chain.getText());
-	}
+//	@FXML
+//	private TextArea previewXML;
+//	//method that displays preview of xml file
+//	public void preview(ActionEvent event) throws Exception {
+//		previewXML.appendText(chain.getText());
+//	}
 	
 }

@@ -1,6 +1,7 @@
 package application;
 
 import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.logging.Level;
@@ -10,12 +11,11 @@ import xmlClasses.Attributes;
 import xmlClasses.PartWriter;
 
 import com.jfoenix.controls.JFXTextArea;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.junit.Assert;
 	
 class MainControllerTest {
 	
@@ -96,7 +96,7 @@ class MainControllerTest {
 	
 	@Test
 	void test1(){
-		Assert.assertThrows(FileNotFoundException.class,()-> tab2mxl.txtAnalyzing.analyze("somehwere"));
+		assertThrows(FileNotFoundException.class,()-> tab2mxl.txtAnalyzing.analyze("somehwere"));
 	}
 	
 //	@Test
@@ -109,10 +109,10 @@ class MainControllerTest {
 	@Test
 	void test3() {
 		Attributes a=new Attributes(4,null,null,null);
-		Assert.assertEquals(a.getDivisions(),4);
-		Assert.assertEquals(a.getClef(),null);
-		Assert.assertEquals(a.getKey(),null);
-		Assert.assertEquals(a.getTime(),null);
+		assertEquals(a.getDivisions(),4);
+		assertEquals(a.getClef(),null);
+		assertEquals(a.getKey(),null);
+		assertEquals(a.getTime(),null);
 	}
 
 }
