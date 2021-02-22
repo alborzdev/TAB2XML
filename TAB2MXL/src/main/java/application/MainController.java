@@ -14,6 +14,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -30,7 +32,8 @@ public class MainController implements Initializable {
 	private JFXComboBox<String> KeySig;
 	@FXML 
 	private JFXComboBox<String> TimeSig;
-	
+	@FXML 
+	private JFXComboBox<String> InstrumentType;
 	
 	@FXML
 	private JFXTextArea textarea;
@@ -131,6 +134,10 @@ public class MainController implements Initializable {
 		TimeSig.getItems().add("6/8");
 		TimeSig.getItems().add("7/8");
 		TimeSig.getItems().add("12/8");
+		
+		InstrumentType.getItems().add("Guitar");
+		InstrumentType.getItems().add("Drums");
+		InstrumentType.getItems().add("Bass");
 	}
 
 	public void init(Stage primaryStage) {
@@ -143,6 +150,12 @@ public class MainController implements Initializable {
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
+	
+	public String getType() {
+		String s=new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
+		System.out.println("selected type "+s);
+		return s;
+	}
 	
 	public String getKey() {
 		String s=new String(KeySig.getSelectionModel().getSelectedItem().toString());
@@ -182,11 +195,12 @@ public class MainController implements Initializable {
 		String s=new String(title.getText());
 		return s;
 	}
-//	@FXML
-//	private TextArea previewXML;
-//	//method that displays preview of xml file
-//	public void preview(ActionEvent event) throws Exception {
-//		previewXML.appendText(chain.getText());
-//	}
+	@FXML
+	public void errorMessage() {
+		AlertType type = AlertType.ERROR; 
+		Alert alert = new Alert(type, ""); 
+		alert.getDialogPane().setContentText("This tab format is not supported"); 
+		alert.showAndWait();
+	}
 	
 }
