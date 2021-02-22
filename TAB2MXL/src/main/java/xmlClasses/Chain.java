@@ -105,6 +105,7 @@ public class Chain {
 	}
 	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT){
+
 		//turning the string into a file so the v3 readers can have a File input type
 		try {
 			String path = System.getProperty("user.dir") + "/testTab.txt";
