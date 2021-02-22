@@ -48,6 +48,7 @@ public class Chain {
 	
 	/**Stores the list of exceptions during chain to give back to GUI*/
 	ArrayList<Exception> ERROR;
+		
 	
 	/**HARDCODED: 6 - represents number staff lines in the tab*/
 	int STAFFLINES = 6;
@@ -132,6 +133,9 @@ public class Chain {
 	
 	//---ACTIONS---
 	private void MethodLadder() {
+		//adding fake errors
+		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
+		
 		System.out.println("The instrument is: "+INSTRUMENT);
 		TABtoPART();
 		System.out.println("Finished TtoP");
@@ -141,6 +145,8 @@ public class Chain {
 		System.out.println("Finished MtoX");
 	}
 	
+	
+	//---STEP---
 	private void TABtoPART(){
 		
 		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
@@ -198,6 +204,8 @@ public class Chain {
 	    System.out.println(SW.toString());
 	
 	}
+	
+	//---ACCESSORS---
 	public String getXML() {
 		return SW.toString();
 	}
