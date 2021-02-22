@@ -65,8 +65,8 @@ public class Chain {
 	/**HARDCODED: TAB - represents the clef of the attribute*/
 	String CLEF = "G";
 	
-	/**HARDCODED: Divisions - ?????*/
-	int DIVISIONS;
+	/**HARDCODED: Divisions - Divisions works with duration to decide how many notes are in a measure(Derry knows)*/
+	int DIVISIONS = 4;
 	
 	/**HARDCODED: Line - ?????*/
 	int LINE = 5;
@@ -74,8 +74,11 @@ public class Chain {
 	/**HARDCODED: Fifths - ?????*/
 	int FIFTHS = 0;
 	
-	/***/
+	/**This object is stored to send to the GUI*/
 	StringWriter SW;
+	
+	/**This String shows the user instrument selection*/
+	String INSTRUMENT;
 	
 	//---CONSTRUCTORS---
 	/**
@@ -89,7 +92,7 @@ public class Chain {
 	 * @param KEY
 	 */
 	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
-					String LOCATION, int TIMESIG, String KEY){
+					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT){
 		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.LYRICIST=LYRICIST;
@@ -97,10 +100,11 @@ public class Chain {
 		this.LOCATION=LOCATION;
 		this.TIMESIG=TIMESIG;
 		this.KEY=KEY;
+		this.INSTRUMENT=INSTRUMENT;
 		MethodLadder();
 	}
 	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
-					String LOCATION, int TIMESIG, String KEY){
+					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT){
 		//turning the string into a file so the v3 readers can have a File input type
 		try {
 			String path = System.getProperty("user.dir") + "/testTab.txt";
@@ -121,6 +125,7 @@ public class Chain {
 		this.LOCATION=LOCATION;
 		this.TIMESIG=TIMESIG;
 		this.KEY=KEY;
+		this.INSTRUMENT=INSTRUMENT;
 		MethodLadder();
 	}
 	
