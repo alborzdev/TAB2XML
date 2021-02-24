@@ -64,7 +64,7 @@ public class Chain {
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
-	String CLEF = "TAB";
+	String CLEF = "G";
 	
 	/**HARDCODED: Divisions - Divisions works with duration to decide how many notes are in a measure(Derry knows)*/
 	int DIVISIONS = 4;
@@ -80,6 +80,9 @@ public class Chain {
 	
 	/**This String shows the user instrument selection*/
 	String INSTRUMENT;
+	
+	/**HARDCODED: Voice - 1*/
+	int VOICE = 1;
 	
 	//---CONSTRUCTORS---
 	/**
@@ -171,10 +174,10 @@ public class Chain {
 					
 					
 					if(firstNoteAdded) {
-						PW.nextChordNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]) );
+						PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 					}
 					else {
-						PW.nextNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]) );
+						PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 						firstNoteAdded = true;
 					}
 					

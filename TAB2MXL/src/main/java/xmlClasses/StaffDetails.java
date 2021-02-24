@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-//@XmlType(propOrder={"stafflines", "stafftuning"})
+@XmlType(propOrder={"stafflines", "staffTuning"})
 public class StaffDetails {
 	private int staffLines;
 	private ArrayList<StaffTuning> st;
