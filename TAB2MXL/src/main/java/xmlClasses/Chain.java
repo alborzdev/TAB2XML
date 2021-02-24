@@ -134,7 +134,7 @@ public class Chain {
 	//---ACTIONS---
 	private void MethodLadder() {
 		//adding fake errors
-		//ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
+		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
 		
 		System.out.println("The instrument is: "+INSTRUMENT);
 		TABtoPART();
