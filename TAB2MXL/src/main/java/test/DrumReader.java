@@ -8,7 +8,7 @@ import javax.sound.midi.Instrument;
 import java.lang.Math;
 
 public class DrumReader {
-	private String [] measure;
+	public String [] measure;
 	private char [] column;
 	private int curr_col;
 	
@@ -22,7 +22,6 @@ public class DrumReader {
 		this.measure = measure;
 		curr_col = 0;
 		initializeDrumKit();
-		readColumn(); //reads first line of notes
 	}
 	
 	public void setMeasure(String [] measure) {
@@ -45,7 +44,6 @@ public class DrumReader {
 	    double duration = 0.5;
 	    String instrument = "";
 	    int voice = 1;
-	    String displayStep = "";
 	    String notehead = "o";
 	    
 		for(int line = 0; line < column.length; line++) {
@@ -55,14 +53,14 @@ public class DrumReader {
 
 				while(col < this.measure[line].length() && this.measure[line].charAt(col) == '-') {
 					duration += 0.5;
-					System.out.println("note: " + this.measure[line].charAt(col));
+//					System.out.println("note: " + this.measure[line].charAt(col));
 					col++;
 				}
 				duration *= 2;
 				}catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
-				
+				System.out.println("Duration: " + duration);
 				//sets the duration of note
 				if(duration == 1) {
 					type = "sixteenth";
@@ -94,7 +92,7 @@ public class DrumReader {
 				case 4: step = "G"; octave = 4;
 				break;
 				
-				case 5: step = "E"; octave = 4;
+				default: step = "E"; octave = 4;
 				break;
 				}
 				
@@ -104,9 +102,9 @@ public class DrumReader {
 				}
 				
 				
-				String [] note = {displayStep,	//step of note
+				String [] note = {step,	//step of note
 								  octave + "",	//octave of note
-								  Math.floor(duration) + "",	//duration
+								  (int)Math.floor(duration) + "",	//duration
 								  instrument,	//instrument
 								  voice + "",	//voice
 								  type,
@@ -118,6 +116,7 @@ public class DrumReader {
 			col = curr_col;
 			type = "";
 			duration = 0.5;
+			notehead = "o";
 		}
 		return notes;
 	}
@@ -134,7 +133,7 @@ public class DrumReader {
 		for(int line = 0; line < this.column.length; line++) {
 			instrument = "";
 			instrument = this.measure[line].charAt(col) + "" + this.measure[line].charAt(col+1); //concatinates instrument
-			System.out.println("instrument: " + instrument);
+//			System.out.println("instrument: " + instrument);
 			col = this.curr_col-1;
 			//adds instrument into drumkit
 			this.drumKit.add(instrument);
@@ -153,9 +152,19 @@ public class DrumReader {
 		this.column = new char[this.measure.length];
 		for(int i=0; i<this.measure.length; i++) {
 			column[i] = measure[i].charAt(curr_col);
-			System.out.println("col" + column[i]);
+//			System.out.println("col" + column[i]);
 		}
-		curr_col ++;
+		this.curr_col ++;
+		System.out.println("CURRENT COL: " + this.curr_col);
 		
+	}
+	
+	public boolean hasNext() {
+		System.out.println("Testing Next: cur col: " + this.curr_col + ",  measure length: " + this.measure[0].length() );
+		if(this.curr_col >= this.measure[0].length()) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 }
