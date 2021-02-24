@@ -13,8 +13,8 @@ public class ChordNote extends Note{
 		
 	}
 	
-	public ChordNote(int duration, String type, Pitch pitch) {
-		super(duration, type, pitch);
+	public ChordNote(int duration, String type, Pitch pitch, Notations nots) {
+		super(duration, type, pitch, nots);
 		this.chord = "";
 	}
 	
