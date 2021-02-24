@@ -62,7 +62,7 @@ public class Attributes {
 	    this.clef = clef;  
 	}
 	
-	@XmlElement
+	@XmlElement (name="staff-details")
 	public StaffDetails getStaffDetails() {  
 	    return sd;  
 	}  

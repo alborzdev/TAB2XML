@@ -68,7 +68,7 @@ public class MeasureReaderV3 {
 						stepAndOctave[1],																				//octave
 						alter,																				//alter
 						accidental,																			//accidental
-						""+i,																					//string
+						""+(i+1),																					//string
 						""+shifts[i]																			//fret
 				};
 				out.add(noteProperties);

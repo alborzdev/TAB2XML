@@ -52,6 +52,7 @@ public class MainController implements Initializable {
 		filechooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter(".txt files", "*.txt") );
 		file = filechooser.showOpenDialog(stage); 
 		textarea.clear();
+		
 		if(file==null) {
 			System.out.println("No file has been selected");
 		}
@@ -89,10 +90,13 @@ public class MainController implements Initializable {
 			write.write(chain.getXML());
        	  	write.close();
 		} catch (IOException e) {
+			errorMessage();
 			e.printStackTrace();
 		}
-        //delete this comment
-		
+        Alert dg = new Alert(Alert.AlertType.INFORMATION);
+        dg.setTitle("CONVERSION SUCCESSFUL");
+        dg.setContentText("You have successfully converted a "+getType()+" tab!");
+
 	}
 	/**
 	 * 
@@ -145,25 +149,33 @@ public class MainController implements Initializable {
 		this.stage = primaryStage;
 		
 	}
-	
-	
+		
 	
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
-	
+	//default = Guitar
 	public String getType() {
-		String s=new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
-		System.out.println("selected type "+s);
+		String s;
+		if(InstrumentType.getSelectionModel().isEmpty()==false) {
+			s =new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
+			
+	}
+		else s="Guitar";
 		return s;
 	}
-	
+	//default = CMajor
 	public String getKey() {
-		String s=new String(KeySig.getSelectionModel().getSelectedItem().toString());
+		String s;
+		if(KeySig.getSelectionModel().isEmpty()==false) {
+			s =new String(KeySig.getSelectionModel().getSelectedItem().toString());
 		System.out.println("selected key sig "+s);
+		}
+		else s= "C Major";
+		
 		return s;
 	}
-	
+	//default = 4/4
 	public int getTimeSig() {
 		int indx = TimeSig.getSelectionModel().getSelectedIndex();
 		switch(indx) {
@@ -196,7 +208,8 @@ public class MainController implements Initializable {
 		String s=new String(title.getText());
 		return s;
 	}
-	@FXML
+	
+	
 	public void errorMessage() {
 		AlertType type = AlertType.ERROR; 
 		Alert alert = new Alert(type, ""); 

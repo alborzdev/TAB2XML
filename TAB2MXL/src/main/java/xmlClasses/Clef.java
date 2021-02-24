@@ -2,7 +2,9 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder={"line","sign"})
 public class Clef {
 	private String sign;
 	private int line;
