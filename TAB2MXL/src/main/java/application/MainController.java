@@ -154,16 +154,20 @@ public class MainController implements Initializable {
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
-	
+	//default = Guitar
 	public String getType() {
-		String s=new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
-		System.out.println("selected type "+s);
+		String s;
+		if(InstrumentType.getSelectionModel().isEmpty()==false) {
+			s =new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
+			
+	}
+		else s="Guitar";
 		return s;
 	}
-	
+	//default = CMajor
 	public String getKey() {
 		String s;
-		if(!KeySig.getSelectionModel().isEmpty()) {
+		if(KeySig.getSelectionModel().isEmpty()==false) {
 			s =new String(KeySig.getSelectionModel().getSelectedItem().toString());
 		System.out.println("selected key sig "+s);
 		}
@@ -171,7 +175,7 @@ public class MainController implements Initializable {
 		
 		return s;
 	}
-	
+	//default = 4/4
 	public int getTimeSig() {
 		int indx = TimeSig.getSelectionModel().getSelectedIndex();
 		switch(indx) {
