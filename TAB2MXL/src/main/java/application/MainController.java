@@ -162,10 +162,12 @@ public class MainController implements Initializable {
 	}
 	
 	public String getKey() {
-		String defaultS = "C Major";
-		String s=new String(KeySig.getSelectionModel().getSelectedItem().toString());
+		String s;
+		if(!KeySig.getSelectionModel().isEmpty()) {
+			s =new String(KeySig.getSelectionModel().getSelectedItem().toString());
 		System.out.println("selected key sig "+s);
-		if(s==null)return defaultS;
+		}
+		else s= "C Major";
 		
 		return s;
 	}
