@@ -11,6 +11,7 @@ public class Note {
 	private int duration;
 	private String type;
 	private Pitch pitch;
+	private Notations nots;
 	
 	public Note() {}  
 	
@@ -18,7 +19,14 @@ public class Note {
 	    this.duration = duration;  
 	    this.type = type; 
 	    this.pitch = pitch;
-	} 
+	}
+	
+	public Note(int duration, String type, Pitch pitch, Notations nots) {
+	    this.duration = duration;  
+	    this.type = type; 
+	    this.pitch = pitch;
+	    this.nots = nots;
+	}
 	
 	@XmlElement
 	public int getDuration() {  
@@ -42,5 +50,13 @@ public class Note {
 	}  
 	public void setPitch(Pitch pitch) {  
 	    this.pitch = pitch;  
+	}
+	
+	@XmlElement
+	public Notations getNotations() {  
+	    return nots;  
+	}  
+	public void setNotations(Notations nots) {  
+	    this.nots = nots;  
 	}
 }

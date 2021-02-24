@@ -39,8 +39,8 @@ public class PartWriter {
 	}
 	
 	//Create Note with its Pitch object and adding it to the current measure.
-	public void nextNote(int duration, String type, String step, int octave){
-		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave ) ) );
+	public void nextNote(int duration, String type, String step, int octave, int string, int fret ){
+		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave ), new Notations( new Technical(string, fret)) ) );
 		
 	}
 	
