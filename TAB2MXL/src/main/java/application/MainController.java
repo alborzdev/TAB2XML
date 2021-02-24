@@ -96,6 +96,7 @@ public class MainController implements Initializable {
         Alert dg = new Alert(Alert.AlertType.INFORMATION);
         dg.setTitle("CONVERSION SUCCESSFUL");
         dg.setContentText("You have successfully converted a "+getType()+" tab!");
+
 	}
 	/**
 	 * 

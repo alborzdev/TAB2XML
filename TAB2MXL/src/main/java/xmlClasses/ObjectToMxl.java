@@ -1,5 +1,6 @@
 package xmlClasses;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;  
@@ -24,9 +25,6 @@ public static String mxlMaker() throws Exception{
     marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
     
     //gives a MusicXML DTD to XML document
-    marshallerObj.setProperty("com.sun.xml.internal.bind.xmlHeaders", "\n<!DOCTYPE score-partwise PUBLIC\n"
-    		+ " \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\"\n"
-    		+ " \"http://www.musicxml.org/dtds/partwise.dtd\">");
     
     Score_Part sp = new Score_Part("P1", "Music");
     
@@ -53,7 +51,7 @@ public static String mxlMaker() throws Exception{
     		
     Work w = new Work("Hot cross BUNS");
     Score_Partwise spw = new Score_Partwise(3.1, pl, p, id, w);  
-   // marshallerObj.marshal(spw, new FileOutputStream("musicTest2.xml"));  
+    marshallerObj.marshal(spw, new FileOutputStream("musicTest3.xml"));  
     
     StringWriter sw = new StringWriter(); 
     marshallerObj.marshal(spw, sw);
