@@ -8,7 +8,7 @@ import javax.sound.midi.Instrument;
 import java.lang.Math;
 
 public class DrumReader {
-	public String [] measure;
+	private String [] measure;
 	private char [] column;
 	private int curr_col;
 	
@@ -45,18 +45,13 @@ public class DrumReader {
 	    String instrument = "";
 	    int voice = 1;
 	    String notehead = "o";
-	    System.out.println("before loop");
-	    System.out.println("coulumn length: " + column.length);
 		for(int line = 0; line < column.length; line++) {
-			System.out.println(this.column[line]);
 			if(this.column[line] == 'o' || this.column[line] == 'x') {
 				//checks if this is a 16th 8th quarter or while note
-				System.out.println("Note Found at Line: " + line);
 				try {
 
 				while(col < this.measure[line].length() && this.measure[line].charAt(col) == '-') {
 					duration += 0.5;
-//					System.out.println("note: " + this.measure[line].charAt(col));
 					col++;
 				}
 				duration *= 2;
@@ -64,7 +59,6 @@ public class DrumReader {
 					System.out.println(e.getMessage());
 					System.out.println("DURATION ERROR");
 				}
-				System.out.println("Duration: " + duration);
 				//sets the duration of note
 				if(duration == 0.5) {
 					type = "half sixteenth";
@@ -163,12 +157,10 @@ public class DrumReader {
 //			System.out.println("col" + column[i]);
 		}
 		this.curr_col ++;
-		System.out.println("CURRENT COL: " + this.curr_col);
 		
 	}
 	
 	public boolean hasNext() {
-		System.out.println("Testing Next: cur col: " + this.curr_col + ",  measure length: " + this.measure[0].length() );
 		if(this.curr_col >= this.measure[0].length()) {
 			return false;
 		}else {
