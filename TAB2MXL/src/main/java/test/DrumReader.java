@@ -66,7 +66,9 @@ public class DrumReader {
 				}
 				System.out.println("Duration: " + duration);
 				//sets the duration of note
-				if(duration == 1) {
+				if(duration == 0.5) {
+					type = "half sixteenth";
+				}else if(duration == 1) {
 					type = "sixteenth";
 				}else if(duration == 2) {
 					type = "eigth";

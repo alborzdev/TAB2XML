@@ -93,6 +93,9 @@ class DrumReaderTest {
 		DrumReader drumReader = new DrumReader(tabReader.getMeasure());
 	
 		System.out.println("NOTES");
+		
+		for(int m = 0; m < 2; m++) {
+			
 		tabReader.readMeasure();
 		drumReader.setMeasure(tabReader.getMeasure());
 		while(drumReader.hasNext()) {
@@ -115,6 +118,7 @@ class DrumReaderTest {
 			}
 			
 		}
+		}
 		System.out.println(output);
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -133,6 +137,8 @@ class DrumReaderTest {
 		DrumReader drumReader = new DrumReader(tabReader.getMeasure());
 	
 		System.out.println("NOTES");
+		
+		//goes through 3 measures
 		for(int l = 0; l < 3; l++) {
 			
 		tabReader.readMeasure();
