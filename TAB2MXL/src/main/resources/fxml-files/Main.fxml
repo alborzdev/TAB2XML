@@ -124,7 +124,7 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
-            <JFXComboBox fx:id= "InstrumentType" prefHeight="25.0" prefWidth="143.0" promptText="Instrument Type" style="-fx-background-color: #a8c5d8;">
+            <JFXComboBox fx:id="InstrumentType" prefHeight="25.0" prefWidth="143.0" promptText="Instrument Type" style="-fx-background-color: #a8c5d8;">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
@@ -161,6 +161,5 @@
             </Label>
          </children>
       </AnchorPane>
-      <JFXButton layoutX="374.0" layoutY="421.0" onAction="#errorMessage" text="i am an error message" textFill="#ee8787" />
    </children>
 </AnchorPane>

@@ -3,13 +3,20 @@ package xmlTestCases;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import xmlClasses.Attributes;
+import xmlClasses.Clef;
+import xmlClasses.Instrument;
+import xmlClasses.Key;
 import xmlClasses.Note;
 import xmlClasses.Part;
 import xmlClasses.Pitch;
+import xmlClasses.ScorePartwiseWriter;
+import xmlClasses.Time;
 
 public class XmlClassTests {
 	
@@ -51,5 +58,31 @@ public class XmlClassTests {
     @Test
     public void testPartConstructor() {
         assertNotSame(part, part2);
+    }
+    
+    @Test
+    public void testMeasure() {
+    	//int number, Attributes att, ArrayList<Note> note
+    	//Measure m = new Measure(1,)
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public void testInstrument() {
+    	Instrument ins = new Instrument("Guitar");
+    	Instrument ins2 = new Instrument("Drum");
+    	Instrument ins3 = new Instrument("Bass");
+    	assertEquals("Guitar",ins.getId());
+    	assertEquals("Drum",ins2.getId());
+    	assertEquals("Bass",ins3.getId());
+    }
+    
+    @Test
+    public void testSPW() {
+    	ScorePartwiseWriter SPW = new ScorePartwiseWriter("Title", "LYRICIST" , "COMPOSER", part);
+    	ScorePartwiseWriter SPW2 = new ScorePartwiseWriter("Title", "LYRICIST" , "COMPOSER", part);
+    	assertNotNull(SPW2);
     }
 }

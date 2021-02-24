@@ -22,7 +22,7 @@ public class ScorePartwiseWriter {
 	private Score_Part sp;
     
 	
-	ScorePartwiseWriter(String title, String lyricist, String composer, Part part){
+	public ScorePartwiseWriter(String title, String lyricist, String composer, Part part){
 		work = new Work(title);
 		creators.add(new Creator("composer", composer)); 
 		creators.add(new Creator("lyricist", lyricist)); 
