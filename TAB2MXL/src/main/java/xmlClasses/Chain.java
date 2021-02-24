@@ -48,6 +48,7 @@ public class Chain {
 	
 	/**Stores the list of exceptions during chain to give back to GUI*/
 	ArrayList<Exception> ERROR;
+		
 	
 	/**HARDCODED: 6 - represents number staff lines in the tab*/
 	int STAFFLINES = 6;
@@ -132,6 +133,9 @@ public class Chain {
 	
 	//---ACTIONS---
 	private void MethodLadder() {
+		//adding fake errors
+		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
+		
 		System.out.println("The instrument is: "+INSTRUMENT);
 		TABtoPART();
 		System.out.println("Finished TtoP");
@@ -141,6 +145,8 @@ public class Chain {
 		System.out.println("Finished MtoX");
 	}
 	
+	
+	//---STEP---
 	private void TABtoPART(){
 		
 		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
@@ -152,7 +158,7 @@ public class Chain {
 				
 		TRv3.readMeasure();
 		while(TRv3.hasNext()) {
-			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv3.getMeasure(), 6, 4, 4);//6 - num of string, 4 4 - time signature
+			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv3.getMeasure(), DIVISIONS, TIMESIG/10, TIMESIG%10);//6 - num of string, 4 4 - time signature
 			
 	
 			PW.nextMeasure(ATT);
@@ -161,17 +167,21 @@ public class Chain {
 				MRv3.readNotes();
 				boolean firstNoteAdded = false;
 				for(String[] s:MRv3.getNotes()) {
+					
+					System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
+					
 					if(firstNoteAdded) {
-						System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
 						PW.nextChordNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
-					}else {
-						System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
+					}
+					else {
 						PW.nextNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
 						firstNoteAdded = true;
 					}
+					
 				}
 			}
 			TRv3.readMeasure();
+			
 		}
 			
 	}
@@ -198,6 +208,8 @@ public class Chain {
 	    System.out.println(SW.toString());
 	
 	}
+	
+	//---ACCESSORS---
 	public String getXML() {
 		return SW.toString();
 	}
