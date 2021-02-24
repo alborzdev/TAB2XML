@@ -31,7 +31,7 @@ public class Chain {
 	/**Contains the save location of the xml file.*/
 	String LOCATION;
 	
-	/**HARDCODED: 4/4 - Contains the time signature as a 2 digit number. First digit being the beat. Second being the beat-type*/
+	/** Contains the time signature as a 2 digit number. First digit being the beat. Second being the beat-type*/
 	int TIMESIG;
 	
 	/**HARDCODED: C major - Contains the key of the song*/
@@ -47,7 +47,7 @@ public class Chain {
 	Attributes ATT;
 	
 	/**Stores the list of exceptions during chain to give back to GUI*/
-	ArrayList<Exception> ERROR;
+	ArrayList<Exception> ERROR = new ArrayList<Exception>();
 		
 	
 	/**HARDCODED: 6 - represents number staff lines in the tab*/
@@ -64,7 +64,7 @@ public class Chain {
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
-	String CLEF = "G";
+	String CLEF = "TAB";
 	
 	/**HARDCODED: Divisions - Divisions works with duration to decide how many notes are in a measure(Derry knows)*/
 	int DIVISIONS = 4;
@@ -76,7 +76,7 @@ public class Chain {
 	int FIFTHS = 0;
 	
 	/**This object is stored to send to the GUI*/
-	StringWriter SW;
+	StringWriter SW = new StringWriter(); 
 	
 	/**This String shows the user instrument selection*/
 	String INSTRUMENT;
@@ -167,14 +167,14 @@ public class Chain {
 				MRv3.readNotes();
 				boolean firstNoteAdded = false;
 				for(String[] s:MRv3.getNotes()) {
+					System.out.println("HI");
 					
-					System.out.println(Integer.parseInt(s[0])+" "+s[1]+" "+s[2]+" "+Integer.parseInt(s[3]));
 					
 					if(firstNoteAdded) {
-						PW.nextChordNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
+						PW.nextChordNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]) );
 					}
 					else {
-						PW.nextNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]) );
+						PW.nextNote( Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]) );
 						firstNoteAdded = true;
 					}
 					
@@ -203,7 +203,7 @@ public class Chain {
 	    
 	      
 	    //marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
-	    SW = new StringWriter(); 
+	    
 	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
 	    System.out.println(SW.toString());
 	

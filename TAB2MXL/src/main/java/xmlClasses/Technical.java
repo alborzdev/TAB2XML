@@ -2,7 +2,9 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder={"string","fret"})
 public class Technical {
 	private int string;
 	private int fret;
