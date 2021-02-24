@@ -82,8 +82,10 @@ class DrumReaderTest {
 	}
 	
 	@Test
-	void measureOutPut() {
-		try {			
+	void measureOutput() {
+		try {
+		List<String[]> notes = new ArrayList<String[]>();
+		String output = "";
 		String path = System.getProperty("user.dir") + "/drumTestTab.txt";
 		TabReaderV2 tabReader = new TabReaderV2(path);
 		tabReader.resetMeasure();//used to get drumkit
@@ -94,18 +96,72 @@ class DrumReaderTest {
 		tabReader.readMeasure();
 		drumReader.setMeasure(tabReader.getMeasure());
 		while(drumReader.hasNext()) {
-			List<String[]> notes = drumReader.readNote();
-			String[] notes1 = notes.get(0);
-			for(int i = 0; i < notes1.length; i++) {
-				System.out.print(notes1[i] + ", ");
+			notes = drumReader.readNote();
+			try {
+			if(!notes.isEmpty()){
+				int x = 0;
+				String []note = notes.get(x);
+				while(!note[0].isEmpty()) {
+				String[] notes1 = notes.get(x);
+				for(int i = 0; i < notes1.length; i++) {
+					output += notes1[i] + " ,";
+				}				
+				output += "\n";
+				x++;
+				}
 			}
-			System.out.println();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
 		}
+		System.out.println(output);
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
-			fail();
 		}
 	}
 	
-
+	@Test
+	void airTonightTest() {
+		try {
+		List<String[]> notes = new ArrayList<String[]>();
+		String output = "";
+		String path = System.getProperty("user.dir") + "/inTheAirTonight.txt";
+		TabReaderV2 tabReader = new TabReaderV2(path);
+		tabReader.resetMeasure();//used to get drumkit
+		tabReader.readMeasure();
+		DrumReader drumReader = new DrumReader(tabReader.getMeasure());
+	
+		System.out.println("NOTES");
+		for(int l = 0; l < 3; l++) {
+			
+		tabReader.readMeasure();
+		drumReader.setMeasure(tabReader.getMeasure());
+		while(drumReader.hasNext()) {
+			notes = drumReader.readNote();
+			try {
+			if(!notes.isEmpty()){
+				int x = 0;
+				String []note = notes.get(x);
+				while(!note[0].isEmpty()) {
+				String[] notes1 = notes.get(x);
+				for(int i = 0; i < notes1.length; i++) {
+					output += notes1[i] + " ,";
+				}				
+				output += "\n";
+				x++;
+				}
+			}
+			}catch(Exception e) {
+				System.out.println("OUTPUT ERROR");
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		}
+		System.out.println(output);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}	
+	}
 }

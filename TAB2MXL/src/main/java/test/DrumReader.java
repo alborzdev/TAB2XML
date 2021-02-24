@@ -45,10 +45,13 @@ public class DrumReader {
 	    String instrument = "";
 	    int voice = 1;
 	    String notehead = "o";
-	    
+	    System.out.println("before loop");
+	    System.out.println("coulumn length: " + column.length);
 		for(int line = 0; line < column.length; line++) {
+			System.out.println(this.column[line]);
 			if(this.column[line] == 'o' || this.column[line] == 'x') {
 				//checks if this is a 16th 8th quarter or while note
+				System.out.println("Note Found at Line: " + line);
 				try {
 
 				while(col < this.measure[line].length() && this.measure[line].charAt(col) == '-') {
@@ -59,6 +62,7 @@ public class DrumReader {
 				duration *= 2;
 				}catch(Exception e) {
 					System.out.println(e.getMessage());
+					System.out.println("DURATION ERROR");
 				}
 				System.out.println("Duration: " + duration);
 				//sets the duration of note
@@ -70,6 +74,8 @@ public class DrumReader {
 					type = "quarter";
 				}else if (duration == 8) {
 					type = "half";
+				}else if (duration == 16) {
+					type = "whole";
 				}
 				
 				//sets the instrument of this note
@@ -97,7 +103,7 @@ public class DrumReader {
 				}
 				
 				//changes the notehead of HH and CC notes to xs
-				if(instrument.toLowerCase().equals("cc") || instrument.toLowerCase().equals("hh")) {
+				if(instrument.toLowerCase().equals("cc") || instrument.toLowerCase().equals("hh") || instrument.toLowerCase().equals("sn") ) {
 					notehead = "x";
 				}
 				
