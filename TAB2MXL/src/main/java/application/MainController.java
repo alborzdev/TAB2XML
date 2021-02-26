@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Platform;
@@ -89,14 +90,16 @@ public class MainController implements Initializable {
 			//SHOULD RECIEVE XML FROM BACKEND
 			write.write(chain.getXML());
        	  	write.close();
+       	  	Alert conf = new Alert(AlertType.INFORMATION,  
+                 "Conversion was successful!"); 
+       	 	conf.showAndWait(); 
 		} catch (IOException e) {
-			errorMessage();
+			AlertType type = AlertType.ERROR; 
+			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+			alert.getDialogPane().setContentText("This tab format is not supported"); 
+			alert.showAndWait();
 			e.printStackTrace();
 		}
-        Alert dg = new Alert(Alert.AlertType.INFORMATION);
-        dg.setTitle("CONVERSION SUCCESSFUL");
-        dg.setContentText("You have successfully converted a "+getType()+" tab!");
-
 	}
 	/**
 	 * 
@@ -111,6 +114,7 @@ public class MainController implements Initializable {
 				write.write("TAB2MXL_UserManual.pdf");
 	       	  	write.close();
 			} catch (IOException e) {
+				
 				e.printStackTrace();
 			}
 	}
@@ -159,9 +163,15 @@ public class MainController implements Initializable {
 		String s;
 		if(InstrumentType.getSelectionModel().isEmpty()==false) {
 			s =new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
-			
-	}
-		else s="Guitar";
+		}
+		else {s="Guitar";
+		AlertType type = AlertType.WARNING; 
+		Alert alert = new Alert(type, "Required Information missing"); 
+		alert.getDialogPane().setContentText("Instrument type left empty (default = Guitar)"); 
+		alert.showAndWait();
+		
+		}
+		
 		return s;
 	}
 	//default = CMajor
@@ -171,7 +181,12 @@ public class MainController implements Initializable {
 			s =new String(KeySig.getSelectionModel().getSelectedItem().toString());
 		System.out.println("selected key sig "+s);
 		}
-		else s= "C Major";
+		else {s= "C Major";
+		AlertType type = AlertType.WARNING; 
+		Alert alert = new Alert(type, "Required Information missing"); 
+		alert.getDialogPane().setContentText("Key Signature empty (default = C Major)"); 
+		alert.showAndWait();
+		}
 		
 		return s;
 	}
@@ -216,5 +231,6 @@ public class MainController implements Initializable {
 		alert.getDialogPane().setContentText("This tab format is not supported"); 
 		alert.showAndWait();
 	}
+	
 	
 }
