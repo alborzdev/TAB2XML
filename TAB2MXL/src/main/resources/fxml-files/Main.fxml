@@ -135,6 +135,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </JFXComboBox>
+            <JFXComboBox fx:id="conversionType" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="143.0" promptText="Convert to" style="-fx-background-color: #a8c5d8;" />
          </children>
       </VBox>
       <AnchorPane layoutX="73.0" layoutY="125.0" prefHeight="336.0" prefWidth="209.0">

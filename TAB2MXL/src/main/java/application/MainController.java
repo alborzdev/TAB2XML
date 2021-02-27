@@ -36,6 +36,9 @@ public class MainController implements Initializable {
 	@FXML 
 	private JFXComboBox<String> InstrumentType;
 	
+	@FXML 
+	private JFXComboBox<String> conversionType;
+	
 	@FXML
 	private JFXTextArea textarea;
 
@@ -90,7 +93,7 @@ public class MainController implements Initializable {
 			//SHOULD RECIEVE XML FROM BACKEND
 			write.write(chain.getXML());
        	  	write.close();
-       	  	Alert conf = new Alert(AlertType.INFORMATION,  
+       	  	Alert conf = new Alert(AlertType.CONFIRMATION,  
                  "Conversion was successful!"); 
        	 	conf.showAndWait(); 
 		} catch (IOException e) {
@@ -148,6 +151,9 @@ public class MainController implements Initializable {
 		InstrumentType.getItems().add("Guitar");
 		InstrumentType.getItems().add("Drums");
 		InstrumentType.getItems().add("Bass");
+		
+		conversionType.getItems().add("Tab");
+		conversionType.getItems().add("Sheet Music");
 	}
 
 	public void init(Stage primaryStage) {
@@ -159,6 +165,28 @@ public class MainController implements Initializable {
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
+	public String getConversionType() {
+		String s;
+		if(InstrumentType.getSelectionModel().isEmpty()==false) {
+			s =InstrumentType.getSelectionModel().getSelectedItem().toString();
+			switch(s) {
+			case "Sheet Music": return"G";
+			case "Tab":
+			default: return "TAB";
+			}
+		}
+			else {
+				s="TAB";
+				AlertType type = AlertType.WARNING; 
+				Alert alert = new Alert(type, "Required Information missing"); 
+				alert.getDialogPane().setContentText("Conversion type left empty (default = TAB)"); 
+				alert.showAndWait();
+			}
+		return s;
+	}
+	
+	
+	
 	//default = Guitar
 	public String getType() {
 		String s;
