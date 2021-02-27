@@ -246,22 +246,24 @@ public class MeasureReaderV3 {
 		
 		int lowestOctave = 2; //lowest note possible is C2?
 		int[] baseOctaves = new int[this.string_count];
-		for(int i=0; i<this.string_count; i++) {
-			if(i > 0) {
-				baseOctaves[i] = baseOctaves[i-1];
+		int counter = 0;
+		for(int i=this.string_count-1; i>=0; i--) {
+			if(i < this.string_count-1) {
+				baseOctaves[i] = baseOctaves[i+1];
 			}else {
 				baseOctaves[i] = lowestOctave;
 			}
-			int counter = 0;
+			
 			while(!tuning[i].equalsIgnoreCase(scale[counter])) {
 				counter ++;
-				if(((counter + i) % 12) == 0) {
+				if(counter > 11) {
 					baseOctaves[i] ++;
+					counter = 0;
 				}else if(counter > scale.length) {
 					break;
 				}
 			}
-			System.out.println("DEBUG: calculated base octave: " + baseOctaves[i] + " for string " + i);
+			System.out.println("DEBUG: calculated base octave: " + baseOctaves[i] + " for string " + i + " " + tuning[i]);
 		}
 		
 		this.octaves = baseOctaves;
