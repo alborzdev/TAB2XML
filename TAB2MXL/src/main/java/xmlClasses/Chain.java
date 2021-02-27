@@ -178,18 +178,18 @@ public class Chain {
 					
 					if(firstNoteAdded) {
 						if(s[4].equals("")) {
-							PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 						}
 						else {
-							PW.nextAlteredChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextAlteredChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 						}
 											}
 					else {
 						if(s[4].equals("")) {
-							PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 						}
 						else {
-							PW.nextAlteredNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextAlteredNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 						}
 						firstNoteAdded = true;
 					}
