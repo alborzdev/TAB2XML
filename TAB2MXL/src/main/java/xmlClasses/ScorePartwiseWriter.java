@@ -21,7 +21,7 @@ public class ScorePartwiseWriter {
 	ArrayList <Creator> creators = new ArrayList<Creator>();
 	private Score_Part sp;
 	private ScorePartDrum spd;
-	private ArrayList<ScoreInstrument> si;
+	private ArrayList<ScoreInstrument> si = new ArrayList<ScoreInstrument>();;
     
 	
 	public ScorePartwiseWriter(String title, String lyricist, String composer, Part part){

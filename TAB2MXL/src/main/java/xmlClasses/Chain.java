@@ -42,6 +42,7 @@ public class Chain {
 	
 	/**This PartWriter object builds and stores the Part object*/
 	PartWriter PW = new PartWriter();
+	DrumPartWriter DPW = new DrumPartWriter();
 	
 	/**This ScorePartwiseWriter object builds and stores the ScorePartwise Object*/
 	ScorePartwiseWriter SPW;
@@ -86,6 +87,9 @@ public class Chain {
 	
 	/**HARDCODED: Voice - 1*/
 	int VOICE = 1;
+	
+	/**This ArrayList shows the drum kit*/
+	ArrayList<String> DK;
 	
 	//---CONSTRUCTORS---
 	/**
@@ -226,18 +230,18 @@ public class Chain {
 		
 		
 		//Making the Attributes
-		//AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
-		//AW.setTuning(TUNINGINFO);
-		//ATT = AW.getAttributes();
+		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
+		AW.setTuning(TUNINGINFO);//use derry tuning info
+		ATT = AW.getAttributes();
 		
 		TRv2.resetMeasure();
 		TRv2.readMeasure();
 		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
-		ArrayList<String> DK = DR.getDrumKit();// - needed scorepartwise
+		DK = DR.getDrumKit();// - needed scorepartwise
 		while(TRv2.hasNext()) {
 			
-			//PW.nextMeasure(ATT);
-			//ATT=null;
+			DPW.nextMeasure(ATT);
+			ATT=null;
 			TRv2.readMeasure();
             DR.setMeasure(TRv2.getMeasure());
 			while(DR.hasNext()) {
@@ -253,9 +257,22 @@ public class Chain {
 										"NoteHead"+s[6]);
 					if(firstNoteAdded) {
 						System.out.println("Chorded note");
+						if(s[6].equals("o")) {
+							System.out.println("Make a note chord without note head");
+						}
+						else {
+							DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
+						}
+						
 					}
 					else {
 						System.out.println("Non chorded note");
+						if(s[6].equals("o")) {
+							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up");
+						}
+						else {
+							DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
+						}
 						firstNoteAdded = true;
 					}
 					
@@ -267,7 +284,13 @@ public class Chain {
 	}
 	
 	public void INFOtoPARTWISE() {
-		SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
+		if(INSTRUMENT.equals("Guitar")) {
+			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
+		}
+		else {
+			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, DPW.getDrumPart(), DK);
+		}
+		
 	}
 	
 	public void MARSHtoXML() throws Exception{  
