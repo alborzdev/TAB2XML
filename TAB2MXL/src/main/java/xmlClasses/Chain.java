@@ -170,7 +170,7 @@ public class Chain {
 				MRv3.readNotes();
 				boolean firstNoteAdded = false;
 				for(String[] s:MRv3.getNotes()) {
-					System.out.println("HI");
+					System.out.println("Alter" + s[4]+ "Accidental"+s[5]);
 					
 					
 					if(firstNoteAdded) {
