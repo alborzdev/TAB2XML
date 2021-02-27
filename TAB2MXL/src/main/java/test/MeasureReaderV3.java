@@ -15,10 +15,9 @@ public class MeasureReaderV3 {
 	private char[] column;
 	private int noteLength;
 	// A# = Bb, also
-	private String[] tuning = {"E","B","G","D","A","E"};
+	private String[] tuning;
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
-	private int[] octaves = {2,2,3,3,3,4};
-	private int[] baseShifts = {2,5,1,4,7,2};
+	private int[] octaves;
 	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
 	boolean hasNextColumn; //has next column?
 	
@@ -27,9 +26,13 @@ public class MeasureReaderV3 {
 	//better way to decode notes
 
 	
-	public MeasureReaderV3(String[] measure) { //maybe need a better constuctor?
+	protected MeasureReaderV3(String[] measure) { //basic instructor for testing
 		this.measure = measure;
 		this.character_count = measure[0].length();
+		String[] temp = {"E","B","G","D","A","E"};
+		this.tuning = temp;
+		int[] oTemp = {2,2,3,3,3,4};
+		this.octaves = oTemp;
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
 		this.ts_beats = 4;
 		this.ts_beatlength = 4;
@@ -37,14 +40,31 @@ public class MeasureReaderV3 {
 		curr_col = 0;
 	}
 	
-	public MeasureReaderV3(String[] measure, int string_count, int beats, int beatlength) { //maybe need a better constuctor?
+	public MeasureReaderV3(String[] measure, int beats, int beatlength) { 
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		this.string_count = string_count;
+		String[] temp = {"E","B","G","D","A","E"};
+		this.tuning = temp;
+		int[] oTemp = {2,2,3,3,3,4};
+		this.octaves = oTemp;
+		this.string_count = measure.length;
 		this.ts_beats = beats;
 		this.ts_beatlength = beatlength;
 		this.hasNextColumn = true;
 		curr_col = 0;
+	}
+	
+	public MeasureReaderV3(String[] measure, String[] tuning, int beats, int beatlength) { 
+		this.measure = measure;
+		this.character_count = measure[0].length();
+		this.string_count = measure.length;
+		this.ts_beats = beats;
+		this.ts_beatlength = beatlength;
+		this.hasNextColumn = true;
+		this.tuning = tuning;
+		curr_col = 0;
+		
+		this.inferOctaves(tuning);
 	}
 	
 	public List<String[]> getNotes() {
@@ -217,6 +237,37 @@ public class MeasureReaderV3 {
 				column[i] = measure[i].charAt(in);
 			}
 		}
+	}
+	
+	private void inferOctaves(String[] tuning) { //calculate base octaves from tuning information
+		
+		System.out.println("DEBUG: attempting to infer octaves from tuning information: ");
+		this.stringArrayDump("tuning info", tuning);
+		
+		int lowestOctave = 2; //lowest note possible is C2?
+		int[] baseOctaves = new int[this.string_count];
+		int counter = 0;
+		for(int i=this.string_count-1; i>=0; i--) {
+			if(i < this.string_count-1) {
+				baseOctaves[i] = baseOctaves[i+1];
+			}else {
+				baseOctaves[i] = lowestOctave;
+			}
+			
+			while(!tuning[i].equalsIgnoreCase(scale[counter])) {
+				counter ++;
+				if(counter > 11) {
+					baseOctaves[i] ++;
+					counter = 0;
+				}else if(counter > scale.length) {
+					break;
+				}
+			}
+			System.out.println("DEBUG: calculated base octave: " + baseOctaves[i] + " for string " + i + " " + tuning[i]);
+		}
+		
+		this.octaves = baseOctaves;
+		
 	}
 	
 	public void stringArrayDump(String arrayName, String[] in) {
