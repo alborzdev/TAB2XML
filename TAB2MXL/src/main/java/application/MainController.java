@@ -90,7 +90,7 @@ public class MainController implements Initializable {
         catch(Exception e) {
         	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("This tab format is not currently supported"); 
+			alert.getDialogPane().setContentText(e.getMessage()); 
 			alert.showAndWait();
         }
         try{chain.INFOtoPARTWISE();} 
