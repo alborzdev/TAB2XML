@@ -2,8 +2,10 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder={"step", "octave"})
+@XmlSeeAlso({AlteredPitch.class})
 public class Pitch {
 	private String step;
 	private int octave;
@@ -30,4 +32,5 @@ public class Pitch {
 	public void setOctave(int octave) {  
 	    this.octave = octave;  
 	}
+	
 }
