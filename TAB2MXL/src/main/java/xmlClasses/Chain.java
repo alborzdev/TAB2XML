@@ -144,7 +144,12 @@ public class Chain {
 		//adding fake errors
 		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
 		
-		TABtoPART();
+		try {
+			TABtoPART();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println("Finished TtoP");
 		INFOtoPARTWISE();
 		System.out.println("Finished ItoP");
@@ -154,7 +159,7 @@ public class Chain {
 	
 	
 	//---STEP---
-	public void TABtoPART(){
+	public void TABtoPART() throws Exception{
 
 		if(INSTRUMENT.equals("Guitar")) {
 			TABtoPARTstringed();
@@ -164,11 +169,11 @@ public class Chain {
 		}
 	}
 	
-	private void TABtoPARTstringed(){
+	private void TABtoPARTstringed() throws Exception{
 
 		
 		
-		TabReaderV4 TRv4 = new TabReaderV4(TAB.toString(), STAFFLINES);// 6 - num of string
+		TabReaderV4 TRv4 = new TabReaderV4(TAB, STAFFLINES);// 6 - num of string
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
