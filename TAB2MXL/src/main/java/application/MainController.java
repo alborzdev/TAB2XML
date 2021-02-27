@@ -81,10 +81,31 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType());
+        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());
         else { System.out.println(textarea.getText());
-        	chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType());     	
+        	chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());     	
         }
+        
+        try{chain.TABtoPART();} 
+        catch(Exception e) {
+        	AlertType type = AlertType.ERROR; 
+			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+			alert.getDialogPane().setContentText("This tab format is not currently supported"); 
+			alert.showAndWait();
+        }
+        try{chain.INFOtoPARTWISE();} 
+        catch(Exception e) {
+        	AlertType type = AlertType.ERROR; 
+			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
+			alert.showAndWait();
+        }
+		try {chain.MARSHtoXML();} catch (Exception e) {e.printStackTrace();
+		AlertType type = AlertType.ERROR; 
+		Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+		alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
+		alert.showAndWait();}
+        
         if(loc==null) {
         	System.out.println("Exporting has been cancelled");
         }
@@ -96,13 +117,12 @@ public class MainController implements Initializable {
        	  	Alert conf = new Alert(AlertType.CONFIRMATION,  
                  "Conversion was successful!"); 
        	 	conf.showAndWait(); 
-		} catch (IOException e) {
+		} catch (IOException e) { 
 			AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("This tab format is not supported"); 
+			alert.getDialogPane().setContentText("Exporting was cancelled. Please try again."); 
 			alert.showAndWait();
-			e.printStackTrace();
-		}
+			e.printStackTrace();	}
 	}
 	//
 	/**
