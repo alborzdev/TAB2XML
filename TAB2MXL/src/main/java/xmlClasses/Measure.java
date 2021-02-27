@@ -10,6 +10,7 @@ public class Measure {
 	private int number;
 	private Attributes att;
 	private ArrayList<Note> note;
+	private ArrayList<DrumNote> drumNote;
 	
 	public Measure() {
 		
@@ -62,5 +63,9 @@ public class Measure {
 	public void addNote(Note n) {
 		note.add(n);
 	}
+	//DrumPartWriter
+		public void addDrumNote(DrumNote n) {
+			drumNote.add(n);
+		}
 	
 }
