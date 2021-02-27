@@ -28,7 +28,7 @@ public class TabReaderV4{
 	//every measure must be the same length
 	private boolean eof;
 	
-	private TabReaderV4() { //basic, config-driven constructor for easy testing - replace with parameter driven version in future
+	protected TabReaderV4() throws Exception { //basic, config-driven constructor for easy testing - replace with parameter driven version in future
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
 		this.file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 		this.eof = false;
@@ -38,7 +38,7 @@ public class TabReaderV4{
 		this.evaluateLine();
 	}
 	
-	public TabReaderV4(File file, int string_count) { //basic, parameter-driven constructor
+	public TabReaderV4(File file, int string_count) throws Exception { //basic, parameter-driven constructor
 		this.string_count = string_count;
 		this.file = file;
 		this.eof = false;
@@ -48,7 +48,7 @@ public class TabReaderV4{
 		this.evaluateLine();
 	}
 	
-	public TabReaderV4(String contents, int string_count) { //basic, parameter-driven constructor
+	public TabReaderV4(String contents, int string_count) throws Exception { //basic, parameter-driven constructor
 		this.string_count = string_count;
 		this.eof = false;
 		// measures start at 1, index 0 exists - but is reserved for tuning data
@@ -64,12 +64,13 @@ public class TabReaderV4{
 		}catch(Exception e) {
 			System.out.println("DEBUG: autosave failure!");
 			System.out.println(e.toString());
+			throw new Exception("Problem autosaving tab");
 		}
 		
 	}
 	
 	
-	public void readMeasure() {
+	public void readMeasure() throws Exception {
 		//System.out.println("DEBUG: curr_measure: "+curr_measure);
 		if(curr_measure >= tabLine[0].length) {
 			curr_measure = 1;
@@ -97,7 +98,7 @@ public class TabReaderV4{
 		return this.tuning;
 	}
 	
-	public void evaluateLine() {
+	public void evaluateLine() throws Exception {
 		//new and improved, allows for inconsistent lengths + spacing + starting points
 		System.out.println("DEBUG: evaluating line: "+next_tabLine);
 		try {
@@ -131,7 +132,7 @@ public class TabReaderV4{
 					uTab[i] = temp;
 				}
 				else {
-					throw new Exception("bad formatting at line: " + this.scanLine);
+					throw new Exception("Bad formatting: detected at line " + this.scanLine);
 				}
 			}
 			
@@ -149,7 +150,7 @@ public class TabReaderV4{
 			int measures = bTab[0].length;
 			for(int i=1; i<this.string_count; i++) {
 				if(measures != bTab[i].length) {
-					throw new Exception("bad content, inconsisent measure count");
+					throw new Exception("Bad content: inconsisent measure count detected at row " + this.next_tabLine);
 				}
 			}
 			// same lengths for each simultameous measure
@@ -157,7 +158,7 @@ public class TabReaderV4{
 				int measureLength = bTab[0][i].length();
 				for(int j=1; j<bTab.length; j++) {
 					if(measureLength != bTab[j][i].length()) {
-						throw new Exception("bad content, inconsisent measure lengths");
+						throw new Exception("Bad content: inconsisent measure lengths detected at row " + this.next_tabLine);
 					}
 				}
 			}
@@ -178,6 +179,7 @@ public class TabReaderV4{
 			System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
 			System.out.println(e.toString());
 			this.eof = true;
+			throw e;
 		}
 		
 
