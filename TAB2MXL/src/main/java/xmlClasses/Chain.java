@@ -155,6 +155,16 @@ public class Chain {
 	//---STEP---
 	public void TABtoPART(){
 
+		if(INSTRUMENT.equals("Guitar")) {
+			TABtoPARTstringed();
+		}
+		else {
+			TABtoPARTdrum();
+		}
+	}
+	
+	private void TABtoPARTstringed(){
+
 		
 		
 		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
@@ -204,56 +214,51 @@ public class Chain {
 			
 	}
 	
-//	private void TABtoPARTdrum(){
-//		
-//		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
-//		
-//		
-//		//Making the Attributes
-//		//AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
-//		//AW.setTuning(TUNINGINFO);
-//		//ATT = AW.getAttributes();
-//		
-//		TRv2.resetMeasure();
-//		TRv2.readMeasure();
-//		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
-//		ArrayList<String> DK = DR.getDrumKit();
-//		while(TRv2.hasNext()) {
-//			
-//			//PW.nextMeasure(ATT);
-//			//ATT=null;
-//			while(DR.hasNext()) {
-//				MRv3.readNotes();
-//				boolean firstNoteAdded = false;
-//				for(String[] s:MRv3.getNotes()) {
-//					System.out.println("Alter" + s[4]+ "Accidental"+s[5]);
-//					
-//					
-//					if(firstNoteAdded) {
-//						if(s[4].equals("")) {
-//							PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//						else {
-//							PW.nextAlteredChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//											}
-//					else {
-//						if(s[4].equals("")) {
-//							PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//						else {
-//							PW.nextAlteredNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//						firstNoteAdded = true;
-//					}
-//					
-//				}
-//			}
-//			TRv3.readMeasure();
-//			
-//		}
-//			
-//	}
+	private void TABtoPARTdrum(){
+		System.out.println("DRUM DRUM DRUM");
+		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
+		
+		
+		//Making the Attributes
+		//AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
+		//AW.setTuning(TUNINGINFO);
+		//ATT = AW.getAttributes();
+		
+		TRv2.resetMeasure();
+		TRv2.readMeasure();
+		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
+		ArrayList<String> DK = DR.getDrumKit();// - needed scorepartwise
+		while(TRv2.hasNext()) {
+			
+			//PW.nextMeasure(ATT);
+			//ATT=null;
+			TRv2.readMeasure();
+            DR.setMeasure(TRv2.getMeasure());
+			while(DR.hasNext()) {
+				
+				boolean firstNoteAdded = false;
+				for(String[] s:DR.readNote()) {
+					System.out.println("Step"+s[0]+
+										"Octave"+Integer.parseInt(s[1])+
+										"Duration"+Integer.parseInt(s[2])+
+										"Intrument"+s[3]+
+										"Voice"+s[4]+
+										"Type"+s[5]+
+										"NoteHead"+s[6]);
+					if(firstNoteAdded) {
+						System.out.println("Chorded note");
+					}
+					else {
+						System.out.println("Non chorded note");
+						firstNoteAdded = true;
+					}
+					
+				}
+			}
+			
+		}
+			
+	}
 	
 	public void INFOtoPARTWISE() {
 		SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
