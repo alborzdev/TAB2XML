@@ -20,6 +20,8 @@ public class ScorePartwiseWriter {
 	private Part_List pl;
 	ArrayList <Creator> creators = new ArrayList<Creator>();
 	private Score_Part sp;
+	private ScorePartDrum spd;
+	private ArrayList<ScoreInstrument> si;
     
 	
 	public ScorePartwiseWriter(String title, String lyricist, String composer, Part part){
@@ -30,6 +32,19 @@ public class ScorePartwiseWriter {
 		sp = new Score_Part("P1", "Music"); //HARD CODED
 		pl = new Part_List(sp);
 		spw = new Score_Partwise(3.1, pl, part, id, work);
+	}
+	public ScorePartwiseWriter(String title, String lyricist, String composer, Part part, ArrayList<String> drumkit){         
+		work = new Work(title);         
+		creators.add(new Creator("composer", composer));         
+		creators.add(new Creator("lyricist", lyricist));          
+		id = new Identification (creators);       
+		for(String s : drumkit) {             
+			si.add(new ScoreInstrument("blah", "blah2"));  
+			}   
+		sp = new ScorePartDrum("P1", "Music", si);         
+		      
+		pl = new Part_List(spd);         
+		spw = new Score_Partwise(3.1, pl, part, id, work);     
 	}
 	
 	//done
