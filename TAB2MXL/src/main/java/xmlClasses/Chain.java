@@ -14,6 +14,7 @@ import test.DrumReader;
 import test.MeasureReaderV3;
 import test.TabReaderV2;
 import test.TabReaderV3;
+import test.TabReaderV4;
 
 public class Chain {
 	
@@ -167,16 +168,16 @@ public class Chain {
 
 		
 		
-		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
+		TabReaderV4 TRv4 = new TabReaderV4(TAB.toString(), STAFFLINES);// 6 - num of string
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
-		AW.setTuning(TUNINGINFO);
+		AW.setTuning(TUNINGINFO);//get tuning data using TRv4.getTuning()
 		ATT = AW.getAttributes();
 				
-		TRv3.readMeasure();
-		while(TRv3.hasNext()) {
-			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv3.getMeasure(), STAFFLINES, TIMESIG/10, TIMESIG%10);//6 - num of string, 4 4 - time signature
+		TRv4.readMeasure();
+		while(TRv4.hasNext()) {
+			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);//6 - num of string, 4 4 - time signature
 			
 	
 			PW.nextMeasure(ATT);
@@ -208,7 +209,7 @@ public class Chain {
 					
 				}
 			}
-			TRv3.readMeasure();
+			TRv4.readMeasure();
 			
 		}
 			
