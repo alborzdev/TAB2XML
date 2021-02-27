@@ -141,7 +141,6 @@ public class Chain {
 		//adding fake errors
 		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
 		
-		System.out.println("The instrument is: "+INSTRUMENT);
 		TABtoPART();
 		System.out.println("Finished TtoP");
 		INFOtoPARTWISE();
@@ -254,11 +253,11 @@ public class Chain {
 //			
 //	}
 	
-	private void INFOtoPARTWISE() {
+	public void INFOtoPARTWISE() {
 		SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
 	}
 	
-	private void MARSHtoXML() throws Exception{  
+	public void MARSHtoXML() throws Exception{  
 	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
 	  
 	    Marshaller marshallerObj = contextObj.createMarshaller();  
