@@ -5,14 +5,12 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class ScoreInstrument {
 	
-public class ScorePartDrum {
-	
 	private String id;
 	private String instName;
 
-	public ScorePartDrum() {}  
+	public ScoreInstrument() {}  
 	
-	public ScorePartDrum(String id, String instName) { 
+	public ScoreInstrument(String id, String instName) { 
 	    this.id = id;  
 	    this.instName = instName;
 	} 
@@ -26,12 +24,11 @@ public class ScorePartDrum {
 	} 
 	
 	@XmlElement(name="instrument-name")
-		public String getInstName() {  
-		    return instName;  
-		}  
-		public void setInstName(String instName) {  
-		    this.instName = instName;  
-		}  
-	}
-
+	public String getInstName() {  
+	    return instName;  
+	}  
+	public void setInstName(String instName) {  
+	    this.instName = instName;  
+	}  
 }
+
