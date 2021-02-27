@@ -59,7 +59,8 @@ public class TabReaderV4{
 		try {
 			FileWriter wr = new FileWriter(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
 			wr.write(contents);
-			wr.close();	
+			wr.close();
+			this.file = new File(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
 		}catch(Exception e) {
 			System.out.println("DEBUG: autosave failure!");
 			System.out.println(e.toString());
