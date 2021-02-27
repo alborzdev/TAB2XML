@@ -17,7 +17,7 @@ public class MeasureReaderV3 {
 	// A# = Bb, also
 	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
-	private int[] octaves = {3,3,4,4,4,5};
+	private int[] octaves = {2,2,3,3,3,4};
 	private int[] baseShifts = {2,5,1,4,7,2};
 	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
 	boolean hasNextColumn; //has next column?
