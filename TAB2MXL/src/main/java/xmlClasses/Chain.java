@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
+import test.DrumReader;
 import test.MeasureReaderV3;
+import test.TabReaderV2;
 import test.TabReaderV3;
 
 public class Chain {
@@ -64,7 +66,7 @@ public class Chain {
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
-	String CLEF = "TAB";
+	String CLEF;// = "TAB";
 	
 	/**HARDCODED: Divisions - Divisions works with duration to decide how many notes are in a measure(Derry knows)*/
 	int DIVISIONS = 4;
@@ -96,7 +98,7 @@ public class Chain {
 	 * @param KEY
 	 */
 	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
-					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT){
+					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
 		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.LYRICIST=LYRICIST;
@@ -105,10 +107,11 @@ public class Chain {
 		this.TIMESIG=TIMESIG;
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
-		MethodLadder();
+		this.CLEF=CLEF;
+		//MethodLadder();
 	}
 	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
-					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT){
+					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
 
 		//turning the string into a file so the v3 readers can have a File input type
 		try {
@@ -131,7 +134,8 @@ public class Chain {
 		this.TIMESIG=TIMESIG;
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
-		MethodLadder();
+		this.CLEF=CLEF;
+		//MethodLadder();
 	}
 	
 	//---ACTIONS---
@@ -139,7 +143,6 @@ public class Chain {
 		//adding fake errors
 		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
 		
-		System.out.println("The instrument is: "+INSTRUMENT);
 		TABtoPART();
 		System.out.println("Finished TtoP");
 		INFOtoPARTWISE();
@@ -150,7 +153,9 @@ public class Chain {
 	
 	
 	//---STEP---
-	private void TABtoPART(){
+	public void TABtoPART(){
+
+		
 		
 		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
 		
@@ -170,14 +175,24 @@ public class Chain {
 				MRv3.readNotes();
 				boolean firstNoteAdded = false;
 				for(String[] s:MRv3.getNotes()) {
-					System.out.println("HI");
+					System.out.println("Alter" + s[4]+ "Accidental"+s[5]);
 					
 					
 					if(firstNoteAdded) {
-						PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-					}
+						if(s[4].equals("")) {
+							PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+						}
+						else {
+							PW.nextAlteredChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+						}
+											}
 					else {
-						PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+						if(s[4].equals("")) {
+							PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+						}
+						else {
+							PW.nextAlteredNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+						}
 						firstNoteAdded = true;
 					}
 					
@@ -189,11 +204,62 @@ public class Chain {
 			
 	}
 	
-	private void INFOtoPARTWISE() {
+//	private void TABtoPARTdrum(){
+//		
+//		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
+//		
+//		
+//		//Making the Attributes
+//		//AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
+//		//AW.setTuning(TUNINGINFO);
+//		//ATT = AW.getAttributes();
+//		
+//		TRv2.resetMeasure();
+//		TRv2.readMeasure();
+//		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
+//		ArrayList<String> DK = DR.getDrumKit();
+//		while(TRv2.hasNext()) {
+//			
+//			//PW.nextMeasure(ATT);
+//			//ATT=null;
+//			while(DR.hasNext()) {
+//				MRv3.readNotes();
+//				boolean firstNoteAdded = false;
+//				for(String[] s:MRv3.getNotes()) {
+//					System.out.println("Alter" + s[4]+ "Accidental"+s[5]);
+//					
+//					
+//					if(firstNoteAdded) {
+//						if(s[4].equals("")) {
+//							PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+//						}
+//						else {
+//							PW.nextAlteredChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+//						}
+//											}
+//					else {
+//						if(s[4].equals("")) {
+//							PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+//						}
+//						else {
+//							PW.nextAlteredNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+//						}
+//						firstNoteAdded = true;
+//					}
+//					
+//				}
+//			}
+//			TRv3.readMeasure();
+//			
+//		}
+//			
+//	}
+	
+	public void INFOtoPARTWISE() {
 		SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
 	}
 	
-	private void MARSHtoXML() throws Exception{  
+	public void MARSHtoXML() throws Exception{  
 	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
 	  
 	    Marshaller marshallerObj = contextObj.createMarshaller();  

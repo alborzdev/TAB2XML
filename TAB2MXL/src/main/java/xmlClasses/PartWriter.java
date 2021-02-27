@@ -45,10 +45,20 @@ public class PartWriter {
 	}
 	
 	//Create Note with its Pitch object and adding it to the current measure.
-		public void nextChordNote(int duration, String type, String step, int octave, int string, int fret, int voice){
-			currentMeasure.addNote( new ChordNote( duration, type, new Pitch( step, octave ), new Notations( new Technical(string, fret) ), voice ) );
-			
-		}
+	public void nextChordNote(int duration, String type, String step, int octave, int string, int fret, int voice){
+		currentMeasure.addNote( new ChordNote( duration, type, new Pitch( step, octave ), new Notations( new Technical(string, fret) ), voice ) );
+	}
+	
+	//Create Note with its Pitch object and adding it to the current measure.
+	public void nextAlteredNote(int duration, String type, String step, int octave, int alter, int string, int fret, int voice){
+		currentMeasure.addNote( new Note( duration, type, new AlteredPitch( step, octave, alter), new Notations( new Technical(string, fret) ), voice) );
+		
+	}
+	
+	//Create Note with its Pitch object and adding it to the current measure.
+	public void nextAlteredChordNote(int duration, String type, String step, int octave, int alter, int string, int fret, int voice){
+		currentMeasure.addNote( new ChordNote( duration, type, new AlteredPitch( step, octave, alter), new Notations( new Technical(string, fret) ), voice ) );
+	}
 	
 	//Getter
 	public Part getPart() {
