@@ -26,7 +26,7 @@ public class MeasureReaderV3 {
 	//better way to decode notes
 
 	
-	public MeasureReaderV3(String[] measure) { //basic instructor for testing
+	protected MeasureReaderV3(String[] measure) { //basic instructor for testing
 		this.measure = measure;
 		this.character_count = measure[0].length();
 		String[] temp = {"E","B","G","D","A","E"};
