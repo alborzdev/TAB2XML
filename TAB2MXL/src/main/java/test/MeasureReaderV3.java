@@ -15,9 +15,9 @@ public class MeasureReaderV3 {
 	private char[] column;
 	private int noteLength;
 	// A# = Bb, also
-	private String[] tuning;
+	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
-	private int[] octaves;
+	private int[] octaves = {2,2,3,3,3,4};
 	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
 	boolean hasNextColumn; //has next column?
 	
@@ -29,10 +29,6 @@ public class MeasureReaderV3 {
 	protected MeasureReaderV3(String[] measure) { //basic instructor for testing
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		String[] temp = {"E","B","G","D","A","E"};
-		this.tuning = temp;
-		int[] oTemp = {2,2,3,3,3,4};
-		this.octaves = oTemp;
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
 		this.ts_beats = 4;
 		this.ts_beatlength = 4;
@@ -43,10 +39,6 @@ public class MeasureReaderV3 {
 	public MeasureReaderV3(String[] measure, int beats, int beatlength) { 
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		String[] temp = {"E","B","G","D","A","E"};
-		this.tuning = temp;
-		int[] oTemp = {2,2,3,3,3,4};
-		this.octaves = oTemp;
 		this.string_count = measure.length;
 		this.ts_beats = beats;
 		this.ts_beatlength = beatlength;
