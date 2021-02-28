@@ -35,7 +35,7 @@ public class DrumNote extends Note {
 	public void setDuration(int duration) {  
 	    this.duration = duration;  
 	}
-	
+	//test
 	@XmlElement
 	public String getType() {  
 	    return type;  
