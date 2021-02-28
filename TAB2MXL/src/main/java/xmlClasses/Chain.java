@@ -229,12 +229,12 @@ public class Chain {
 										"NoteHead"+s[6]);
 					if(firstNoteAdded) {
 						System.out.println("Chorded note");
-						if(s[6].equals("o")) {
-							System.out.println("Make a note chord without note head");
-						}
-						else {
-							DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
-						}
+//						if(s[6].equals("o")) {
+//							System.out.println("Make a note chord without note head");
+//						}
+//						else {
+						DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
+						//}
 						
 					}
 					else {
