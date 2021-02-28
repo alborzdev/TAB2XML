@@ -20,7 +20,7 @@ public class Chain {
 	
 	//---VARIABLES---
 	/**this File contains the user's tab to be parsed*/
-	File TAB;
+	String TAB;
 	
 	/**Contains the Title of the piece. Located top middle*/
 	String TITLE;
@@ -102,8 +102,12 @@ public class Chain {
 	 * @param TIMESIG
 	 * @param KEY
 	 */
-	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
+
+	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
+
+		//turning the string into a file so the v3 readers can have a File input type
+		
 		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.LYRICIST=LYRICIST;
@@ -113,56 +117,9 @@ public class Chain {
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
 		this.CLEF=CLEF;
-		//MethodLadder();
-	}
-	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
-					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
-
-		//turning the string into a file so the v3 readers can have a File input type
-		try {
-			String path = System.getProperty("user.dir") + "/testTab.txt";
-			FileWriter myWriter = new FileWriter(path);
-			myWriter.write(TAB);
-			myWriter.close();
-			this.TAB=new File(path);
-			System.out.println("Successfully wrote to the file.");
-		}catch (IOException e) {
-			System.out.println("An error occured in the Chain String constructor.");
-			e.printStackTrace();
-			ERROR.add(e);
-		}
-		
-		this.TITLE=TITLE;
-		this.LYRICIST=LYRICIST;
-		this.COMPOSER=COMPOSER;
-		this.LOCATION=LOCATION;
-		this.TIMESIG=TIMESIG;
-		this.KEY=KEY;
-		this.INSTRUMENT=INSTRUMENT;
-		this.CLEF=CLEF;
-		//MethodLadder();
 	}
 	
-	//---ACTIONS---
-	private void MethodLadder() {
-		//adding fake errors
-		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
-		
-		try {
-			TABtoPART();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		System.out.println("Finished TtoP");
-		INFOtoPARTWISE();
-		System.out.println("Finished ItoP");
-		try {MARSHtoXML();} catch (Exception e) {e.printStackTrace();}
-		System.out.println("Finished MtoX");
-	}
-	
-	
-	//---STEP---
+	//---STEP 1---
 	public void TABtoPART() throws Exception{
 
 		if(INSTRUMENT.equals("Guitar")) {
@@ -174,10 +131,23 @@ public class Chain {
 	}
 	
 	private void TABtoPARTstringed() throws Exception{
-
 		
+		File fTAB = null;
 		
-		TabReaderV4 TRv4 = new TabReaderV4(TAB, STAFFLINES);// 6 - num of string
+		try {
+			String path = System.getProperty("user.dir") + "/testTab.txt";
+			FileWriter myWriter = new FileWriter(path);
+			myWriter.write(TAB);
+			myWriter.close();
+			fTAB=new File(path);
+			System.out.println("Successfully wrote to the file.");
+		}catch (IOException e) {
+			System.out.println("An error occured in the Chain string to file maker.");
+			e.printStackTrace();
+			ERROR.add(e);
+		}
+		
+		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);// 6 - num of string
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
@@ -283,6 +253,7 @@ public class Chain {
 			
 	}
 	
+	//---STEP 2---
 	public void INFOtoPARTWISE() {
 		if(INSTRUMENT.equals("Guitar")) {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
@@ -293,6 +264,7 @@ public class Chain {
 		
 	}
 	
+	//---STEP 3---
 	public void MARSHtoXML() throws Exception{  
 	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
 	  
