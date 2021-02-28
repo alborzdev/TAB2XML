@@ -132,22 +132,9 @@ public class Chain {
 	
 	private void TABtoPARTstringed() throws Exception{
 		
-		File fTAB = null;
 		
-		try {
-			String path = System.getProperty("user.dir") + "/testTab.txt";
-			FileWriter myWriter = new FileWriter(path);
-			myWriter.write(TAB);
-			myWriter.close();
-			fTAB=new File(path);
-			System.out.println("Successfully wrote to the file.");
-		}catch (IOException e) {
-			System.out.println("An error occured in the Chain string to file maker.");
-			e.printStackTrace();
-			ERROR.add(e);
-		}
 		
-		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);// 6 - num of string
+		TabReaderV4 TRv4 = new TabReaderV4(TAB, STAFFLINES);// 6 - num of string
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
@@ -196,7 +183,22 @@ public class Chain {
 	
 	private void TABtoPARTdrum(){
 		System.out.println("DRUM DRUM DRUM");
-		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
+		
+		File fTAB = null;
+		
+		try {
+			String path = System.getProperty("user.dir") + "/testTab.txt";
+			FileWriter myWriter = new FileWriter(path);
+			myWriter.write(TAB);
+			myWriter.close();
+			fTAB=new File(path);
+			System.out.println("Successfully wrote to the file.");
+		}catch (IOException e) {
+			System.out.println("An error occured in the Chain string to file maker.");
+			e.printStackTrace();
+			ERROR.add(e);
+		}
+		TabReaderV2 TRv2 = new TabReaderV2(fTAB.toString());
 		
 		
 		//Making the Attributes
@@ -209,7 +211,7 @@ public class Chain {
 		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
 		DK = DR.getDrumKit();// - needed scorepartwise
 		while(TRv2.hasNext()) {
-			
+			System.out.println("I'M RIGHT HERE");
 			DPW.nextMeasure(ATT);
 			ATT=null;
 			TRv2.readMeasure();
