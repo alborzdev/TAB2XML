@@ -54,7 +54,7 @@ public class Chain {
 	ArrayList<Exception> ERROR = new ArrayList<Exception>();
 		
 	
-	/**HARDCODED: 6 - represents number staff lines in the tab*/
+	/**HARDCODED for drums: 6 - represents number staff lines in the tab*/
 	int STAFFLINES = 6;
 	
 	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
@@ -121,8 +121,13 @@ public class Chain {
 	
 	//---STEP 1---
 	public void TABtoPART() throws Exception{
-
+		
 		if(INSTRUMENT.equals("Guitar")) {
+			STAFFLINES = 6;
+			TABtoPARTstringed();
+		}
+		else if(INSTRUMENT.equals("Bass")) {
+			STAFFLINES = 4;
 			TABtoPARTstringed();
 		}
 		else {
@@ -135,7 +140,7 @@ public class Chain {
 		File fTAB = null;
 		
 		try {
-			String path = System.getProperty("user.dir") + "/testTab.txt";
+			String path = System.getProperty("user.dir") + "/autosaveTab.txt";
 			FileWriter myWriter = new FileWriter(path);
 			myWriter.write(TAB);
 			myWriter.close();
@@ -147,7 +152,7 @@ public class Chain {
 			ERROR.add(e);
 		}
 		
-		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);// 6 - num of string
+		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
@@ -196,7 +201,22 @@ public class Chain {
 	
 	private void TABtoPARTdrum(){
 		System.out.println("DRUM DRUM DRUM");
-		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
+		
+		File fTAB = null;
+		
+		try {
+			String path = System.getProperty("user.dir") + "/testTab.txt";
+			FileWriter myWriter = new FileWriter(path);
+			myWriter.write(TAB);
+			myWriter.close();
+			fTAB=new File(path);
+			System.out.println("Successfully wrote to the file.");
+		}catch (IOException e) {
+			System.out.println("An error occured in the Chain string to file maker.");
+			e.printStackTrace();
+			ERROR.add(e);
+		}
+		TabReaderV2 TRv2 = new TabReaderV2(fTAB.toString());
 		
 		
 		//Making the Attributes
@@ -209,7 +229,7 @@ public class Chain {
 		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
 		DK = DR.getDrumKit();// - needed scorepartwise
 		while(TRv2.hasNext()) {
-			
+			System.out.println("I'M RIGHT HERE");
 			DPW.nextMeasure(ATT);
 			ATT=null;
 			TRv2.readMeasure();
@@ -227,12 +247,12 @@ public class Chain {
 										"NoteHead"+s[6]);
 					if(firstNoteAdded) {
 						System.out.println("Chorded note");
-						if(s[6].equals("o")) {
-							System.out.println("Make a note chord without note head");
-						}
-						else {
-							DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
-						}
+//						if(s[6].equals("o")) {
+//							System.out.println("Make a note chord without note head");
+//						}
+//						else {
+						DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
+						//}
 						
 					}
 					else {
@@ -255,7 +275,7 @@ public class Chain {
 	
 	//---STEP 2---
 	public void INFOtoPARTWISE() {
-		if(INSTRUMENT.equals("Guitar")) {
+		if(INSTRUMENT.equals("Guitar")||INSTRUMENT.equals("Bass")) {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
 		}
 		else {
