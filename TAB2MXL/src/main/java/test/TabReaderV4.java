@@ -170,13 +170,19 @@ public class TabReaderV4{
 			this.tabLine = bTab;
 			//save tuning info for quick access
 			String[] defaultTuning = {"E","B","G","D","A","E"};
+			String[] defaultBassTuning = {"G","D","A","E"};
 			this.tuning = new String[this.string_count];
 			for(int i=0; i<this.string_count; i++) {
 				if(bTab[i][0].length() > 0) {  //check if tuning data is missing, replace with defaukt EADGBE
 					this.tuning[i] = bTab[i][0];
 				}else {
-					this.tuning = defaultTuning;
+					if(string_count == 6) {
+						this.tuning = defaultTuning;
+					}else {
+						this.tuning = defaultBassTuning;
+					}
 					break;
+					
 				}
 			}
 			this.next_tabLine ++;
