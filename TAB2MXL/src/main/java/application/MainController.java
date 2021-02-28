@@ -36,6 +36,9 @@ public class MainController implements Initializable {
 	@FXML 
 	private JFXComboBox<String> InstrumentType;
 	
+	@FXML 
+	private JFXComboBox<String> conversionType;
+	
 	@FXML
 	private JFXTextArea textarea;
 
@@ -78,10 +81,34 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType());
-        else { System.out.println(textarea.getText());
-        	chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType());     	
+
+        
+        //COMMENTED OUT THE OPTION TO FORCE THE CHAIN TO USE THE TEXT AREA -aidan
+//      if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());
+//      else { System.out.println(textarea.getText());
+        chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());     	
+//      }
+
+        try{chain.TABtoPART();} 
+        catch(Exception e) {
+        	AlertType type = AlertType.ERROR; 
+			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+			alert.getDialogPane().setContentText(e.getMessage()); 
+			alert.showAndWait();
         }
+        try{chain.INFOtoPARTWISE();} 
+        catch(Exception e) {
+        	AlertType type = AlertType.ERROR; 
+			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
+			alert.showAndWait();
+        }
+		try {chain.MARSHtoXML();} catch (Exception e) {e.printStackTrace();
+		AlertType type = AlertType.ERROR; 
+		Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+		alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
+		alert.showAndWait();}
+        
         if(loc==null) {
         	System.out.println("Exporting has been cancelled");
         }
@@ -90,16 +117,16 @@ public class MainController implements Initializable {
 			//SHOULD RECIEVE XML FROM BACKEND
 			write.write(chain.getXML());
        	  	write.close();
-       	  	Alert conf = new Alert(AlertType.INFORMATION,  
+       	  	Alert conf = new Alert(AlertType.CONFIRMATION,  
                  "Conversion was successful!"); 
+       	  	conf.setContentText("A MusicXML file has been exported. If any warnings or error messages have popped up, the output may be incorrect.");
        	 	conf.showAndWait(); 
-		} catch (IOException e) {
+		} catch (IOException e) { 
 			AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("This tab format is not supported"); 
+			alert.getDialogPane().setContentText("Exporting was cancelled. Please try again."); 
 			alert.showAndWait();
-			e.printStackTrace();
-		}
+			e.printStackTrace();	}
 	}
 	//
 	/**
@@ -148,6 +175,9 @@ public class MainController implements Initializable {
 		InstrumentType.getItems().add("Guitar");
 		InstrumentType.getItems().add("Drums");
 		InstrumentType.getItems().add("Bass");
+		
+		conversionType.getItems().add("Tab");
+		conversionType.getItems().add("Sheet Music");
 	}
 
 	public void init(Stage primaryStage) {
@@ -159,6 +189,28 @@ public class MainController implements Initializable {
 	/**
 	 * GETTERS FOR ADDITIONAL INFORMATION
 	 */
+	public String getConversionType() {
+		String s;
+		if(InstrumentType.getSelectionModel().isEmpty()==false) {
+			s =InstrumentType.getSelectionModel().getSelectedItem().toString();
+			switch(s) {
+			case "Sheet Music": return"G";
+			case "Tab":
+			default: return "TAB";
+			}
+		}
+			else {
+				s="TAB";
+				AlertType type = AlertType.WARNING; 
+				Alert alert = new Alert(type, "Required Information missing"); 
+				alert.getDialogPane().setContentText("Conversion type left empty (default = TAB)"); 
+				alert.showAndWait();
+			}
+		return s;
+	}
+	
+	
+	
 	//default = Guitar
 	public String getType() {
 		String s;
@@ -224,14 +276,5 @@ public class MainController implements Initializable {
 		String s=new String(title.getText());
 		return s;
 	}
-	
-	
-	public void errorMessage() {
-		AlertType type = AlertType.ERROR; 
-		Alert alert = new Alert(type, ""); 
-		alert.getDialogPane().setContentText("This tab format is not supported"); 
-		alert.showAndWait();
-	}
-	
 	
 }

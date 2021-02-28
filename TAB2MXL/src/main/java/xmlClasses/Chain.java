@@ -14,12 +14,13 @@ import test.DrumReader;
 import test.MeasureReaderV3;
 import test.TabReaderV2;
 import test.TabReaderV3;
+import test.TabReaderV4;
 
 public class Chain {
 	
 	//---VARIABLES---
 	/**this File contains the user's tab to be parsed*/
-	File TAB;
+	String TAB;
 	
 	/**Contains the Title of the piece. Located top middle*/
 	String TITLE;
@@ -41,6 +42,7 @@ public class Chain {
 	
 	/**This PartWriter object builds and stores the Part object*/
 	PartWriter PW = new PartWriter();
+	DrumPartWriter DPW = new DrumPartWriter();
 	
 	/**This ScorePartwiseWriter object builds and stores the ScorePartwise Object*/
 	ScorePartwiseWriter SPW;
@@ -86,6 +88,9 @@ public class Chain {
 	/**HARDCODED: Voice - 1*/
 	int VOICE = 1;
 	
+	/**This ArrayList shows the drum kit*/
+	ArrayList<String> DK;
+	
 	//---CONSTRUCTORS---
 	/**
 	 * 
@@ -97,8 +102,12 @@ public class Chain {
 	 * @param TIMESIG
 	 * @param KEY
 	 */
-	public Chain(	File TAB, String TITLE, String LYRICIST, String COMPOSER,
+
+	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
 					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
+
+		//turning the string into a file so the v3 readers can have a File input type
+		
 		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.LYRICIST=LYRICIST;
@@ -108,65 +117,46 @@ public class Chain {
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
 		this.CLEF=CLEF;
-		//MethodLadder();
 	}
-	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
-					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
+	
+	//---STEP 1---
+	public void TABtoPART() throws Exception{
 
-		//turning the string into a file so the v3 readers can have a File input type
+		if(INSTRUMENT.equals("Guitar")) {
+			TABtoPARTstringed();
+		}
+		else {
+			TABtoPARTdrum();
+		}
+	}
+	
+	private void TABtoPARTstringed() throws Exception{
+		
+		File fTAB = null;
+		
 		try {
 			String path = System.getProperty("user.dir") + "/testTab.txt";
 			FileWriter myWriter = new FileWriter(path);
 			myWriter.write(TAB);
 			myWriter.close();
-			this.TAB=new File(path);
+			fTAB=new File(path);
 			System.out.println("Successfully wrote to the file.");
 		}catch (IOException e) {
-			System.out.println("An error occured in the Chain String constructor.");
+			System.out.println("An error occured in the Chain string to file maker.");
 			e.printStackTrace();
 			ERROR.add(e);
 		}
 		
-		this.TITLE=TITLE;
-		this.LYRICIST=LYRICIST;
-		this.COMPOSER=COMPOSER;
-		this.LOCATION=LOCATION;
-		this.TIMESIG=TIMESIG;
-		this.KEY=KEY;
-		this.INSTRUMENT=INSTRUMENT;
-		this.CLEF=CLEF;
-		//MethodLadder();
-	}
-	
-	//---ACTIONS---
-	private void MethodLadder() {
-		//adding fake errors
-		ERROR.add(new Exception("BIG BAD ERROR! OH NO! - Located in the method ladder"));
-		
-		TABtoPART();
-		System.out.println("Finished TtoP");
-		INFOtoPARTWISE();
-		System.out.println("Finished ItoP");
-		try {MARSHtoXML();} catch (Exception e) {e.printStackTrace();}
-		System.out.println("Finished MtoX");
-	}
-	
-	
-	//---STEP---
-	public void TABtoPART(){
-
-		
-		
-		TabReaderV3 TRv3 = new TabReaderV3(TAB.toString(), STAFFLINES);// 6 - num of string
+		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);// 6 - num of string
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
-		AW.setTuning(TUNINGINFO);
+		AW.setTuning(TUNINGINFO);//get tuning data using TRv4.getTuning()
 		ATT = AW.getAttributes();
 				
-		TRv3.readMeasure();
-		while(TRv3.hasNext()) {
-			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv3.getMeasure(), STAFFLINES, TIMESIG/10, TIMESIG%10);//6 - num of string, 4 4 - time signature
+		TRv4.readMeasure();
+		while(TRv4.hasNext()) {
+			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);//6 - num of string, 4 4 - time signature
 			
 	
 			PW.nextMeasure(ATT);
@@ -198,67 +188,83 @@ public class Chain {
 					
 				}
 			}
-			TRv3.readMeasure();
+			TRv4.readMeasure();
 			
 		}
 			
 	}
 	
-//	private void TABtoPARTdrum(){
-//		
-//		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
-//		
-//		
-//		//Making the Attributes
-//		//AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
-//		//AW.setTuning(TUNINGINFO);
-//		//ATT = AW.getAttributes();
-//		
-//		TRv2.resetMeasure();
-//		TRv2.readMeasure();
-//		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
-//		ArrayList<String> DK = DR.getDrumKit();
-//		while(TRv2.hasNext()) {
-//			
-//			//PW.nextMeasure(ATT);
-//			//ATT=null;
-//			while(DR.hasNext()) {
-//				MRv3.readNotes();
-//				boolean firstNoteAdded = false;
-//				for(String[] s:MRv3.getNotes()) {
-//					System.out.println("Alter" + s[4]+ "Accidental"+s[5]);
-//					
-//					
-//					if(firstNoteAdded) {
-//						if(s[4].equals("")) {
-//							PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//						else {
-//							PW.nextAlteredChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//											}
-//					else {
-//						if(s[4].equals("")) {
-//							PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//						else {
-//							PW.nextAlteredNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3])-1, Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-//						}
-//						firstNoteAdded = true;
-//					}
-//					
-//				}
-//			}
-//			TRv3.readMeasure();
-//			
-//		}
-//			
-//	}
-	
-	public void INFOtoPARTWISE() {
-		SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
+	private void TABtoPARTdrum(){
+		System.out.println("DRUM DRUM DRUM");
+		TabReaderV2 TRv2 = new TabReaderV2(TAB.toString());
+		
+		
+		//Making the Attributes
+		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
+		AW.setTuning(TUNINGINFO);//use derry tuning info
+		ATT = AW.getAttributes();
+		
+		TRv2.resetMeasure();
+		TRv2.readMeasure();
+		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
+		DK = DR.getDrumKit();// - needed scorepartwise
+		while(TRv2.hasNext()) {
+			
+			DPW.nextMeasure(ATT);
+			ATT=null;
+			TRv2.readMeasure();
+            DR.setMeasure(TRv2.getMeasure());
+			while(DR.hasNext()) {
+				
+				boolean firstNoteAdded = false;
+				for(String[] s:DR.readNote()) {
+					System.out.println("Step"+s[0]+
+										"Octave"+Integer.parseInt(s[1])+
+										"Duration"+Integer.parseInt(s[2])+
+										"Intrument"+s[3]+
+										"Voice"+s[4]+
+										"Type"+s[5]+
+										"NoteHead"+s[6]);
+					if(firstNoteAdded) {
+						System.out.println("Chorded note");
+						if(s[6].equals("o")) {
+							System.out.println("Make a note chord without note head");
+						}
+						else {
+							DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
+						}
+						
+					}
+					else {
+						System.out.println("Non chorded note");
+						if(s[6].equals("o")) {
+							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up");
+						}
+						else {
+							DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
+						}
+						firstNoteAdded = true;
+					}
+					
+				}
+			}
+			
+		}
+			
 	}
 	
+	//---STEP 2---
+	public void INFOtoPARTWISE() {
+		if(INSTRUMENT.equals("Guitar")) {
+			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
+		}
+		else {
+			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, DPW.getDrumPart(), DK);
+		}
+		
+	}
+	
+	//---STEP 3---
 	public void MARSHtoXML() throws Exception{  
 	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
 	  

@@ -1,4 +1,5 @@
 package test;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,7 +17,7 @@ public class TabReaderV4{
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
-	private String tabRegex="([a-g]|[A-G])\\|(-|[0-9])+\\|((-|[0-9])+\\|)*";
+	private String tabRegex="([a-g]|[A-G])?\\|(-|[0-9])+\\|((-|[0-9])+\\|)*";
 	private Pattern tabPat = Pattern.compile(tabRegex);
 	//regex explaination / tab format restrictions
 	//must start with tuning data
@@ -98,6 +99,7 @@ public class TabReaderV4{
 		return this.tuning;
 	}
 	
+	
 	public void evaluateLine() throws Exception {
 		//new and improved, allows for inconsistent lengths + spacing + starting points
 		System.out.println("DEBUG: evaluating line: "+next_tabLine);
@@ -150,7 +152,7 @@ public class TabReaderV4{
 			int measures = bTab[0].length;
 			for(int i=1; i<this.string_count; i++) {
 				if(measures != bTab[i].length) {
-					throw new Exception("Bad content: inconsisent measure count detected at row " + this.next_tabLine);
+					throw new Exception("Bad content: inconsisent measure count detected at TabLine " + (this.next_tabLine +1));
 				}
 			}
 			// same lengths for each simultameous measure
@@ -158,7 +160,7 @@ public class TabReaderV4{
 				int measureLength = bTab[0][i].length();
 				for(int j=1; j<bTab.length; j++) {
 					if(measureLength != bTab[j][i].length()) {
-						throw new Exception("Bad content: inconsisent measure lengths detected at row " + this.next_tabLine);
+						throw new Exception("Bad content: inconsisent measure lengths detected at row " + (this.next_tabLine +1));
 					}
 				}
 			}
@@ -167,13 +169,25 @@ public class TabReaderV4{
 			//save broken-up tabLine
 			this.tabLine = bTab;
 			//save tuning info for quick access
+			String[] defaultTuning = {"E","B","G","D","A","E"};
 			this.tuning = new String[this.string_count];
 			for(int i=0; i<this.string_count; i++) {
-				this.tuning[i] = bTab[i][0];
+				if(bTab[i][0].length() > 0) {  //check if tuning data is missing, replace with defaukt EADGBE
+					this.tuning[i] = bTab[i][0];
+				}else {
+					this.tuning = defaultTuning;
+					break;
+				}
 			}
 			this.next_tabLine ++;
 			sc.close();
 			
+		}catch(NoSuchElementException e) {
+			//suppressed
+			System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
+			System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
+			System.out.println(e.toString());
+			this.eof = true;
 		}catch(Exception e) {
 			System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
 			System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
