@@ -119,6 +119,7 @@ public class MainController implements Initializable {
        	  	write.close();
        	  	Alert conf = new Alert(AlertType.CONFIRMATION,  
                  "Conversion was successful!"); 
+       	  	conf.setContentText("A MusicXML file has been exported. If any warnings or error messages have popped up, the output may be incorrect.");
        	 	conf.showAndWait(); 
 		} catch (IOException e) { 
 			AlertType type = AlertType.ERROR; 
@@ -275,14 +276,5 @@ public class MainController implements Initializable {
 		String s=new String(title.getText());
 		return s;
 	}
-	
-	
-	public void errorMessage() {
-		AlertType type = AlertType.ERROR; 
-		Alert alert = new Alert(type, ""); 
-		alert.getDialogPane().setContentText("This tab format is not supported"); 
-		alert.showAndWait();
-	}
-	
 	
 }
