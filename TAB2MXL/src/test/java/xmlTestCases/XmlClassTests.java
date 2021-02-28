@@ -156,6 +156,7 @@ public class XmlClassTests {
     	assertNotEquals(part, SPW.getScore_Partwise().getPart());
     	assertNotEquals(SPW, SPW2);
     }
+    
     @Test
     /**
      * Testing the score partwise writer

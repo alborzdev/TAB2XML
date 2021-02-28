@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder={"pitch", "duration", "type", "notations"})
-@XmlSeeAlso({ChordNote.class})
+@XmlSeeAlso({ChordNote.class, DrumNote.class})
 public class Note {
 	private int duration;
 	private String type;

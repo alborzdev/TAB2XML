@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({DrumNoteB.class, DrumNoteNH.class, DrumNoteBNH.class, DrumNoteChord.class})
-public class DrumNote {
+public class DrumNote extends Note {
 	private int duration;
 	private String type;
 	private Unpitched unpitched;
