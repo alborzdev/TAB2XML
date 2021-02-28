@@ -54,7 +54,7 @@ public class Chain {
 	ArrayList<Exception> ERROR = new ArrayList<Exception>();
 		
 	
-	/**HARDCODED: 6 - represents number staff lines in the tab*/
+	/**HARDCODED for drums: 6 - represents number staff lines in the tab*/
 	int STAFFLINES = 6;
 	
 	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
@@ -121,8 +121,13 @@ public class Chain {
 	
 	//---STEP 1---
 	public void TABtoPART() throws Exception{
-
+		
 		if(INSTRUMENT.equals("Guitar")) {
+			STAFFLINES = 6;
+			TABtoPARTstringed();
+		}
+		else if(INSTRUMENT.equals("Bass")) {
+			STAFFLINES = 4;
 			TABtoPARTstringed();
 		}
 		else {
@@ -132,9 +137,22 @@ public class Chain {
 	
 	private void TABtoPARTstringed() throws Exception{
 		
+		File fTAB = null;
 		
+		try {
+			String path = System.getProperty("user.dir") + "/autosaveTab.txt";
+			FileWriter myWriter = new FileWriter(path);
+			myWriter.write(TAB);
+			myWriter.close();
+			fTAB=new File(path);
+			System.out.println("Successfully wrote to the file.");
+		}catch (IOException e) {
+			System.out.println("An error occured in the Chain string to file maker.");
+			e.printStackTrace();
+			ERROR.add(e);
+		}
 		
-		TabReaderV4 TRv4 = new TabReaderV4(TAB, STAFFLINES);// 6 - num of string
+		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
@@ -257,7 +275,7 @@ public class Chain {
 	
 	//---STEP 2---
 	public void INFOtoPARTWISE() {
-		if(INSTRUMENT.equals("Guitar")) {
+		if(INSTRUMENT.equals("Guitar")||INSTRUMENT.equals("Bass")) {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
 		}
 		else {
