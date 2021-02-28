@@ -2,17 +2,20 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class Unpitched extends Pitch {
+public class Unpitched{
+	private String step;
+	private int octave;
 	
 	public Unpitched() {
-		
+
 	}
 	
 	public Unpitched(String step, int octave) {
-		super(step, octave);	
+		this.step = step;
+		this.octave = octave;
 	}
-	/*
-	@XmlElement
+	
+	@XmlElement(name="display-step")
 	public String getStep() {  
 	    return step;  
 	}  
@@ -20,12 +23,11 @@ public class Unpitched extends Pitch {
 	    this.step = step;  
 	}
 	
-	@XmlElement
+	@XmlElement(name="display-octave")
 	public int getOctave() {  
 	    return octave;  
 	}  
 	public void setOctave(int octave) {  
 	    this.octave = octave;  
-	*/ //DONT NEED THIS BECAUSE OF EXTENDS?
-	
+	}
 }

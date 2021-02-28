@@ -1,5 +1,7 @@
 package tab2mxl;
 
+import java.io.File;
+
 import config.*;
 import test.*;
 
@@ -19,17 +21,21 @@ public class Main {
 		//TabReaderV2 tb = new TabReaderV2("./src/main/java/testTab.txt");
 		
 		//TabReaderV3 tb = new TabReaderV3();
-		TabReaderV3 tb = new TabReaderV3(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"),6);
-		
-		tb.readMeasure();
-		while(tb.hasNext()) {	
-			MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure());
-			while(ms.hasNext()) {
-				ms.readNotes();
-				ms.getNotes();
-			}
+		try {
+			File file = new File(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
+			TabReaderV4 tb = new TabReaderV4(file,6);
 			tb.readMeasure();
-			//measure break
+			while(tb.hasNext()) {	
+				MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure(),tb.getTuning(),4,4);
+				while(ms.hasNext()) {
+					ms.readNotes();
+					ms.getNotes();
+				}
+				tb.readMeasure();
+				//measure break
+			}
+		}catch(Exception e) {
+			System.out.println(e.toString());
 		}
 	}
 

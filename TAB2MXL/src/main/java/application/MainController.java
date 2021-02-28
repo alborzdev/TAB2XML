@@ -81,17 +81,19 @@ public class MainController implements Initializable {
            saver.getExtensionFilters().add(extFilter);
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
-        System.out.println(getConversionType());
-        if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());
-        else { System.out.println(textarea.getText());
-        	chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());     	
-        }
+
         
+        //COMMENTED OUT THE OPTION TO FORCE THE CHAIN TO USE THE TEXT AREA -aidan
+//      if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());
+//      else { System.out.println(textarea.getText());
+        chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());     	
+//      }
+
         try{chain.TABtoPART();} 
         catch(Exception e) {
         	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("This tab format is not currently supported"); 
+			alert.getDialogPane().setContentText(e.getMessage()); 
 			alert.showAndWait();
         }
         try{chain.INFOtoPARTWISE();} 

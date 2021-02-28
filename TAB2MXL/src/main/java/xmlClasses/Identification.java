@@ -24,5 +24,13 @@ public class Identification {
 	public void setCreator(ArrayList <Creator> creators) {  
 	    this.creators = creators;  
 	}
+	
+	public Creator getCreator(int id) {  
+	    return creators.get(id);  
+	}  
+	public void setCreatorName(int id, Creator creator) {  
+	    creators.get(id).setName(creator.getName());
+	}  
+	
 
 }
