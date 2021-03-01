@@ -244,7 +244,13 @@ public class MeasureReaderV3 {
 		System.out.println("DEBUG: attempting to infer octaves from tuning information: ");
 		this.stringArrayDump("tuning info", tuning);
 		
-		int lowestOctave = 2; //lowest note possible is C2?
+		int lowestOctave;
+		if(tuning.length < 6) {
+			lowestOctave = 3; //lowest note possible is C2?
+		}else {
+			lowestOctave = 2;
+		}
+		
 		int[] baseOctaves = new int[this.string_count];
 		int counter = 0;
 		for(int i=this.string_count-1; i>=0; i--) {
