@@ -260,16 +260,17 @@ public class MainController implements Initializable {
 	}
 	//default = 4/4
 	public int getTimeSig() {
-		int indx = TimeSig.getSelectionModel().getSelectedIndex();
-		switch(indx) {
-		case 0: return 34;
-		case 1: return 44;
-		case 2: return 54;
-		case 3: return 68;
-		case 4: return 78;
-		case 5: return 128;
-		default: return 44;
-		}
+		//int indx = TimeSig.getSelectionModel().getSelectedIndex();
+		//switch(indx) {
+		//case 0: return 34;
+		//case 1: return 44;
+		//case 2: return 54;
+		//case 3: return 68;
+		//case 4: return 78;
+		//case 5: return 128;
+		//default: return 44;
+		//}
+		return 44;
 	}
 	
 	@FXML
