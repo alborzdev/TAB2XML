@@ -161,7 +161,7 @@ public class Chain {
 		
 		String[] tuning = TRv4.getTuning();
 		for(int i = 0; i < STAFFLINES; i++) {
-			TUNINGINFO[5-i][0] = tuning[i];
+			TUNINGINFO[5-i][0] = tuning[i].toUpperCase();
 		}
 		
 		AW.setTuning(TUNINGINFO);//get tuning data using TRv4.getTuning()
