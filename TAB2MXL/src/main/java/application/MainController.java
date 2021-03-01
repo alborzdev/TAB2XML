@@ -179,16 +179,16 @@ public class MainController implements Initializable {
 		KeySig.getItems().add("F# Major");
 		KeySig.getItems().add("C# Major");
 		
-		TimeSig.getItems().add("3/4");
+		//TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
-		TimeSig.getItems().add("5/4");
-		TimeSig.getItems().add("6/8");
-		TimeSig.getItems().add("7/8");
-		TimeSig.getItems().add("12/8");
+//		TimeSig.getItems().add("5/4");
+//		TimeSig.getItems().add("6/8");
+//		TimeSig.getItems().add("7/8");
+//		TimeSig.getItems().add("12/8");
 		
 		InstrumentType.getItems().add("Guitar");
-		InstrumentType.getItems().add("Drums");
-		InstrumentType.getItems().add("Bass");
+		InstrumentType.getItems().add("Drums - not completely implemented");
+		InstrumentType.getItems().add("Bass - not completely implemented");
 		
 		conversionType.getItems().add("Tab");
 		conversionType.getItems().add("Sheet Music");
