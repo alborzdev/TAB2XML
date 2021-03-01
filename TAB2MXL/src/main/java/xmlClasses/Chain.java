@@ -60,12 +60,12 @@ public class Chain {
 	
 	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
 	String[][] TUNINGINFO = {
-			new String[] {"","4"},
-			new String[] {"","3"},
-			new String[] {"","3"},
-			new String[] {"","3"},
 			new String[] {"","2"},
-			new String[] {"","2"}
+			new String[] {"","2"},
+			new String[] {"","3"},
+			new String[] {"","3"},
+			new String[] {"","3"},
+			new String[] {"","4"}
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
@@ -161,7 +161,7 @@ public class Chain {
 		
 		String[] tuning = TRv4.getTuning();
 		for(int i = 0; i < STAFFLINES; i++) {
-			TUNINGINFO[i][0] = tuning[i];
+			TUNINGINFO[5-i][0] = tuning[i];
 		}
 		
 		AW.setTuning(TUNINGINFO);//get tuning data using TRv4.getTuning()
