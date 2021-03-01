@@ -175,7 +175,7 @@ public class TabReaderV4{
 			String[] defaultBassTuning = {"G","D","A","E"};
 			
 			for(int i=0; i<this.string_count; i++) {
-				if(bTab[i][0] != null) {
+				if(bTab[i][0] != null && bTab[i][0] != "") {
 					this.tuning[i] = bTab[i][0];
 				}else {
 					if(this.string_count == 6) {
@@ -185,6 +185,8 @@ public class TabReaderV4{
 					}
 				}
 			}
+			this.stringArrayDump("tuning", this.tuning);
+			
 			this.next_tabLine ++;
 			sc.close();
 			
