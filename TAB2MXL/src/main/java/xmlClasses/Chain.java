@@ -108,7 +108,7 @@ public class Chain {
 
 		//turning the string into a file so the v3 readers can have a File input type
 		
-		this.TAB=TAB.trim();
+		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
@@ -153,13 +153,19 @@ public class Chain {
 		}
 		
 		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);
+		TRv4.readMeasure();
 		
 		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
+		
+		String[] tuning = TRv4.getTuning();
+		for(int i = 0; i < STAFFLINES; i++) {
+			TUNINGINFO[i][0] = tuning[i];
+		}
+		
 		AW.setTuning(TUNINGINFO);//get tuning data using TRv4.getTuning()
 		ATT = AW.getAttributes();
-				
-		TRv4.readMeasure();
+		
 		while(TRv4.hasNext()) {
 			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);//6 - num of string, 4 4 - time signature
 			
@@ -196,6 +202,8 @@ public class Chain {
 			TRv4.readMeasure();
 			
 		}
+		
+		
 			
 	}
 	
@@ -312,31 +320,4 @@ public class Chain {
 	public ArrayList<Exception> getError() {
 		return ERROR;
 	}
-	
-	public String getTab() {
-		return TAB;
-	}
-	
-	public String getTitle() {
-		return TITLE;
-	}
-	
-	public String getComposer() {
-		return COMPOSER;
-	}
-	
-	public String getLyricist() {
-		return LYRICIST;
-	}
-	
-	public int getStaffLines() {
-		return STAFFLINES;
-	}
-	
-	//Setters
-	
-	public void setInst(String inst) {
-		this.INSTRUMENT = inst;
-	}
-	
 }
