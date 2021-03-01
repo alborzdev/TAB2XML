@@ -4,11 +4,13 @@ package xmlTestCases;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import xmlClasses.Attributes;
+import xmlClasses.Chain;
 import xmlClasses.Clef;
 import xmlClasses.Instrument;
 import xmlClasses.Key;
@@ -37,6 +39,10 @@ public class XmlClassTests {
 	private Measure measure2;
 	private StaffDetails sd;
 	
+	private Chain chain;
+	private int randomfret;
+	private String TAB;
+	
 	@BeforeEach
     public void setUp() throws Exception {
         p = new Pitch("C", 4);
@@ -45,6 +51,18 @@ public class XmlClassTests {
         n2 = new Note(4, "quarter", p, nots, voice);
         part = new Part();
         part2 = new Part("1");
+        
+        Random r = new Random();
+        randomfret=r.nextInt(10);
+        
+        TAB = "e|-----------------|\n"+
+        "B|-----------------|\n"+
+        "G|-----------------|\n"+
+        "D|-----------------|\n"+
+        "A|-----------------|\n"+
+        "E|-"+randomfret+"---------------|";
+        
+        chain = new Chain(TAB,"First Song", "Queen B", "Ludwig van Beethoven", "savingLocation.txt",44,"C major","Guitar","TAB");
         
     }
 
