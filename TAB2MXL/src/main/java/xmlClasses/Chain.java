@@ -333,7 +333,7 @@ public class Chain {
 		return STAFFLINES;
 	}
 	
-	//Setters
+	//Setterss
 	
 	public void setInst(String inst) {
 		this.INSTRUMENT = inst;
