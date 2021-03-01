@@ -108,7 +108,7 @@ public class Chain {
 
 		//turning the string into a file so the v3 readers can have a File input type
 		
-		this.TAB=TAB;
+		this.TAB=TAB.trim();
 		this.TITLE=TITLE;
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
