@@ -185,11 +185,13 @@ public class MeasureReaderV3 {
 			return null; //need to handle bad numbers and stuff better? maybe not necessary at all - all formatting filtering is done by tabreader
 		}else {
 			String[] out = new String[2];
-			int octave = this.octaves[this.string_count-string-1];
-			for(int i=1; i<=fret; i++) {
+			int octave = this.octaves[string];
+			System.out.println("DEBUG: base octave: " + octave);
+			for(int i=1; i<=fret; i++) {				
 				if(((counter + i) % 12) == 0) {
 					octave ++;
 				}
+				System.out.println("DEBUG: COUNTED FRET: " + i + " octave :" + octave);
 			}
 			int note = (counter+fret) % 12;
 			out[0] = scale[note];
