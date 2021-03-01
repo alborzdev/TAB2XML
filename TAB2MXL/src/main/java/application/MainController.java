@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.Desktop;
 import java.io.File;
 
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import xmlClasses.Chain;
@@ -132,7 +134,7 @@ public class MainController implements Initializable {
 	       	  	write.close();
 	       	  	Alert conf = new Alert(AlertType.CONFIRMATION,  
 	                 "Conversion was successful!"); 
-	       	  	conf.setContentText("A MusicXML file has been exported. If any warnings or error messages have popped up, the output may be incorrect.");
+	       	  	conf.setContentText("A MusicXML file has been exported.");
 	       	 	conf.showAndWait(); 
 			} catch (IOException e) { 
 				AlertType type = AlertType.ERROR; 
@@ -150,15 +152,16 @@ public class MainController implements Initializable {
 	@FXML
 	private MenuItem help;
 	public void UserManual(ActionEvent event) {
-		 FileWriter write;
-			try {
-				write = new FileWriter("user.home");
-				write.write("TAB2MXL_UserManual.pdf");
-	       	  	write.close();
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			}
+		File usermanual = new File("Documentation/User Manual.pdf");
+		if (Desktop.isDesktopSupported()) {
+	        new Thread(() -> {
+	            try {
+	                Desktop.getDesktop().open(usermanual);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }).start();
+	    }
 	}
 	
 	
@@ -222,8 +225,6 @@ public class MainController implements Initializable {
 			}
 		return s;
 	}
-	
-	
 	
 	//default = Guitar
 	public String getType() {
