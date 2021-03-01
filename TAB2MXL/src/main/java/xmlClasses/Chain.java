@@ -312,4 +312,31 @@ public class Chain {
 	public ArrayList<Exception> getError() {
 		return ERROR;
 	}
+	
+	public String getTab() {
+		return TAB;
+	}
+	
+	public String getTitle() {
+		return TITLE;
+	}
+	
+	public String getComposer() {
+		return COMPOSER;
+	}
+	
+	public String getLyricist() {
+		return LYRICIST;
+	}
+	
+	public int getStaffLines() {
+		return STAFFLINES;
+	}
+	
+	//Setters
+	
+	public void setInst(String inst) {
+		this.INSTRUMENT = inst;
+	}
+	
 }
