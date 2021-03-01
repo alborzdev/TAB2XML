@@ -15,12 +15,12 @@ Please refer to the User Manual for a step-by-step guide on how to install and r
 
 
 ## Documentation
-[Software Requirements.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Software%20Requirements%20Document.docx) ||
-[Software Requirements.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Software%20Requirements%20Document.pdf) ||
-[User Manual.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/User%20Manual.docx) || 
-[User Mnaual.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/User%20Manual.pdf) || 
-[Testing Document.docx]() || 
-[Testing Document.pdf]() || 
+[Software Requirements.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Software%20Requirements%20Document.docx) ||  
+[Software Requirements.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Software%20Requirements%20Document.pdf) ||   
+[User Manual.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/User%20Manual.docx) ||  
+[User Mnaual.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/User%20Manual.pdf) ||  
+[Testing Document.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Testing%20Document.docx) ||  
+[Testing Document.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Testing%20Document.pdf) ||  
 
 ## Group 1 contributors: 
 Lian Attily, Alborz Gharabaghi, Robert Mealey, Derui Liu, Isaiah Linares
