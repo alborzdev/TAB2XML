@@ -36,6 +36,7 @@ public class ScorePartDrum extends Score_Part{
 	    sii.add(new ScoreInstrument("P1-I60", "Ride Cymbal 2"));
 	    sii.add(new ScoreInstrument("P1-I64", "Open Hi Conga"));
 	    sii.add(new ScoreInstrument("P1-I65", "Low Conga"));
+	    //HARDCODED
 	    
 	} 
 	
