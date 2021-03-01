@@ -60,12 +60,12 @@ public class Chain {
 	
 	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
 	String[][] TUNINGINFO = {
-			new String[] {"E","2"},
-			new String[] {"A","2"},
-			new String[] {"D","3"},
-			new String[] {"G","3"},
-			new String[] {"B","3"},
-			new String[] {"E","4"}
+			new String[] {"","2"},
+			new String[] {"","2"},
+			new String[] {"","3"},
+			new String[] {"","3"},
+			new String[] {"","3"},
+			new String[] {"","4"}
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
@@ -155,13 +155,19 @@ public class Chain {
 		
 		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);
 		TRv4.readMeasure();
-		
+	
 		//Making the Attributes
-		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
+		//Sheet music lines
+		int SMSL = STAFFLINES;
+		if(!CLEF.equals("TAB")) {
+			SMSL = 5;
+		}
+		
+		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, SMSL);
 		
 		String[] tuning = TRv4.getTuning();
 		for(int i = 0; i < STAFFLINES; i++) {
-			TUNINGINFO[i][0] = tuning[i];
+			TUNINGINFO[5-i][0] = tuning[i].toUpperCase();
 		}
 		
 		AW.setTuning(TUNINGINFO);//get tuning data using TRv4.getTuning()
@@ -228,7 +234,6 @@ public class Chain {
 		TabReaderV2 TRv2 = new TabReaderV2(fTAB.toString());
 		
 		
-		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
 		AW.setTuning(TUNINGINFO);//use derry tuning info
 		ATT = AW.getAttributes();
