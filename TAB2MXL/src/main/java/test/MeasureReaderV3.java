@@ -245,10 +245,10 @@ public class MeasureReaderV3 {
 		this.stringArrayDump("tuning info", tuning);
 		
 		int lowestOctave;
-		if(tuning.length < 6) {
-			lowestOctave = 3; //lowest note possible is C2?
+		if(tuning.length == 6) {
+			lowestOctave = 2; //lowest note possible is C2?
 		}else {
-			lowestOctave = 2;
+			lowestOctave = 1;
 		}
 		
 		int[] baseOctaves = new int[this.string_count];
