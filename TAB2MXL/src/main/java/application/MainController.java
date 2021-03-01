@@ -191,8 +191,8 @@ public class MainController implements Initializable {
 	 */
 	public String getConversionType() {
 		String s;
-		if(InstrumentType.getSelectionModel().isEmpty()==false) {
-			s =InstrumentType.getSelectionModel().getSelectedItem().toString();
+		if(conversionType.getSelectionModel().isEmpty()==false) {
+			s = conversionType.getSelectionModel().getSelectedItem().toString();
 			switch(s) {
 			case "Sheet Music": return"G";
 			case "Tab":
