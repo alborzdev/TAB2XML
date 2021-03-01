@@ -171,13 +171,13 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		KeySig.getItems().add("C Major");
-		KeySig.getItems().add("G Major");
-		KeySig.getItems().add("D Major");
-		KeySig.getItems().add("A Major");
-		KeySig.getItems().add("E Major");
-		KeySig.getItems().add("B Major");
-		KeySig.getItems().add("F# Major");
-		KeySig.getItems().add("C# Major");
+//		KeySig.getItems().add("G Major");
+//		KeySig.getItems().add("D Major");
+//		KeySig.getItems().add("A Major");
+//		KeySig.getItems().add("E Major");
+//		KeySig.getItems().add("B Major");
+//		KeySig.getItems().add("F# Major");
+//		KeySig.getItems().add("C# Major");
 		
 		//TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
