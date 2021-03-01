@@ -17,7 +17,7 @@ public class TabReaderV4{
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
-	private String tabRegex="([a-g]|[A-G])\\|(-|[0-9])+\\|((-|[0-9])+\\|)*";
+	private String tabRegex="([a-g]|[A-G])?\\|(-|[0-9])+\\|((-|[0-9])+\\|)*";
 	private Pattern tabPat = Pattern.compile(tabRegex);
 	//regex explaination / tab format restrictions
 	//must start with tuning data
@@ -170,8 +170,20 @@ public class TabReaderV4{
 			this.tabLine = bTab;
 			//save tuning info for quick access
 			this.tuning = new String[this.string_count];
+			
+			String[] defaultGuitarTuning = {"E","B","G","D","A","E"};
+			String[] defaultBassTuning = {"G","D","A","E"};
+			
 			for(int i=0; i<this.string_count; i++) {
-				this.tuning[i] = bTab[i][0];
+				if(bTab[i][0] != null) {
+					this.tuning[i] = bTab[i][0];
+				}else {
+					if(this.string_count == 6) {
+						this.tuning = defaultGuitarTuning;
+					}else {
+						this.tuning = defaultBassTuning;
+					}
+				}
 			}
 			this.next_tabLine ++;
 			sc.close();
