@@ -88,9 +88,12 @@ public class MainController implements Initializable {
 //      else { System.out.println(textarea.getText());
         chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());     	
 //      }
-
+        
+        boolean errorEvent = false;
+        
         try{chain.TABtoPART();} 
         catch(Exception e) {
+        	errorEvent = true;
         	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
 			alert.getDialogPane().setContentText(e.getMessage()); 
@@ -98,35 +101,46 @@ public class MainController implements Initializable {
         }
         try{chain.INFOtoPARTWISE();} 
         catch(Exception e) {
+        	errorEvent = true;
         	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
 			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
 			alert.showAndWait();
         }
-		try {chain.MARSHtoXML();} catch (Exception e) {e.printStackTrace();
-		AlertType type = AlertType.ERROR; 
-		Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-		alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
-		alert.showAndWait();}
+		try {chain.MARSHtoXML();}
+		catch (Exception e) {
+			errorEvent = true;
+			AlertType type = AlertType.ERROR; 
+			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+			alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
+			alert.showAndWait();}
         
         if(loc==null) {
         	System.out.println("Exporting has been cancelled");
         }
-        try {
-			write = new FileWriter(loc);
-			//SHOULD RECIEVE XML FROM BACKEND
-			write.write(chain.getXML());
-       	  	write.close();
-       	  	Alert conf = new Alert(AlertType.CONFIRMATION,  
-                 "Conversion was successful!"); 
-       	  	conf.setContentText("A MusicXML file has been exported. If any warnings or error messages have popped up, the output may be incorrect.");
-       	 	conf.showAndWait(); 
-		} catch (IOException e) { 
-			AlertType type = AlertType.ERROR; 
+        else if(errorEvent) {
+        	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("Exporting was cancelled. Please try again."); 
+			alert.getDialogPane().setContentText("Exporting was cancelled due to previous errors.");
 			alert.showAndWait();
-			e.printStackTrace();	}
+        }
+        else {
+	        try {
+				write = new FileWriter(loc);
+				//SHOULD RECIEVE XML FROM BACKEND
+				write.write(chain.getXML());
+	       	  	write.close();
+	       	  	Alert conf = new Alert(AlertType.CONFIRMATION,  
+	                 "Conversion was successful!"); 
+	       	  	conf.setContentText("A MusicXML file has been exported. If any warnings or error messages have popped up, the output may be incorrect.");
+	       	 	conf.showAndWait(); 
+			} catch (IOException e) { 
+				AlertType type = AlertType.ERROR; 
+				Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+				alert.getDialogPane().setContentText("Exporting was cancelled. Please try again."); 
+				alert.showAndWait();
+				e.printStackTrace();	}
+        }
 	}
 	//
 	/**
