@@ -155,9 +155,15 @@ public class Chain {
 		
 		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);
 		TRv4.readMeasure();
-		
+	
 		//Making the Attributes
-		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
+		//Sheet music lines
+		int SMSL = STAFFLINES;
+		if(!CLEF.equals("TAB")) {
+			SMSL = 5;
+		}
+		
+		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, SMSL);
 		
 		String[] tuning = TRv4.getTuning();
 		for(int i = 0; i < STAFFLINES; i++) {
@@ -228,7 +234,6 @@ public class Chain {
 		TabReaderV2 TRv2 = new TabReaderV2(fTAB.toString());
 		
 		
-		//Making the Attributes
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
 		AW.setTuning(TUNINGINFO);//use derry tuning info
 		ATT = AW.getAttributes();
