@@ -60,12 +60,12 @@ public class Chain {
 	
 	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
 	String[][] TUNINGINFO = {
-			new String[] {"E","2"},
-			new String[] {"A","2"},
-			new String[] {"D","3"},
-			new String[] {"G","3"},
-			new String[] {"B","3"},
-			new String[] {"E","4"}
+			new String[] {"","4"},
+			new String[] {"","3"},
+			new String[] {"","3"},
+			new String[] {"","3"},
+			new String[] {"","2"},
+			new String[] {"","2"}
 	};
 	
 	/**HARDCODED: TAB - represents the clef of the attribute*/
