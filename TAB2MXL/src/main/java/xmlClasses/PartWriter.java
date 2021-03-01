@@ -17,13 +17,18 @@ public class PartWriter {
 	
 	//Lab change
 	//Constructor
-	PartWriter(){
+	public PartWriter(){
 		part = new Part("P"+(parts_created+1));
 	}
 	
 	//Empty measure
 	public void nextMeasure(){
 		currentMeasure=new Measure(part.getMeasure().size()+1);
+		part.addMeasure(currentMeasure);
+	}
+	//First measure/ Attribute measure
+	public void nextMeasure(Attributes att){
+		currentMeasure=new Measure(part.getMeasure().size()+1, att);
 		part.addMeasure(currentMeasure);
 	}
 	
@@ -34,16 +39,26 @@ public class PartWriter {
 	}
 	
 	//Create Note with its Pitch object and adding it to the current measure.
-	public void nextNote(int duration, String type, String step, int octave){
-		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave ) ) );
+	public void nextNote(int duration, String type, String step, int octave, int string, int fret, int voice){
+		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave ), new Notations( new Technical(string, fret) ), voice) );
 		
 	}
 	
 	//Create Note with its Pitch object and adding it to the current measure.
-		public void nextChordNote(int duration, String type, String step, int octave){
-			currentMeasure.addNote( new ChordNote( duration, type, new Pitch( step, octave ) ) );
-			
-		}
+	public void nextChordNote(int duration, String type, String step, int octave, int string, int fret, int voice){
+		currentMeasure.addNote( new ChordNote( duration, type, new Pitch( step, octave ), new Notations( new Technical(string, fret) ), voice ) );
+	}
+	
+	//Create Note with its Pitch object and adding it to the current measure.
+	public void nextAlteredNote(int duration, String type, String step, int octave, int alter, int string, int fret, int voice){
+		currentMeasure.addNote( new Note( duration, type, new AlteredPitch( step, octave, alter), new Notations( new Technical(string, fret) ), voice) );
+		
+	}
+	
+	//Create Note with its Pitch object and adding it to the current measure.
+	public void nextAlteredChordNote(int duration, String type, String step, int octave, int alter, int string, int fret, int voice){
+		currentMeasure.addNote( new ChordNote( duration, type, new AlteredPitch( step, octave, alter), new Notations( new Technical(string, fret) ), voice ) );
+	}
 	
 	//Getter
 	public Part getPart() {

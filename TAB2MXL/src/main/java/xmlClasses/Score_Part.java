@@ -2,8 +2,10 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
+@XmlSeeAlso({ScorePartDrum.class})
 public class Score_Part {
 	
 private String id;
@@ -31,4 +33,6 @@ private String part_name;
 	public void setPartName(String part_name) {  
 	    this.part_name = part_name;  
 	}  
+	
+	
 }

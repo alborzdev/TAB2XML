@@ -12,7 +12,7 @@ public class Notations {
 	    this.tech = tech;  
 	} 
 	
-	@XmlElement 
+	@XmlElement (name="technical")
 	public Technical getTech() {  
 	    return tech;  
 	}  

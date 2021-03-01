@@ -2,7 +2,9 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder={"line","sign"})
 public class Clef {
 	private String sign;
 	private int line;
@@ -22,11 +24,11 @@ public class Clef {
 	    this.sign = sign;  
 	}
 	
-	@XmlElement
-	public int getTime() {  
+	@XmlElement(name="line")
+	public int getLine() {  
 	    return line;  
 	}  
-	public void setTime(int line) {  
+	public void setLine(int line) {  
 	    this.line = line;  
 	}
 }

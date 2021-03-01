@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -42,7 +43,7 @@
                 </Menu>
                   <Menu mnemonicParsing="false" text="Help">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#UserManual" text="User's guide" />
+                      <MenuItem mnemonicParsing="false" onAction="#UserManual" text="User Manual" />
                     </items>
                   </Menu>
               </menus>
@@ -84,14 +85,14 @@
             </JFXButton>
          </children>
       </HBox>
-      <VBox layoutX="389.0" layoutY="176.0" prefHeight="152.0" prefWidth="140.0">
+      <VBox layoutX="387.0" layoutY="127.0" prefHeight="250.0" prefWidth="140.0">
          <children>
-            <Label prefHeight="28.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
+            <Label prefHeight="58.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
                <font>
                   <Font name="Quicksand Medium" size="14.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="name" focusColor="#3282b8" promptText="Name" style="-fx-background-color: #a8c5d8;" text="Title">
+            <JFXTextField fx:id="title" focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -115,6 +116,26 @@
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
             </JFXTextField>
+            <Label prefHeight="26.0" prefWidth="143.0" style="-fx-background-radius: 5em; -fx-background-color: #3282b8; -fx-alignment: center;" text="Required Attributes" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Quicksand Medium" size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Label>
+            <JFXComboBox fx:id="InstrumentType" prefHeight="25.0" prefWidth="143.0" promptText="Instrument Type" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXComboBox>
+            <JFXComboBox fx:id="KeySig" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="142.0" promptText="Key Signature" style="-fx-background-color: #a8c5d8;" />
+            <JFXComboBox fx:id="TimeSig" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="143.0" promptText="Time Signature" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXComboBox>
+            <JFXComboBox fx:id="conversionType" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="143.0" promptText="Convert to" style="-fx-background-color: #a8c5d8;" />
          </children>
       </VBox>
       <AnchorPane layoutX="73.0" layoutY="125.0" prefHeight="336.0" prefWidth="209.0">

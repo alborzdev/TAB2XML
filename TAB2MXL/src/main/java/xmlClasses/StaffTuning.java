@@ -2,7 +2,9 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder={"tuningStep", "tuningOctave"})
 public class StaffTuning {
 	private int line;
 	private String tuningStep;
