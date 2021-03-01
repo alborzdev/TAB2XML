@@ -120,7 +120,7 @@ public class MainController implements Initializable {
         if(loc==null) {
         	System.out.println("Exporting has been cancelled");
         }
-        else if(errorEvent) {
+        if(errorEvent) {
         	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
 			alert.getDialogPane().setContentText("Exporting was cancelled due to previous errors.");
