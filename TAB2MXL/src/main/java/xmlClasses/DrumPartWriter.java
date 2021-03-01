@@ -30,24 +30,24 @@ public class DrumPartWriter {
 
 	//Create Note with its Pitch object and adding it to the current measure.
 	public void nextDrumNote(int duration, String type, String step, int octave, int voice, String instID, String stem ){
-		currentMeasure.addDrumNote( new DrumNote( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem));
+		currentMeasure.addNote( new DrumNote( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem));
 		
 	}
 	
 	public void nextDrumNoteB(int duration, String type, String step, int octave, int voice, String instID, String stem, ArrayList<Beam> beam ){
-		currentMeasure.addDrumNote( new DrumNoteB( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, beam));
+		currentMeasure.addNote( new DrumNoteB( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, beam));
 		
 	}
 	public void nextDrumNoteBNH(int duration, String type, String step, int octave, int voice, String instID, String stem, ArrayList<Beam> beam, String notehead){
-		currentMeasure.addDrumNote( new DrumNoteBNH( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, beam, notehead));
+		currentMeasure.addNote( new DrumNoteBNH( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, beam, notehead));
 		
 	}
 	public void nextDrumNoteNH(int duration, String type, String step, int octave, int voice, String instID, String stem, String notehead){
-		currentMeasure.addDrumNote( new DrumNoteNH( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, notehead));
+		currentMeasure.addNote( new DrumNoteNH( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, notehead));
 		
 	}
 	public void nextDrumNoteChord(int duration, String type, String step, int octave, int voice, String instID, String stem, String notehead){
-		currentMeasure.addDrumNote( new DrumNoteChord( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, notehead));
+		currentMeasure.addNote( new DrumNoteChord( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, notehead));
 		
 	}
 	

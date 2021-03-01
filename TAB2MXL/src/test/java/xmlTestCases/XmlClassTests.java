@@ -167,6 +167,10 @@ public class XmlClassTests {
     	PartWriter PW2 = new PartWriter();
     	assertNotEquals(PW, PW2);
     	
+    	PW.getPart().setId("test");
+    	assertEquals("test", PW.getPart().getID());
+    	assertNotEquals(PW.getPart().getID(), PW2.getPart().getID());
+    	
     	PW.nextMeasure();
     }
 }
