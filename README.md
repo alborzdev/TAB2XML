@@ -12,8 +12,8 @@ Please refer to the User Manual for a step-by-step guide on how to install and r
 
 
 ## Documentation
--[Software Requirements.doc](documentation/SoftwareRequirements)/[Software Requirements.pdf]()
--[User Manual.doc]()/[User Mnaual.pdf]()
+-[Software Requirements.doc](Documentation/Software Requirements.docx)/[Software Requirements.pdf](Documentation/Software Requirements.pdf)
+-[User Manual.doc](Documentation/User Manual.docx)/[User Mnaual.pdf](Documentation/User Manual.pdf)
 -[Testing Document.doc]()/[Testing Document.pdf]()
 
 ## Group 1 contributors: 
