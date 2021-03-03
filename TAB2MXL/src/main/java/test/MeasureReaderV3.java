@@ -9,15 +9,15 @@ public class MeasureReaderV3 {
 	//measure specific variables
 	ConfigReader cfg = ConfigReader.getConfig();
 	private String[] measure;
-	private int character_count, string_count, curr_col, ts_beats, ts_beatlength;
+	private int character_count, string_count, curr_col, ts_beats, ts_beatlength, trueMeasureLength;
 	//note specific variables
 	private String[] strColumn;
 	private char[] column;
 	private int noteLength;
 	// A# = Bb, also
-	private String[] tuning;
+	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
-	private int[] octaves;
+	private int[] octaves = {2,2,3,3,3,4};
 	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
 	boolean hasNextColumn; //has next column?
 	
@@ -29,10 +29,9 @@ public class MeasureReaderV3 {
 	protected MeasureReaderV3(String[] measure) { //basic instructor for testing
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		String[] temp = {"E","B","G","D","A","E"};
-		this.tuning = temp;
-		int[] oTemp = {2,2,3,3,3,4};
-		this.octaves = oTemp;
+
+		this.trueMeasureLength = this.floor2pow2(this.character_count);
+
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
 		this.ts_beats = 4;
 		this.ts_beatlength = 4;
@@ -43,10 +42,9 @@ public class MeasureReaderV3 {
 	public MeasureReaderV3(String[] measure, int beats, int beatlength) { 
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		String[] temp = {"E","B","G","D","A","E"};
-		this.tuning = temp;
-		int[] oTemp = {2,2,3,3,3,4};
-		this.octaves = oTemp;
+
+		this.trueMeasureLength = this.floor2pow2(this.character_count);
+
 		this.string_count = measure.length;
 		this.ts_beats = beats;
 		this.ts_beatlength = beatlength;
@@ -57,11 +55,12 @@ public class MeasureReaderV3 {
 	public MeasureReaderV3(String[] measure, String[] tuning, int beats, int beatlength) { 
 		this.measure = measure;
 		this.character_count = measure[0].length();
+		this.trueMeasureLength = this.floor2pow2(this.character_count);
 		this.string_count = measure.length;
+		this.tuning = tuning;
 		this.ts_beats = beats;
 		this.ts_beatlength = beatlength;
 		this.hasNextColumn = true;
-		this.tuning = tuning;
 		curr_col = 0;
 		
 		this.inferOctaves(tuning);
@@ -80,7 +79,9 @@ public class MeasureReaderV3 {
 					alter = "1";
 					accidental = "sharp";
 				}
-				
+				//
+				//
+				//
 				String[] noteProperties = {
 						""+this.noteLength,																	//raw duration
 						lengths[this.log2((this.ts_beats*this.ts_beatlength)/this.noteLength)],				//type
@@ -185,13 +186,11 @@ public class MeasureReaderV3 {
 			return null; //need to handle bad numbers and stuff better? maybe not necessary at all - all formatting filtering is done by tabreader
 		}else {
 			String[] out = new String[2];
-			int octave = this.octaves[string];
-			System.out.println("DEBUG: base octave: " + octave);
-			for(int i=1; i<=fret; i++) {				
+			int octave = this.octaves[this.string_count-string-1];
+			for(int i=1; i<=fret; i++) {
 				if(((counter + i) % 12) == 0) {
 					octave ++;
 				}
-				System.out.println("DEBUG: COUNTED FRET: " + i + " octave :" + octave);
 			}
 			int note = (counter+fret) % 12;
 			out[0] = scale[note];
@@ -212,11 +211,6 @@ public class MeasureReaderV3 {
 		}
 		return out;
 		
-	}
-	
-	private int log2 (int in) {
-		int out = (int) (Math.log(in) / Math.log(2));
-		return out;
 	}
 	
 	private boolean isEmpty(char[] column) {
@@ -241,11 +235,9 @@ public class MeasureReaderV3 {
 		}
 	}
 	
-	private void inferOctaves(String[] tuning) { //calculate base octaves from tuning information
-		
+	private void inferOctaves(String[] tuning) { //calculate base octaves from tuning information		
 		System.out.println("DEBUG: attempting to infer octaves from tuning information: ");
-		this.stringArrayDump("tuning info", tuning);
-		
+		this.stringArrayDump("tuning info", tuning);		
 		int lowestOctave;
 		if(tuning.length == 6) {
 			lowestOctave = 2; //lowest note possible is C2?
@@ -272,10 +264,17 @@ public class MeasureReaderV3 {
 				}
 			}
 			System.out.println("DEBUG: calculated base octave: " + baseOctaves[i] + " for string " + i + " " + tuning[i]);
-		}
-		
+		}		
 		this.octaves = baseOctaves;
-		
+	}
+	
+	private int floor2pow2(int in) { //round down to power of 2, useful to determine "true measure length" that would be inflated by double digit frets
+		return (int) Math.floor(Math.log(in)/Math.log(2));
+	}
+	
+	private int log2 (int in) {
+		int out = (int) (Math.log(in) / Math.log(2));
+		return out;
 	}
 	
 	public void stringArrayDump(String arrayName, String[] in) {
