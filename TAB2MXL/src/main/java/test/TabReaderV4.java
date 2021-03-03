@@ -175,7 +175,7 @@ public class TabReaderV4{
 				int measureLength = bTab[0][i].length();
 				for(int j=1; j<bTab.length; j++) {
 					if(measureLength != bTab[j][i].length()) {
-						throw new LineErrorException("Bad content: the length of measure " + i + " in line " + (this.scanLine + j) + "is different from the line above", this.scanLine + j, bTab[j][i]);
+						throw new LineErrorException("Bad content: the length of measure " + i + " in line " + (this.scanLine + j) + " is different from the line above", this.scanLine + j, bTab[j][i]);
 					}
 				}
 			}
