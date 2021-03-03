@@ -43,7 +43,7 @@ public class ChainTests {
         "D|-----------------|\n"+
         "A|-----------------|\n"+
         "E|-"+randomfret+"---------------|";
-        chain = new Chain(TAB,"First Song", "Queen B", "Ludwig van Beethoven", "savingLocation.txt",44,"C major","Guitar","TAB");
+        chain = new Chain(TAB,"First Song", "Queen B", "Ludwig van Beethoven", 44,"C major","Guitar","TAB");
         
     }
 
