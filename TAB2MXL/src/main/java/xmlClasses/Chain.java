@@ -235,7 +235,6 @@ public class Chain {
 		
 		
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
-		AW.setTuning(TUNINGINFO);//use derry tuning info
 		ATT = AW.getAttributes();
 		
 		TRv2.resetMeasure();
