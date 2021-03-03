@@ -108,7 +108,7 @@ public class TabReaderV4{
 			boolean eof = this.eof;
 			String[] uTab = new String[this.string_count]; //unbroken tab
 			String temp;
-			//runs the scanner until it reaches where it left off last time + string count - done at end of method
+			//runs the scanner until it reaches where it left off last time + string count
 			for (int i=0; i<this.scanLine; i++) {
 				temp = sc.nextLine();
 			}
@@ -121,22 +121,37 @@ public class TabReaderV4{
 				if(tabMat.matches()) {
 					uTab[0] = temp; //save first line of tab
 					break; //move on to read + sanity check rest of tabLine and parse if correct
+				}else if(countPipeChars(temp) > 1) { //contains 2 or more | characters -> we read that as intended as part of tablature, and throw bad formatting exceptions
+					throw new LineErrorException("Bad formatting: detected at line " + this.scanLine, this.scanLine, temp);
 				}
-			}	
+			}
+			
+			if(sc.hasNext()) {
+				//no issues, continue to parse next lines
+			}else {
+				//legitamate end of file?
+				eof = true;
+				throw new NoSuchElementException();
+			}
 			
 			//parse rest of tabLine + check if valid (formatting sanity check)
 			for(int i=1; i<this.string_count; i++) {
-				this.scanLine ++;
-				temp = sc.nextLine();
-				temp = temp.trim();
+				if(sc.hasNext()) {
+					temp = sc.nextLine();
+					temp = temp.trim();
+				}else { //missing line as opposed to badly formatted line
+					throw new LineErrorException("Bad Formatting: Missing line " + (this.scanLine + i), this.scanLine + i);
+				}
 				Matcher tabMat = tabPat.matcher(temp);
 				if(tabMat.matches()) {
 					uTab[i] = temp;
 				}
 				else {
-					throw new Exception("Bad formatting: detected at line " + this.scanLine);
+					throw new LineErrorException("Bad formatting: detected at line " + (this.scanLine + i), this.scanLine + i, temp);
 				}
 			}
+			
+			
 			
 			//dump what is read
 			stringArrayDump("unbroken-tabLine(uTab) "+this.next_tabLine, uTab);
@@ -152,7 +167,7 @@ public class TabReaderV4{
 			int measures = bTab[0].length;
 			for(int i=1; i<this.string_count; i++) {
 				if(measures != bTab[i].length) {
-					throw new Exception("Bad content: inconsisent measure count detected at TabLine " + (this.next_tabLine +1));
+					throw new LineErrorException("Bad content: number of measures in line " + (this.scanLine + i) + " is different from the line above", this.scanLine + i, uTab[i]);
 				}
 			}
 			// same lengths for each simultameous measure
@@ -160,7 +175,7 @@ public class TabReaderV4{
 				int measureLength = bTab[0][i].length();
 				for(int j=1; j<bTab.length; j++) {
 					if(measureLength != bTab[j][i].length()) {
-						throw new Exception("Bad content: inconsisent measure lengths detected at row " + (this.next_tabLine +1));
+						throw new LineErrorException("Bad content: the length of measure " + i + " in line " + (this.scanLine + j) + "is different from the line above", this.scanLine + j, bTab[j][i]);
 					}
 				}
 			}
@@ -192,19 +207,30 @@ public class TabReaderV4{
 			
 		}catch(NoSuchElementException e) {
 			//suppressed
-			System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
-			System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
-			System.out.println(e.toString());
+			//System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
+			//System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
+			//System.out.println(e.toString());
+			System.out.println("DEBUG: reached end of file with no issues");
 			this.eof = true;
 		}catch(Exception e) {
 			System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
-			System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
+			//System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
 			System.out.println(e.toString());
 			this.eof = true;
 			throw e;
 		}
 		
 
+	}
+	
+	private int countPipeChars(String in) {
+		int out = 0;
+		for(char i: in.toCharArray()) {
+			if(i == '|') {
+				out ++;
+			}
+		}
+		return out;
 	}
 	
 	public boolean hasNext() {
