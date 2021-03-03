@@ -34,8 +34,13 @@ public class Main {
 				tb.readMeasure();
 				//measure break
 			}
+		}catch(LineErrorException e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getLine());
+			System.out.println(e.getString());
 		}catch(Exception e) {
 			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 
