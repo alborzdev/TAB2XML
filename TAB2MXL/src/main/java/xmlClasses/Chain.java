@@ -1,8 +1,7 @@
 package xmlClasses;
 
-//Imports
+//############################ IMPORTS ##############################
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -14,51 +13,51 @@ import javax.xml.bind.Marshaller;
 import test.DrumReader;
 import test.MeasureReaderV3;
 import test.TabReaderV2;
-import test.TabReaderV3;
 import test.TabReaderV4;
 
 public class Chain {
 	
-	//---VARIABLES---
-	/**this File contains the user's tab to be parsed*/
+//####################################################################
+//########################### VARIABLES ##############################
+//####################################################################
+
+	//---User given parameters---
+
+	/**The user's tab given in the constructor*/
 	String TAB;
 	
-	/**Contains the Title of the piece. Located top middle*/
+	/**The Title of the piece
+	 * Located: Top Middle*/
 	String TITLE;
 	
-	/**Contains the Lyricist of the piece. Located top left*/
+	/**The Lyricist of the piece
+	 * Located: Top Left*/
 	String LYRICIST;
 	
-	/**Contains the Title of the piece. Located top right*/
+	/**The Composer of the piece
+	 * Located: Top Right*/
 	String COMPOSER;
 	
-	/**Contains the save location of the xml file.*/
-	String LOCATION;
-	
-	/** Contains the time signature as a 2 digit number. First digit being the beat. Second being the beat-type*/
+	/**The time signature as a 2 digit number.
+	 * First digit being the beat.
+	 * Second being the beat-type*/
 	int TIMESIG;
 	
-	/**HARDCODED: C major - Contains the key of the song*/
-	String KEY = "CM";
+	/**The key of the song*/
+	String KEY;
 	
-	/**This PartWriter object builds and stores the Part object*/
-	PartWriter PW = new PartWriter();
-	DrumPartWriter DPW = new DrumPartWriter();
+	/**This String shows the user instrument selection*/
+	String INSTRUMENT;
 	
-	/**This ScorePartwiseWriter object builds and stores the ScorePartwise Object*/
-	ScorePartwiseWriter SPW;
+	/**The clef of the TAB*/
+	String CLEF;
 	
-	/**This stores the Attributes for the Measures*/
-	Attributes ATT;
+	//---Formatting information---
 	
-	/**Stores the list of exceptions during chain to give back to GUI*/
-	ArrayList<Exception> ERROR = new ArrayList<Exception>();
-		
+	/**Number of staff lines in the tab*/
+	int STAFFLINES;
 	
-	/**HARDCODED for drums: 6 - represents number staff lines in the tab*/
-	int STAFFLINES = 6;
-	
-	/**HARDCODED: 2D String array - represents the tuning of the staff lines*/
+	/**HARDCODED: 2D String array - represents the tuning octaves of the staff lines*/
 	String[][] TUNINGINFO = {
 			new String[] {"","2"},
 			new String[] {"","2"},
@@ -67,9 +66,6 @@ public class Chain {
 			new String[] {"","3"},
 			new String[] {"","4"}
 	};
-	
-	/**HARDCODED: TAB - represents the clef of the attribute*/
-	String CLEF;// = "TAB";
 	
 	/**HARDCODED: Divisions - Divisions works with duration to decide how many notes are in a measure(Derry knows)*/
 	int DIVISIONS = 4;
@@ -80,158 +76,146 @@ public class Chain {
 	/**HARDCODED: Fifths - ?????*/
 	int FIFTHS = 0;
 	
-	/**This object is stored to send to the GUI*/
-	StringWriter SW = new StringWriter(); 
-	
-	/**This String shows the user instrument selection*/
-	String INSTRUMENT;
-	
 	/**HARDCODED: Voice - 1*/
 	int VOICE = 1;
 	
 	/**This ArrayList shows the drum kit*/
 	ArrayList<String> DK;
+
+	//---xml Object Writers---
 	
-	//---CONSTRUCTORS---
-	/**
-	 * 
-	 * @param TAB
-	 * @param TITLE
-	 * @param LYRICIST
-	 * @param COMPOSER
-	 * @param LOCATION
-	 * @param TIMESIG
-	 * @param KEY
-	 */
+	/**Builds and stores the ScorePartwise Object*/
+	ScorePartwiseWriter SPW;
+	
+	/**Builds and stores the Part object for guitar or bass*/
+	PartWriter PW = new PartWriter();
+	
+	/**Builds and stores the Part object for drums*/	
+	DrumPartWriter DPW = new DrumPartWriter();
+	
+	/**This object is stored to be sent to the GUI*/
+	StringWriter SW = new StringWriter(); 	
+	
+	/**This builds and stores the AttributeWriter*/
+	AttributeWriter AW;
 
+//####################################################################
+//######################## CONSTRUCTORS ##############################
+//####################################################################
+	
 	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
-					String LOCATION, int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
-
-		//turning the string into a file so the v3 readers can have a File input type
+					int TIMESIG, String KEY, String INSTRUMENT, String CLEF){
 		
 		this.TAB=TAB;
 		this.TITLE=TITLE;
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
-		this.LOCATION=LOCATION;
 		this.TIMESIG=TIMESIG;
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
 		this.CLEF=CLEF;
 	}
+
+//####################################################################
+//###################### 3 STEPS TO CONVERT ##########################
+//####################################################################
 	
-	//---STEP 1---
+	//---STEP 1a - Parser Selection ---
+	
 	public void TABtoPART() throws Exception{
 		
-		if(INSTRUMENT.equals("Guitar")) {
-			STAFFLINES = 6;
-			TABtoPARTstringed();
-		}
-		else if(INSTRUMENT.equals("Bass")) {
-			STAFFLINES = 4;
-			TABtoPARTstringed();
-		}
-		else {
-			TABtoPARTdrum();
-		}
+		//Stringed -> Step 1b
+		if (INSTRUMENT.equals("Guitar")) { TABtoPARTstringed(6); }
+		else if(INSTRUMENT.equals("Bass")) { TABtoPARTstringed(4); }
+		
+		//Drum -> Step 1c
+		else { TABtoPARTdrum(); }
 	}
 	
-	private void TABtoPARTstringed() throws Exception{
+	//---STEP 1b - Stringed Parser ---
+	
+	private void TABtoPARTstringed( int STAFFLINES ) throws Exception{
 		
-		File fTAB = null;
-		
-		try {
-			String path = System.getProperty("user.dir") + "/autosaveTab.txt";
-			FileWriter myWriter = new FileWriter(path);
-			myWriter.write(TAB);
-			myWriter.close();
-			fTAB=new File(path);
-			System.out.println("Successfully wrote to the file.");
-		}catch (IOException e) {
-			System.out.println("An error occured in the Chain string to file maker.");
-			e.printStackTrace();
-			ERROR.add(e);
+		//Check for Sheet Music
+		int VISIBLELINES = STAFFLINES;
+		if(!CLEF.equals("TAB")) {
+			VISIBLELINES = 5;
 		}
 		
-		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES);
-		TRv4.readMeasure();
+		//Create AttributeWriter
+		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIG/10,
+									TIMESIG%10, CLEF, LINE, VISIBLELINES);
 		
-		//Making the Attributes
-		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, CLEF, LINE, STAFFLINES);
-		
+		//Create TabReader
+		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES);
+
+		//Extract and pass tuning information
 		String[] tuning = TRv4.getTuning();
 		for(int i = 0; i < STAFFLINES; i++) {
 			TUNINGINFO[5-i][0] = tuning[i].toUpperCase();
 		}
+		AW.setTuning(TUNINGINFO);
+		Attributes ATT = AW.getAttributes();
 		
-		AW.setTuning(TUNINGINFO);//get tuning data using TRv4.getTuning()
-		ATT = AW.getAttributes();
-		
+		//String Note Parsing
+		TRv4.readMeasure();
 		while(TRv4.hasNext()) {
-			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);//6 - num of string, 4 4 - time signature
-			
-	
-			PW.nextMeasure(ATT);
-			ATT=null;
+			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);
+			PW.nextMeasure( ATT );//adds an empty measure
+			ATT=null;//removes all attributes after the first measrue
 			while(MRv3.hasNext()) {
 				MRv3.readNotes();
-				boolean firstNoteAdded = false;
+				boolean SecondNote = false;//makes notes chorded when they are not the first one
 				for(String[] s:MRv3.getNotes()) {
-					System.out.println("Alter" + s[4]+ "Accidental"+s[5]);
-					
-					
-					if(firstNoteAdded) {
+					//secondNote==true -> chordnote
+					//s[4]==alter -> alterednote
+					if(SecondNote) {
 						if(s[4].equals("")) {
-							PW.nextChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextChordNote(Integer.parseInt(s[0]), s[1], s[2],
+							Integer.parseInt(s[3]), Integer.parseInt(s[6]),
+							Integer.parseInt(s[7]), VOICE );
 						}
 						else {
-							PW.nextAlteredChordNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextAlteredChordNote(Integer.parseInt(s[0]), s[1],
+							s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]),
+							Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 						}
-											}
+					}
 					else {
 						if(s[4].equals("")) {
-							PW.nextNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextNote(Integer.parseInt(s[0]), s[1], s[2],
+							Integer.parseInt(s[3]), Integer.parseInt(s[6]),
+							Integer.parseInt(s[7]), VOICE );
 						}
 						else {
-							PW.nextAlteredNote(Integer.parseInt(s[0]) , s[1], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
+							PW.nextAlteredNote(Integer.parseInt(s[0]), s[1],
+							s[2], Integer.parseInt(s[3]),Integer.parseInt(s[4]),
+							Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
 						}
-						firstNoteAdded = true;
-					}
-					
+						SecondNote = true;
+					}	
 				}
 			}
+			
+			//inside while( TRv4.hasNext() )
 			TRv4.readMeasure();
-			
 		}
-		
-		
-			
+		//HARDCODED
+		PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy")); 
 	}
+	
+	//---STEP 1c - Drum Parser --- TO BE CLEANED
 	
 	private void TABtoPARTdrum(){
 		System.out.println("DRUM DRUM DRUM");
 		
-		File fTAB = null;
-		
-		try {
-			String path = System.getProperty("user.dir") + "/testTab.txt";
-			FileWriter myWriter = new FileWriter(path);
-			myWriter.write(TAB);
-			myWriter.close();
-			fTAB=new File(path);
-			System.out.println("Successfully wrote to the file.");
-		}catch (IOException e) {
-			System.out.println("An error occured in the Chain string to file maker.");
-			e.printStackTrace();
-			ERROR.add(e);
-		}
-		TabReaderV2 TRv2 = new TabReaderV2(fTAB.toString());
+		TabReaderV2 TRv2 = new TabReaderV2(stringToFile(TAB).toString());
 		
 		
-		//Making the Attributes
+		
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
 		AW.setTuning(TUNINGINFO);//use derry tuning info
-		ATT = AW.getAttributes();
+		Attributes ATT = AW.getAttributes();
 		
 		TRv2.resetMeasure();
 		TRv2.readMeasure();
@@ -282,69 +266,73 @@ public class Chain {
 			
 	}
 	
-	//---STEP 2---
+	//---STEP 2 - Passing Parsing ---
 	public void INFOtoPARTWISE() {
+		
+		//Stringed
 		if(INSTRUMENT.equals("Guitar")||INSTRUMENT.equals("Bass")) {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, PW.getPart());
 		}
+		
+		//Drums
 		else {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, DPW.getDrumPart(), DK);
 		}
 		
 	}
 	
-	//---STEP 3---
+	//---STEP 3 - Compiling XML ---
 	public void MARSHtoXML() throws Exception{  
-	    JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class);  
-	  
+	    
+		//Marshalling
+		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class); 
+		
 	    Marshaller marshallerObj = contextObj.createMarshaller();  
+	    
 	    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	    
-	    //gives a MusicXML DTD to XML document
-	    /*marshallerObj.setProperty("com.sun.xml.internal.bind.xmlHeaders", "\n<!DOCTYPE score-partwise PUBLIC\n"
-	    		+ " \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\"\n"
-	    		+ " \"http://www.musicxml.org/dtds/partwise.dtd\">");*/
-	    
-	      
-	    //marshallerObj.marshal(spw, new FileOutputStream(LOCATION+"ChainTest.xml"));
-	    
 	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
+	    
+	    //Print final output to console
 	    System.out.println(SW.toString());
 	
 	}
-	
-	//---ACCESSORS---
-	public String getXML() {
-		return SW.toString();
+
+
+//####################################################################
+//########################### HELPERS ################################
+//####################################################################
+	private File stringToFile(String s) {
+
+		File f = null;
+		
+		try {
+			String path = System.getProperty("user.dir") + "/autosaveTab.txt";
+			FileWriter myWriter = new FileWriter(path);
+			myWriter.write(TAB);
+			myWriter.close();
+			f=new File(path);
+			System.out.println("Successfully wrote to the file.");
+		}
+		
+		catch (IOException e) {
+			System.out.println("An error occured in the stringToFile method in chain");
+			e.printStackTrace();
+		}
+		
+		return f;
 	}
 	
-	public ArrayList<Exception> getError() {
-		return ERROR;
-	}
+//#################### MUTATORS and GETTERS ##########################	
 	
+	//---Pulling XML---
+	public String getXML() { return SW.toString(); }
 	
-	//JUnit Test Methods
-	public String getTab() {
-		return TAB;
-	}
+	//---JUnit Test Methods---
+	public String getTab() { return TAB; }
+	public String getTitle() { return TITLE; }
+	public String getComposer() { return COMPOSER; }
+	public String getLyricist() { return LYRICIST; }
+	public int getStaffLines() { return STAFFLINES; }
+	public void setInst(String inst) { this.INSTRUMENT = inst; }
 	
-	public String getTitle() {
-		return TITLE;
-	}
-	
-	public String getComposer() {
-		return COMPOSER;
-	}
-	
-	public String getLyricist() {
-		return LYRICIST;
-	}
-	
-	public int getStaffLines() {
-		return STAFFLINES;
-	}
-	
-	public void setInst(String inst) {
-		this.INSTRUMENT = inst;
-	}
 }

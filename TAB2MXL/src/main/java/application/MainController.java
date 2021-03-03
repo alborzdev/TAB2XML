@@ -88,7 +88,7 @@ public class MainController implements Initializable {
         //COMMENTED OUT THE OPTION TO FORCE THE CHAIN TO USE THE TEXT AREA -aidan
 //      if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());
 //      else { System.out.println(textarea.getText());
-        chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());     	
+        chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
 //      }
         
         boolean errorEvent = false;

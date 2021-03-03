@@ -70,47 +70,47 @@ class DrumReaderTest {
 		}
 	}
 
-	@Test
-	void airTonightTest() {
-		try {
-			List<String[]> notes = new ArrayList<String[]>();
-			String output = "";
-			String path = System.getProperty("user.dir") + "/inTheAirTonight.txt";
-			TabReaderV2 tabReader = new TabReaderV2(path);
-			tabReader.resetMeasure();// used to get drumkit
-			tabReader.readMeasure();
-			DrumReader drumReader = new DrumReader(tabReader.getMeasure());
-
-			System.out.println("NOTES");
-
-			// goes through 3 measures
-			for (int l = 0; l < 3; l++) {
-
-				tabReader.readMeasure();
-				drumReader.setMeasure(tabReader.getMeasure());
-				while (drumReader.hasNext()) {
-					notes = drumReader.readNote();
-					try {
-						if (!notes.isEmpty()) {
-							while (!notes.isEmpty()) {
-								String[] notes1 = notes.get(0);
-								for (int i = 0; i < notes1.length; i++) {
-									output += notes1[i] + " ,";
-								}
-								output += "\n";
-								notes.remove(0);
-							}
-						}
-					} catch (Exception e) {
-						System.out.println("OUTPUT ERROR");
-						System.out.println(e.getMessage());
-					}
-
-				}
-			}
-			System.out.println(output);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+//	@Test
+//	void airTonightTest() {
+//		try {
+//			List<String[]> notes = new ArrayList<String[]>();
+//			String output = "";
+//			String path = System.getProperty("user.dir") + "/inTheAirTonight.txt";
+//			TabReaderV2 tabReader = new TabReaderV2(path);
+//			tabReader.resetMeasure();// used to get drumkit
+//			tabReader.readMeasure();
+//			DrumReader drumReader = new DrumReader(tabReader.getMeasure());
+//
+//			System.out.println("NOTES");
+//
+//			// goes through 3 measures
+//			for (int l = 0; l < 3; l++) {
+//
+//				tabReader.readMeasure();
+//				drumReader.setMeasure(tabReader.getMeasure());
+//				while (drumReader.hasNext()) {
+//					notes = drumReader.readNote();
+//					try {
+//						if (!notes.isEmpty()) {
+//							while (!notes.isEmpty()) {
+//								String[] notes1 = notes.get(0);
+//								for (int i = 0; i < notes1.length; i++) {
+//									output += notes1[i] + " ,";
+//								}
+//								output += "\n";
+//								notes.remove(0);
+//							}
+//						}
+//					} catch (Exception e) {
+//						System.out.println("OUTPUT ERROR");
+//						System.out.println(e.getMessage());
+//					}
+//
+//				}
+//			}
+//			System.out.println(output);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//	}
 }
