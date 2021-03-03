@@ -201,7 +201,7 @@ public class TabReaderV4{
 				}
 			}
 			this.stringArrayDump("tuning", this.tuning);
-			
+			this.scanLine += this.string_count - 1;
 			this.next_tabLine ++;
 			sc.close();
 			
