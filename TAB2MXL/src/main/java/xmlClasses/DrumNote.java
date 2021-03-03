@@ -28,6 +28,11 @@ public class DrumNote extends Note {
 		this.inst = inst;
 		this.voice = voice;
 	}
+	public DrumNote(int duration, String type, int voice) {
+		this.duration = duration;
+		this.type = type;
+		this.voice = voice;
+}
 	@XmlElement
 	public int getDuration() {  
 	    return duration;  
