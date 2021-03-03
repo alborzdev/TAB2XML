@@ -10,6 +10,7 @@ public class Measure {
 	private int number;
 	private Attributes att;
 	private ArrayList<Note> note;
+	private Barline barline;
 	//private ArrayList<DrumNote> drumNote;
 	
 	public Measure() {
@@ -62,6 +63,14 @@ public class Measure {
 	//PartWriter
 	public void addNote(Note n) {
 		note.add(n);
+	}
+	
+	@XmlElement
+	public Barline getBarline() {
+		return barline;
+	}
+	public void setBarline(Barline barline) {
+		this.barline = barline;
 	}
 	//DrumPartWriter
 //		public void addDrumNote(DrumNote n) {

@@ -196,9 +196,11 @@ public class Chain {
 					}	
 				}
 			}
+			
 			//inside while( TRv4.hasNext() )
 			TRv4.readMeasure();
 		}
+		PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy")); //HARDCODED
 	}
 	
 	//---STEP 1c - Drum Parser --- TO BE CLEANED
