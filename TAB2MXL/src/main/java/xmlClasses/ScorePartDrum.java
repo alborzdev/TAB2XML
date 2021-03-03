@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 public class ScorePartDrum extends Score_Part{
+	
 	private ArrayList<ScoreInstrument> si;
 
 	public ScorePartDrum() {}  
@@ -14,7 +15,7 @@ public class ScorePartDrum extends Score_Part{
 	    super(id, partName);
 	    si.add(new ScoreInstrument("P1-I36", "Bass Drum 1"));
 	    si.add(new ScoreInstrument("P1-I37", "Bass Drum 2"));
-	    sii.add(new ScoreInstrument("P1-I38", "Side Stick"));
+	    si.add(new ScoreInstrument("P1-I38", "Side Stick"));
 	    si.add(new ScoreInstrument("P1-I39", "Snare"));
 	    si.add(new ScoreInstrument("P1-I42", "Low Floor Tom"));
 	    si.add(new ScoreInstrument("P1-I43", "Closed Hi-Hat"));
