@@ -13,7 +13,6 @@ public class DrumNote extends Note {
 	private int voice;
 	private String stem;
 	//private String notehead;
-	//private ArrayList<Beam> beam;
 	
 	public DrumNote() {
 		
