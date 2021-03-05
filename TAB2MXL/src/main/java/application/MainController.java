@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import test.LineErrorException;
 import xmlClasses.Chain;
 
 public class MainController implements Initializable {
@@ -94,6 +95,17 @@ public class MainController implements Initializable {
         boolean errorEvent = false;
         
         try{chain.TABtoPART();} 
+        catch(LineErrorException e) {
+        	//highlighting
+        	int[] location = ErrorHandling.findNeedle(textarea.getText(), "|"+e.getString()+"|");
+        	textarea.selectRange(location[0], location[1]);
+        	
+        	errorEvent = true;
+        	AlertType type = AlertType.ERROR; 
+			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+			alert.getDialogPane().setContentText(e.getMessage()); 
+			alert.showAndWait();
+        }
         catch(Exception e) {
         	errorEvent = true;
         	AlertType type = AlertType.ERROR; 
