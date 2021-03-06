@@ -92,43 +92,36 @@ public class MainController implements Initializable {
         chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
 //      }
         
+        //CHAIN CALLS w/ ERROR HANDLING
         boolean errorEvent = false;
+        //T2P
+        try { chain.TABtoPART(); } 
+        catch ( LineErrorException e ) {
+			errorEvent = ErrorHandling.errorEventHighlight(
+					"Conversion was unsuccessful :(",
+					e, textarea, "|"+e.getString()+"|");
+        }
+        catch ( Exception e ) {
+			errorEvent = ErrorHandling.errorEvent(
+					"Conversion was unsuccessful :(",
+					e.getMessage(), e);
+        }
+        //I2P
+        try { chain.INFOtoPARTWISE(); } 
+        catch( Exception e ) {
+        	errorEvent = ErrorHandling.errorEvent(
+					"Conversion was unsuccessful :(",
+					"Some attributes are incorrect", e);
+        }
+        //M2X
+		try { chain.MARSHtoXML(); }
+		catch ( Exception e ) {
+			errorEvent = ErrorHandling.errorEvent(
+					"Conversion was unsuccessful :(",
+					"Your tab format is correct, something went wrong on our end! Please try again.", e);
+		}
         
-        try{chain.TABtoPART();} 
-        catch(LineErrorException e) {
-        	//highlighting
-        	int[] location = ErrorHandling.findNeedle(textarea.getText(), "|"+e.getString()+"|");
-        	textarea.selectRange(location[0], location[1]);
-        	
-        	errorEvent = true;
-        	AlertType type = AlertType.ERROR; 
-			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText(e.getMessage()); 
-			alert.showAndWait();
-        }
-        catch(Exception e) {
-        	errorEvent = true;
-        	AlertType type = AlertType.ERROR; 
-			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText(e.getMessage()); 
-			alert.showAndWait();
-        }
-        try{chain.INFOtoPARTWISE();} 
-        catch(Exception e) {
-        	errorEvent = true;
-        	AlertType type = AlertType.ERROR; 
-			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
-			alert.showAndWait();
-        }
-		try {chain.MARSHtoXML();}
-		catch (Exception e) {
-			errorEvent = true;
-			AlertType type = AlertType.ERROR; 
-			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
-			alert.showAndWait();}
-        
+		
         if(loc==null) {
         	System.out.println("Exporting has been cancelled");
         }
@@ -194,7 +187,7 @@ public class MainController implements Initializable {
 //		KeySig.getItems().add("F# Major");
 //		KeySig.getItems().add("C# Major");
 		
-		//TimeSig.getItems().add("3/4");
+//      TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
 //		TimeSig.getItems().add("5/4");
 //		TimeSig.getItems().add("6/8");
