@@ -21,12 +21,15 @@ public class Main {
 		//TabReaderV2 tb = new TabReaderV2("./src/main/java/testTab.txt");
 		
 		//TabReaderV3 tb = new TabReaderV3();
+		
+		
 		try {
 			File file = new File(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
+			//File file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 			TabReaderV4 tb = new TabReaderV4(file,6);
 			tb.readMeasure();
 			while(tb.hasNext()) {	
-				MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure(),tb.getTuning(),4,4);
+				MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure(),tb.getTuning(),3,4);
 				while(ms.hasNext()) {
 					ms.readNotes();
 					ms.getNotes();

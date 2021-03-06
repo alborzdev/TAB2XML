@@ -94,7 +94,7 @@ public class MeasureReaderV3 {
 				//System.out.println((this.QNoteLength)/(this.noteLength));
 				String[] noteProperties = {
 						""+this.noteLength,																	//raw duration
-						lengths[(int)Math.ceil(this.log2((this.wNoteLength)/(this.noteLength)))],				//type
+						lengths[(int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)))],				//type
 						""+stepAndOctave[0].charAt(0),																	//step
 						stepAndOctave[1],																				//octave
 						alter,																				//alter
@@ -106,7 +106,7 @@ public class MeasureReaderV3 {
 				
 				
 				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
-				//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (this.log2((double)(this.wNoteLength)/(this.noteLength))));
+				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + lengths[(int) Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)))]);
 				
 			}
 		}
