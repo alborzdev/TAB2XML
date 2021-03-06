@@ -17,7 +17,7 @@ public class MeasureReaderV3 {
 	// A# = Bb, also
 	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
-	private int[] octaves = {2,2,3,3,3,4};
+	private int[] octaves = {4,3,3,3,2,2};
 	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
 	boolean hasNextColumn; //has next column?
 	
@@ -198,7 +198,7 @@ public class MeasureReaderV3 {
 			return null; //need to handle bad numbers and stuff better? maybe not necessary at all - all formatting filtering is done by tabreader
 		}else {
 			String[] out = new String[2];
-			int octave = this.octaves[this.string_count-string-1];
+			int octave = this.octaves[string];
 			for(int i=1; i<=fret; i++) {
 				if(((counter + i) % 12) == 0) {
 					octave ++;
