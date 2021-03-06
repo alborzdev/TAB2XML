@@ -106,7 +106,7 @@ public class MeasureReaderV3 {
 				
 				
 				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
-				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (this.log2((double)(this.wNoteLength)/(this.noteLength))));
+				//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (this.log2((double)(this.wNoteLength)/(this.noteLength))));
 				
 			}
 		}
