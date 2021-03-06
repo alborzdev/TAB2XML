@@ -9,7 +9,7 @@ public class MeasureReaderV3 {
 	//measure specific variables
 	ConfigReader cfg = ConfigReader.getConfig();
 	private String[] measure;
-	private int character_count, string_count, curr_col, ts_beats, ts_beatlength, trueMeasureLength;
+	private int character_count, string_count, curr_col, ts_beats, ts_beatlength, trueMeasureLength, wNoteLength;
 	//note specific variables
 	private String[] strColumn;
 	private char[] column;
@@ -26,7 +26,7 @@ public class MeasureReaderV3 {
 	//better way to decode notes
 
 	
-	protected MeasureReaderV3(String[] measure) { //basic instructor for testing
+	protected MeasureReaderV3(String[] measure) { //basic instructor for testing do not use
 		this.measure = measure;
 		this.character_count = measure[0].length();
 
@@ -39,12 +39,10 @@ public class MeasureReaderV3 {
 		curr_col = 0;
 	}
 	
-	public MeasureReaderV3(String[] measure, int beats, int beatlength) { 
+	public MeasureReaderV3(String[] measure, int beats, int beatlength) { //deprecated do not use
 		this.measure = measure;
 		this.character_count = measure[0].length();
-
 		this.trueMeasureLength = this.floor2pow2(this.character_count);
-
 		this.string_count = measure.length;
 		this.ts_beats = beats;
 		this.ts_beatlength = beatlength;
@@ -55,7 +53,18 @@ public class MeasureReaderV3 {
 	public MeasureReaderV3(String[] measure, String[] tuning, int beats, int beatlength) { 
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		this.trueMeasureLength = this.floor2pow2(this.character_count);
+		this.trueMeasureLength = beats * (int)Math.floor(this.character_count/beats);//beats * (int)Math.pow(2,this.log2(this.character_count/beats));
+		//temporary code to try out s theory
+		this.wNoteLength = beatlength * (int)Math.pow(2,this.log2(this.character_count/beats));
+		//String temp = lengths[this.log2((this.ts_beats*this.ts_beatlength)/this.noteLength)];
+		System.out.println("##--------------------------------##");
+		System.out.println((int)Math.floor(this.character_count/beats));
+		System.out.println(this.character_count);
+		System.out.println(trueMeasureLength);
+		System.out.println(wNoteLength);
+		System.out.println("##--------------------------------##");
+
+		//
 		this.string_count = measure.length;
 		this.tuning = tuning;
 		this.ts_beats = beats;
@@ -82,9 +91,10 @@ public class MeasureReaderV3 {
 				//
 				//
 				//
+				//System.out.println((this.QNoteLength)/(this.noteLength));
 				String[] noteProperties = {
 						""+this.noteLength,																	//raw duration
-						lengths[this.log2((this.ts_beats*this.ts_beatlength)/this.noteLength)],				//type
+						lengths[(int)Math.ceil(this.log2((this.wNoteLength)/(this.noteLength)))],				//type
 						""+stepAndOctave[0].charAt(0),																	//step
 						stepAndOctave[1],																				//octave
 						alter,																				//alter
@@ -96,6 +106,8 @@ public class MeasureReaderV3 {
 				
 				
 				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
+				//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (this.log2((double)(this.wNoteLength)/(this.noteLength))));
+				
 			}
 		}
 		return out;
@@ -272,8 +284,8 @@ public class MeasureReaderV3 {
 		return (int) Math.floor(Math.log(in)/Math.log(2));
 	}
 	
-	private int log2 (int in) {
-		int out = (int) (Math.log(in) / Math.log(2));
+	private double log2 (double in) {
+		double out = (Math.log(in) / Math.log(2));
 		return out;
 	}
 	
