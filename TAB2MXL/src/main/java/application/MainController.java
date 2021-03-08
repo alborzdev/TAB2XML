@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Platform;
@@ -20,7 +19,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.input.DragEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import xmlClasses.Chain;
@@ -66,6 +64,8 @@ public class MainController implements Initializable {
 			//Sends Textarea to Backend to anaylize/parse
 			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
 		}
+		//textarea.setStyle("-fx-highlight-fill: blue; -fx-font-size: 12px; -fx-font-family=Courier New;");
+		
 	}
 	
 	/**
@@ -84,12 +84,7 @@ public class MainController implements Initializable {
         	loc = saver.showSaveDialog(stage);	//get file path specified by user
         FileWriter write;
 
-        
-        //COMMENTED OUT THE OPTION TO FORCE THE CHAIN TO USE THE TEXT AREA -aidan
-//      if(file!=null)chain = new Chain(file, getTitle(), getLyricist(),getComposer(), loc.getAbsolutePath(), getTimeSig(), getKey(), getType(),getConversionType());
-//      else { System.out.println(textarea.getText());
         chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
-//      }
         
         boolean errorEvent = false;
         
@@ -100,6 +95,7 @@ public class MainController implements Initializable {
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
 			alert.getDialogPane().setContentText(e.getMessage()); 
 			alert.showAndWait();
+			textarea.selectRange(5, 9);
         }
         try{chain.INFOtoPARTWISE();} 
         catch(Exception e) {
@@ -108,6 +104,7 @@ public class MainController implements Initializable {
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
 			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
 			alert.showAndWait();
+			textarea.selectRange(5, 9);
         }
 		try {chain.MARSHtoXML();}
 		catch (Exception e) {
@@ -115,13 +112,15 @@ public class MainController implements Initializable {
 			AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
 			alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
-			alert.showAndWait();}
+			alert.showAndWait();
+			textarea.selectRange(5, 9);
+			}
         
         if(loc==null) {
         	System.out.println("Exporting has been cancelled");
         }
         if(errorEvent) {
-        	AlertType type = AlertType.ERROR; 
+           	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
 			alert.getDialogPane().setContentText("Exporting was cancelled due to previous errors.");
 			alert.showAndWait();
