@@ -132,6 +132,7 @@ public class Chain {
 			TABtoPARTstringed();
 		}
 		else {
+			STAFFLINES = 6;
 			TABtoPARTdrum();
 		}
 	}
@@ -231,22 +232,21 @@ public class Chain {
 			e.printStackTrace();
 			ERROR.add(e);
 		}
-		TabReaderV2 TRv2 = new TabReaderV2(fTAB.toString());
-		
+		try {
+		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES, 0);
+		System.out.println("USING TABV4 NOW !!!!!");
 		
 		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
 		ATT = AW.getAttributes();
 		
-		TRv2.resetMeasure();
-		TRv2.readMeasure();
-		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
+		TRv4.readMeasure();
+		DrumReader DR = new DrumReader(TRv4.getMeasure());//assumed 4/4
 		DK = DR.getDrumKit();// - needed scorepartwise
-		while(TRv2.hasNext()) {
-			System.out.println("I'M RIGHT HERE");
+		TRv4.readMeasure();
+		while(TRv4.hasNext()) {
 			DPW.nextMeasure(ATT);
 			ATT=null;
-			TRv2.readMeasure();
-            DR.setMeasure(TRv2.getMeasure());
+            DR.setMeasure(TRv4.getMeasure());
 			while(DR.hasNext()) {
 				
 				boolean firstNoteAdded = false;
@@ -281,7 +281,10 @@ public class Chain {
 					
 				}
 			}
-			
+			TRv4.readMeasure();		
+		}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
 			
 	}

@@ -13,11 +13,11 @@ public class TabReaderV4{
 	
 	static ConfigReader cfg = ConfigReader.getConfig();
 	private File file;
-	private int string_count, scanLine, next_tabLine, curr_measure;
+	public int string_count, scanLine, next_tabLine, curr_measure;
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
-	private String tabRegex="([a-g]|[A-G])?\\|(-|[0-9])+\\|((-|[0-9])+\\|)*";
+	private String tabRegex = "([a-z]|[A-Z])*\\|((-|[0-9]|x|o|X|O)+\\|)+";
 	private Pattern tabPat = Pattern.compile(tabRegex);
 	//regex explaination / tab format restrictions
 	//must start with tuning data
@@ -49,6 +49,19 @@ public class TabReaderV4{
 		this.evaluateLine();
 	}
 	
+	/*
+	 * Overloaded constructor used by DrumReader so the fist line of Drum parts can be read
+	 */
+	public TabReaderV4(File file, int string_count, int measure) throws Exception { //basic, parameter-driven constructor
+		this.string_count = string_count;
+		this.file = file;
+		this.eof = false;
+		// measures start at 1, index 0 exists - but is reserved for tuning data
+		this.next_tabLine = 0;
+		this.curr_measure = 0;
+		this.evaluateLine();
+	}
+	
 	public TabReaderV4(String contents, int string_count) throws Exception { //basic, parameter-driven constructor
 		this.string_count = string_count;
 		this.eof = false;
@@ -72,7 +85,7 @@ public class TabReaderV4{
 	
 	
 	public void readMeasure() throws Exception {
-		//System.out.println("DEBUG: curr_measure: "+curr_measure);
+		//System.out.println("DEBUG: curr_measure: "+curr_measure + "LINE LENGTH: " + tabLine[0].length);
 		if(curr_measure >= tabLine[0].length) {
 			curr_measure = 1;
 			System.out.println("DEBUG: end of line, reading next line");
@@ -217,4 +230,5 @@ public class TabReaderV4{
 			System.out.println(in[i]);
 		}
 	}
+	
 }

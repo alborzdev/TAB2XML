@@ -15,6 +15,7 @@ public class DrumReader {
 	private String[] measure;
 	private char[] column;
 	private int curr_col;
+	private int curr_line;
 
 	// Each line in drum tab represents a part of the drumKit
 	private ArrayList<String> drumKit = new ArrayList<String>();
@@ -136,7 +137,7 @@ public class DrumReader {
 						type, notehead };
 
 				notes.add(note);
-
+				
 			}
 			col = curr_col;
 			type = "";
