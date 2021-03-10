@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import test.LineErrorException;
 import xmlClasses.Chain;
 
 public class MainController implements Initializable {
@@ -87,36 +88,31 @@ public class MainController implements Initializable {
 
         chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
         
+        //CHAIN CALLS w/ ERROR HANDLING
         boolean errorEvent = false;
-        
-        try{chain.TABtoPART();} 
-        catch(Exception e) {
-        	errorEvent = true;
-//        	AlertType type = AlertType.ERROR; 
-//			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-//			alert.getDialogPane().setContentText(e.getMessage()); 
-//			alert.showAndWait();
-//			textarea.selectRange(5, 9);
+
+        //T2P
+        try { chain.TABtoPART(); } 
+        catch ( LineErrorException e ) {
+			errorEvent = ErrorHandling.errorEventHighlight(
+					"Conversion was unsuccessful :(",
+					e, textarea, "|"+e.getString()+"|");
         }
-        try{chain.INFOtoPARTWISE();} 
-        catch(Exception e) {
-        	errorEvent = true;
-//        	AlertType type = AlertType.ERROR; 
-//			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-//			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
-//			alert.showAndWait();
-//			textarea.selectRange(5, 9);
+    
+        try { chain.INFOtoPARTWISE(); } 
+        catch( Exception e ) {
+        	errorEvent = ErrorHandling.errorEvent(
+					"Conversion was unsuccessful :(",
+					"Some attributes are incorrect", e);
         }
-		try {chain.MARSHtoXML();}
-		catch (Exception e) {
-			errorEvent = true;
-//			AlertType type = AlertType.ERROR; 
-//			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-//			alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
-//			alert.showAndWait();
-//			textarea.selectRange(5, 9);
-			}
-        
+        //M2X
+		try { chain.MARSHtoXML(); }
+		catch ( Exception e ) {
+			errorEvent = ErrorHandling.errorEvent(
+					"Conversion was unsuccessful :(",
+					"Your tab format is correct, something went wrong on our end! Please try again.", e);
+		}
+		
         if(loc==null) {
         	System.out.println("Exporting has been cancelled");
         }
@@ -147,21 +143,24 @@ public class MainController implements Initializable {
 
 	
 	@FXML
-	public void updateTextArea(KeyEvent event) throws IOException {
+	public void updateTextArea(KeyEvent event) throws Exception {
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
-        
         try{chain.TABtoPART();} 
-        catch(Exception e) {
+        catch(LineErrorException e) {
         	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
         	ERRORStextarea.clear();
         	ERRORStextarea.appendText(e.getMessage());
-
-        }
+        	ErrorHandling.errorEventHighlight(
+					"Conversion was unsuccessful :(",
+					e, textarea, "|"+e.getString()+"|");
+            }
+         
         try{chain.INFOtoPARTWISE();} 
         catch(Exception e) {
         	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
         	ERRORStextarea.clear();
         	ERRORStextarea.appendText(e.getMessage());
+        	//errorEvent=ErrorHandling.errorEventHighlight("Conversion was unsuccessful :(",	e, textarea, "|"+e.getString()+"|");
         }
 	}
 	
@@ -198,7 +197,7 @@ public class MainController implements Initializable {
 //		KeySig.getItems().add("F# Major");
 //		KeySig.getItems().add("C# Major");
 		
-		//TimeSig.getItems().add("3/4");
+		TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
 //		TimeSig.getItems().add("5/4");
 //		TimeSig.getItems().add("6/8");
@@ -276,17 +275,16 @@ public class MainController implements Initializable {
 	}
 	//default = 4/4
 	public int getTimeSig() {
-		//int indx = TimeSig.getSelectionModel().getSelectedIndex();
-		//switch(indx) {
-		//case 0: return 34;
-		//case 1: return 44;
+		int indx = TimeSig.getSelectionModel().getSelectedIndex();
+		switch(indx) {
+		case 0: return 34;
+		case 1: return 44;
 		//case 2: return 54;
 		//case 3: return 68;
 		//case 4: return 78;
 		//case 5: return 128;
-		//default: return 44;
-		//}
-		return 44;
+		default: return 44;
+		}
 	}
 	
 	@FXML

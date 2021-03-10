@@ -23,7 +23,7 @@ public class Main extends Application {
 		controller.init(primaryStage);
 
 		Scene scene = new Scene(root,  1263, 517);
-
+		//Scene scene = new Scene(root,  1024, 768);
 		primaryStage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Tab 2 .xml");

@@ -13,7 +13,6 @@ public class ScorePartDrum extends Score_Part{
 	
 	public ScorePartDrum(String id, String partName, ArrayList<ScoreInstrument> sii) { 
 	    super(id, partName);
-	    si = new ArrayList<ScoreInstrument>();
 	    si.add(new ScoreInstrument("P1-I36", "Bass Drum 1"));
 	    si.add(new ScoreInstrument("P1-I37", "Bass Drum 2"));
 	    si.add(new ScoreInstrument("P1-I38", "Side Stick"));
