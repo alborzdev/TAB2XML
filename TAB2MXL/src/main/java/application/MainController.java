@@ -43,6 +43,12 @@ public class MainController implements Initializable {
 	@FXML 
 	private JFXComboBox<String> conversionType;
 	
+	@FXML 
+	private JFXComboBox<Integer> measures;
+	
+	@FXML 
+	private JFXComboBox<String> MeasureTimeSig;
+	
 	@FXML
 	private JFXTextArea textarea;
 
@@ -145,7 +151,9 @@ public class MainController implements Initializable {
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
-        try{chain.TABtoPART();} 
+        try{chain.TABtoPART();
+        
+        } 
         catch(LineErrorException e) {
         	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
         	ERRORStextarea.clear();
@@ -210,6 +218,13 @@ public class MainController implements Initializable {
 		
 		conversionType.getItems().add("Tab");
 		conversionType.getItems().add("Sheet Music");
+		
+		MeasureTimeSig.getItems().add("3/4");
+		MeasureTimeSig.getItems().add("4/4");
+		
+		for(int i=0;i<11;i++)
+			measures.getItems().add(i);
+		measures.setStyle("-fx-text-fill: white;");
 	}
 
 	public void init(Stage primaryStage) {
