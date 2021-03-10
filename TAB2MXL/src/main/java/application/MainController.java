@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import xmlClasses.Chain;
@@ -29,6 +30,8 @@ public class MainController implements Initializable {
 	private File file;
 
 
+	@FXML
+	private JFXTextArea ERRORStextarea;
 	@FXML 
 	private JFXComboBox<String> KeySig;
 	@FXML 
@@ -64,7 +67,6 @@ public class MainController implements Initializable {
 			//Sends Textarea to Backend to anaylize/parse
 			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
 		}
-		//textarea.setStyle("-fx-highlight-fill: blue; -fx-font-size: 12px; -fx-font-family=Courier New;");
 		
 	}
 	
@@ -75,7 +77,6 @@ public class MainController implements Initializable {
 	 */
 	private File loc;
 	public void convertFile(ActionEvent event) throws Exception {
-		//xmlClasses.ObjectToMxl.mxlMaker();
 		FileChooser saver = new FileChooser();
 		
 		FileChooser.ExtensionFilter extFilter = 
@@ -91,29 +92,29 @@ public class MainController implements Initializable {
         try{chain.TABtoPART();} 
         catch(Exception e) {
         	errorEvent = true;
-        	AlertType type = AlertType.ERROR; 
-			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText(e.getMessage()); 
-			alert.showAndWait();
-			textarea.selectRange(5, 9);
+//        	AlertType type = AlertType.ERROR; 
+//			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+//			alert.getDialogPane().setContentText(e.getMessage()); 
+//			alert.showAndWait();
+//			textarea.selectRange(5, 9);
         }
         try{chain.INFOtoPARTWISE();} 
         catch(Exception e) {
         	errorEvent = true;
-        	AlertType type = AlertType.ERROR; 
-			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
-			alert.showAndWait();
-			textarea.selectRange(5, 9);
+//        	AlertType type = AlertType.ERROR; 
+//			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+//			alert.getDialogPane().setContentText("Some attributes are incorrect"); 
+//			alert.showAndWait();
+//			textarea.selectRange(5, 9);
         }
 		try {chain.MARSHtoXML();}
 		catch (Exception e) {
 			errorEvent = true;
-			AlertType type = AlertType.ERROR; 
-			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
-			alert.showAndWait();
-			textarea.selectRange(5, 9);
+//			AlertType type = AlertType.ERROR; 
+//			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+//			alert.getDialogPane().setContentText("Your tab format is correct, something went wrong on our end! Please try again."); 
+//			alert.showAndWait();
+//			textarea.selectRange(5, 9);
 			}
         
         if(loc==null) {
@@ -122,7 +123,7 @@ public class MainController implements Initializable {
         if(errorEvent) {
            	AlertType type = AlertType.ERROR; 
 			Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
-			alert.getDialogPane().setContentText("Exporting was cancelled due to previous errors.");
+			alert.getDialogPane().setContentText("Exporting was cancelled due to the errors shows on the right.");
 			alert.showAndWait();
         }
         else {
@@ -137,17 +138,33 @@ public class MainController implements Initializable {
 	       	 	conf.showAndWait(); 
 			} catch (IOException e) { 
 				AlertType type = AlertType.ERROR; 
-				Alert alert = new Alert(type, "Conversion was unsuccessful :("); 
+				Alert alert = new Alert(type, "Saving file was unsuccessful :("); 
 				alert.getDialogPane().setContentText("Exporting was cancelled. Please try again."); 
 				alert.showAndWait();
 				e.printStackTrace();	}
         }
 	}
-	//
-	/**
-	 * 
-	 *
-	 */
+
+	
+	@FXML
+	public void updateTextArea(KeyEvent event) throws IOException {
+		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
+        
+        try{chain.TABtoPART();} 
+        catch(Exception e) {
+        	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
+        	ERRORStextarea.clear();
+        	ERRORStextarea.appendText(e.getMessage());
+
+        }
+        try{chain.INFOtoPARTWISE();} 
+        catch(Exception e) {
+        	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
+        	ERRORStextarea.clear();
+        	ERRORStextarea.appendText(e.getMessage());
+        }
+	}
+	
 	@FXML
 	private MenuItem help;
 	public void UserManual(ActionEvent event) {
@@ -217,10 +234,10 @@ public class MainController implements Initializable {
 		}
 			else {
 				s="TAB";
-				AlertType type = AlertType.WARNING; 
-				Alert alert = new Alert(type, "Required Information missing"); 
-				alert.getDialogPane().setContentText("Conversion type left empty (default = TAB)"); 
-				alert.showAndWait();
+//				AlertType type = AlertType.WARNING; 
+//				Alert alert = new Alert(type, "Required Information missing"); 
+//				alert.getDialogPane().setContentText("Conversion type left empty (default = TAB)"); 
+//				alert.showAndWait();
 			}
 		return s;
 	}
@@ -232,10 +249,10 @@ public class MainController implements Initializable {
 			s =new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
 		}
 		else {s="Guitar";
-		AlertType type = AlertType.WARNING; 
-		Alert alert = new Alert(type, "Required Information missing"); 
-		alert.getDialogPane().setContentText("Instrument type left empty (default = Guitar)"); 
-		alert.showAndWait();
+//		AlertType type = AlertType.WARNING; 
+//		Alert alert = new Alert(type, "Required Information missing"); 
+//		alert.getDialogPane().setContentText("Instrument type left empty (default = Guitar)"); 
+//		alert.showAndWait();
 		
 		}
 		
@@ -249,10 +266,10 @@ public class MainController implements Initializable {
 		System.out.println("selected key sig "+s);
 		}
 		else {s= "C Major";
-		AlertType type = AlertType.WARNING; 
-		Alert alert = new Alert(type, "Required Information missing"); 
-		alert.getDialogPane().setContentText("Key Signature empty (default = C Major)"); 
-		alert.showAndWait();
+		//AlertType type = AlertType.WARNING; 
+		//Alert alert = new Alert(type, "Required Information missing"); 
+		//alert.getDialogPane().setContentText("Key Signature empty (default = C Major)"); 
+		//alert.showAndWait();
 		}
 		
 		return s;
@@ -292,4 +309,8 @@ public class MainController implements Initializable {
 		return s;
 	}
 	
+	
+	public void errorsViewer(ActionEvent event) {
+		
+	}
 }
