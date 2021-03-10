@@ -236,6 +236,11 @@ public class MainController implements Initializable {
 		String s;
 		if(InstrumentType.getSelectionModel().isEmpty()==false) {
 			s =new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
+			switch(s){
+			case "Drums - not completely implemented": return "drums";
+			case "Guitar": return "Guitar"; 
+			default: return "Bass";
+			}
 		}
 		else {s="Guitar";
 		AlertType type = AlertType.WARNING; 
