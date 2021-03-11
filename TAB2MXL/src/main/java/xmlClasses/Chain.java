@@ -12,6 +12,7 @@ import javax.xml.bind.Marshaller;
 
 import test.DrumReader;
 import test.MeasureReaderV3;
+import test.MeasureReaderV4;
 import test.TabReaderV2;
 import test.TabReaderV4;
 
@@ -42,6 +43,7 @@ public class Chain {
 	 * First digit being the beat.
 	 * Second being the beat-type*/
 	int TIMESIG;
+	int[] TIMESIGS;
 	
 	/**The key of the song*/
 	String KEY;
@@ -115,6 +117,19 @@ public class Chain {
 		this.INSTRUMENT=INSTRUMENT;
 		this.CLEF=CLEF;
 	}
+	
+	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
+			int[] TIMESIGS, String KEY, String INSTRUMENT, String CLEF){
+
+		this.TAB=TAB;
+		this.TITLE=TITLE;
+		this.LYRICIST=LYRICIST;
+		this.COMPOSER=COMPOSER;
+		this.TIMESIGS=TIMESIGS;
+		this.KEY=KEY;
+		this.INSTRUMENT=INSTRUMENT;
+		this.CLEF=CLEF;
+	}
 
 //####################################################################
 //###################### 3 STEPS TO CONVERT ##########################
@@ -160,13 +175,13 @@ public class Chain {
 		//String Note Parsing
 		TRv4.readMeasure();
 		while(TRv4.hasNext()) {
-			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);
+			MeasureReaderV4 MRv4 = new MeasureReaderV4(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);
 			PW.nextMeasure( ATT );//adds an empty measure
 			ATT=null;//removes all attributes after the first measrue
-			while(MRv3.hasNext()) {
-				MRv3.readNotes();
+			while(MRv4.hasNext()) {
+				MRv4.readNotes();
 				boolean SecondNote = false;//makes notes chorded when they are not the first one
-				for(String[] s:MRv3.getNotes()) {
+				for(String[] s:MRv4.getNotes()) {
 					//secondNote==true -> chordnote
 					//s[4]==alter -> alterednote
 					if(SecondNote) {
