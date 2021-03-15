@@ -247,28 +247,32 @@ public class Chain {
 			DPW.nextMeasure(ATT);
 			ATT=null;
             DR.setMeasure(TRv4.getMeasure());
-			while(DR.hasNext()) {
+			while(DR.hasNextRow()) {
 				
-				boolean firstNoteAdded = false;
-				for(String[] s:DR.readNote()) {
+//				boolean firstNoteAdded = false;
+				for(String[] s:DR.readNoteRow()) {
+					if(!s[0].equals("gap")) {
+						
+
 					System.out.println("Step"+s[0]+
 										"Octave"+Integer.parseInt(s[1])+
 										"Duration"+Integer.parseInt(s[2])+
 										"Intrument"+s[3]+
 										"Voice"+s[4]+
 										"Type"+s[5]+
-										"NoteHead"+s[6]);
-					if(firstNoteAdded) {
-						System.out.println("Chorded note");
-//						if(s[6].equals("o")) {
-//							System.out.println("Make a note chord without note head");
-//						}
-//						else {
-						DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
-						//}
-						
-					}
-					else {
+										"NoteHead"+s[6]+
+										"Beam"+s[7]);
+//					if(firstNoteAdded) {
+//						System.out.println("Chorded note");
+////						if(s[6].equals("o")) {
+////							System.out.println("Make a note chord without note head");
+////						}
+////						else {
+//						DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
+//						//}
+//						
+//					}
+//					else {
 						System.out.println("Non chorded note");
 						if(s[6].equals("o")) {
 							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up");
@@ -276,12 +280,12 @@ public class Chain {
 						else {
 							DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
 						}
-						firstNoteAdded = true;
 					}
+				}else {
 					
 				}
 			}
-			TRv4.readMeasure();		
+			TRv4.readMeasure();
 		}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());

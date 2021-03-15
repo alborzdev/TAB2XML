@@ -14,6 +14,8 @@ import java.lang.Math;
 public class DrumReader {
 	private String[] measure;
 	private char[] column;
+	private char[] rows;
+	private int row;
 	private int curr_col;
 	private int curr_line;
 
@@ -28,12 +30,14 @@ public class DrumReader {
 	public DrumReader(String[] measure) {
 		this.measure = measure;
 		this.curr_col = 0;
+		this.row = 0;
 		initializeDrumKit();
 	}
 
 	public void setMeasure(String[] measure) {
 		this.measure = measure;
 		this.curr_col = 0;
+		this.row = 0;
 	}
 
 	/*
@@ -41,42 +45,113 @@ public class DrumReader {
 	 * 
 	 * returns a list of String arrays containing information for one drum note
 	 */
-	public List<String[]> readNote() {
-		readColumn();
+	public List<String[]> readNoteRow() {
+		readRow();
+		
 		ArrayList<String[]> notes = new ArrayList<String[]>();
-		int col = this.curr_col;
+		String instrument = "";
 		String type = "";
-		String step = "";
+		String step = ""; 
 		int octave = -1;
 		int duration = 1;
-		String instrument = "";
 		int voice = 1;
+		int col2 = 0;
+		int beamDur = 0;
+		int gap = 0;
+		String beam = "";
 		String notehead = "o";
-		boolean stop = false;
+		
 		int max = 16;
-		for (int line = 0; line < column.length; line++) {
-			if (this.column[line] == 'o' || this.column[line] == 'x') {
-				// checks if this is a 16th 8th quarter or while note
+		
+		//gets max duration from hashmap
+		try {
+			//collects instrument from hashmap
+			instrument = this.drumKit.get(this.row-1);
+			max = instrumentMax.get(instrument);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		// changes unpitched position of note
+		switch (this.row - 1) {
+		case 0:
+			step = "A";
+			octave = 5;
+			break;
+
+		case 1:
+			step = "F";
+			octave = 5;
+			break;
+
+		case 2:
+			step = "D";
+			octave = 5;
+			break;
+
+		case 3:
+			step = "B";
+			octave = 4;
+			break;
+
+		case 4:
+			step = "G";
+			octave = 4;
+			break;
+
+		default:
+			step = "E";
+			octave = 4;
+			break;
+		}
+		System.out.println("FINISHED STEP OCTAVE, INSTRUMENT, and MAX");
+		
+		//finds the duration of each note
+		for (int col = 0;  col < this.rows.length; col++) {
+			
+			//checks if there is a note at index col in the row
+			if (this.rows[col] == 'o' || this.rows[col] == 'x') {
 				try {
-					// sets the instrument of this note
-					instrument = this.drumKit.get(line);
-					max = instrumentMax.get(instrument);
-					while (col < this.measure[line].length() && this.measure[line].charAt(col) == '-' && duration < max && !stop) {
-						for(int i = 0; i  < column.length; i++) {
-							if (this.measure[i].charAt(col) == 'o' || this.measure[i].charAt(col) == 'x') {
-								stop = true;
-							}
+					col2 = col + 1;
+					
+					//finds the duration of this note
+					while (col2 < this.rows.length) {
+						if((this.rows[col2] == '-') && (duration < max)){
+							duration++;
 						}
+						col2++;
 						
-						if(!stop) {
-						duration++;
-						col++;
-						}
 					}
+					System.out.println("Duration :" + duration);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 					System.out.println("DURATION ERROR");
 				}
+				
+				//checks if a beam is begining, continuing, ending, or doesn't exist
+				if(beamDur == duration) {
+					//checks if a new beam should be created
+					if((col + duration) < this.rows.length) {
+						if(this.rows[col + duration] == 'o' || this.rows[col + duration] == 'x') {
+							beam = "continue";
+						}
+						
+					}else{
+						beam = "end";
+					}
+						
+				}else {
+					
+					//checks if a new beam should be created
+					if((col + duration) < this.rows.length) {
+					if(this.rows[col + duration] == 'o' || this.rows[col + duration] == 'x') {
+						
+						beam = "begin";
+						beamDur = duration;
+					}
+					}
+					
+				}
+				
 				// sets the duration of note
 				if (duration == 1) {
 					type = "sixteenth";
@@ -89,43 +164,9 @@ public class DrumReader {
 				} else if (duration == 16) {
 					type = "whole";
 				}
-
-				// changes unpitched position of note
-				switch (line) {
-				case 0:
-					step = "A";
-					octave = 5;
-					break;
-
-				case 1:
-					step = "F";
-					octave = 5;
-					break;
-
-				case 2:
-					step = "D";
-					octave = 5;
-					break;
-
-				case 3:
-					step = "B";
-					octave = 4;
-					break;
-
-				case 4:
-					step = "G";
-					octave = 4;
-					break;
-
-				default:
-					step = "E";
-					octave = 4;
-					break;
-				}
-
+								
 				// changes the notehead of HH and CC notes to xs
-				if (instrument.equals("P1-I50") || instrument.equals("P1-I47")
-						|| instrument.toLowerCase().equals("sn")) {
+				if (instrument.equals("P1-I50") || instrument.equals("P1-I47")) {
 					notehead = "x";
 				}
 
@@ -134,17 +175,21 @@ public class DrumReader {
 						duration + "", // duration
 						instrument, // instrument
 						voice + "", // voice
-						type, notehead };
+						type, 
+						notehead,
+						beam	};
 
 				notes.add(note);
 				
+			}else {
+				String[] note = { "gap"};
+				notes.add(note);			
 			}
-			col = curr_col;
-			type = "";
+			
+			//skips index where this instrument is played
+			col += duration;
 			duration = 1;
 			notehead = "o";
-			max = 16;
-			stop = false;
 		}
 		return notes;
 	}
@@ -181,12 +226,13 @@ public class DrumReader {
 		instrumentIds.put("P1-I65", "Low Conga");
 
 		// maxes
-		instrumentMax.put("P1-I36", 16);
+		instrumentMax.put("P1-I36", 8);
 		instrumentMax.put("P1-I39", 2);
 		instrumentMax.put("P1-I47", 2);
 		instrumentMax.put("P1-I49",2);
-		instrumentMax.put("P1-I50", 16);
+		instrumentMax.put("P1-I50", 8);
 		instrumentMax.put("P1-I51", 2);
+		System.out.println("ADEEDES ALL MAPS");
 		String instrument = "";
 		int col = this.curr_col - 1;// prev col
 
@@ -195,10 +241,10 @@ public class DrumReader {
 			instrument = "";
 			instrument = this.measure[line].charAt(col) + "" + this.measure[line].charAt(col + 1); // concatinates
 																									// instrument
-//			System.out.println("instrument: " + instrument);
+			System.out.println("instrument: " + instrument);
 			col = this.curr_col - 1;
 			// adds instrument into drumkit
-			System.out.println(instrumentIds.get(instrument));
+			System.out.println("DRUMKIT: " + instrumentIds.get(instrument));
 			id = instrumentIds.get(instrument);
 			this.drumKit.add(id);
 		}
@@ -222,12 +268,24 @@ public class DrumReader {
 		this.curr_col++;
 
 	}
-
-	public boolean hasNext() {
-		if (this.curr_col >= this.measure[0].length()) {
-			return false;
-		} else {
-			return true;
+	
+	/*
+	 * Takes one horizontal line of notes from this.measure into this.row
+	 */
+	protected void readRow() {
+		this.rows = new char[this.measure[0].length()];
+		System.out.println("Creating Row");
+		for (int i = 0; i < this.measure[0].length() ; i++) {
+			this.rows[i] = this.measure[this.row].charAt(i);
+			System.out.println("ROW[" +i+"] :" + this.measure[this.row].charAt(i));
 		}
+		this.row++;
+
+	}
+
+	/* Checks if the drum reader has anymore rows to read */
+	public boolean hasNextRow() {
+		return this.row < this.measure.length;
+		
 	}
 }
