@@ -60,6 +60,10 @@ public class PartWriter {
 		currentMeasure.addNote( new ChordNote( duration, type, new AlteredPitch( step, octave, alter), new Notations( new Technical(string, fret) ), voice ) );
 	}
 	
+	public void nextAllNote( int duration, String type, String step, int octave, int alter, Notations nots, int voice, String chord, String grace ) {
+		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave, alter ) , new Notations( new Technical( string, fret ) ), voice, chord, grace) );
+	}
+	
 	//Getter
 	public Part getPart() {
 		return part;
