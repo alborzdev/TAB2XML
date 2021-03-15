@@ -64,7 +64,7 @@
 
                         <HBox alignment="CENTER" layoutX="643.0" layoutY="310.0" prefHeight="47.0" prefWidth="585.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="643.0" AnchorPane.rightAnchor="35.0">
          <children>
-            <JFXButton onAction="#doOpen" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Upload file">
+            <JFXButton fx:id="upload" onAction="#doOpen" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Upload file">
                <font>
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
@@ -72,7 +72,7 @@
                   <DropShadow />
                </effect>
             </JFXButton>
-            <JFXButton onAction="#convertFile" style="-fx-border-color: #3282b8; -fx-border-radius: 5em; -fx-text-fill: white;" text="Export">
+            <JFXButton fx:id="export" onAction="#convertFile" style="-fx-border-color: #3282b8; -fx-border-radius: 5em; -fx-text-fill: white;" text="Export">
                <font>
                   <Font name="Quicksand Regular" size="14.0" />
                </font>
