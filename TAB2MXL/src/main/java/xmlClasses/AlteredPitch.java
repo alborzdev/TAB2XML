@@ -11,10 +11,12 @@ public class AlteredPitch extends Pitch {
 		
 		public AlteredPitch() {}  
 		
+		/*
 		public AlteredPitch(String step, int octave, int alter) {
 		    super(step, octave);
 		    this.alter = alter;
 		} 
+		*/
 		
 		@XmlElement
 		public int getAlter() {  
