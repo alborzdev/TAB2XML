@@ -9,12 +9,14 @@ import javax.xml.bind.annotation.XmlType;
 public class Pitch {
 	private String step;
 	private int octave;
+	private int alter;
 	
 	public Pitch() {}  
 	
-	public Pitch(String step, int octave) {  
+	public Pitch(String step, int octave, int alter) {  
 	    this.step = step;  
 	    this.octave = octave; 
+	    this.alter = alter;
 	} 
 	
 	@XmlElement

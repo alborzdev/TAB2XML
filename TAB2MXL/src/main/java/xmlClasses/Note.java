@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder={"pitch", "duration", "type", "notations"})
+@XmlType(propOrder={"chord","grace","pitch", "duration", "type", "notations"})
 @XmlSeeAlso({ChordNote.class, DrumNote.class})
 public class Note {
 	private int duration;
@@ -13,6 +13,8 @@ public class Note {
 	private Pitch pitch;
 	private Notations nots;
 	private int voice;
+	private String chord;
+	private String grace;
 	
 	public Note() {}  
 	
@@ -22,11 +24,13 @@ public class Note {
 	    this.pitch = pitch;
 	}
 	
-	public Note(int duration, String type, Pitch pitch, Notations nots, int voice) {
+	public Note(int duration, String type, Pitch pitch, Notations nots, int voice, String chord, String grace) {
 	    this.duration = duration;  
 	    this.type = type; 
 	    this.pitch = pitch;
 	    this.nots = nots;
+	    this.chord = chord;
+	    this.grace = grace;
 	}
 	
 	@XmlElement
@@ -60,6 +64,23 @@ public class Note {
 	public void setNotations(Notations nots) {  
 	    this.nots = nots;  
 	}
+	
+	@XmlElement
+	public String getChord() {  
+	    return this.chord;  
+	}  
+	public void setChord(String chord) {  
+	    this.chord = chord;
+	}
+	
+	@XmlElement
+	public String getGrace() {  
+	    return this.grace;  
+	}  
+	public void setGrace(String grace) {  
+	    this.grace = grace;
+	}
+
 	
 //	@XmlElement
 //	public int getVoice() {  
