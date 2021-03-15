@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-@XmlType(propOrder={"step", "octave"})
+@XmlType(propOrder={"step", "octave","alter"})
 @XmlSeeAlso({AlteredPitch.class})
 public class Pitch {
 	private String step;
