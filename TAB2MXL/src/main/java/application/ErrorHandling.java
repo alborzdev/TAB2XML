@@ -13,7 +13,7 @@ public class ErrorHandling {
 
     public static boolean errorEvent(String Title, String Subtitle, Exception e) {
     	
-    	
+    	e.printStackTrace();
     	AlertType type = AlertType.ERROR; 
 		Alert alert = new Alert(type, Title); 
 		alert.getDialogPane().setContentText(Subtitle); 
