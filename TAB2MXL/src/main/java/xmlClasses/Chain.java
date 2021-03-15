@@ -192,7 +192,7 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
-									VOICE,						//voice
+									VOICE,					//voice
 									ChordNote,				//chord
 									GRACE					//grace
 									);
