@@ -81,6 +81,9 @@ public class Chain {
 	/**HARDCODED: Voice - 1*/
 	int VOICE = 1;
 	
+	/**HARDCODED: Grace - null*/
+	String GRACE = null;
+	
 	/**This ArrayList shows the drum kit*/
 	ArrayList<String> DK;
 
@@ -182,8 +185,6 @@ public class Chain {
 				MRv4.readNotes();
 				String ChordNote = null;//makes notes chorded when they are not the first one
 				for(String[] s:MRv4.getNotes()) {
-					//secondNote==true -> chordnote
-					//s[4]==alter -> alterednote
 					PW.nextAllNote( Integer.parseInt(s[0]), //duration
 									s[1],					//type
 									s[2],					//step
@@ -191,9 +192,9 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
-									1,						//voice
+									VOICE,						//voice
 									ChordNote,				//chord
-									null					//grace
+									GRACE					//grace
 									);
 					ChordNote = "";
 				}
