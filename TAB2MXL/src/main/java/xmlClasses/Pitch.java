@@ -35,4 +35,11 @@ public class Pitch {
 	    this.octave = octave;  
 	}
 	
+	@XmlElement
+	public int getAlter() {  
+	    return alter;  
+	}  
+	public void setAlter(int alter) {  
+	    this.alter = alter;  
+	}
 }
