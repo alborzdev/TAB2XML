@@ -182,8 +182,8 @@ public class DrumReader {
 				notes.add(note);
 				
 			}else {
-				String[] note = { "gap"};
-				notes.add(note);			
+//				String[] note = { "gap"};
+//				notes.add(note);			
 			}
 			
 			//skips index where this instrument is played
