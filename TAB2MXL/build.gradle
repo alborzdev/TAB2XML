@@ -1,6 +1,7 @@
 plugins {
   id 'application'
   id 'org.openjfx.javafxplugin' version '0.0.8'
+  id 'jacoco'
 }
 
 repositories {
@@ -9,6 +10,8 @@ repositories {
 
 dependencies {
     // Use JUnit test framework
+    
+    testImplementation 'junit:junit:4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     //JFX dependancies
@@ -29,6 +32,25 @@ test {
   useJUnitPlatform()
   testLogging {
     events 'passed', 'skipped', 'failed'
+  }
+  finalizedBy jacocoTestReport // report is always generated after tests run
+  
+}
+
+
+
+jacoco {
+    toolVersion = "0.8.6"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+    //reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport{
+  group = "build"
+  reports {
+    xml.enabled false
+    csv.enabled false
+    html.destination file("${buildDir}/jacocoHtml")
   }
 }
 
