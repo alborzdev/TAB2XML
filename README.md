@@ -10,6 +10,8 @@ For the midterm submission (02/28/2021), guitar tab conversion has been implemen
 ## Getting Started and Installation
 To get started, clone the master branch and run the application as a `Gradle` project. Please make sure that you set Java 15 for your compiler compliance level:
 `File → Properties → Java Compiler → Compiler Compliance Level → 15`
+![alt text](https://i.imgur.com/RNibyJy.jpg)
+
 Please refer to the User Manual for a step-by-step guide on how to install and run the software.
 
 
