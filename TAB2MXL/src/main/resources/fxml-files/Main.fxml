@@ -29,6 +29,7 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
+                        <MenuItem mnemonicParsing="false" onAction="#LOADRECENT" text="Open Recent..." />
                     <MenuItem onAction="#doExit" text="Exit">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
@@ -62,8 +63,13 @@
          </center>
       </BorderPane>
 
-                        <HBox alignment="CENTER" layoutX="579.0" layoutY="476.0" prefHeight="47.0" prefWidth="585.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="579.0" AnchorPane.rightAnchor="99.0">
+                        <HBox alignment="CENTER" layoutX="579.0" layoutY="476.0" prefHeight="47.0" prefWidth="307.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="579.0" AnchorPane.rightAnchor="382.0">
          <children>
+            <JFXButton onAction="#saveChanges" style="-fx-background-color: white; -fx-background-radius: 5em;" text="Save changes">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </JFXButton>
             <JFXButton onAction="#doOpen" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Upload file">
                <font>
                   <Font name="Quicksand Regular" size="14.0" />

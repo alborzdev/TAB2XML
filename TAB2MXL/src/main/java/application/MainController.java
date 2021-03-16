@@ -1,13 +1,19 @@
 package application;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
@@ -322,8 +328,53 @@ public class MainController implements Initializable {
 		return s;
 	}
 	
+	private LinkedList<String> RECENTFILES= new LinkedList<String>();
+	Preferences pref;
+	@FXML
+	public void LOADRECENT(ActionEvent event) throws IOException {
+		//textarea.setText(RECENTFILES.get(0).toString());
+		BufferedReader br = new BufferedReader(new FileReader("database.txt"));
+		 String line;
+		 while ((line = br.readLine()) != null) {
+			textarea.setText(pref.get("Recent files", line));
+		 }
+		 br.close();
+	}
 	
-	public void errorsViewer(ActionEvent event) {
+	@FXML
+	public void saveChanges(ActionEvent event) {
+		pref  =Preferences.userNodeForPackage(MainController.class); 
+		pref.put("Recent files", textarea.getText());
+		FileWriter fw;
+		try {
+			fw = new FileWriter("database.txt", true);
+
+			BufferedWriter bw = new BufferedWriter(fw); 
+			PrintWriter pw = new PrintWriter(bw); 
+			pw.println(textarea.getText()); 
+			pw.flush(); 
+			pw.close();
+			RECENTFILES.add(textarea.getText());
+			if(RECENTFILES.get(0)!=null) {
+			 	Alert conf = new Alert(AlertType.CONFIRMATION,  
+		                 "Conversion was successful!"); 
+		       	  	conf.setContentText("CHANGES SAVED");
+		       	 	conf.showAndWait(); 
+		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			if(RECENTFILES.get(0)!=null) {
+			 	Alert conf = new Alert(AlertType.ERROR,  
+		                 "Conversion was UNsuccessful!"); 
+		       	  	conf.setContentText("SOMETHING WENT WRONG");
+		       	 	conf.showAndWait(); 
+		}
+		} 
+		
+		
+		   	
+		
 		
 	}
 }
