@@ -1,17 +1,14 @@
 package application;
 
-import org.junit.jupiter.api.AfterEach;
-
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Application;
-import javafx.application.Platform;
+import com.jfoenix.controls.JFXTextArea;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -21,25 +18,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import xmlClasses.Attributes;
-import xmlClasses.PartWriter;
-
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 	
 class MainControllerTest extends ApplicationTest{
 	
-	Button button;
+	Button Uploadbutton;
+	Button export;
 	ComboBox<String> combobox;
+	JFXTextArea textarea;
 	 /* Just a shortcut to retrieve widgets in the GUI. */
     public <T extends Node> T find(final String query) {
         /** TestFX provides many operations to retrieve elements from the loaded GUI. */
@@ -66,54 +57,71 @@ class MainControllerTest extends ApplicationTest{
 		primaryStage.setResizable(false);
 		primaryStage.show();
     }
-
-    @Test
-    public void when_Uploadbutton_is_clicked_FileChooser() {
-        // when:
-        clickOn(".button");
-
-        // then:
-        FxAssert.verifyThat(".button", LabeledMatchers.hasText("Upload file"));
-        
-    }
     
-    @Test
-    public void InstumentTypeheck() {
-    	ComboBox<String> combobox= find("#InstrumentType");
-    	clickOn("#InstrumentType");
-    	assertEquals(3, combobox.getItems().size());
+    @BeforeEach
+    public void setUp() throws Exception {
+    	Uploadbutton = find("#upload");
+    	export = find("#export");
+    	textarea = find("#textarea");
     }
-    @Test
-    public void ConversionTypeCheck() {
-    	ComboBox<String> combobox= find("#conversionType");
-    	clickOn("#conversionType");
-    	assertEquals(2, combobox.getItems().size());
-    }
-    
-    @Test
-    public void Attributes() {
-    	TextField comp =find("#composer");
-    	clickOn(comp);
-    	comp.setText("Lian Attily");
-    	assertEquals("Lian Attily", comp.getText());
-    }
-   
-    @Test
-    public void Exit() {
-    	press(KeyCode.CONTROL).press(KeyCode.X).release(KeyCode.CONTROL).release(KeyCode.X);
-    	
-    }
+
+//    @Test
+//    public void when_Uploadbutton_is_clicked_FileChooser() {
+//        // when:
+//        clickOn(".button");
+//
+//        // then:
+//        FxAssert.verifyThat(".button", LabeledMatchers.hasText("Upload file"));
+//        
+//    }
+//    
+//    @Test
+//    public void InstumentTypeheck() {
+//    	ComboBox<String> combobox= find("#InstrumentType");
+//    	clickOn("#InstrumentType");
+//    	assertEquals(3, combobox.getItems().size());
+//    }
+//    @Test
+//    public void ConversionTypeCheck() {
+//    	ComboBox<String> combobox= find("#conversionType");
+//    	clickOn("#conversionType");
+//    	assertEquals(2, combobox.getItems().size());
+//    }
+//    
+//    @Test
+//    public void Attributes() {
+//    	TextField comp =find("#composer");
+//    	clickOn(comp);
+//    	comp.setText("Lian Attily");
+//    	assertEquals("Lian Attily", comp.getText());
+//    }
+//   
+//    @Test
+//    public void Exit() {
+//    	press(KeyCode.CONTROL).press(KeyCode.X).release(KeyCode.CONTROL).release(KeyCode.X);
+//    	
+//    }
     
     @Test
     public void ReqAtt() throws InterruptedException {
-    	Button uploadbtn = find("#upload");
-    	Button export = find("#export");
-    	clickOn(uploadbtn);
-    	File inputFile = new File("/testTab.txt");
-    	System.out.println("PRINTING IN CONSOLE "+inputFile.getAbsolutePath());
-       // when(fileChooser.showOpenDialog(this.targetWindow())).thenReturn(inputFile);
-    	//clickOn(export);
-    //	FxAssert.verifyThat(export, LabeledMatchers.hasText("export"));
+    	clickOn("#UserManual");
+    	clickOn("exit");
     }
+    
+    @Test
+    public void export() throws InterruptedException {
+    	clickOn(textarea);
+    	textarea.appendText("e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "");
+    	clickOn(export);
+    	Thread.sleep(20000);
+    	press(KeyCode.ENTER).release(KeyCode.ENTER);
+    }
+    
 
 }
