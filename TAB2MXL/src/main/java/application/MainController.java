@@ -1,15 +1,20 @@
 package application;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
-import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Platform;
@@ -20,7 +25,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -36,14 +40,20 @@ public class MainController implements Initializable {
 	@FXML
 	private JFXTextArea ERRORStextarea;
 	@FXML 
-	private JFXComboBox<String> KeySig;
+	private JFXComboBox<String> KeySig = new JFXComboBox<String>();
 	@FXML 
-	private JFXComboBox<String> TimeSig;
+	private JFXComboBox<String> TimeSig= new JFXComboBox<String>() ;
 	@FXML 
-	private JFXComboBox<String> InstrumentType;
+	private JFXComboBox<String> InstrumentType= new JFXComboBox<String>();
 	
 	@FXML 
-	private JFXComboBox<String> conversionType;
+	private JFXComboBox<String> conversionType= new JFXComboBox<String>();
+	
+	@FXML 
+	private JFXComboBox<Integer> measures= new JFXComboBox<Integer>();
+	
+	@FXML 
+	private JFXComboBox<String> MeasureTimeSig= new JFXComboBox<String>();
 	
 	@FXML
 	private JFXTextArea textarea;
@@ -147,7 +157,9 @@ public class MainController implements Initializable {
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
-        try{chain.TABtoPART();} 
+        try{chain.TABtoPART();
+        
+        } 
         catch(LineErrorException e) {
         	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
         	ERRORStextarea.clear();
@@ -191,6 +203,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		KeySig.getItems().add("C Major");
+		KeySig.getSelectionModel().select(0);
 //		KeySig.getItems().add("G Major");
 //		KeySig.getItems().add("D Major");
 //		KeySig.getItems().add("A Major");
@@ -209,9 +222,17 @@ public class MainController implements Initializable {
 		InstrumentType.getItems().add("Guitar");
 		InstrumentType.getItems().add("Drums - not completely implemented");
 		InstrumentType.getItems().add("Bass - not completely implemented");
+		InstrumentType.getSelectionModel().select(0);
 		
 		conversionType.getItems().add("Tab");
 		conversionType.getItems().add("Sheet Music");
+		
+		MeasureTimeSig.getItems().add("3/4");
+		MeasureTimeSig.getItems().add("4/4");
+		
+		for(int i=0;i<11;i++)
+			measures.getItems().add(i);
+		measures.setStyle("-fx-text-fill: white;");
 	}
 
 	public void init(Stage primaryStage) {
@@ -309,9 +330,80 @@ public class MainController implements Initializable {
 		return s;
 	}
 	
-	
-	public void errorsViewer(ActionEvent event) {
+	private LinkedList<String> RECENTFILES= new LinkedList<String>();
+	Preferences pref;
+	@FXML
+	public void LOADRECENT(ActionEvent event)  {
+		//textarea.setText(RECENTFILES.get(0).toString());
+		conversionType.getSelectionModel().select(pref.get("type", getConversionType()));
+		KeySig.getSelectionModel().select(pref.get("key", getKey()));
+		TimeSig.getSelectionModel().select(pref.getInt("time", getTimeSig()));
+		InstrumentType.getSelectionModel().select(pref.get("instrument", getType()));
+		textarea.clear();
+		textarea.setText(pref.get("Recent", textarea.getText()));
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("database.txt"));
+			String line;
+			textarea.clear();
+			try {
+				while ((line = br.readLine()) != null) {
+					 System.out.println(line);
+					 textarea.appendText(line);
+					 textarea.appendText("\n");
+				 }
+			} catch (IOException e) {Alert conf = new Alert(AlertType.ERROR,  
+	                 "Could not save changes"); 
+	       	  	conf.setContentText("br.readLine wrong");
+	       	 	conf.showAndWait(); 
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			Alert conf = new Alert(AlertType.ERROR,  
+	                 "Could not save changes"); 
+	       	  	conf.setContentText("file reader error");
+	       	 	conf.showAndWait(); 
+			e.printStackTrace();
+		}
 		
 	}
 	
+	@FXML
+	public void saveChanges(ActionEvent event) {
+		pref  =Preferences.userNodeForPackage(MainController.class); 
+		pref.put("Recent", textarea.getText());
+		pref.put("key", getKey());
+		pref.putInt("time", getTimeSig());
+		pref.put("type", getConversionType());
+		pref.put("instrument", getType());
+		FileWriter fw;
+		try {
+			fw = new FileWriter("database.txt",false);
+
+			BufferedWriter bw = new BufferedWriter(fw); 
+			PrintWriter pw = new PrintWriter(bw); 
+			pw.println(textarea.getText()); 
+			pw.flush(); 
+			pw.close();
+			RECENTFILES.add(textarea.getText());
+			if(RECENTFILES.get(0)!=null) {
+			 	Alert conf = new Alert(AlertType.CONFIRMATION,  
+		                 ""); 
+		       	  	conf.setContentText("CHANGES SAVED");
+		       	 	conf.showAndWait(); 
+		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			if(RECENTFILES.get(0)!=null) {
+			 	Alert conf = new Alert(AlertType.ERROR,  
+		                 "Could not save changes"); 
+		       	  	conf.setContentText("SOMETHING WENT WRONG");
+		       	 	conf.showAndWait(); 
+		}
+		} 
+		
+		
+	
+	}
 }

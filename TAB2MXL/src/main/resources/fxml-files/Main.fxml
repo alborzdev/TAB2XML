@@ -34,11 +34,12 @@
                               <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
-                        <MenuItem onAction="#doOpen" text="Open">
+                        <MenuItem onAction="#doOpen" text="Upload file">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#LOADRECENT" text="Open recent..." />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Help">
@@ -166,10 +167,15 @@
             </Label>
          </children>
       </AnchorPane>
-      <JFXTextArea fx:id="ERRORStextarea" editable="false" focusColor="WHITE" layoutX="1065.0" layoutY="164.0" prefHeight="175.0" prefWidth="176.0">
+      <JFXTextArea fx:id="ERRORStextarea" editable="false" focusColor="WHITE" layoutX="1058.0" layoutY="63.0" prefHeight="175.0" prefWidth="176.0" promptText="Errors and warnings" style="-fx-background-color: white;">
          <font>
             <Font name="Quicksand Medium" size="12.0" />
          </font>
       </JFXTextArea>
+      <JFXButton layoutX="1058.0" layoutY="247.0" onAction="#saveChanges" text="Save current changes" textFill="#bbe1fa">
+         <font>
+            <Font name="Quicksand Regular" size="12.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
