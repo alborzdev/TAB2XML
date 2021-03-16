@@ -81,6 +81,9 @@ public class Chain {
 	/**HARDCODED: Voice - 1*/
 	int VOICE = 1;
 	
+	/**HARDCODED: Grace - null*/
+	String GRACE = null;
+	
 	/**This ArrayList shows the drum kit*/
 	ArrayList<String> DK;
 
@@ -180,35 +183,20 @@ public class Chain {
 			ATT=null;//removes all attributes after the first measrue
 			while(MRv4.hasNext()) {
 				MRv4.readNotes();
-				boolean SecondNote = false;//makes notes chorded when they are not the first one
+				String ChordNote = null;//makes notes chorded when they are not the first one
 				for(String[] s:MRv4.getNotes()) {
-					//secondNote==true -> chordnote
-					//s[4]==alter -> alterednote
-					if(SecondNote) {
-						if(s[4].equals("")) {
-							PW.nextChordNote(Integer.parseInt(s[0]), s[1], s[2],
-							Integer.parseInt(s[3]), Integer.parseInt(s[6]),
-							Integer.parseInt(s[7]), VOICE );
-						}
-						else {
-							PW.nextAlteredChordNote(Integer.parseInt(s[0]), s[1],
-							s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]),
-							Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-						}
-					}
-					else {
-						if(s[4].equals("")) {
-							PW.nextNote(Integer.parseInt(s[0]), s[1], s[2],
-							Integer.parseInt(s[3]), Integer.parseInt(s[6]),
-							Integer.parseInt(s[7]), VOICE );
-						}
-						else {
-							PW.nextAlteredNote(Integer.parseInt(s[0]), s[1],
-							s[2], Integer.parseInt(s[3]),Integer.parseInt(s[4]),
-							Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-						}
-						SecondNote = true;
-					}	
+					PW.nextAllNote( Integer.parseInt(s[0]), //duration
+									s[1],					//type
+									s[2],					//step
+									Integer.parseInt(s[3]),	//octave
+									Integer.parseInt(s[4]),	//alter
+									Integer.parseInt(s[6]),	//string
+									Integer.parseInt(s[7]),	//fret
+									VOICE,						//voice
+									ChordNote,				//chord
+									GRACE					//grace
+									);
+					ChordNote = "";
 				}
 			}
 			

@@ -73,7 +73,7 @@ public class MeasureReaderV4 {
 		for(int i = 0; i<shifts.length; i++) {
 			if(shifts[i] >= 0) {
 				String[] stepAndOctave = calculateNoteandOctave(i,shifts[i]);
-				String alter = "";
+				String alter = "0";
 				String accidental = "";
 				
 				if(stepAndOctave[0].length() > 1) {

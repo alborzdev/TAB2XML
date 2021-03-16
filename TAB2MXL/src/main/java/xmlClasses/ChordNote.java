@@ -12,12 +12,12 @@ public class ChordNote extends Note{
 	public ChordNote() {
 		
 	}
-	
+	/*
 	public ChordNote(int duration, String type, Pitch pitch, Notations notations, int voice) {
 		super(duration, type, pitch, notations, voice);
 		this.chord = "";
 	}
-	
+	*/
 	@XmlElement
 	public String getChord() {  
 	    return this.chord;  
