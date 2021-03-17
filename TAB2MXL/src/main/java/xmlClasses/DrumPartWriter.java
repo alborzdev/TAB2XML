@@ -33,6 +33,12 @@ public class DrumPartWriter {
 		currentMeasure.addNote( new DrumNote( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem));
 		
 	}
+	public void nextBackup(int duration ){
+		currentMeasure.addNote( new Backup(duration));
+	}
+	public void nextForward(int duration ){
+		currentMeasure.addNote( new Forward(duration));
+	}
 	
 	public void nextDrumNoteB(int duration, String type, String step, int octave, int voice, String instID, String stem, ArrayList<Beam> beam ){
 		currentMeasure.addNote( new DrumNoteB( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, beam));
@@ -50,7 +56,6 @@ public class DrumPartWriter {
 		currentMeasure.addNote( new DrumNoteChord( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, notehead));
 		
 	}
-	
 	
 	//Getter
 	public Part getDrumPart() {
