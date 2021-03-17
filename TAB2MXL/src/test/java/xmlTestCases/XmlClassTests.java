@@ -45,10 +45,11 @@ public class XmlClassTests {
 	
 	@BeforeEach
     public void setUp() throws Exception {
-     //   p = new Pitch("C", 4);
+        p = new Pitch("C", 4, 0);
         n = new Note(4, "quarter", p);
         nots = new Notations(new Technical(1,1));
-      //  n2 = new Note(4, "quarter", p, nots, voice);
+
+        n2 = new Note(4, "quarter", p, nots, voice, null,  null);
         part = new Part();
         part2 = new Part("1");
         
