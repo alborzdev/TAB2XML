@@ -27,9 +27,9 @@
          <top>
             <MenuBar prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #a8c5d8;" BorderPane.alignment="CENTER">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu fx:id="menu" mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem fx:id="exit" onAction="#doExit" text="Exit">
+                    <MenuItem  onAction="#doExit" text="Exit">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
@@ -172,7 +172,7 @@
             <Font name="Quicksand Medium" size="12.0" />
          </font>
       </JFXTextArea>
-      <JFXButton layoutX="1058.0" layoutY="247.0" onAction="#saveChanges" text="Save current changes" textFill="#bbe1fa">
+      <JFXButton fx:id="savechanges" layoutX="1058.0" layoutY="247.0" onAction="#saveChanges" text="Save current changes" textFill="#bbe1fa">
          <font>
             <Font name="Quicksand Regular" size="12.0" />
          </font>
