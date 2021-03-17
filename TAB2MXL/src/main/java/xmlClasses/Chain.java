@@ -304,14 +304,14 @@ public class Chain {
 //####################################################################
 //########################### HELPERS ################################
 //####################################################################
-	private File stringToFile(String s) {
+	private File stringToFile(String tab) {
 
 		File f = null;
 		
 		try {
 			String path = System.getProperty("user.dir") + "/autosaveTab.txt";
 			FileWriter myWriter = new FileWriter(path);
-			myWriter.write(TAB);
+			myWriter.write(tab);
 			myWriter.close();
 			f=new File(path);
 			System.out.println("Successfully wrote to the file.");
