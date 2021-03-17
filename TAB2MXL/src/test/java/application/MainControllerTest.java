@@ -12,16 +12,23 @@ import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 	
@@ -65,42 +72,46 @@ class MainControllerTest extends ApplicationTest{
     	textarea = find("#textarea");
     }
 
-//    @Test
-//    public void when_Uploadbutton_is_clicked_FileChooser() {
-//        // when:
-//        clickOn(".button");
-//
-//        // then:
-//        FxAssert.verifyThat(".button", LabeledMatchers.hasText("Upload file"));
-//        
-//    }
-//    
-//    @Test
-//    public void InstumentTypeheck() {
-//    	ComboBox<String> combobox= find("#InstrumentType");
-//    	clickOn("#InstrumentType");
-//    	assertEquals(3, combobox.getItems().size());
-//    }
-//    @Test
-//    public void ConversionTypeCheck() {
-//    	ComboBox<String> combobox= find("#conversionType");
-//    	clickOn("#conversionType");
-//    	assertEquals(2, combobox.getItems().size());
-//    }
-//    
-//    @Test
-//    public void Attributes() {
-//    	TextField comp =find("#composer");
-//    	clickOn(comp);
-//    	comp.setText("Lian Attily");
-//    	assertEquals("Lian Attily", comp.getText());
-//    }
-//   
-//    @Test
-//    public void Exit() {
-//    	press(KeyCode.CONTROL).press(KeyCode.X).release(KeyCode.CONTROL).release(KeyCode.X);
-//    	
-//    }
+    @Test
+    public void when_Uploadbutton_is_clicked_FileChooser() {
+        // when:
+        clickOn(".button");
+
+        // then:
+        FxAssert.verifyThat(".button", LabeledMatchers.hasText("Upload file"));
+        
+    }
+    
+    @Test
+    public void InstumentTypeheck() {
+    	ComboBox<String> combobox= find("#InstrumentType");
+    	clickOn("#InstrumentType");
+    	assertEquals(3, combobox.getItems().size());
+    }
+    @Test
+    public void ConversionTypeCheck() {
+    	ComboBox<String> combobox= find("#conversionType");
+    	clickOn("#conversionType");
+    	assertEquals(2, combobox.getItems().size());
+    	
+    	combobox.getSelectionModel().select(0);
+    	
+    	
+    }
+    
+    @Test
+    public void Attributes() {
+    	TextField comp =find("#composer");
+    	clickOn(comp);
+    	comp.setText("Lian Attily");
+    	assertEquals("Lian Attily", comp.getText());
+    }
+   
+    @Test
+    public void Exit() {
+    	press(KeyCode.CONTROL).press(KeyCode.X).release(KeyCode.CONTROL).release(KeyCode.X);
+    	
+    }
     
     @Test
     public void ReqAtt() throws InterruptedException {
@@ -119,9 +130,53 @@ class MainControllerTest extends ApplicationTest{
     			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
     			+ "");
     	clickOn(export);
-    	Thread.sleep(20000);
+    	Thread.sleep(2000);
     	press(KeyCode.ENTER).release(KeyCode.ENTER);
+    	
     }
     
+    @Test
+    public void testTextArea() throws InterruptedException {
+    	BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("testTab.txt"));
+			String line;
+			try {
+				while ((line = br.readLine()) != null) {
+					 System.out.println(line);
+					 textarea.appendText(line);
+					 textarea.appendText("\n");
+				 }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		Thread.sleep(100);
+		textarea.deleteText(4, 8);
+		Thread.sleep(100);
+		clickOn(export);
+		Thread.sleep(1000);
+    }
+    
+    @Test
+    public void testSAVECHANGESBUTTON() {
+    	Button sc = find("#savechanges");
+    	clickOn(sc);
+    	
+    	FxAssert.verifyThat(sc, LabeledMatchers.hasText("Save current changes"));
+    }
+    
+    @Test
+    public void testMenu() {
+    	clickOn("#menu");
+    	FxAssert.verifyThat("#menu", LabeledMatchers.hasText("File"));
+    }
+    
+    @Test
+    public void emptySaveChanges() {
+    	
+    }
 
 }

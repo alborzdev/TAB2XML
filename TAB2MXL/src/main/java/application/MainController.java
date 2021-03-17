@@ -335,12 +335,7 @@ public class MainController implements Initializable {
 	@FXML
 	public void LOADRECENT(ActionEvent event)  {
 		//textarea.setText(RECENTFILES.get(0).toString());
-		conversionType.getSelectionModel().select(pref.get("type", getConversionType()));
-		KeySig.getSelectionModel().select(pref.get("key", getKey()));
-		TimeSig.getSelectionModel().select(pref.getInt("time", getTimeSig()));
-		InstrumentType.getSelectionModel().select(pref.get("instrument", getType()));
-		textarea.clear();
-		textarea.setText(pref.get("Recent", textarea.getText()));
+		
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader("database.txt"));
@@ -365,7 +360,36 @@ public class MainController implements Initializable {
 	       	 	conf.showAndWait(); 
 			e.printStackTrace();
 		}
+		//reload attributes
+		String text;
+		String [] parts;
+		try {
+			br = new BufferedReader(new FileReader("attributes.txt"));
+			while((text = br.readLine()) != null) {
+			     parts = text.split(",");
+			    // now `parts` array will contain your data
+			   //LOAD ATTRIBUTES
+					//getKey()+","+getTimeSig()+","+getConversionType()+","+getType());
+					KeySig.getSelectionModel().select(parts[0]);
+					if(parts[1]=="44")TimeSig.getSelectionModel().select(0);
+					else TimeSig.getSelectionModel().select(1);
+					if(parts[2]=="G")conversionType.getSelectionModel().select(0);
+					else conversionType.getSelectionModel().select(1);
+					InstrumentType.getSelectionModel().select(parts[3]);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		
+		
+//		conversionType.getSelectionModel().select(pref.get("type", getConversionType()));
+//		KeySig.getSelectionModel().select(pref.get("key", getKey()));
+//		TimeSig.getSelectionModel().select(pref.getInt("time", getTimeSig()));
+//		InstrumentType.getSelectionModel().select(pref.get("instrument", getType()));
+//		textarea.clear();
+//		textarea.setText(pref.get("Recent", textarea.getText()));
 	}
 	
 	@FXML
@@ -378,13 +402,27 @@ public class MainController implements Initializable {
 		pref.put("instrument", getType());
 		FileWriter fw;
 		try {
-			fw = new FileWriter("database.txt",false);
+			//pw.println(Fname+","+Lname+","+email+","+Password); 
+			{fw = new FileWriter("database.txt",false);
 
 			BufferedWriter bw = new BufferedWriter(fw); 
 			PrintWriter pw = new PrintWriter(bw); 
-			pw.println(textarea.getText()); 
+			pw.println(textarea.getText());
+			pw.flush(); 
+			pw.close();}
+			
+			//save attributes
+			fw = new FileWriter("attributes.txt",false);
+
+			BufferedWriter bw = new BufferedWriter(fw); 
+			PrintWriter pw = new PrintWriter(bw); 
+			pw.println(getKey()+","+getTimeSig()+","+getConversionType()+","+getType());
+			System.out.println("411 "+getKey());
+			System.out.println("411 "+getTimeSig());
 			pw.flush(); 
 			pw.close();
+			
+			
 			RECENTFILES.add(textarea.getText());
 			if(RECENTFILES.get(0)!=null) {
 			 	Alert conf = new Alert(AlertType.CONFIRMATION,  
