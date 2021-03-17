@@ -29,7 +29,7 @@
               <menus>
                 <Menu fx:id="menu" mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem  onAction="#doExit" text="Exit">
+                    <MenuItem onAction="#doExit" text="Exit">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
@@ -86,7 +86,7 @@
             </JFXButton>
          </children>
       </HBox>
-      <VBox layoutX="303.0" layoutY="125.0" prefHeight="250.0" prefWidth="140.0">
+      <VBox layoutX="303.0" layoutY="65.0" prefHeight="392.0" prefWidth="140.0">
          <children>
             <Label prefHeight="26.0" prefWidth="143.0" style="-fx-background-radius: 5em; -fx-background-color: #3282b8; -fx-alignment: center;" text="Required Attributes" textAlignment="CENTER" textFill="WHITE">
                <font>
@@ -96,24 +96,24 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
-            <JFXComboBox fx:id="InstrumentType" prefHeight="25.0" prefWidth="143.0" promptText="Instrument Type" style="-fx-background-color: #a8c5d8;">
+            <JFXComboBox fx:id="InstrumentType" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Instrument Type" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE">
                <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
+                  <Insets bottom="20.0" top="20.0" />
                </VBox.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="KeySig" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="142.0" promptText="Key Signature" style="-fx-background-color: #a8c5d8;" />
-            <JFXComboBox fx:id="TimeSig" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="143.0" promptText="Time Signature" style="-fx-background-color: #a8c5d8;">
+            <JFXComboBox fx:id="KeySig" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="142.0" promptText="Key Signature" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE" />
+            <JFXComboBox fx:id="TimeSig" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Time Signature" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE">
                <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
+                  <Insets bottom="20.0" top="20.0" />
                </VBox.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="conversionType" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="143.0" promptText="Convert to" style="-fx-background-color: #a8c5d8;" />
+            <JFXComboBox fx:id="conversionType" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Convert to" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE" />
             <Label prefHeight="58.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
                <font>
                   <Font name="Quicksand Medium" size="14.0" />
                </font>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
             </Label>
             <JFXTextField fx:id="title" focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">

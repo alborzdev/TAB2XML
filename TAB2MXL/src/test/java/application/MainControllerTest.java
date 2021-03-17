@@ -130,7 +130,7 @@ class MainControllerTest extends ApplicationTest{
     			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
     			+ "");
     	clickOn(export);
-    	Thread.sleep(2000);
+    	Thread.sleep(10000);
     	press(KeyCode.ENTER).release(KeyCode.ENTER);
     	
     }

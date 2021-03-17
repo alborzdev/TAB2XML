@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -71,14 +72,42 @@ public class MainController implements Initializable {
 		filechooser.setTitle("Open text file"); 
 		filechooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter(".txt files", "*.txt") );
 		file = filechooser.showOpenDialog(stage); 
-		textarea.clear();
-		
+		Boolean append = true;
 		if(file==null) {
 			System.out.println("No file has been selected");
 		}
 		if(file!=null) {
-			//Sends Textarea to Backend to anaylize/parse
-			textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
+			//check if textarea is empty
+			if(textarea.getText().trim().length() != 0) {
+			ButtonType YES = new ButtonType("Yes");
+			ButtonType NO = new ButtonType("No");
+			ButtonType Cancel = new ButtonType("Cancel upload");
+			AlertType type = AlertType.WARNING; 
+			Alert alert = new Alert(type, "Would you like to overwrite the current text area?", YES, NO, Cancel); 
+			alert.getDialogPane();
+			alert.showAndWait().ifPresent(response ->{
+				if(response == YES) {
+					textarea.clear();
+					try {
+						textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(response == NO) {
+					try {
+						textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			});;
+			}
+			else textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
+			
 		}
 		
 	}
@@ -156,11 +185,13 @@ public class MainController implements Initializable {
 	
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
+		System.out.println("KEY EVENT TRIGGERED");
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
         try{chain.TABtoPART();
         
         } 
         catch(LineErrorException e) {
+        	System.out.println("LINE ERROR EXCEPTION");
         	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
         	ERRORStextarea.clear();
         	ERRORStextarea.appendText(e.getMessage());
@@ -171,6 +202,7 @@ public class MainController implements Initializable {
          
         try{chain.INFOtoPARTWISE();} 
         catch(Exception e) {
+        	System.out.println("Exception");
         	ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
         	ERRORStextarea.clear();
         	ERRORStextarea.appendText(e.getMessage());
@@ -202,6 +234,7 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		KeySig.getItems().add("C Major");
 		KeySig.getSelectionModel().select(0);
 //		KeySig.getItems().add("G Major");
@@ -214,6 +247,7 @@ public class MainController implements Initializable {
 		
 		TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
+		TimeSig.getSelectionModel().select(1);
 //		TimeSig.getItems().add("5/4");
 //		TimeSig.getItems().add("6/8");
 //		TimeSig.getItems().add("7/8");
@@ -226,6 +260,7 @@ public class MainController implements Initializable {
 		
 		conversionType.getItems().add("Tab");
 		conversionType.getItems().add("Sheet Music");
+		conversionType.getSelectionModel().select(0);
 		
 		MeasureTimeSig.getItems().add("3/4");
 		MeasureTimeSig.getItems().add("4/4");
@@ -256,10 +291,6 @@ public class MainController implements Initializable {
 		}
 			else {
 				s="TAB";
-//				AlertType type = AlertType.WARNING; 
-//				Alert alert = new Alert(type, "Required Information missing"); 
-//				alert.getDialogPane().setContentText("Conversion type left empty (default = TAB)"); 
-//				alert.showAndWait();
 			}
 		return s;
 	}
@@ -271,10 +302,6 @@ public class MainController implements Initializable {
 			s =new String(InstrumentType.getSelectionModel().getSelectedItem().toString());
 		}
 		else {s="Guitar";
-//		AlertType type = AlertType.WARNING; 
-//		Alert alert = new Alert(type, "Required Information missing"); 
-//		alert.getDialogPane().setContentText("Instrument type left empty (default = Guitar)"); 
-//		alert.showAndWait();
 		
 		}
 		
@@ -334,8 +361,19 @@ public class MainController implements Initializable {
 	Preferences pref;
 	@FXML
 	public void LOADRECENT(ActionEvent event)  {
-		//textarea.setText(RECENTFILES.get(0).toString());
-		
+				//check if textarea is empty
+				if(textarea.getText().trim().length() != 0) {
+				ButtonType YES = new ButtonType("YES");
+				ButtonType NO = new ButtonType("NO");
+				AlertType type = AlertType.WARNING; 
+				Alert alert = new Alert(type, "Would you like to overwrite the current text area?", YES, NO); 
+				alert.getDialogPane();
+				alert.showAndWait().ifPresent(response -> {
+					if(response == YES) {
+						textarea.clear();
+					}
+				});;
+				}
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader("database.txt"));
@@ -376,20 +414,16 @@ public class MainController implements Initializable {
 					if(parts[2]=="G")conversionType.getSelectionModel().select(0);
 					else conversionType.getSelectionModel().select(1);
 					InstrumentType.getSelectionModel().select(parts[3]);
+					//,"+getComposer()+","+getTitle()+","+getLyricist());
+					if(!parts[4].isEmpty()) composer.setText(parts[4]);
+					if(!parts[5].isEmpty()) title.setText(parts[5]);
+					if(!parts[6].isEmpty()) lyricist.setText(parts[6]);
+					
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-//		conversionType.getSelectionModel().select(pref.get("type", getConversionType()));
-//		KeySig.getSelectionModel().select(pref.get("key", getKey()));
-//		TimeSig.getSelectionModel().select(pref.getInt("time", getTimeSig()));
-//		InstrumentType.getSelectionModel().select(pref.get("instrument", getType()));
-//		textarea.clear();
-//		textarea.setText(pref.get("Recent", textarea.getText()));
 	}
 	
 	@FXML
@@ -416,7 +450,7 @@ public class MainController implements Initializable {
 
 			BufferedWriter bw = new BufferedWriter(fw); 
 			PrintWriter pw = new PrintWriter(bw); 
-			pw.println(getKey()+","+getTimeSig()+","+getConversionType()+","+getType());
+			pw.println(getKey()+","+getTimeSig()+","+getConversionType()+","+getType()+","+getComposer()+","+getTitle()+","+getLyricist());
 			System.out.println("411 "+getKey());
 			System.out.println("411 "+getTimeSig());
 			pw.flush(); 
@@ -441,7 +475,5 @@ public class MainController implements Initializable {
 		}
 		} 
 		
-		
-	
 	}
 }
