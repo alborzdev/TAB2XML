@@ -18,40 +18,41 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="503.0" prefWidth="1081.0" snapToPixel="false" style="-fx-background-color: #343434;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<AnchorPane maxHeight="470.0" maxWidth="1081.0" prefHeight="470.0" prefWidth="1028.0" snapToPixel="false" style="-fx-background-color: #343434;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0f4c75" height="531.0" layoutX="-124.0" layoutY="-14.0" stroke="#ab6c82" strokeType="INSIDE" strokeWidth="0.0" style="-fx-rotate: 30;" width="181.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3282b8" height="531.0" layoutX="-77.0" layoutY="-141.0" stroke="#9bd7d1" strokeType="INSIDE" strokeWidth="0.0" style="-fx-rotate: 30;" width="181.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a8c5d8" height="37.0" layoutX="-5.0" layoutY="-8.0" stroke="#f26627" strokeType="INSIDE" strokeWidth="0.0" width="1268.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a8c5d8" height="37.0" layoutX="-5.0" layoutY="-8.0" stroke="#f26627" strokeType="INSIDE" strokeWidth="0.0" width="1451.0" />
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
             <MenuBar prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #a8c5d8;" BorderPane.alignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem onAction="#doExit" text="Exit">
+                    <MenuItem fx:id="exit" onAction="#doExit" text="Exit">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
-                        <MenuItem onAction="#doOpen" text="Open">
+                        <MenuItem onAction="#doOpen" text="Upload file">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#LOADRECENT" text="Open recent..." />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Help">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#UserManual" text="User Manual" />
+                      <MenuItem fx:id="UserManual" mnemonicParsing="false" onAction="#UserManual" text="User Manual" />
                     </items>
                   </Menu>
               </menus>
             </MenuBar>
          </top></BorderPane>
-      <BorderPane layoutX="544.0" layoutY="53.0" prefHeight="410.0" prefWidth="684.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="544.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="53.0">
+      <BorderPane layoutX="466.0" layoutY="54.0" prefHeight="410.0" prefWidth="601.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="512.0" AnchorPane.topAnchor="54.0">
          <left>
-            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" prefHeight="390.0" prefWidth="670.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
+            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" onKeyReleased="#updateTextArea" prefHeight="390.0" prefWidth="572.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Courier New" size="12.0" />
                </font>
@@ -62,7 +63,7 @@
          </left>
       </BorderPane>
 
-                        <HBox alignment="CENTER" layoutX="643.0" layoutY="310.0" prefHeight="47.0" prefWidth="585.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="643.0" AnchorPane.rightAnchor="35.0">
+                        <HBox alignment="CENTER" layoutX="466.0" layoutY="461.0" prefHeight="47.0" prefWidth="585.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="212.0">
          <children>
             <JFXButton fx:id="upload" onAction="#doOpen" style="-fx-background-color: #3282b8; -fx-background-radius: 5em; -fx-text-fill: white;" text="Upload file">
                <font>
@@ -85,37 +86,8 @@
             </JFXButton>
          </children>
       </HBox>
-      <VBox layoutX="387.0" layoutY="127.0" prefHeight="250.0" prefWidth="140.0">
+      <VBox layoutX="303.0" layoutY="125.0" prefHeight="250.0" prefWidth="140.0">
          <children>
-            <Label prefHeight="58.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
-               <font>
-                  <Font name="Quicksand Medium" size="14.0" />
-               </font>
-            </Label>
-            <JFXTextField fx:id="title" focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Quicksand Regular" size="14.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="composer" focusColor="#3282b8" promptText="Composer" style="-fx-background-color: #a8c5d8;">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Quicksand Regular" size="14.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="lyricist" focusColor="#3282b8" promptText="Lyricist" style="-fx-background-color: #a8c5d8;">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Quicksand Regular" size="14.0" />
-               </font>
-            </JFXTextField>
             <Label prefHeight="26.0" prefWidth="143.0" style="-fx-background-radius: 5em; -fx-background-color: #3282b8; -fx-alignment: center;" text="Required Attributes" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Quicksand Medium" size="12.0" />
@@ -136,6 +108,39 @@
                </VBox.margin>
             </JFXComboBox>
             <JFXComboBox fx:id="conversionType" focusColor="#a8c5d8" prefHeight="25.0" prefWidth="143.0" promptText="Convert to" style="-fx-background-color: #a8c5d8;" />
+            <Label prefHeight="58.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
+               <font>
+                  <Font name="Quicksand Medium" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <JFXTextField fx:id="title" focusColor="#3282b8" promptText="Title" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="composer" focusColor="#3282b8" promptText="Composer" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="lyricist" focusColor="#3282b8" promptText="Lyricist" style="-fx-background-color: #a8c5d8;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Quicksand Regular" size="14.0" />
+               </font>
+            </JFXTextField>
          </children>
       </VBox>
       <AnchorPane layoutX="73.0" layoutY="125.0" prefHeight="336.0" prefWidth="209.0">
@@ -162,5 +167,15 @@
             </Label>
          </children>
       </AnchorPane>
+      <JFXTextArea fx:id="ERRORStextarea" editable="false" focusColor="WHITE" layoutX="1058.0" layoutY="63.0" prefHeight="175.0" prefWidth="176.0" promptText="Errors and warnings" style="-fx-background-color: white;">
+         <font>
+            <Font name="Quicksand Medium" size="12.0" />
+         </font>
+      </JFXTextArea>
+      <JFXButton layoutX="1058.0" layoutY="247.0" onAction="#saveChanges" text="Save current changes" textFill="#bbe1fa">
+         <font>
+            <Font name="Quicksand Regular" size="12.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
