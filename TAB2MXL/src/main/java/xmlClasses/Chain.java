@@ -192,7 +192,7 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
-									VOICE,						//voice
+									VOICE,					//voice
 									ChordNote,				//chord
 									GRACE					//grace
 									);
@@ -304,14 +304,14 @@ public class Chain {
 //####################################################################
 //########################### HELPERS ################################
 //####################################################################
-	private File stringToFile(String s) {
+	private File stringToFile(String tab) {
 
 		File f = null;
 		
 		try {
 			String path = System.getProperty("user.dir") + "/autosaveTab.txt";
 			FileWriter myWriter = new FileWriter(path);
-			myWriter.write(TAB);
+			myWriter.write(tab);
 			myWriter.close();
 			f=new File(path);
 			System.out.println("Successfully wrote to the file.");
@@ -335,6 +335,7 @@ public class Chain {
 	public String getTitle() { return TITLE; }
 	public String getComposer() { return COMPOSER; }
 	public String getLyricist() { return LYRICIST; }
+	public String[][] getTuning() { return TUNINGINFO; }
 	public int getStaffLines() { return STAFFLINES; }
 	public void setInst(String inst) { this.INSTRUMENT = inst; }
 	
