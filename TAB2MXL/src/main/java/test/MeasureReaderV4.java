@@ -156,6 +156,10 @@ public class MeasureReaderV4 {
 		return this.hasNextColumn;
 	}
 	
+	public int[] getTuning() {
+		return this.octaves;
+	}
+	
 	private String[] calculateNoteandOctave(int string, int fret){
 		System.out.println("DEBUG: calculating note and octave for string: " + string + " fret: " + fret);
 		String baseNote = this.tuning[string];
@@ -265,7 +269,7 @@ public class MeasureReaderV4 {
 		int out = 1;
 		int counter = 0;
 		//System.out.println(measure[3]);
-		while(isEmpty(getColumn(counter))) {		
+		while(counter < this.character_count && isEmpty(getColumn(counter))) {		
 			//System.out.print("0");
 			counter ++;
 		}
@@ -279,6 +283,7 @@ public class MeasureReaderV4 {
 			}
 			counter ++;
 		}
+		System.out.println("DEBUG: true measure length: " + out);
 		return out;
 	}
 	
@@ -291,7 +296,7 @@ public class MeasureReaderV4 {
 		return out;
 	}
 	
-	public void stringArrayDump(String arrayName, String[] in) {
+	private void stringArrayDump(String arrayName, String[] in) {
 		System.out.println("DEBUG: dumping contents of: " +arrayName);
 		for(int i=0; i<in.length; i++) {
 			System.out.println(in[i]);
