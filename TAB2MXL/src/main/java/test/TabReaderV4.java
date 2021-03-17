@@ -1,4 +1,6 @@
 package test;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.File;
@@ -17,7 +19,7 @@ public class TabReaderV4{
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
-	private String tabRegex="([a-g]|[A-G])?\\|((-|[0-9])+\\|)+";
+	private String tabRegex="([a-z]|[A-Z])*\\|((-|[0-9]|x|o|X|O)+\\|)+";
 	private Pattern tabPat = Pattern.compile(tabRegex);
 	//regex explaination / tab format restrictions
 	//must start with tuning data
@@ -46,30 +48,31 @@ public class TabReaderV4{
 		// measures start at 1, index 0 exists - but is reserved for tuning data
 		this.next_tabLine = 0;
 		this.curr_measure = 1;
+		this.scanLine = 0;
 		this.evaluateLine();
 	}
 	
-	public TabReaderV4(String contents, int string_count) throws Exception { //basic, parameter-driven constructor
-		this.string_count = string_count;
-		this.eof = false;
-		// measures start at 1, index 0 exists - but is reserved for tuning data
-		this.next_tabLine = 0;
-		this.curr_measure = 1;
-		this.evaluateLine();
-		//autosave tab
-		try {
-			FileWriter wr = new FileWriter(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
-			wr.write(contents);
-			wr.close();
-			this.file = new File(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
-		}catch(Exception e) {
-			System.out.println("DEBUG: autosave failure!");
-			System.out.println(e.toString());
-			throw new Exception("Problem autosaving tab");
-		}
-		
-	}
-	
+//	public TabReaderV4(String contents, int string_count) throws Exception { //basic, parameter-driven constructor
+//		this.string_count = string_count;
+//		this.eof = false;
+//		// measures start at 1, index 0 exists - but is reserved for tuning data
+//		this.next_tabLine = 0;
+//		this.curr_measure = 1;
+//		this.evaluateLine();
+//		//autosave tab
+//		try {
+//			FileWriter wr = new FileWriter(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
+//			wr.write(contents);
+//			wr.close();
+//			this.file = new File(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
+//		}catch(Exception e) {
+//			System.out.println("DEBUG: autosave failure!");
+//			System.out.println(e.toString());
+//			throw new Exception("Problem autosaving tab");
+//		}
+//		
+//	}
+//	
 	
 	public void readMeasure() throws Exception {
 		//System.out.println("DEBUG: curr_measure: "+curr_measure);
@@ -233,11 +236,37 @@ public class TabReaderV4{
 		return out;
 	}
 	
+	public List<String[]> listMeasures() { //enumerates every measure, and resets the reader to the top of the file -> does it need to find it's way back to where it was?
+		try {
+			System.out.println("DEBUG: listing all measures");
+			this.next_tabLine = 0;
+			this.scanLine = 0;
+			this.curr_measure = 1; // start from the top
+			this.eof = false;
+			List<String[]> out = new ArrayList<String[]>();
+			this.readMeasure();
+			while(this.hasNext()){
+				out.add(this.measure);
+				this.readMeasure();
+			}
+			this.next_tabLine = 0;
+			this.curr_measure = 1;
+			this.eof = false;
+			return out;
+		}catch(Exception e) {
+			System.out.println("DEBUG: something went wrong trying to list all measures");
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+	}
+	
 	public boolean hasNext() {
 		return !eof;
 	}
 	
-	public void stringArrayDump(String arrayName, String[] in) {
+	private void stringArrayDump(String arrayName, String[] in) {
 		System.out.println("DEBUG: dumping contents of: " +arrayName);
 		for(int i=0; i<in.length; i++) {
 			System.out.println(in[i]);
