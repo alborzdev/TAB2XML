@@ -335,6 +335,7 @@ public class Chain {
 	public String getTitle() { return TITLE; }
 	public String getComposer() { return COMPOSER; }
 	public String getLyricist() { return LYRICIST; }
+	public String[][] getTuning() { return TUNINGINFO; }
 	public int getStaffLines() { return STAFFLINES; }
 	public void setInst(String inst) { this.INSTRUMENT = inst; }
 	
