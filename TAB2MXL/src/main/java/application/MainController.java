@@ -365,20 +365,27 @@ public class MainController implements Initializable {
 				if(textarea.getText().trim().length() != 0) {
 				ButtonType YES = new ButtonType("YES");
 				ButtonType NO = new ButtonType("NO");
+				ButtonType Cancel = new ButtonType("Cancel");
 				AlertType type = AlertType.WARNING; 
-				Alert alert = new Alert(type, "Would you like to overwrite the current text area?", YES, NO); 
+				Alert alert = new Alert(type, "Would you like to overwrite the current text area?", YES, NO, Cancel); 
 				alert.getDialogPane();
 				alert.showAndWait().ifPresent(response -> {
 					if(response == YES) {
 						textarea.clear();
+						loader();
 					}
+					if(response==NO) { loader();}
 				});;
 				}
+				else loader();
+		
+	}
+	
+	public void loader() {
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader("database.txt"));
 			String line;
-			textarea.clear();
 			try {
 				while ((line = br.readLine()) != null) {
 					 System.out.println(line);
