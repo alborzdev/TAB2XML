@@ -1,4 +1,6 @@
 package test;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.File;
@@ -17,7 +19,7 @@ public class TabReaderV4{
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
-	private String tabRegex="([a-g]|[A-G])?\\|(-|[0-9])+\\|((-|[0-9])+\\|)*";
+	private String tabRegex="([a-z]|[A-Z])*\\|((-|[0-9]|x|o|X|O)+\\|)+";
 	private Pattern tabPat = Pattern.compile(tabRegex);
 	//regex explaination / tab format restrictions
 	//must start with tuning data
@@ -46,30 +48,31 @@ public class TabReaderV4{
 		// measures start at 1, index 0 exists - but is reserved for tuning data
 		this.next_tabLine = 0;
 		this.curr_measure = 1;
+		this.scanLine = 0;
 		this.evaluateLine();
 	}
 	
-	public TabReaderV4(String contents, int string_count) throws Exception { //basic, parameter-driven constructor
-		this.string_count = string_count;
-		this.eof = false;
-		// measures start at 1, index 0 exists - but is reserved for tuning data
-		this.next_tabLine = 0;
-		this.curr_measure = 1;
-		this.evaluateLine();
-		//autosave tab
-		try {
-			FileWriter wr = new FileWriter(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
-			wr.write(contents);
-			wr.close();
-			this.file = new File(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
-		}catch(Exception e) {
-			System.out.println("DEBUG: autosave failure!");
-			System.out.println(e.toString());
-			throw new Exception("Problem autosaving tab");
-		}
-		
-	}
-	
+//	public TabReaderV4(String contents, int string_count) throws Exception { //basic, parameter-driven constructor
+//		this.string_count = string_count;
+//		this.eof = false;
+//		// measures start at 1, index 0 exists - but is reserved for tuning data
+//		this.next_tabLine = 0;
+//		this.curr_measure = 1;
+//		this.evaluateLine();
+//		//autosave tab
+//		try {
+//			FileWriter wr = new FileWriter(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
+//			wr.write(contents);
+//			wr.close();
+//			this.file = new File(cfg.getAttr("autosave_path")+cfg.getAttr("autosave_file"));
+//		}catch(Exception e) {
+//			System.out.println("DEBUG: autosave failure!");
+//			System.out.println(e.toString());
+//			throw new Exception("Problem autosaving tab");
+//		}
+//		
+//	}
+//	
 	
 	public void readMeasure() throws Exception {
 		//System.out.println("DEBUG: curr_measure: "+curr_measure);
@@ -108,7 +111,7 @@ public class TabReaderV4{
 			boolean eof = this.eof;
 			String[] uTab = new String[this.string_count]; //unbroken tab
 			String temp;
-			//runs the scanner until it reaches where it left off last time + string count - done at end of method
+			//runs the scanner until it reaches where it left off last time + string count
 			for (int i=0; i<this.scanLine; i++) {
 				temp = sc.nextLine();
 			}
@@ -121,22 +124,37 @@ public class TabReaderV4{
 				if(tabMat.matches()) {
 					uTab[0] = temp; //save first line of tab
 					break; //move on to read + sanity check rest of tabLine and parse if correct
+				}else if(countPipeChars(temp) > 1) { //contains 2 or more | characters -> we read that as intended as part of tablature, and throw bad formatting exceptions
+					throw new LineErrorException("Bad formatting: detected at line " + this.scanLine, this.scanLine, temp);
 				}
-			}	
+			}
+			
+			if(sc.hasNext()) {
+				//no issues, continue to parse next lines
+			}else {
+				//legitamate end of file?
+				eof = true;
+				throw new NoSuchElementException();
+			}
 			
 			//parse rest of tabLine + check if valid (formatting sanity check)
 			for(int i=1; i<this.string_count; i++) {
-				this.scanLine ++;
-				temp = sc.nextLine();
-				temp = temp.trim();
+				if(sc.hasNext()) {
+					temp = sc.nextLine();
+					temp = temp.trim();
+				}else { //missing line as opposed to badly formatted line
+					throw new LineErrorException("Bad Formatting: Missing line " + (this.scanLine + i), this.scanLine + i);
+				}
 				Matcher tabMat = tabPat.matcher(temp);
 				if(tabMat.matches()) {
 					uTab[i] = temp;
 				}
 				else {
-					throw new Exception("Bad formatting: detected at line " + this.scanLine);
+					throw new LineErrorException("Bad formatting: detected at line " + (this.scanLine + i), this.scanLine + i, temp);
 				}
 			}
+			
+			
 			
 			//dump what is read
 			stringArrayDump("unbroken-tabLine(uTab) "+this.next_tabLine, uTab);
@@ -152,7 +170,7 @@ public class TabReaderV4{
 			int measures = bTab[0].length;
 			for(int i=1; i<this.string_count; i++) {
 				if(measures != bTab[i].length) {
-					throw new Exception("Bad content: inconsisent measure count detected at TabLine " + (this.next_tabLine +1));
+					throw new LineErrorException("Bad content: number of measures in line " + (this.scanLine + i) + " is different from the line above", this.scanLine + i, uTab[i]);
 				}
 			}
 			// same lengths for each simultameous measure
@@ -160,7 +178,7 @@ public class TabReaderV4{
 				int measureLength = bTab[0][i].length();
 				for(int j=1; j<bTab.length; j++) {
 					if(measureLength != bTab[j][i].length()) {
-						throw new Exception("Bad content: inconsisent measure lengths detected at row " + (this.next_tabLine +1));
+						throw new LineErrorException("Bad content: the length of measure " + i + " in line " + (this.scanLine + j) + " is different from the line above", this.scanLine + j, bTab[j][i]);
 					}
 				}
 			}
@@ -186,19 +204,20 @@ public class TabReaderV4{
 				}
 			}
 			this.stringArrayDump("tuning", this.tuning);
-			
+			this.scanLine += this.string_count - 1;
 			this.next_tabLine ++;
 			sc.close();
 			
 		}catch(NoSuchElementException e) {
 			//suppressed
-			System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
-			System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
-			System.out.println(e.toString());
+			//System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
+			//System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
+			//System.out.println(e.toString());
+			System.out.println("DEBUG: reached end of file with no issues");
 			this.eof = true;
 		}catch(Exception e) {
 			System.out.println("DEBUG: something went wrong trying to evaluate tabLine "+ this.next_tabLine);
-			System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
+			//System.out.println("DEBUG: issue occured at line "+ this.scanLine +" of tab file");
 			System.out.println(e.toString());
 			this.eof = true;
 			throw e;
@@ -207,11 +226,47 @@ public class TabReaderV4{
 
 	}
 	
+	private int countPipeChars(String in) {
+		int out = 0;
+		for(char i: in.toCharArray()) {
+			if(i == '|') {
+				out ++;
+			}
+		}
+		return out;
+	}
+	
+	public List<String[]> listMeasures() { //enumerates every measure, and resets the reader to the top of the file -> does it need to find it's way back to where it was?
+		try {
+			System.out.println("DEBUG: listing all measures");
+			this.next_tabLine = 0;
+			this.scanLine = 0;
+			this.curr_measure = 1; // start from the top
+			this.eof = false;
+			List<String[]> out = new ArrayList<String[]>();
+			this.readMeasure();
+			while(this.hasNext()){
+				out.add(this.measure);
+				this.readMeasure();
+			}
+			this.next_tabLine = 0;
+			this.curr_measure = 1;
+			this.eof = false;
+			return out;
+		}catch(Exception e) {
+			System.out.println("DEBUG: something went wrong trying to list all measures");
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+	}
+	
 	public boolean hasNext() {
 		return !eof;
 	}
 	
-	public void stringArrayDump(String arrayName, String[] in) {
+	private void stringArrayDump(String arrayName, String[] in) {
 		System.out.println("DEBUG: dumping contents of: " +arrayName);
 		for(int i=0; i<in.length; i++) {
 			System.out.println(in[i]);

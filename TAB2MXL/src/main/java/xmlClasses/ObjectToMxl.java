@@ -35,9 +35,9 @@ public static String mxlMaker() throws Exception{
     Clef c = new Clef("G", 2);
     Attributes att = new Attributes(1, k, t, c);
     
-    Pitch pi = new Pitch("C", 4);
+    //Pitch pi = new Pitch("C", 4);
     ArrayList <Note> notes = new ArrayList <Note>();
-    notes.add(new Note(4, "whole", pi));
+    //notes.add(new Note(4, "whole", pi));
     
     Measure m = new Measure(1, att, notes);
     ArrayList <Measure> measures = new ArrayList<Measure>();

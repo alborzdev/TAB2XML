@@ -1,6 +1,5 @@
 package xmlTestCases;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -8,6 +7,7 @@ import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import xmlClasses.Attributes;
 import xmlClasses.Chain;
@@ -43,8 +43,7 @@ public class ChainTests {
         "D|-----------------|\n"+
         "A|-----------------|\n"+
         "E|-"+randomfret+"---------------|";
-        chain = new Chain(TAB,"First Song", "Queen B", "Ludwig van Beethoven", "savingLocation.txt",44,"C major","Guitar","TAB");
-        
+        chain = new Chain(TAB,"First Song", "Queen B", "Ludwig van Beethoven", 44,"C major","Guitar","TAB");
     }
 
     @Test
@@ -56,10 +55,8 @@ public class ChainTests {
     @Test
     public void testChainT2P() throws Exception {
     	chain.TABtoPART();
-    	assertEquals(6, chain.getStaffLines());
-    	chain.setInst("Bass");
-    	chain.TABtoPART();
-    	assertEquals(4, chain.getStaffLines());
+    	
+    	assertEquals("E", chain.getTuning()[0][0]);
     	
     }
 }

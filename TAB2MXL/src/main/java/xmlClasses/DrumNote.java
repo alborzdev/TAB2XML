@@ -13,7 +13,6 @@ public class DrumNote extends Note {
 	private int voice;
 	private String stem;
 	//private String notehead;
-	//private ArrayList<Beam> beam;
 	
 	public DrumNote() {
 		
@@ -28,6 +27,12 @@ public class DrumNote extends Note {
 		this.inst = inst;
 		this.voice = voice;
 	}
+	
+	public DrumNote(int duration, String type, int voice) {
+		this.duration = duration;
+		this.type = type;
+		this.voice = voice;
+}
 	@XmlElement
 	public int getDuration() {  
 	    return duration;  

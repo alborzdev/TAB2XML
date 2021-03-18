@@ -1,6 +1,7 @@
 package tab2mxl;
 
 import java.io.File;
+import java.util.List;
 
 import config.*;
 import test.*;
@@ -8,7 +9,6 @@ import test.*;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		//ConfigReader cfg = new ConfigReader("../config.ini");
 
 		
@@ -21,12 +21,15 @@ public class Main {
 		//TabReaderV2 tb = new TabReaderV2("./src/main/java/testTab.txt");
 		
 		//TabReaderV3 tb = new TabReaderV3();
+		
+		
 		try {
-			File file = new File(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
+			File file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+			//File file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 			TabReaderV4 tb = new TabReaderV4(file,6);
 			tb.readMeasure();
 			while(tb.hasNext()) {	
-				MeasureReaderV3 ms = new MeasureReaderV3(tb.getMeasure(),tb.getTuning(),4,4);
+				MeasureReaderV4 ms = new MeasureReaderV4(tb.getMeasure(),tb.getTuning(),4,4);
 				while(ms.hasNext()) {
 					ms.readNotes();
 					ms.getNotes();
@@ -34,8 +37,25 @@ public class Main {
 				tb.readMeasure();
 				//measure break
 			}
+			List<String[]> list = tb.listMeasures();
+			System.out.println("DEBUG: Listing all measures after this point ##------------------------##");
+			for(String[] ms: list) {
+				stringArrayDump("measure",ms);
+			}
+		}catch(LineErrorException e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getLine());
+			System.out.println(e.getString());
 		}catch(Exception e) {
 			System.out.println(e.toString());
+			e.printStackTrace();
+		}
+	}
+	
+	private static void stringArrayDump(String arrayName, String[] in) {
+		System.out.println("DEBUG: dumping contents of: " +arrayName);
+		for(int i=0; i<in.length; i++) {
+			System.out.println(in[i]);
 		}
 	}
 

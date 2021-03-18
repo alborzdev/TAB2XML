@@ -2,6 +2,8 @@ package xmlClasses;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import xmlClasses.Attributes;
 import xmlClasses.Clef;
@@ -21,7 +23,8 @@ public class ScorePartwiseWriter {
 	ArrayList <Creator> creators = new ArrayList<Creator>();
 	private Score_Part sp;
 	private ScorePartDrum spd;
-	private ArrayList<ScoreInstrument> si = new ArrayList<ScoreInstrument>();;
+	private ArrayList<ScoreInstrument> si = new ArrayList<ScoreInstrument>();
+
     
 	
 	public ScorePartwiseWriter(String title, String lyricist, String composer, Part part){
@@ -41,7 +44,7 @@ public class ScorePartwiseWriter {
 		for(String s : drumkit) {             
 			si.add(new ScoreInstrument("blah", "blah2"));  
 			}   
-		sp = new ScorePartDrum("P1", "Music", si);         
+		spd = new ScorePartDrum("P1", "Music", si);         
 		      
 		pl = new Part_List(spd);         
 		spw = new Score_Partwise(3.1, pl, part, id, work);     
