@@ -57,7 +57,7 @@ public class DrumReader {
 		int voice = 1;
 		int col2 = 0;
 		int beamDur = 0;
-		int gap = 0;
+		int forward = 0;
 		String beam = "";
 		String notehead = "o";
 		
@@ -107,16 +107,27 @@ public class DrumReader {
 		
 		//finds the duration of each note
 		for (int col = 0;  col < this.rows.length; col++) {
+			System.out.println("Parsing col " + col);
 			
 			//checks if there is a note at index col in the row
 			if (this.rows[col] == 'o' || this.rows[col] == 'x') {
+				System.out.println("Parsing a note");
+				//adds the forward before this note to fix the spacing
+				String [] skip = {"forward", forward + ""};
+				notes.add(skip);
+				//resets the forward
+				forward = 0;
+				
+				//risky block where the duration is found
 				try {
 					col2 = col + 1;
 					
-					//finds the duration of this note
+					//finds the duration of this note by going through row until a note is found, the end of rows is found or there is another note
 					while (col2 < this.rows.length) {
 						if((this.rows[col2] == '-') && (duration < max)){
 							duration++;
+						}else {
+							col2 = this.rows.length;
 						}
 						col2++;
 						
@@ -129,10 +140,13 @@ public class DrumReader {
 				
 				//checks if a beam is begining, continuing, ending, or doesn't exist
 				if(beamDur == duration) {
-					//checks if a new beam should be created
+					//there is room for beam to continue
 					if((col + duration) < this.rows.length) {
+						//checks if the beam should continue or end
 						if(this.rows[col + duration] == 'o' || this.rows[col + duration] == 'x') {
 							beam = "continue";
+						}else {
+							beam = "end";
 						}
 						
 					}else{
@@ -147,12 +161,13 @@ public class DrumReader {
 						
 						beam = "begin";
 						beamDur = duration;
+						System.out.println("BEAM STARTED AT COL " + col);
 					}
 					}
 					
 				}
 				
-				// sets the duration of note
+				// sets the type of note
 				if (duration == 1) {
 					type = "sixteenth";
 				} else if (duration == 2) {
@@ -169,7 +184,8 @@ public class DrumReader {
 				if (instrument.equals("P1-I50") || instrument.equals("P1-I47")) {
 					notehead = "x";
 				}
-
+				
+				//Store all information for this note
 				String[] note = { step, // step of note
 						octave + "", // octave of note
 						duration + "", // duration
@@ -182,12 +198,14 @@ public class DrumReader {
 				notes.add(note);
 				
 			}else {
-//				String[] note = { "gap"};
-//				notes.add(note);			
+				forward++;
+				System.out.println("Adding to forward, forward " + forward);
+				
 			}
 			
 			//skips index where this instrument is played
-			col += duration;
+			beam = "";
+			col += duration -1;
 			duration = 1;
 			notehead = "o";
 		}
@@ -227,7 +245,7 @@ public class DrumReader {
 
 		// maxes
 		instrumentMax.put("P1-I36", 8);
-		instrumentMax.put("P1-I39", 2);
+		instrumentMax.put("P1-I39", 1);
 		instrumentMax.put("P1-I47", 2);
 		instrumentMax.put("P1-I49",2);
 		instrumentMax.put("P1-I50", 8);

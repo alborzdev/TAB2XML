@@ -96,14 +96,21 @@ class DrumReaderTest {
             DR.setMeasure(TRv4.getMeasure());
 			while(DR.hasNextRow()) {
 			System.out.println("Went Through to Read Row");
+			
 			for(String[] s:DR.readNoteRow()) {
-				System.out.println("Step"+s[0]+
-									"Octave"+Integer.parseInt(s[1])+
-									"Duration"+Integer.parseInt(s[2])+
-									"Intrument"+s[3]+
-									"Voice"+s[4]+
-									"Type"+s[5]+
-									"NoteHead"+s[6]);
+				if(s[0].equals("forward")) {
+					System.out.println("FORWARD " + s[1]  + "");
+				}else {
+					System.out.println("Step"+s[0]+
+							"Octave"+Integer.parseInt(s[1])+
+							"Duration"+Integer.parseInt(s[2])+
+							"Intrument"+s[3]+
+							"Voice"+s[4]+
+							"Type"+s[5]+
+							"NoteHead"+s[6]+
+							"Beam"+s[7]);
+				}
+
 				}
 			}
 			TRv4.readMeasure();	

@@ -220,86 +220,102 @@ public class Chain {
 
 	}
 
-	private void TABtoPARTdrum(){
+	private void TABtoPARTdrum() {
 		System.out.println("DRUM DRUM DRUM");
 		int gap = 0;
 		File fTAB = null;
-		
+
 		try {
 			String path = System.getProperty("user.dir") + "/testTab.txt";
 			FileWriter myWriter = new FileWriter(path);
 			myWriter.write(TAB);
 			myWriter.close();
-			fTAB=new File(path);
+			fTAB = new File(path);
 			System.out.println("Successfully wrote to the file.");
-		}catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println("An error occured in the Chain string to file maker.");
 			e.printStackTrace();
 			ERROR.add(e);
 		}
 		try {
-		TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES, 0);
-		System.out.println("USING TABV4 NOW !!!!!");
-		
-		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
-		ATT = AW.getAttributes();
-		
-		TRv4.readMeasure();
-		DrumReader DR = new DrumReader(TRv4.getMeasure());//assumed 4/4
-		DK = DR.getDrumKit();// - needed scorepartwise
-		TRv4.readMeasure();
-		while(TRv4.hasNext()) {
-			DPW.nextMeasure(ATT);
-			ATT=null;
-            DR.setMeasure(TRv4.getMeasure());
-			while(DR.hasNextRow()) {
-				
-//				boolean firstNoteAdded = false;
-				for(String[] s:DR.readNoteRow()) {
-					if(!s[0].equals("gap")) {
-						if(gap > 0) {
-							//add a forward with duration of int gap
-							
-							gap = 0;
-						}
+			TabReaderV4 TRv4 = new TabReaderV4(fTAB, STAFFLINES, 0);
+			System.out.println("USING TABV4 NOW !!!!!");
 
-					System.out.println("Step"+s[0]+
-										"Octave"+Integer.parseInt(s[1])+
-										"Duration"+Integer.parseInt(s[2])+
-										"Intrument"+s[3]+
-										"Voice"+s[4]+
-										"Type"+s[5]+
-										"NoteHead"+s[6]+
-										"Beam"+s[7]);
-//					if(firstNoteAdded) {
-//						System.out.println("Chorded note");
-////						if(s[6].equals("o")) {
-////							System.out.println("Make a note chord without note head");
-////						}
-////						else {
-//						DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
-//						//}
-//						
-//					}
-//					else {
-						System.out.println("Non chorded note");
-						if(s[6].equals("o")) {
-							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up");
-						}
-						else {
-							DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
-						}
-					}else {
-						
-					}
-				}
+			AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG / 10, TIMESIG % 10, "percussion", LINE,
+					STAFFLINES);
+			ATT = AW.getAttributes();
+
 			TRv4.readMeasure();
+			DrumReader DR = new DrumReader(TRv4.getMeasure());// assumed 4/4
+			DK = DR.getDrumKit();// - needed scorepartwise
+			TRv4.readMeasure();
+			while (TRv4.hasNext()) {
+				DPW.nextMeasure(ATT);
+				ATT = null;
+				DR.setMeasure(TRv4.getMeasure());
+				while (DR.hasNextRow()) {
+
+					for (String[] s : DR.readNoteRow()) {
+						//Checks if there is a forward or a note
+						if (!s[0].equals("forward")) {
+							//creates a forward with the DPW class
+							DPW.nextForward(Integer.parseInt(s[1]));
+						} else {
+							
+							//Console Output for Testing
+							System.out.println("Step" + s[0] + "Octave" + Integer.parseInt(s[1]) + "Duration"
+									+ Integer.parseInt(s[2]) + "Intrument" + s[3] + "Voice" + s[4] + "Type" + s[5]
+									+ "NoteHead" + s[6] + "Beam" + s[7]);
+
+							// checks if this note has a beam
+							if (!s[7].equals("")) {
+								//list to hold beams of this note
+								ArrayList<Beam> beams = new ArrayList<Beam>();
+
+								// checks if this note is a sixteenth or not
+								if (Integer.parseInt(s[2]) == 1) {
+									// adds two beams if this note is a sixteenth
+									Beam beam1 = new Beam(1, s[7]);
+									Beam beam2 = new Beam(2, s[7]);
+									beams.add(beam1);
+									beams.add(beam2);
+
+								} else {
+									Beam beam1 = new Beam(1, s[7]);
+									beams.add(beam1);
+								}
+
+								// Adds the bean note using the DPW class
+								System.out.println("Beam Note Added");
+								if (s[6].equals("o")) {
+									DPW.nextDrumNoteB(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up", beams);
+								} else {
+									DPW.nextDrumNoteBNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up", beams, s[6]);
+								}
+							} else {
+								// Adds regular note iwht the DPW class
+								System.out.println("Non chorded note");
+								if (s[6].equals("o")) {
+									DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up");
+								} else {
+									DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up", s[6]);
+								}
+							}
+							// backup for next row
+							DPW.nextBackup(16);
+						}
+					}
+					TRv4.readMeasure();
+				}
 			}
-		}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-			
+
 	}
 
 	// ---STEP 2---
