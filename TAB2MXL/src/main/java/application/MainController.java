@@ -414,18 +414,21 @@ public class MainController implements Initializable {
 			     parts = text.split(",");
 			    // now `parts` array will contain your data
 			   //LOAD ATTRIBUTES
+			     
 					//getKey()+","+getTimeSig()+","+getConversionType()+","+getType());
 					KeySig.getSelectionModel().select(parts[0]);
-					if(parts[1]=="44")TimeSig.getSelectionModel().select(0);
-					else TimeSig.getSelectionModel().select(1);
-					if(parts[2]=="G")conversionType.getSelectionModel().select(0);
+					if(parts[1].compareTo("44")==0) {TimeSig.getSelectionModel().select(1);}
+					else TimeSig.getSelectionModel().select(0);
+					if(parts[2].compareTo("TAB")==0) {conversionType.getSelectionModel().select(0);}
 					else conversionType.getSelectionModel().select(1);
 					InstrumentType.getSelectionModel().select(parts[3]);
 					//,"+getComposer()+","+getTitle()+","+getLyricist());
-					if(!parts[4].isEmpty()) composer.setText(parts[4]);
-					if(!parts[5].isEmpty()) title.setText(parts[5]);
-					if(!parts[6].isEmpty()) lyricist.setText(parts[6]);
+//					//if(parts.length>3)
+//					if(!parts[4].isEmpty()) composer.setText(parts[4]);
+//					if(!parts[5].isEmpty()) title.setText(parts[5]);
+//					if(!parts[6].isEmpty()) lyricist.setText(parts[6]);
 					
+			;		
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -460,6 +463,7 @@ public class MainController implements Initializable {
 			pw.println(getKey()+","+getTimeSig()+","+getConversionType()+","+getType()+","+getComposer()+","+getTitle()+","+getLyricist());
 			System.out.println("411 "+getKey());
 			System.out.println("411 "+getTimeSig());
+			System.out.println("411 "+ getConversionType());
 			pw.flush(); 
 			pw.close();
 			
