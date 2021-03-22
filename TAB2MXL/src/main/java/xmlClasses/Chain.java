@@ -12,6 +12,7 @@ import javax.xml.bind.Marshaller;
 
 import test.DrumReader;
 import test.MeasureReaderV3;
+import test.MeasureReaderV4;
 import test.TabReaderV2;
 import test.TabReaderV4;
 
@@ -42,6 +43,7 @@ public class Chain {
 	 * First digit being the beat.
 	 * Second being the beat-type*/
 	int TIMESIG;
+	int[] TIMESIGS;
 	
 	/**The key of the song*/
 	String KEY;
@@ -79,6 +81,9 @@ public class Chain {
 	/**HARDCODED: Voice - 1*/
 	int VOICE = 1;
 	
+	/**HARDCODED: Grace - null*/
+	String GRACE = null;
+	
 	/**This ArrayList shows the drum kit*/
 	ArrayList<String> DK;
 
@@ -111,6 +116,19 @@ public class Chain {
 		this.LYRICIST=LYRICIST;
 		this.COMPOSER=COMPOSER;
 		this.TIMESIG=TIMESIG;
+		this.KEY=KEY;
+		this.INSTRUMENT=INSTRUMENT;
+		this.CLEF=CLEF;
+	}
+	
+	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
+			int[] TIMESIGS, String KEY, String INSTRUMENT, String CLEF){
+
+		this.TAB=TAB;
+		this.TITLE=TITLE;
+		this.LYRICIST=LYRICIST;
+		this.COMPOSER=COMPOSER;
+		this.TIMESIGS=TIMESIGS;
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
 		this.CLEF=CLEF;
@@ -160,40 +178,25 @@ public class Chain {
 		//String Note Parsing
 		TRv4.readMeasure();
 		while(TRv4.hasNext()) {
-			MeasureReaderV3 MRv3 = new MeasureReaderV3(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);
+			MeasureReaderV4 MRv4 = new MeasureReaderV4(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);
 			PW.nextMeasure( ATT );//adds an empty measure
 			ATT=null;//removes all attributes after the first measrue
-			while(MRv3.hasNext()) {
-				MRv3.readNotes();
-				boolean SecondNote = false;//makes notes chorded when they are not the first one
-				for(String[] s:MRv3.getNotes()) {
-					//secondNote==true -> chordnote
-					//s[4]==alter -> alterednote
-					if(SecondNote) {
-						if(s[4].equals("")) {
-							PW.nextChordNote(Integer.parseInt(s[0]), s[1], s[2],
-							Integer.parseInt(s[3]), Integer.parseInt(s[6]),
-							Integer.parseInt(s[7]), VOICE );
-						}
-						else {
-							PW.nextAlteredChordNote(Integer.parseInt(s[0]), s[1],
-							s[2], Integer.parseInt(s[3]), Integer.parseInt(s[4]),
-							Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-						}
-					}
-					else {
-						if(s[4].equals("")) {
-							PW.nextNote(Integer.parseInt(s[0]), s[1], s[2],
-							Integer.parseInt(s[3]), Integer.parseInt(s[6]),
-							Integer.parseInt(s[7]), VOICE );
-						}
-						else {
-							PW.nextAlteredNote(Integer.parseInt(s[0]), s[1],
-							s[2], Integer.parseInt(s[3]),Integer.parseInt(s[4]),
-							Integer.parseInt(s[6]), Integer.parseInt(s[7]), VOICE );
-						}
-						SecondNote = true;
-					}	
+			while(MRv4.hasNext()) {
+				MRv4.readNotes();
+				String ChordNote = null;//makes notes chorded when they are not the first one
+				for(String[] s:MRv4.getNotes()) {
+					PW.nextAllNote( Integer.parseInt(s[0]), //duration
+									s[1],					//type
+									s[2],					//step
+									Integer.parseInt(s[3]),	//octave
+									Integer.parseInt(s[4]),	//alter
+									Integer.parseInt(s[6]),	//string
+									Integer.parseInt(s[7]),	//fret
+									VOICE,					//voice
+									ChordNote,				//chord
+									GRACE					//grace
+									);
+					ChordNote = "";
 				}
 			}
 			
@@ -301,14 +304,14 @@ public class Chain {
 //####################################################################
 //########################### HELPERS ################################
 //####################################################################
-	private File stringToFile(String s) {
+	private File stringToFile(String tab) {
 
 		File f = null;
 		
 		try {
 			String path = System.getProperty("user.dir") + "/autosaveTab.txt";
 			FileWriter myWriter = new FileWriter(path);
-			myWriter.write(TAB);
+			myWriter.write(tab);
 			myWriter.close();
 			f=new File(path);
 			System.out.println("Successfully wrote to the file.");
@@ -332,6 +335,7 @@ public class Chain {
 	public String getTitle() { return TITLE; }
 	public String getComposer() { return COMPOSER; }
 	public String getLyricist() { return LYRICIST; }
+	public String[][] getTuning() { return TUNINGINFO; }
 	public int getStaffLines() { return STAFFLINES; }
 	public void setInst(String inst) { this.INSTRUMENT = inst; }
 	

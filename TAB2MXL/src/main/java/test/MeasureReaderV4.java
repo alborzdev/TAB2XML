@@ -4,7 +4,7 @@ import java.util.List;
 
 import config.ConfigReader;
 
-public class MeasureReaderV3 {
+public class MeasureReaderV4 {
 	
 	//measure specific variables
 	ConfigReader cfg = ConfigReader.getConfig();
@@ -18,7 +18,7 @@ public class MeasureReaderV3 {
 	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
 	private int[] octaves = {4,3,3,3,2,2};
-	private String[] lengths = {"whole","half","quarter","eighth","sixteenth"};
+	private String[] lengths = {"whole","half","quarter","eighth","sixteenth", "thirty-second", "sixty-fourth", "one-hundred-twenty-eighth"};
 	boolean hasNextColumn; //has next column?
 	
 	//To do:
@@ -26,7 +26,7 @@ public class MeasureReaderV3 {
 	//better way to decode notes
 
 	
-	protected MeasureReaderV3(String[] measure) { //basic instructor for testing do not use
+	protected MeasureReaderV4(String[] measure) { //basic instructor for testing do not use
 		this.measure = measure;
 		this.character_count = measure[0].length();
 
@@ -39,7 +39,7 @@ public class MeasureReaderV3 {
 		curr_col = 0;
 	}
 	
-	public MeasureReaderV3(String[] measure, int beats, int beatlength) { //deprecated do not use
+	public MeasureReaderV4(String[] measure, int beats, int beatlength) { //deprecated do not use
 		this.measure = measure;
 		this.character_count = measure[0].length();
 		this.trueMeasureLength = this.floor2pow2(this.character_count);
@@ -50,22 +50,10 @@ public class MeasureReaderV3 {
 		curr_col = 0;
 	}
 	
-	public MeasureReaderV3(String[] measure, String[] tuning, int beats, int beatlength) { 
+	public MeasureReaderV4(String[] measure, String[] tuning, int beats, int beatlength) { 
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		this.trueMeasureLength = beats * (int)Math.floor(this.character_count/beats);//beats * (int)Math.pow(2,this.log2(this.character_count/beats));
-		//temporary code to try out s theory
-		this.wNoteLength = beatlength * (int)Math.pow(2,this.log2(this.character_count/beats));
-		//String temp = lengths[this.log2((this.ts_beats*this.ts_beatlength)/this.noteLength)];
-		System.out.println("##--------------------------------##");
-		System.out.println((int)Math.floor(this.character_count/beats));
-		System.out.println((int)Math.pow(2,this.log2(this.character_count/beats)));
-		System.out.println(this.character_count);
-		System.out.println(trueMeasureLength);
-		System.out.println(wNoteLength);
-		System.out.println("##--------------------------------##");
-
-		//
+		
 		this.string_count = measure.length;
 		this.tuning = tuning;
 		this.ts_beats = beats;
@@ -74,6 +62,9 @@ public class MeasureReaderV3 {
 		curr_col = 0;
 		
 		this.inferOctaves(tuning);
+		
+		this.trueMeasureLength = this.getTrueMeasureLength();
+		this.wNoteLength = this.ts_beatlength * (this.trueMeasureLength/this.ts_beats);
 	}
 	
 	public List<String[]> getNotes() {
@@ -82,7 +73,7 @@ public class MeasureReaderV3 {
 		for(int i = 0; i<shifts.length; i++) {
 			if(shifts[i] >= 0) {
 				String[] stepAndOctave = calculateNoteandOctave(i,shifts[i]);
-				String alter = "";
+				String alter = "0";
 				String accidental = "";
 				
 				if(stepAndOctave[0].length() > 1) {
@@ -93,6 +84,7 @@ public class MeasureReaderV3 {
 				//
 				//
 				System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
+				
 				String[] noteProperties = {
 						""+this.noteLength,																	//raw duration
 						lengths[(int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)))],				//type
@@ -107,7 +99,6 @@ public class MeasureReaderV3 {
 				
 				
 				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
-				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + lengths[(int) Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)))]);
 				
 			}
 		}
@@ -165,23 +156,8 @@ public class MeasureReaderV3 {
 		return this.hasNextColumn;
 	}
 	
-	private String calculateNote(int string, int fret){
-		String baseNote = this.tuning[string];
-		int counter = -1;
-		for (int i = 0; i<scale.length; i++) {
-			if(baseNote.equalsIgnoreCase(scale[i])) {
-				counter = i;
-				break;
-			}
-		}
-		if(counter < 0) {
-			//fail
-			return "!"; //need to handle bad numbers and stuff better? maybe not necessary at all?
-		}else {
-			int note = (counter+fret) % 12;
-			return scale[note];
-		}
-		
+	public int[] getTuning() {
+		return this.octaves;
 	}
 	
 	private String[] calculateNoteandOctave(int string, int fret){
@@ -243,9 +219,17 @@ public class MeasureReaderV3 {
 		}else {
 			this.column = new char[string_count];
 			for(int i=0; i<string_count; i++) {
-				column[i] = measure[i].charAt(in);
+				this.column[i] = this.measure[i].charAt(in);
 			}
 		}
+	}
+	
+	private char[] getColumn(int in) {
+		char[] lcolumn = new char[string_count];
+		for(int i=0; i<string_count; i++) {
+			lcolumn[i] = this.measure[i].charAt(in);
+		}
+		return lcolumn;
 	}
 	
 	private void inferOctaves(String[] tuning) { //calculate base octaves from tuning information		
@@ -281,6 +265,28 @@ public class MeasureReaderV3 {
 		this.octaves = baseOctaves;
 	}
 	
+	private int getTrueMeasureLength() {
+		int out = 1;
+		int counter = 0;
+		//System.out.println(measure[3]);
+		while(counter < this.character_count && isEmpty(getColumn(counter))) {		
+			//System.out.print("0");
+			counter ++;
+		}
+		counter++;
+		while(counter < this.character_count) {	
+			if(!isEmpty(getColumn(counter)) && !isEmpty(getColumn(counter-1))) {
+				//System.out.print("x");
+			}else {
+				//System.out.print("-");
+				out ++;
+			}
+			counter ++;
+		}
+		System.out.println("DEBUG: true measure length: " + out);
+		return out;
+	}
+	
 	private int floor2pow2(int in) { //round down to power of 2, useful to determine "true measure length" that would be inflated by double digit frets
 		return (int) Math.floor(Math.log(in)/Math.log(2));
 	}
@@ -290,7 +296,7 @@ public class MeasureReaderV3 {
 		return out;
 	}
 	
-	public void stringArrayDump(String arrayName, String[] in) {
+	private void stringArrayDump(String arrayName, String[] in) {
 		System.out.println("DEBUG: dumping contents of: " +arrayName);
 		for(int i=0; i<in.length; i++) {
 			System.out.println(in[i]);
