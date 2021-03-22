@@ -257,9 +257,9 @@ public class Chain {
 
 					for (String[] s : DR.readNoteRow()) {
 						//Checks if there is a forward or a note
-						if (!s[0].equals("forward")) {
+						if (s[0].equals("forward")) {
 							//creates a forward with the DPW class
-							DPW.nextForward(Integer.parseInt(s[1]));
+//							DPW.nextForward(Integer.parseInt(s[1]));
 						} else {
 							
 							//Console Output for Testing
@@ -305,12 +305,12 @@ public class Chain {
 											Integer.parseInt(s[4]), s[3], "up", s[6]);
 								}
 							}
-							// backup for next row
-							DPW.nextBackup(16);
 						}
 					}
-					TRv4.readMeasure();
+					//backup for next row
+					DPW.nextBackup(16);
 				}
+				TRv4.readMeasure();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

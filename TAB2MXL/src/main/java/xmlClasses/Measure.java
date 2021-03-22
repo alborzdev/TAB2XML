@@ -9,30 +9,30 @@ import javax.xml.bind.annotation.XmlElementRef;
 public class Measure {
 	private int number;
 	private Attributes att;
-	private ArrayList<Object> note;
+	private ArrayList<Note> note;
 	//private ArrayList<DrumNote> drumNote;
 	
 	public Measure() {
 		
 	}  
 	
-	public Measure(int number, Attributes att, ArrayList<Object> note) {  
+	public Measure(int number, Attributes att, ArrayList<Note> note) {  
 	    this.number = number;
 	    this.att = att;
 	    this.note = note;  
 	} 
-	public Measure(int number, ArrayList<Object> note) {
+	public Measure(int number, ArrayList<Note> note) {
 	    this.number = number;
 	    this.note = note;  
 	}
 	public Measure(int number, Attributes att) {
 	    this.att = att;
 	    this.number = number;
-	    this.note = new ArrayList<Object>();
+	    this.note = new ArrayList<Note>();
 	} 
 	public Measure(int number) {
 	    this.number = number;
-	    this.note = new ArrayList<Object>();
+	    this.note = new ArrayList<Note>();
 	}
 	
 	@XmlAttribute
@@ -52,15 +52,15 @@ public class Measure {
 	}
 	
 	@XmlElement(name="note", type=Note.class)
-	public ArrayList<Object> getNote() {  
+	public ArrayList<Note> getNote() {  
 	    return note;  
 	}  
-	public void setNote(ArrayList<Object> note) {  
+	public void setNote(ArrayList<Note> note) {  
 	    this.note = note;  
 	}
 	
 	//PartWriter
-	public void addNote(Object n) {
+	public void addNote(Note n) {
 		note.add(n);
 	}
 	//DrumPartWriter

@@ -1,34 +1,40 @@
 package xmlClasses;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.*;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Beam {
+	@XmlAttribute
 	private int number;
-	private String begin;
+	@XmlValue
+	private String beam;
 	
 	public Beam() {}  
 	
 	public Beam(int number, String begin) {  
 	    this.number = number;
-	    this.begin = begin;
+	    this.beam = begin;
 	} 
 	
-	@XmlAttribute
+	
 	public int getNumber() {  
 	    return number;  
 	}  
 	
 	public void setNumber(int number) {  
-	    this.number = number;  
+	    this.number = number; 
 	}
-	
-	@XmlElement
+
 	public String getBegin() {  
-	    return begin;  
+	    return beam;  
 	}  
 	
 	public void setBegin(String begin) {  
-	    this.begin = begin;  
+	    this.beam = begin;  
 	}
 }
