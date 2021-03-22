@@ -11,6 +11,7 @@ public class Measure {
 	private Attributes att;
 	private ArrayList<Note> note;
 	private Barline barline;
+	private Backup backup;
 	//private ArrayList<DrumNote> drumNote;
 	
 	public Measure() {
@@ -76,5 +77,12 @@ public class Measure {
 //		public void addDrumNote(DrumNote n) {
 //			drumNote.add(n);
 //		}
+
+	public void addNote(Backup b) {
+		note.add(b);
+	}
 	
+	public void addNote(Forward f) {
+		note.add(f);
+	}
 }
