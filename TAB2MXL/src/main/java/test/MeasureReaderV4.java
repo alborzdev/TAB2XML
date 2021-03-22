@@ -1,6 +1,8 @@
 package test;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import config.ConfigReader;
 
@@ -19,6 +21,8 @@ public class MeasureReaderV4 {
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
 	private int[] octaves = {4,3,3,3,2,2};
 	private String[] lengths = {"whole","half","quarter","eighth","sixteenth", "thirty-second", "sixty-fourth", "one-hundred-twenty-eighth"};
+	private String numbersOnlyRegex="([0-9])*";
+	private Pattern nOPat = Pattern.compile(numbersOnlyRegex);
 	boolean hasNextColumn; //has next column?
 	
 	//To do:
@@ -121,19 +125,36 @@ public class MeasureReaderV4 {
 				this.strColumn[i] = "" + this.column[i];
 			}
 			//check if the next column has notes - allows for double-digit frets
+			//------------------------------------------------------------------------------------
+//			this.readColumn(this.curr_col);
+//			this.curr_col++;
+//			if(!this.isEmpty(this.column)) {
+//				for(int i=0; i<this.string_count; i++) {
+//					//append only non-dash characters
+//					if(this.column[i] != '-') {
+//						this.strColumn[i] = this.strColumn[i] + this.column[i];
+//					}
+//				}
+//				this.noteLength = 1;
+//			}else {
+//				this.noteLength = 2;
+//			}
+			//read until there are no more empty columns - to get 2 or 3 length "notes"
+			int counter = 0;
 			this.readColumn(this.curr_col);
-			this.curr_col++;
-			if(!this.isEmpty(this.column)) {
+			while(!this.isEmpty(this.column) && this.hasNextColumn) {
+				counter ++;
+				this.curr_col++;
 				for(int i=0; i<this.string_count; i++) {
 					//append only non-dash characters
 					if(this.column[i] != '-') {
 						this.strColumn[i] = this.strColumn[i] + this.column[i];
 					}
 				}
-				this.noteLength = 1;
-			}else {
-				this.noteLength = 2;
+				this.readColumn(this.curr_col);
 			}
+			this.noteLength = counter + 1;
+			//------------------------------------------------------------------------------------
 			//continue reading empty columns to determine note length
 			this.readColumn(this.curr_col);
 			this.curr_col++;
@@ -189,14 +210,44 @@ public class MeasureReaderV4 {
 		
 	}
 	
-	private int[] getFrets(String[] Column) {
+	private int[] getFrets(String[] column) {
 		int[] out = new int[string_count];
 		for(int i=0; i<string_count; i++) {
 			try {
-				out[i] = Integer.parseInt(Column[i]);
+				out[i] = Integer.parseInt(column[i]);
 			}catch(NumberFormatException e) {
 				out[i] = -1;
 			}
+		}
+		return out;
+		
+	}
+	
+	private int[] getFretsEnhanced(String[] column) {
+		int[] out = new int[string_count];
+		for(int i=0; i<string_count; i++) {
+			Matcher noteMat = nOPat.matcher(column[i]);
+			try {
+				if(column[i].length() >=2 ) { //length 1 or 2 - number or fail
+					out[i] = Integer.parseInt(column[i]);					
+//				}else if(column[i].length() == 2) { //length 2, 2 digit number or grace note, no other types supported yet
+//					if(noteMat.matches()) { //only numbers - 2 digit fret
+//						out[i] = Integer.parseInt(column[i]);
+//						
+//					}else if(nOPat.matcher(column[i].charAt(1) + "").matches()){ //last character is number what?
+//						
+//					}else {
+//						throw new Exception(); //fail
+//					}
+				}else{
+					if(column[i].charAt(0) == '(' || column[i].charAt(0) == '[') { //harmonic - whatever that means
+						
+					}
+					
+				}
+			}catch(Exception e) {
+				out[i] = -1;
+			}		
 		}
 		return out;
 		
