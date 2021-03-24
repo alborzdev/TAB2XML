@@ -57,6 +57,10 @@ public class DrumPartWriter {
 		
 	}
 	
+//	public void nextForward(int duration) {
+//		currentMeasure.addNote( new Forward(duration));
+//	}
+	
 	//Getter
 	public Part getDrumPart() {
 		return part;
