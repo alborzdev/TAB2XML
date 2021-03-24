@@ -52,7 +52,7 @@
          </top></BorderPane>
       <BorderPane layoutX="466.0" layoutY="54.0" prefHeight="410.0" prefWidth="601.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="512.0" AnchorPane.topAnchor="54.0">
          <left>
-            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" onKeyReleased="#updateTextArea" prefHeight="390.0" prefWidth="572.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
+            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" onKeyReleased="#updateTextArea" prefHeight="390.0" prefWidth="572.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa; -fx-prompt-text-fill: light grey;" unFocusColor="#a8c5d8" wrapText="true" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Courier New" size="12.0" />
                </font>
@@ -177,5 +177,19 @@
             <Font name="Quicksand Regular" size="12.0" />
          </font>
       </JFXButton>
+      <VBox layoutX="1062.0" layoutY="277.0" prefHeight="181.0" prefWidth="176.0">
+         <children>
+            <JFXComboBox fx:id="measures" prefHeight="25.0" prefWidth="176.0" promptText="Select specific measure" style="-fx-background-color: white;">
+               <VBox.margin>
+                  <Insets top="100.0" />
+               </VBox.margin>
+            </JFXComboBox>
+            <JFXComboBox fx:id="MeasureTimeSig" onAction="#changeMeasure" prefHeight="25.0" prefWidth="176.0" promptText="Change time signature" style="-fx-background-color: light grey; -fx-prompt-text-fill: white;">
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </JFXComboBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

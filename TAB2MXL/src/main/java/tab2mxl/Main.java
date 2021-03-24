@@ -28,15 +28,15 @@ public class Main {
 			//File file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 			TabReaderV4 tb = new TabReaderV4(file,6);
 			tb.readMeasure();
-			while(tb.hasNext()) {	
-				MeasureReaderV4 ms = new MeasureReaderV4(tb.getMeasure(),tb.getTuning(),4,4);
-				while(ms.hasNext()) {
-					ms.readNotes();
-					ms.getNotes();
-				}
-				tb.readMeasure();
-				//measure break
-			}
+//			while(tb.hasNext()) {	
+//				MeasureReaderV4 ms = new MeasureReaderV4(tb.getMeasure(),tb.getTuning(),4,4);
+//				while(ms.hasNext()) {
+//					ms.readNotes();
+//					ms.getNotes();
+//				}
+//				tb.readMeasure();
+//				//measure break
+//			}
 			List<String[]> list = tb.listMeasures();
 			System.out.println("DEBUG: Listing all measures after this point ##------------------------##");
 			for(String[] ms: list) {

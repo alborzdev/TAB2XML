@@ -89,7 +89,7 @@ public class TabReaderV4{
 				measure[i] = tabLine[i][curr_measure];
 			}
 			System.out.println("DEBUG: measure read: ");
-			this.stringArrayDump("measure",this.measure);
+			//this.stringArrayDump("measure",this.measure);
 			curr_measure ++;
 		}
 	}

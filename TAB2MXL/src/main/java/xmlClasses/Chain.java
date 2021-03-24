@@ -304,7 +304,7 @@ public class Chain {
 //####################################################################
 //########################### HELPERS ################################
 //####################################################################
-	private File stringToFile(String tab) {
+	public static File stringToFile(String tab) {
 
 		File f = null;
 		
