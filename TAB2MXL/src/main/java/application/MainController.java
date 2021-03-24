@@ -60,6 +60,9 @@ public class MainController implements Initializable {
 
 	@FXML
 	private JFXTextArea textarea;
+	
+	@FXML
+	private JFXTextArea measuresTEXTAREA;
 
 	int []timesigs;
 	int size;
@@ -130,7 +133,7 @@ public class MainController implements Initializable {
 				timesigs = new int[TAB.size()];
 				size = TAB.size();
 				for(int i=0;i<size;i++) {
-					measures.getItems().add(i);
+					measures.getItems().add(i+1);
 					timesigs[i]=44;
 				}
 	}
@@ -471,6 +474,19 @@ public class MainController implements Initializable {
 		}
 	}
 
+	@FXML
+	public void printSelection(ActionEvent event) throws Exception {
+		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( textarea.getText() ), 6).listMeasures();
+		for(int i=0;i<TAB.size();i++) {
+			String [] t=TAB.get(i);
+			measuresTEXTAREA.appendText("|");
+			for(int j=0;j<t.length;j++)	{
+				measuresTEXTAREA.appendText(t[j]);
+			measuresTEXTAREA.appendText("|\n");
+			}
+		}
+	}
+	
 	@FXML
 	public void saveChanges(ActionEvent event) {
 		pref  =Preferences.userNodeForPackage(MainController.class); 
