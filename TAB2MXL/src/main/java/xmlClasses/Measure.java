@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElementRef;
 public class Measure {
 	private int number;
 	private Attributes att;
-	@XmlAnyElement
+	
 	private ArrayList<Note> note;
 	//private ArrayList<DrumNote> drumNote;
 	
@@ -53,7 +53,7 @@ public class Measure {
 	    this.att = att;  
 	}
 	
-	@XmlAnyElement
+	@XmlElement
 	public ArrayList<Note> getNote() {  
 	    return note;  
 	}  
@@ -66,7 +66,7 @@ public class Measure {
 		note.add(n);
 	}
 	
-	public void addBackup(Backup b) {
+	public void addBackup(Note b) {
 		note.add(b);
 	}
 	//DrumPartWriter
