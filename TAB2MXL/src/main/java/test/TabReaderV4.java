@@ -79,6 +79,7 @@ public class TabReaderV4{
 		if(curr_measure >= tabLine[0].length) {
 			curr_measure = 1;
 			System.out.println("DEBUG: end of line, reading next line");
+			System.out.println("DEBUG: reading measures from line: " + this.next_tabLine);
 			evaluateLine();
 			readMeasure();
 		}else if(eof){
@@ -103,7 +104,7 @@ public class TabReaderV4{
 	}
 	
 	
-	public void evaluateLine() throws Exception {
+	private void evaluateLine() throws Exception {
 		//new and improved, allows for inconsistent lengths + spacing + starting points
 		System.out.println("DEBUG: evaluating line: "+next_tabLine);
 		try {
@@ -243,15 +244,19 @@ public class TabReaderV4{
 			this.scanLine = 0;
 			this.curr_measure = 1; // start from the top
 			this.eof = false;
+			this.evaluateLine();
 			List<String[]> out = new ArrayList<String[]>();
 			this.readMeasure();
 			while(this.hasNext()){
 				out.add(this.measure);
 				this.readMeasure();
 			}
-			this.next_tabLine = 0;
+			System.out.println("DEBUG: finished listing measures, returning to top of file!");
+			this.next_tabLine = 0; //return to the top
+			this.scanLine = 0;
 			this.curr_measure = 1;
 			this.eof = false;
+			this.evaluateLine();
 			return out;
 		}catch(Exception e) {
 			System.out.println("DEBUG: something went wrong trying to list all measures");

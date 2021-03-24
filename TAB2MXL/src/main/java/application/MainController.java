@@ -122,9 +122,14 @@ public class MainController implements Initializable {
 	public void updateTimeSigsArray() throws Exception {
 		//NEW TIME SIGNATURE ARRAYS
 				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( textarea.getText() ), 6).listMeasures();
+				for(int i=0;i<TAB.size();i++) {
+					String [] t=TAB.get(i);
+					for(int j=0;j<t.length;j++)	
+						System.out.println(t[j]);
+				}
 				timesigs = new int[TAB.size()];
 				size = TAB.size();
-				for(int i=1;i<size;i++) {
+				for(int i=0;i<size;i++) {
 					measures.getItems().add(i);
 					timesigs[i]=44;
 				}
