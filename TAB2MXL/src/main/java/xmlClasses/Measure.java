@@ -2,6 +2,7 @@ package xmlClasses;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
@@ -9,6 +10,7 @@ import javax.xml.bind.annotation.XmlElementRef;
 public class Measure {
 	private int number;
 	private Attributes att;
+	@XmlAnyElement
 	private ArrayList<Note> note;
 	//private ArrayList<DrumNote> drumNote;
 	
@@ -51,7 +53,7 @@ public class Measure {
 	    this.att = att;  
 	}
 	
-	@XmlElement(name="note", type=Note.class)
+	@XmlAnyElement
 	public ArrayList<Note> getNote() {  
 	    return note;  
 	}  
@@ -62,6 +64,10 @@ public class Measure {
 	//PartWriter
 	public void addNote(Note n) {
 		note.add(n);
+	}
+	
+	public void addBackup(Backup b) {
+		note.add(b);
 	}
 	//DrumPartWriter
 //		public void addDrumNote(DrumNote n) {
