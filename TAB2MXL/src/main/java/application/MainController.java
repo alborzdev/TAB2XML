@@ -477,14 +477,15 @@ public class MainController implements Initializable {
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
 		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( textarea.getText() ), 6).listMeasures();
-		for(int i=0;i<TAB.size();i++) {
+		int i = measures.getSelectionModel().getSelectedIndex();
 			String [] t=TAB.get(i);
-			measuresTEXTAREA.appendText("|");
+			measuresTEXTAREA.clear();
 			for(int j=0;j<t.length;j++)	{
+				measuresTEXTAREA.appendText("|");
 				measuresTEXTAREA.appendText(t[j]);
-			measuresTEXTAREA.appendText("|\n");
+				measuresTEXTAREA.appendText("|\n");
 			}
-		}
+		
 	}
 	
 	@FXML

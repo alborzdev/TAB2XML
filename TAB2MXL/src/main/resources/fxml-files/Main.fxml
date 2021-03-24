@@ -184,7 +184,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
                <font>
-                  <Font size="5.0" />
+                  <Font name="Courier New" size="12.0" />
                </font>
             </JFXTextArea>
             <JFXComboBox fx:id="measures" onAction="#printSelection" prefHeight="25.0" prefWidth="176.0" promptText="Select specific measure" style="-fx-background-color: white;">
