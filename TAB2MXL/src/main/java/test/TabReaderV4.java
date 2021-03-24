@@ -15,7 +15,7 @@ public class TabReaderV4{
 	
 	static ConfigReader cfg = ConfigReader.getConfig();
 	private File file;
-	public int string_count, scanLine, next_tabLine, curr_measure;
+	private int string_count, scanLine, next_tabLine, curr_measure;
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
