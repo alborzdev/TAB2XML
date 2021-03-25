@@ -85,6 +85,7 @@ public class TabReaderV4{
 		// measures start at 1, index 0 exists - but is reserved for tuning data
 		this.next_tabLine = 0;
 		this.curr_measure = 0;
+		this.scanLine = 0;
 		this.evaluateLine();
 	}
 
@@ -138,6 +139,7 @@ public class TabReaderV4{
 				temp = temp.trim();
 				Matcher tabMat = tabPat.matcher(temp);
 				if(tabMat.matches()) {
+					System.out.println("First line of tab: "  + temp);
 					uTab[0] = temp; //save first line of tab
 					break; //move on to read + sanity check rest of tabLine and parse if correct
 				}else if(countPipeChars(temp) > 1) { //contains 2 or more | characters -> we read that as intended as part of tablature, and throw bad formatting exceptions
@@ -158,6 +160,7 @@ public class TabReaderV4{
 				if(sc.hasNext()) {
 					temp = sc.nextLine();
 					temp = temp.trim();
+					System.out.println("temp: " + temp);
 				}else { //missing line as opposed to badly formatted line
 					throw new LineErrorException("Bad Formatting: Missing line " + (this.scanLine + i), this.scanLine + i);
 				}
@@ -171,7 +174,7 @@ public class TabReaderV4{
 			}
 			
 			
-			
+			System.out.println("dump 1");
 			//dump what is read
 			stringArrayDump("unbroken-tabLine(uTab) "+this.next_tabLine, uTab);
 			
@@ -180,7 +183,9 @@ public class TabReaderV4{
 			String[][] bTab = new String[this.string_count][];
 			for(int i=0; i<this.string_count; i++) {
 				bTab[i] = uTab[i].split(this.measureDelimiterRegex);
+				System.out.printf("index %d btab is %s", i, bTab[i]);
 			}
+	
 			//sanity checks
 			// same number of measures in each line
 			int measures = bTab[0].length;
@@ -189,6 +194,7 @@ public class TabReaderV4{
 					throw new LineErrorException("Bad content: number of measures in line " + (this.scanLine + i) + " is different from the line above", this.scanLine + i, uTab[i]);
 				}
 			}
+			System.out.println("after same num of measures");
 			// same lengths for each simultameous measure
 			for(int i=0; i<bTab[0].length; i++) {
 				int measureLength = bTab[0][i].length();
@@ -198,7 +204,7 @@ public class TabReaderV4{
 					}
 				}
 			}
-			
+			System.out.println(" after lench check");
 			//all sanity checks passed - may need more in future
 			//save broken-up tabLine
 			this.tabLine = bTab;

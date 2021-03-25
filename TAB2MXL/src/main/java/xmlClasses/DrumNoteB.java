@@ -3,9 +3,11 @@ package xmlClasses;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 public class DrumNoteB extends DrumNote{
 	private ArrayList<Beam> beam;
+	private String stem;
 	
 	public DrumNoteB() {
 		
@@ -23,5 +25,13 @@ public class DrumNoteB extends DrumNote{
 	}  
 	public void setBeam(ArrayList<Beam> beam) {  
 	    this.beam = beam;  
+	}
+	
+	@XmlElement
+	public String getStem() {
+		return this.stem;
+	}	
+	public void setStem(String stem) {
+		this.stem = stem;
 	}
 }

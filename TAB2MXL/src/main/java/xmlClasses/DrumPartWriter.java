@@ -34,10 +34,10 @@ public class DrumPartWriter {
 		
 	}
 	public void nextBackup(int duration ){
-		currentMeasure.addNote( new Backup(duration));
+		currentMeasure.addBackup( new Backup(duration));
 	}
 	public void nextForward(int duration ){
-		currentMeasure.addNote( new Forward(duration));
+		currentMeasure.addForward( new Forward(duration));
 	}
 	
 	public void nextDrumNoteB(int duration, String type, String step, int octave, int voice, String instID, String stem, ArrayList<Beam> beam ){

@@ -3,10 +3,12 @@ package xmlClasses;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 public class DrumNoteBNH extends DrumNote{
 	private ArrayList<Beam> beam;
 	private String notehead;
+	private String stem;
 	
 	public DrumNoteBNH() {
 		
@@ -17,6 +19,7 @@ public class DrumNoteBNH extends DrumNote{
 		super(duration, type, unpitched, inst, voice, stem);
 		this.beam = beam;
 		this.notehead = notehead;
+		this.stem = "up";
 	}
 	
 	@XmlElement
@@ -33,5 +36,13 @@ public class DrumNoteBNH extends DrumNote{
 	}  
 	public void setNotehead(String notehead) {  
 	    this.notehead = notehead;  
+	}
+	
+	@XmlElement
+	public String getStem() {
+		return this.stem;
+	}	
+	public void setStem(String stem) {
+		this.stem = stem;
 	}
 }
