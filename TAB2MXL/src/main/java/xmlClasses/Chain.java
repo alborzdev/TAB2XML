@@ -174,11 +174,23 @@ public class Chain {
 		}
 		AW.setTuning(TUNINGINFO);
 		Attributes ATT = AW.getAttributes();
+
+		//Creating current measure marker
+		int marker = 0;
 		
 		//String Note Parsing
 		TRv4.readMeasure();
 		while(TRv4.hasNext()) {
-			MeasureReaderV4 MRv4 = new MeasureReaderV4(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);
+			MeasureReaderV4 MRv4 = new MeasureReaderV4(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+			if (marker>0) {
+				if(TIMESIGS[marker]!=TIMESIGS[marker-1]) {
+					ATT = new AttributeWriter( FIFTHS, DIVISIONS, TIMESIGS[marker]/10,
+							TIMESIGS[marker]%10, null, LINE, VISIBLELINES).getAttributes();
+				}
+				else {
+					
+				}
+			}
 			PW.nextMeasure( ATT );//adds an empty measure
 			ATT=null;//removes all attributes after the first measrue
 			while(MRv4.hasNext()) {
@@ -202,6 +214,7 @@ public class Chain {
 			
 			//inside while( TRv4.hasNext() )
 			TRv4.readMeasure();
+			marker++;
 		}
 		//HARDCODED
 		PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy")); 
