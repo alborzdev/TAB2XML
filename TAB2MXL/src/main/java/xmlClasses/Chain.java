@@ -214,11 +214,9 @@ public class Chain {
 		int gap = 0;
 		
 		try {
-			TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES, 0);
+			TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), 6, 0);
 			System.out.println("USING TABV4 NOW !!!!!");
-
-			AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG / 10, TIMESIG % 10, "percussion", LINE,
-					STAFFLINES);
+			AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG / 10, TIMESIG % 10, "percussion", LINE, 6);
 			Attributes ATT = AW.getAttributes();
 
 			TRv4.readMeasure();
@@ -227,14 +225,16 @@ public class Chain {
 			TRv4.readMeasure();
 			while (TRv4.hasNext()) {
 				DPW.nextMeasure(ATT);
+				ATT = null;
 				DR.setMeasure(TRv4.getMeasure());
+				System.out.println("Set New measure");
 				while (DR.hasNextRow()) {
 
 					for (String[] s : DR.readNoteRow()) {
 						//Checks if there is a forward or a note
 						if (s[0].equals("forward")) {
 							//creates a forward with the DPW class
-//							DPW.nextForward(Integer.parseInt(s[1]));
+							DPW.nextForward(Integer.parseInt(s[1]));
 						} else {
 							
 							//Console Output for Testing
@@ -271,7 +271,7 @@ public class Chain {
 								}
 							} else {
 								// Adds regular note iwht the DPW class
-								System.out.println("Non chorded note");
+								System.out.println("Non beam note");
 								if (s[6].equals("o")) {
 									DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
 											Integer.parseInt(s[4]), s[3], "up");
@@ -282,11 +282,12 @@ public class Chain {
 							}
 						}
 					}
-					//backup for next row
+//					backup for next row
 					DPW.nextBackup(16);
 				}
 				TRv4.readMeasure();
 			}
+//			DPW.getDrumPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -303,7 +304,12 @@ public class Chain {
 		
 		//Drums
 		else {
+			try {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, DPW.getDrumPart(), DK);
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+				System.out.println("SCOREPARTWISEWRITER ERROR");
+			}
 		}
 		
 	}
@@ -312,16 +318,25 @@ public class Chain {
 	public void MARSHtoXML() throws Exception{  
 	    
 		//Marshalling
-		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class); 
-		
+		try {
+			
+		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class); 
 	    Marshaller marshallerObj = contextObj.createMarshaller();  
+	    System.out.println("test 1");
+	    //adapter used to control measure marshaling
+	    EntryAdapter adapter = new EntryAdapter(contextObj);
 	    
+	    marshallerObj.setAdapter(adapter);
 	    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    System.out.println("SPW: " + SPW.getScore_Partwise().getPart().getMeasure().get(0).getNote().get(0).getName());
 	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
-	    
 	    //Print final output to console
 	    System.out.println(SW.toString());
 	
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 

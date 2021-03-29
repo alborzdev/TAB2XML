@@ -85,6 +85,7 @@ public class TabReaderV4{
 		// measures start at 1, index 0 exists - but is reserved for tuning data
 		this.next_tabLine = 0;
 		this.curr_measure = 0;
+		this.scanLine = 0;
 		this.evaluateLine();
 	}
 
@@ -171,7 +172,6 @@ public class TabReaderV4{
 			}
 			
 			
-			
 			//dump what is read
 			stringArrayDump("unbroken-tabLine(uTab) "+this.next_tabLine, uTab);
 			
@@ -181,6 +181,7 @@ public class TabReaderV4{
 			for(int i=0; i<this.string_count; i++) {
 				bTab[i] = uTab[i].split(this.measureDelimiterRegex);
 			}
+	
 			//sanity checks
 			// same number of measures in each line
 			int measures = bTab[0].length;
@@ -189,6 +190,7 @@ public class TabReaderV4{
 					throw new LineErrorException("Bad content: number of measures in line " + (this.scanLine + i) + " is different from the line above", this.scanLine + i, uTab[i]);
 				}
 			}
+			
 			// same lengths for each simultameous measure
 			for(int i=0; i<bTab[0].length; i++) {
 				int measureLength = bTab[0][i].length();

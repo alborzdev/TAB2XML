@@ -1,6 +1,5 @@
 package xmlTestCases;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -8,6 +7,8 @@ import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.sun.xml.fastinfoset.util.DuplicateAttributeVerifier.Entry;
 
 import xmlClasses.Attributes;
 import xmlClasses.Chain;
@@ -118,12 +119,11 @@ public class XmlClassTests {
     	assertTrue(measure.getNumber() == 1);
     	assertNotNull(measure.getNumber());
     	
-    	Measure measureTwo = new Measure(1, new Attributes(), new ArrayList<Note>());
+    	//changed to work with new measure entries
+    	Measure measureTwo = new Measure(1, new Attributes());
     	assertNull(measureTwo.getAttributes().getClef());
     	assertNotNull(measureTwo.getNote());
-    	measureTwo.getNote().add(new Note());
-    	measureTwo.getNote().get(0).setDuration(1);
-    	assertEquals(1, measureTwo.getNote().get(0).getDuration());
+    	measureTwo.addNote(new Note(1, ""));
     	
     	assertNotEquals(measure, measure2);
     	
