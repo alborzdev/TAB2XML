@@ -171,7 +171,7 @@ public class DrumReader {
 				if (duration == 1) {
 					type = "sixteenth";
 				} else if (duration == 2) {
-					type = "eigth";
+					type = "eighth";
 				} else if (duration == 4) {
 					type = "quarter";
 				} else if (duration == 8) {

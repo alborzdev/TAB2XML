@@ -1,6 +1,7 @@
 package xmlClasses;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 public class DrumNoteNH extends DrumNote{
 	private String notehead;

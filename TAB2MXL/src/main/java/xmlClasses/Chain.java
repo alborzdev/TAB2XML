@@ -306,9 +306,6 @@ public class Chain {
 		else {
 			try {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, DPW.getDrumPart(), DK);
-			System.out.println("name " + DPW.getDrumPart().getMeasure().get(0).getNote().get(0).getName());
-			System.out.println("name " + DPW.getDrumPart().getMeasure().get(1).getNote().get(0).getName());
-
 			}catch(Exception e) {
 				System.out.println(e.getMessage());
 				System.out.println("SCOREPARTWISEWRITER ERROR");
@@ -321,24 +318,25 @@ public class Chain {
 	public void MARSHtoXML() throws Exception{  
 	    
 		//Marshalling
-		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class); 
 		try {
+			
+		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class); 
 	    Marshaller marshallerObj = contextObj.createMarshaller();  
 	    System.out.println("test 1");
-	    //adapter used to control measure marshalling
+	    //adapter used to control measure marshaling
 	    EntryAdapter adapter = new EntryAdapter(contextObj);
 	    
 	    marshallerObj.setAdapter(adapter);
 	    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	    System.out.println("SPW: " + SPW.getScore_Partwise().getPart().getMeasure().get(0).getNote().get(0).getName());
 	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
-		}catch(Exception e) {
-			System.out.println(e.getMessage() + e.getLocalizedMessage() + e.fillInStackTrace()+ e.getStackTrace());
-			System.out.println("MARSHALLING ERROR");
-		}
 	    //Print final output to console
 	    System.out.println(SW.toString());
 	
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 

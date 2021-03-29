@@ -11,6 +11,7 @@ public class ScorePartDrum extends Score_Part{
 
 	public ScorePartDrum() {}  
 	
+	/* Creates List of all score instruments that might be in a Drum tab */
 	public ScorePartDrum(String id, String partName) { 
 	    super(id, partName);
 	    this.si = new ArrayList<ScoreInstrument>();

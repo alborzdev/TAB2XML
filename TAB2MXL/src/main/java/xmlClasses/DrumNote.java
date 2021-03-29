@@ -2,10 +2,18 @@ package xmlClasses;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-@XmlSeeAlso({DrumNoteB.class, DrumNoteNH.class, DrumNoteBNH.class, DrumNoteChord.class})
-public class DrumNote extends Note {
+import javax.xml.bind.annotation.*;
+
+/* Basic Drum Note */
+@XmlType(name = "", propOrder = {
+    "unpitched",
+    "duration",
+    "instrument",
+    "voice", 
+    "type",
+    "stem"
+})
+public class DrumNote {
 	private int duration;
 	private String type;
 	private Unpitched unpitched;
@@ -13,19 +21,18 @@ public class DrumNote extends Note {
 	private int voice;
 	private String stem;
 	//private String notehead;
-	
 	public DrumNote() {
 		
 	}
 	
 	public DrumNote(int duration, String type, Unpitched unpitched, 
-					Instrument inst, int voice, String stem) {
-		
+					Instrument inst, int voice, String stem) {		
 		this.duration = duration;
 		this.type = type;
 		this.unpitched = unpitched;
 		this.inst = inst;
 		this.voice = voice;
+		this.stem = stem;
 	}
 	
 	public DrumNote(int duration, String type, int voice) {
@@ -33,21 +40,6 @@ public class DrumNote extends Note {
 		this.type = type;
 		this.voice = voice;
 }
-	@XmlElement
-	public int getDuration() {  
-	    return duration;  
-	}  
-	public void setDuration(int duration) {  
-	    this.duration = duration;  
-	}
-	//test
-	@XmlElement
-	public String getType() {  
-	    return type;  
-	}  
-	public void setType(String type) {  
-	    this.type = type;  
-	}
 	
 	@XmlElement
 	public Unpitched getUnpitched() {  
@@ -81,25 +73,23 @@ public class DrumNote extends Note {
 	public void setStem(String stem) {  
 	    this.stem = stem;  
 	}
-	/*
 	
 	@XmlElement
-	public String getNotehead() {  
-	    return notehead;  
-	}  
-	public void setNotehead(String notehead) {  
-	    this.notehead = notehead;  
+	public String getType() {
+		return this.type;
 	}
-	*/
+	public void setType(String type) {
+		this.type = type;
+	}
 	
-	/*
 	@XmlElement
-	public ArrayList<Beam> getBeam() {  
-	    return beam;  
+	public int getDuration() {  
+	    return duration;  
 	}  
-	public void setBeam(ArrayList<Beam> beam) {  
-	    this.beam = beam;  
+	public void setDuration(int duration) {  
+	    this.duration = duration;  
 	}
-	*/
+	
+	
 	
 }

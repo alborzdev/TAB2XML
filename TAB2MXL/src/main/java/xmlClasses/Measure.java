@@ -8,10 +8,10 @@ public class Measure {
 	private int number;
 	private Attributes att;
 	
+	//ArrayList of Entries which allow a measure to be marshalled with different objects in it
 	private ArrayList<Entry> entries;
 	private Barline barline;
 	private Backup backup;
-	//private ArrayList<DrumNote> drumNote;
 	
 	public Measure() {
 		
@@ -62,9 +62,35 @@ public class Measure {
 	
 	//PartWriter
 	public void addNote(Note n) {
+		//Entry  object to hold object and name of measure entry
 		Entry e = new Entry();
 		e.setName("note");
 		e.setValue(n);
+		this.entries.add(e);
+	}
+	
+	//PartWriter
+	public void addNote(DrumNote n) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("note");
+		e.setValue(n);
+		this.entries.add(e);
+	}
+	
+	public void addBackup(Backup b) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("backup");
+		e.setValue(b);
+		this.entries.add(e);
+	}
+	
+	public void addForward(Forward f) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("forward");
+		e.setValue(f);
 		this.entries.add(e);
 	}
 
@@ -76,18 +102,5 @@ public class Measure {
 		this.barline = barline;
 	}
 	
-	public void addBackup(Backup b) {
-		Entry e = new Entry();
-		e.setName("backup");
-		e.setValue(b);
-		this.entries.add(e);
-	}
-	
-	public void addForward(Forward f) {
-		Entry e = new Entry();
-		e.setName("forward");
-		e.setValue(f);
-		this.entries.add(e);
-	}
 
 }

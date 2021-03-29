@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 
+/* This class is used to hold the object and name of a measure entry, 
+ * allowing the measure to hold notes, backups, and forwards */
 @XmlJavaTypeAdapter(EntryAdapter.class)
 public class Entry {
 	private String name;

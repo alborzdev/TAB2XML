@@ -8,6 +8,8 @@ import javax.xml.transform.dom.DOMSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/* This allows a list of entry to be marshaled correctly. Since the measure 
+ * will have different objects in it this is needed for  correct marshaling.*/
 public class EntryAdapter extends XmlAdapter<Element, Entry> {
 
     private ClassLoader classLoader;
@@ -40,6 +42,7 @@ public class EntryAdapter extends XmlAdapter<Element, Entry> {
         return jaxbContext;
     }
 
+    /* Allows a Measure holding a list of entries to be marshaled correctly */
     @Override
     public Element marshal(Entry entry) throws Exception {
         if (null == entry) {
@@ -62,7 +65,8 @@ public class EntryAdapter extends XmlAdapter<Element, Entry> {
         element.setAttribute("type", type.getName());
         return element;
     }
-
+    
+    /* Not used */
     @Override
     public Entry  unmarshal(Element element) throws Exception {
         if (null == element) {

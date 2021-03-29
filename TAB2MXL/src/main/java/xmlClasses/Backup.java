@@ -2,6 +2,7 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlElement;
 
+/* Used to represent a backup in the time-line of notes */
 public class Backup {
 	private int duration;
 	
