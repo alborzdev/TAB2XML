@@ -334,13 +334,16 @@ public class Chain {
 		try {
 			
 		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class); 
-	    Marshaller marshallerObj = contextObj.createMarshaller();  
+	    Marshaller marshallerObj = contextObj.createMarshaller(); 
 	    System.out.println("test 1");
 	    //adapter used to control measure marshaling
 	    EntryAdapter adapter = new EntryAdapter(contextObj);
 	    
 	    marshallerObj.setAdapter(adapter);
 	    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    marshallerObj.setProperty("com.sun.xml.bind.xmlHeaders", "<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">");
+
+	    
 	    System.out.println("SPW: " + SPW.getScore_Partwise().getPart().getMeasure().get(0).getNote().get(0).getName());
 	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
 	    //Print final output to console
