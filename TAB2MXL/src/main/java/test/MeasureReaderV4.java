@@ -211,10 +211,15 @@ public class MeasureReaderV4 {
 	}
 	
 	private String getType() {
+		double rawlength = (double)(this.wNoteLength)/(this.noteLength);
 		double index = Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)));
-		double roundedlength = Math.pow(2, index);
+		double roundedlength = this.trueMeasureLength/Math.pow(2, index);
 		System.out.println("DEBUG: roundedlength: " + roundedlength);
 		String out = lengths[(int)index];
+		if(this.noteLength == roundedlength * 4 / 3 && index > 0) {
+			out = lengths[(int)index -1] + " triplet";
+		}
+		
 		return out;
 	}
 	
