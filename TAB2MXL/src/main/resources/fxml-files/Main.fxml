@@ -167,36 +167,26 @@
             </Label>
          </children>
       </AnchorPane>
-      <JFXTextArea fx:id="ERRORStextarea" editable="false" focusColor="WHITE" layoutX="1058.0" layoutY="63.0" prefHeight="175.0" prefWidth="176.0" promptText="Errors and warnings" style="-fx-background-color: white;">
-         <font>
-            <Font name="Quicksand Medium" size="12.0" />
-         </font>
-      </JFXTextArea>
-      <JFXButton fx:id="savechanges" layoutX="1058.0" layoutY="247.0" onAction="#saveChanges" text="Save current changes" textFill="#bbe1fa">
-         <font>
-            <Font name="Quicksand Regular" size="12.0" />
-         </font>
-      </JFXButton>
-      <VBox layoutX="1062.0" layoutY="277.0" prefHeight="181.0" prefWidth="176.0">
+      <VBox alignment="TOP_CENTER" layoutX="1057.0" layoutY="65.0" prefHeight="392.0" prefWidth="188.0">
          <children>
-            <JFXTextArea fx:id="measuresTEXTAREA" editable="false" prefHeight="75.0" prefWidth="176.0" style="-fx-text-fill: white;">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
+            <JFXTextArea fx:id="ERRORStextarea" editable="false" focusColor="WHITE" prefHeight="175.0" prefWidth="176.0" promptText="Errors and warnings" style="-fx-background-color: white;">
                <font>
-                  <Font name="Courier New" size="12.0" />
+                  <Font name="Quicksand Medium" size="12.0" />
                </font>
             </JFXTextArea>
-            <JFXComboBox fx:id="measures" onAction="#printSelection" prefHeight="25.0" prefWidth="176.0" promptText="Select specific measure" style="-fx-background-color: white;">
+            <JFXButton fx:id="savechanges" onAction="#saveChanges" text="Save current changes" textFill="#bbe1fa">
+               <font>
+                  <Font name="Quicksand Regular" size="12.0" />
+               </font>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
-            </JFXComboBox>
-            <JFXComboBox fx:id="MeasureTimeSig" onAction="#changeMeasure" prefHeight="25.0" prefWidth="176.0" promptText="Change time signature" style="-fx-background-color: light grey; -fx-prompt-text-fill: white;">
+            </JFXButton>
+            <JFXButton fx:id="advanced" onAction="#advancedOptions" prefHeight="25.0" prefWidth="116.0" text="Advanced options" textFill="#bcab79">
                <VBox.margin>
-                  <Insets top="25.0" />
+                  <Insets top="10.0" />
                </VBox.margin>
-            </JFXComboBox>
+            </JFXButton>
          </children>
       </VBox>
    </children>

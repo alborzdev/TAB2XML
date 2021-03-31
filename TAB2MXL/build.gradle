@@ -69,3 +69,16 @@ run {
 
 
 mainClassName = 'application.Main'
+
+
+task debug {
+    group = "application"
+    description = "Runs this project in debug mode on port 2311"
+	doFirst {
+		application {
+    		applicationDefaultJvmArgs = ['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=2311']
+		}
+	}
+}
+
+debug.finalizedBy run
