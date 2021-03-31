@@ -20,7 +20,7 @@ public class MeasureReaderV4 {
 	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
 	private int[] octaves = {4,3,3,3,2,2};
-	private String[] lengths = {"whole","half","quarter","eighth","sixteenth", "thirty-second", "sixty-fourth", "one-hundred-twenty-eighth"};
+	private String[] lengths = {"whole","half","quarter","eighth","16th", "32nd", "64th", "128th"};
 	private String numbersOnlyRegex="([0-9])*";
 	private Pattern nOPat = Pattern.compile(numbersOnlyRegex);
 	boolean hasNextColumn; //has next column?
@@ -215,9 +215,12 @@ public class MeasureReaderV4 {
 		double index = Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)));
 		double roundedlength = this.trueMeasureLength/Math.pow(2, index);
 		System.out.println("DEBUG: roundedlength: " + roundedlength);
+		
+		//original rounded down
 		String out = lengths[(int)index];
 		if(this.noteLength == roundedlength * 4 / 3 && index > 0) {
-			out = lengths[(int)index -1] + " triplet";
+			//triplet flag
+			out = lengths[(int)index -1];
 		}
 		
 		return out;
