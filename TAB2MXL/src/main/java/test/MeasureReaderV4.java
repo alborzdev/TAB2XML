@@ -228,22 +228,13 @@ public class MeasureReaderV4 {
 		for(int i=0; i<string_count; i++) {
 			Matcher noteMat = nOPat.matcher(column[i]);
 			try {
-				if(column[i].length() >=2 ) { //length 1 or 2 - number or fail
+				if(column[i].length() <=2 ) { //length 1 or 2 - number or fail
 					out[i] = Integer.parseInt(column[i]);					
-//				}else if(column[i].length() == 2) { //length 2, 2 digit number or grace note, no other types supported yet
-//					if(noteMat.matches()) { //only numbers - 2 digit fret
-//						out[i] = Integer.parseInt(column[i]);
-//						
-//					}else if(nOPat.matcher(column[i].charAt(1) + "").matches()){ //last character is number what?
-//						
-//					}else {
-//						throw new Exception(); //fail
-//					}
-				}else{
-					if(column[i].charAt(0) == '(' || column[i].charAt(0) == '[') { //harmonic - whatever that means
-						
-					}
+				}else if(column[i].length() == 3){
 					
+					
+				}else {
+					// TODO
 				}
 			}catch(Exception e) {
 				out[i] = -1;
