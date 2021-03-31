@@ -87,11 +87,11 @@ public class MeasureReaderV4 {
 				//
 				//
 				//
-				System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
+				//System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
 				
 				String[] noteProperties = {
 						""+this.noteLength,																	//raw duration
-						lengths[(int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)))],				//type
+						this.getType(),				//type
 						""+stepAndOctave[0].charAt(0),																	//step
 						stepAndOctave[1],																				//octave
 						alter,																				//alter
@@ -208,6 +208,14 @@ public class MeasureReaderV4 {
 			return out;
 		}
 		
+	}
+	
+	private String getType() {
+		double index = Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)));
+		double roundedlength = Math.pow(2, index);
+		System.out.println("DEBUG: roundedlength: " + roundedlength);
+		String out = lengths[(int)index];
+		return out;
 	}
 	
 	private int[] getFrets(String[] column) {
