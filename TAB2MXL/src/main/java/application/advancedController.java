@@ -50,7 +50,12 @@ public class advancedController implements Initializable {
 
 		MeasureTimeSig.getItems().add("3/4");
 		MeasureTimeSig.getItems().add("4/4");
-		
+		try {
+			updateTimeSigsArray();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateTimeSigsArray() throws Exception {
@@ -58,7 +63,6 @@ public class advancedController implements Initializable {
 		File f = new File("TempD.txt");
 		tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 		System.out.println("TEXT AREA 148");
-		measuresTEXTAREA.appendText(tab);
 		System.out.println("measuresTEXTAREA "+tab);
 				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
 				System.out.println("size = "+TAB.size());

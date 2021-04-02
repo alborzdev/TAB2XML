@@ -1,55 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #343434;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<AnchorPane prefHeight="339.0" prefWidth="599.0" style="-fx-background-color: #343434;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a8c5d8" height="32.0" stroke="#f26627" strokeType="INSIDE" strokeWidth="0.0" width="1451.0" />
-      <MenuBar prefHeight="32.0" prefWidth="1451.0" style="-fx-background-color: #a8c5d8;">
-         <menus>
-            <Menu fx:id="menu" mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem onAction="#doExit" text="Exit">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem onAction="#doOpen" text="Upload file">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#LOADRECENT" text="Open recent..." />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem fx:id="UserManual" mnemonicParsing="false" onAction="#UserManual" text="User Manual" />
-               </items>
-            </Menu>
-         </menus>
-         <padding>
-            <Insets top="2.0" />
-         </padding>
-      </MenuBar>
-      <HBox layoutX="249.0" layoutY="109.0" prefHeight="470.0" prefWidth="1451.3333333333333" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="249.0" layoutY="109.0" prefHeight="500.0" prefWidth="599.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="420.0" prefWidth="219.0">
+            <VBox alignment="CENTER" prefHeight="501.0" prefWidth="289.0">
                <children>
-                  <JFXTextArea fx:id="measuresTEXTAREA" editable="false" prefHeight="75.0" prefWidth="176.0" style="-fx-text-fill: #BCAB79; -fx-background-color: #315659;">
+                  <JFXTextArea fx:id="measuresTEXTAREA" editable="false" prefHeight="198.0" prefWidth="289.0" style="-fx-text-fill: #BCAB79; -fx-background-color: #315659;">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -57,30 +25,27 @@
                         <Font name="Courier New" size="12.0" />
                      </font>
                   </JFXTextArea>
-                  <JFXComboBox fx:id="measures" onAction="#printSelection" prefHeight="25.0" prefWidth="218.0" promptText="Select specific measure" style="-fx-background-color: #BCAB79;">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </JFXComboBox>
-                  <JFXComboBox fx:id="MeasureTimeSig" focusColor="WHITE" onAction="#changeMeasure" prefHeight="25.0" prefWidth="287.0" promptText="Change time signature" style="-fx-background-color: light grey; -fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </JFXComboBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
                </children>
                <HBox.margin>
-                  <Insets bottom="10.0" left="15.0" right="10.0" top="40.0" />
+                  <Insets bottom="10.0" left="15.0" right="10.0" />
                </HBox.margin>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="420.0" prefWidth="219.0">
+            <VBox alignment="CENTER" prefHeight="480.0" prefWidth="279.0">
                <children>
-                  <JFXToggleButton fx:id="toggle" onAction="#disableSingle" text="Select multiple measures" textFill="#bcab79" toggleColor="#136293" toggleLineColor="#62a9d6">
+                  <JFXComboBox fx:id="measures" onAction="#printSelection" prefHeight="25.0" prefWidth="332.0" promptText="Select specific measure" style="-fx-background-color: #BCAB79;">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
-                  </JFXToggleButton>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  </JFXComboBox>
+                  <Label text="or select multiple measures" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets bottom="2.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Italic" size="9.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="38.0" prefWidth="272.0">
                      <children>
                         <JFXTextField fx:id="from" focusColor="WHITE" promptText="From measure" style="-fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
                            <HBox.margin>
@@ -94,9 +59,22 @@
                         </JFXTextField>
                      </children>
                   </HBox>
+                  <JFXComboBox fx:id="MeasureTimeSig" focusColor="WHITE" onAction="#changeMeasure" prefHeight="25.0" prefWidth="287.0" promptText="Change time signature" style="-fx-background-color: white; -fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <JFXButton fx:id="close" buttonType="RAISED" onAction="#Close" text="Done" textFill="WHITE">
+                     <font>
+                        <Font name="Quicksand Regular" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </JFXButton>
                </children>
                <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="40.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </VBox>
          </children>

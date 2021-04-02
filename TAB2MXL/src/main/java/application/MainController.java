@@ -31,6 +31,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -129,7 +130,7 @@ public class MainController implements Initializable {
 			else textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
 
 		}
-		updateTimeSigsArray();
+		//updateTimeSigsArray();
 
 	}
 	/**
@@ -140,8 +141,7 @@ public class MainController implements Initializable {
 		//NEW TIME SIGNATURE ARRAYS
 		File f = new File("TempD.txt");
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
-		System.out.println("TEXT AREA 148");
-		measuresTEXTAREA.appendText(tab);
+
 		System.out.println("measuresTEXTAREA "+tab);
 				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
 				System.out.println("size = "+TAB.size());
@@ -161,13 +161,34 @@ public class MainController implements Initializable {
 	}
 	@FXML
 	public void changeMeasure(ActionEvent event) {
-		int m = measures.getSelectionModel().getSelectedIndex();
+		
 		String s = MeasureTimeSig.getSelectionModel().getSelectedItem();
 		System.out.println(s);
-		if(s.compareTo("3/4")==0)
-			timesigs[m]=34;
-		else timesigs[m]=44;
-		System.out.println("m="+m+" changing to "+timesigs[m]);
+		if(!to.getText().isEmpty() && !from.getText().isEmpty()) {
+			System.out.println("here 167");
+			Integer TO = Integer.parseInt(to.getText()), FROM = Integer.parseInt(from.getText());
+			if(TO>timesigs.length || FROM>timesigs.length || TO<=0 || FROM<=0 || TO>FROM) {
+				Alert conf = new Alert(AlertType.ERROR,  
+						"Could not change time signatures"); 
+				conf.setContentText("Please enter a valid range.");
+				conf.showAndWait(); 
+			}else {
+			for(int i = FROM-1; i<TO;i++) {
+				if(s.compareTo("3/4")==0)
+					timesigs[i]=34;
+				else timesigs[i]=44;
+				System.out.println("m="+i+" changing to "+timesigs[i]);
+			}
+			}
+		}
+		else if(measures.getSelectionModel().getSelectedItem()!=null){
+			int m = measures.getSelectionModel().getSelectedIndex();
+			if(s.compareTo("3/4")==0)
+				timesigs[m]=34;
+			else timesigs[m]=44;
+
+			System.out.println("m="+m+" changing to "+timesigs[m]);
+		}
 	}
 	
 	/**
@@ -185,6 +206,13 @@ public class MainController implements Initializable {
 		loc = saver.showSaveDialog(stage);	//get file path specified by user
 		FileWriter write;
 		
+		
+//		if(to.getText()!=null && from.getText()!=null) {
+//			Integer TO = Integer.parseInt(to.getText()), FROM = Integer.parseInt(from.getText());
+//			for(int i = TO-1; i<FROM;i++) {
+//				timesigs[i]=MeasureTimeSig.getSelectionModel().getSelectedItem();
+//			}
+//		}
 
 		System.out.println("Measures");
 		for(int i=1;i<size;i++) {
@@ -329,7 +357,12 @@ public class MainController implements Initializable {
 
 		MeasureTimeSig.getItems().add("3/4");
 		MeasureTimeSig.getItems().add("4/4");
-
+		try {
+			updateTimeSigsArray();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void init(Stage primaryStage) {
@@ -525,7 +558,6 @@ public class MainController implements Initializable {
 		else {
 		FileWriter fw;
 		try {
-			//pw.println(Fname+","+Lname+","+email+","+Password); 
 			{fw = new FileWriter("database.txt",false);
 
 			BufferedWriter bw = new BufferedWriter(fw); 
@@ -540,9 +572,7 @@ public class MainController implements Initializable {
 			BufferedWriter bw = new BufferedWriter(fw); 
 			PrintWriter pw = new PrintWriter(bw); 
 			pw.println(getKey()+","+getTimeSig()+","+getConversionType()+","+getType()+","+getComposer()+","+getTitle()+","+getLyricist());
-			System.out.println("411 "+getKey());
-			System.out.println("411 "+getTimeSig());
-			System.out.println("411 "+ getConversionType());
+
 			pw.flush(); 
 			pw.close();
 
@@ -611,7 +641,6 @@ public class MainController implements Initializable {
         catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("611");
         textarea.clear();
         loader("tempD.txt","tempA.txt");
         System.out.println("613");
@@ -619,25 +648,17 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void goBack(ActionEvent event) throws IOException {
-		Parent Scene2root = FXMLLoader.load(getClass().getResource("/fxml-files/Main.fxml"));
-		Scene AddInfoScene = new Scene(Scene2root);
-
-		//this gets scene information
-		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-		window.setScene(AddInfoScene);
-		window.show();
-	}
-	ToggleGroup group = new ToggleGroup();
-	
-	@FXML
 	public void disableSingle(ActionEvent event) {
-		toggle.setToggleGroup(group);
-		Toggle temp = group.getSelectedToggle();
-		if(!temp.equals(null))
-			measures.setDisable(true);
-		else measures.setDisable(false);
-		System.out.println("disabling toggle function");
-		System.out.println(textarea.getText());
+		boolean b = false;
+		if(measures.isDisabled()==b) {
+			b = !b;
+			measures.setDisable(b);
+		}
+	}
+	@FXML private Button close;
+	@FXML
+	public void Close(ActionEvent event) {
+	    Stage stage = (Stage) close.getScene().getWindow();
+	    stage.close();
 	}
 }
