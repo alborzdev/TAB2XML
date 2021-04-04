@@ -3,7 +3,12 @@ package xmlClasses;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(name = "", propOrder = {
+	    "notehead",
+	    "beam"
+	})
 public class DrumNoteBNH extends DrumNote{
 	private ArrayList<Beam> beam;
 	private String notehead;
@@ -17,6 +22,7 @@ public class DrumNoteBNH extends DrumNote{
 		super(duration, type, unpitched, inst, voice, stem);
 		this.beam = beam;
 		this.notehead = notehead;
+		this.setStem("up"); 
 	}
 	
 	@XmlElement

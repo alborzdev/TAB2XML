@@ -2,41 +2,38 @@ package xmlClasses;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.*;
 
 public class Measure {
 	private int number;
 	private Attributes att;
 	
-	private ArrayList<Note> note;
+	//ArrayList of Entries which allow a measure to be marshalled with different objects in it
+	private ArrayList<Entry> entries;
 	private Barline barline;
 	private Backup backup;
-	//private ArrayList<DrumNote> drumNote;
 	
 	public Measure() {
 		
 	}  
 	
-	public Measure(int number, Attributes att, ArrayList<Note> note) {  
+	public Measure(int number, Attributes att, ArrayList<Entry> entries) {  
 	    this.number = number;
 	    this.att = att;
-	    this.note = note;  
+	    this.entries = entries;  
 	} 
-	public Measure(int number, ArrayList<Note> note) {
+	public Measure(int number, ArrayList<Entry> entries) {
 	    this.number = number;
-	    this.note = note;  
+	    this.entries = entries;  
 	}
 	public Measure(int number, Attributes att) {
 	    this.att = att;
 	    this.number = number;
-	    this.note = new ArrayList<Note>();
+	    this.entries = new ArrayList<Entry>();
 	} 
 	public Measure(int number) {
 	    this.number = number;
-	    this.note = new ArrayList<Note>();
+	    this.entries = new ArrayList<Entry>();
 	}
 	
 	@XmlAttribute
@@ -55,19 +52,47 @@ public class Measure {
 	    this.att = att;  
 	}
 	
-	@XmlElement
-	public ArrayList<Note> getNote() {  
-	    return note;  
+	@XmlAnyElement
+	public ArrayList<Entry> getNote() {  
+	    return entries;  
 	}  
-	public void setNote(ArrayList<Note> note) {  
-	    this.note = note;  
+	public void setNote(ArrayList<Entry> entries) {  
+	    this.entries = entries;  
 	}
 	
 	//PartWriter
 	public void addNote(Note n) {
-		note.add(n);
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("note");
+		e.setValue(n);
+		this.entries.add(e);
 	}
 	
+	//PartWriter
+	public void addNote(DrumNote n) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("note");
+		e.setValue(n);
+		this.entries.add(e);
+	}
+	
+	public void addBackup(Backup b) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("backup");
+		e.setValue(b);
+		this.entries.add(e);
+	}
+	
+	public void addForward(Forward f) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("forward");
+		e.setValue(f);
+		this.entries.add(e);
+	}
 
 	@XmlElement
 	public Barline getBarline() {
@@ -77,19 +102,5 @@ public class Measure {
 		this.barline = barline;
 	}
 	
-	public void addBackup(Note b) {
-		note.add(b);
-	}
-	//DrumPartWriter
-//		public void addDrumNote(DrumNote n) {
-//			drumNote.add(n);
-//		}
 
-	public void addNote(Backup b) {
-		note.add(b);
-	}
-	
-	public void addNote(Forward f) {
-		note.add(f);
-	}
 }

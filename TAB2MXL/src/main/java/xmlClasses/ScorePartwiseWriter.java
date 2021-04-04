@@ -40,12 +40,8 @@ public class ScorePartwiseWriter {
 		work = new Work(title);         
 		creators.add(new Creator("composer", composer));         
 		creators.add(new Creator("lyricist", lyricist));          
-		id = new Identification (creators);       
-		for(String s : drumkit) {             
-			si.add(new ScoreInstrument("blah", "blah2"));  
-			}   
-		spd = new ScorePartDrum("P1", "Music", si);         
-		      
+		id = new Identification (creators);         
+		spd = new ScorePartDrum("P1", "Music");         	      
 		pl = new Part_List(spd);         
 		spw = new Score_Partwise(3.1, pl, part, id, work);     
 	}
@@ -54,6 +50,5 @@ public class ScorePartwiseWriter {
 	public Score_Partwise getScore_Partwise() {
 		return spw;
 	}
-	
 	
 }

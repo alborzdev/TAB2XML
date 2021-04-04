@@ -161,7 +161,6 @@ public class MainController implements Initializable {
 	}
 	@FXML
 	public void changeMeasure(ActionEvent event) {
-		
 		String s = MeasureTimeSig.getSelectionModel().getSelectedItem();
 		System.out.println(s);
 		if(!to.getText().isEmpty() && !from.getText().isEmpty()) {
@@ -218,7 +217,7 @@ public class MainController implements Initializable {
 		for(int i=1;i<size;i++) {
 			System.out.println(timesigs[i]);
 		}
-		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
+		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType());     	
 
 		//CHAIN CALLS w/ ERROR HANDLING
 		boolean errorEvent = false;
