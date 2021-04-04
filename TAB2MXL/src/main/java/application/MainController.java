@@ -167,7 +167,7 @@ public class MainController implements Initializable {
 		if(!to.getText().isEmpty() && !from.getText().isEmpty()) {
 			System.out.println("here 167");
 			Integer TO = Integer.parseInt(to.getText()), FROM = Integer.parseInt(from.getText());
-			if(TO>timesigs.length || FROM>timesigs.length || TO<=0 || FROM<=0 || TO>FROM) {
+			if(TO>timesigs.length || FROM>timesigs.length || TO<=0 || FROM<=0 || TO<FROM) {
 				Alert conf = new Alert(AlertType.ERROR,  
 						"Could not change time signatures"); 
 				conf.setContentText("Please enter a valid range.");
