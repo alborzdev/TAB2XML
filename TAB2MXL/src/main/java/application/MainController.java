@@ -143,7 +143,7 @@ public class MainController implements Initializable {
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
 		System.out.println("measuresTEXTAREA "+tab);
-				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
+				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 4).listMeasures();
 				System.out.println("size = "+TAB.size());
 				for(int i=0;i<TAB.size();i++) {
 					String [] t=TAB.get(i);
@@ -346,8 +346,8 @@ public class MainController implements Initializable {
 		//		TimeSig.getItems().add("12/8");
 
 		InstrumentType.getItems().add("Guitar");
-		InstrumentType.getItems().add("Drums - not completely implemented");
-		InstrumentType.getItems().add("Bass - not completely implemented");
+		InstrumentType.getItems().add("Drums");
+		InstrumentType.getItems().add("Bass");
 		InstrumentType.getSelectionModel().select(0);
 
 		conversionType.getItems().add("Tab");
