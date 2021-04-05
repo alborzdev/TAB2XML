@@ -205,7 +205,7 @@ public class MainController implements Initializable {
 		loc = saver.showSaveDialog(stage);	//get file path specified by user
 		FileWriter write;
 		
-		
+		loadArray();
 //		if(to.getText()!=null && from.getText()!=null) {
 //			Integer TO = Integer.parseInt(to.getText()), FROM = Integer.parseInt(from.getText());
 //			for(int i = TO-1; i<FROM;i++) {
@@ -646,18 +646,39 @@ public class MainController implements Initializable {
         updateTimeSigsArray();
 	}
 	
-	@FXML
-	public void disableSingle(ActionEvent event) {
-		boolean b = false;
-		if(measures.isDisabled()==b) {
-			b = !b;
-			measures.setDisable(b);
-		}
-	}
+
 	@FXML private Button close;
 	@FXML
-	public void Close(ActionEvent event) {
+	public void Close(ActionEvent event) throws IOException {
 	    Stage stage = (Stage) close.getScene().getWindow();
 	    stage.close();
+	    saveArray();
 	}
+	private void saveArray() throws IOException {
+		FileWriter fw;
+			fw = new FileWriter("timesigs.txt",false);
+
+			BufferedWriter bw = new BufferedWriter(fw); 
+			PrintWriter pw = new PrintWriter(bw); 
+			for(int i =0;i<size;i++)
+				pw.println(timesigs[i]);
+			pw.flush(); 
+			pw.close();
+	}
+	
+	private void loadArray() throws IOException {
+		BufferedReader br;
+		
+			br = new BufferedReader(new FileReader("timesigs.txt"));
+			String line;
+			int i=0;
+				while ((line = br.readLine()) != null) {
+					System.out.println(line);
+					if(line.equals("34"))
+					timesigs[i]=34; 
+					else timesigs[i]=44;
+					i++;
+				}
+	}
+	
 }
