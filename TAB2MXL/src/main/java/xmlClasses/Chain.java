@@ -146,6 +146,8 @@ public class Chain {
 		if (INSTRUMENT.equals("Guitar")) { TABtoPARTstringed(6); }
 		else if(INSTRUMENT.equals("Bass")) { TABtoPARTstringed(4); }
 		
+		//YEP
+		
 		//Drum -> Step 1c
 		else { TABtoPARTdrum(); }
 	}
