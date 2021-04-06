@@ -5,9 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.matcher.base.WindowMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -107,17 +109,7 @@ class MainControllerTest extends ApplicationTest{
     	assertEquals("Lian Attily", comp.getText());
     }
    
-    @Test
-    public void Exit() {
-    	press(KeyCode.CONTROL).press(KeyCode.X).release(KeyCode.CONTROL).release(KeyCode.X);
-    	
-    }
-    
-    @Test
-    public void ReqAtt() throws InterruptedException {
-    	clickOn("#UserManual");
-    	clickOn("exit");
-    }
+
     
     @Test
     public void export() throws InterruptedException {
@@ -161,7 +153,23 @@ class MainControllerTest extends ApplicationTest{
     }
     
     @Test
-    public void testSAVECHANGESBUTTON() {
+    public void testEmptySaveChanges() {
+    	Button sc = find("#savechanges");
+    	clickOn(sc);
+    	
+    	FxAssert.verifyThat(sc, LabeledMatchers.hasText("Save current changes"));
+    }
+    
+    @Test
+    public void testSaveChanges() {
+    	clickOn(textarea);
+    	textarea.appendText("e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "");
     	Button sc = find("#savechanges");
     	clickOn(sc);
     	
@@ -175,7 +183,55 @@ class MainControllerTest extends ApplicationTest{
     }
     
     @Test
-    public void emptySaveChanges() {
+    public void advancedSettings() {
+    	clickOn("#advanced");
+    	FxAssert.verifyThat(window("Advanced Options"), WindowMatchers.isShowing());
+    }
+    
+    @Test
+    public void AdvancedWindowStuff() {
+    	clickOn(textarea);
+    	textarea.appendText("e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "");
+    	clickOn("#advanced");
+    	TextField f = find("#from");
+    	clickOn("#from");
+    	f.setText("1");
+    	TextField t = find("#to");
+    	clickOn("#to");
+    	t.setText("2");
+    	clickOn("#MeasureTimeSig").clickOn("3/4");
+    	clickOn("#close");
+    	//FxAssert.verifyThat("#", null);
+    }
+    
+    @Test
+    public void testPrintSelection() {
+    	clickOn(textarea);
+    	textarea.appendText("e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "");
+    	clickOn("#advanced");
+    	clickOn("#measures").clickOn("1");
+    	clickOn("#MeasureTimeSig").clickOn("3/4");
+    }
+    
+    @Test
+    public void testMenuItems() {
+    	clickOn("#menu").clickOn("#LOADRECENT");
+    	clickOn("#helpMENU").clickOn("#UserManual");
+    	clickOn("#menu").clickOn("#uploadFile");
+    	
+    	//clickOn("#menu").clickOn("#exit");
     	
     }
 
