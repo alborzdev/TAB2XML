@@ -40,6 +40,7 @@ class MainControllerTest extends ApplicationTest{
 	Button export;
 	ComboBox<String> combobox;
 	JFXTextArea textarea;
+	TextField to, from;
 	 /* Just a shortcut to retrieve widgets in the GUI. */
     public <T extends Node> T find(final String query) {
         /** TestFX provides many operations to retrieve elements from the loaded GUI. */
@@ -198,15 +199,7 @@ class MainControllerTest extends ApplicationTest{
     			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
     			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
     			+ "");
-    	clickOn("#advanced");
-    	TextField f = find("#from");
-    	clickOn("#from");
-    	f.setText("1");
-    	TextField t = find("#to");
-    	clickOn("#to");
-    	t.setText("2");
-    	clickOn("#MeasureTimeSig").clickOn("3/4");
-    	clickOn("#close");
+    	clickOn("#advanced").clickOn("#from").type(KeyCode.DIGIT1).clickOn("#to").type(KeyCode.DIGIT2).clickOn("#MeasureTimeSig").clickOn("3/4").clickOn("#close");
     	//FxAssert.verifyThat("#", null);
     }
     
@@ -223,6 +216,7 @@ class MainControllerTest extends ApplicationTest{
     	clickOn("#advanced");
     	clickOn("#measures").clickOn("1");
     	clickOn("#MeasureTimeSig").clickOn("3/4");
+    	
     }
     
     @Test
@@ -231,8 +225,11 @@ class MainControllerTest extends ApplicationTest{
     	clickOn("#helpMENU").clickOn("#UserManual");
     	clickOn("#menu").clickOn("#uploadFile");
     	
-    	//clickOn("#menu").clickOn("#exit");
-    	
+    }
+    
+    @Test
+    public void testExitButton() {
+    	clickOn("#menu").clickOn("#exit");
     }
 
 }
