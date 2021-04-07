@@ -204,6 +204,15 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
+									0,						//hNum
+									null,					//hType
+									null,					//hCharacter
+									0,						//sNum
+									null,					//sPlacement
+									null,					//sType
+									0,						//pNum
+									null,					//pType
+									null,					//pCharacter
 									VOICE,					//voice
 									ChordNote,				//chord
 									GRACE					//grace
