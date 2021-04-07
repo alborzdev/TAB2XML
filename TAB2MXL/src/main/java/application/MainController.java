@@ -128,7 +128,7 @@ public class MainController implements Initializable {
 				});;
 			}
 			else textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
-
+			ERRORStextarea.clear();
 		}
 		//updateTimeSigsArray();
 
@@ -270,12 +270,16 @@ public class MainController implements Initializable {
 	public void updateTextArea(KeyEvent event) throws Exception {
 		boolean trigger = false;
 		System.out.println("KEY EVENT TRIGGERED");
+		boolean flag= false;
+
+			//loadArray();
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
 		try{chain.TABtoPART();
 
 		} 
 		catch(LineErrorException e) {
-			trigger = true;
+
+			flag = true;
 			System.out.println("LINE ERROR EXCEPTION");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
@@ -287,14 +291,18 @@ public class MainController implements Initializable {
 
 		try{chain.INFOtoPARTWISE();} 
 		catch(Exception e) {
-			trigger = true;
+			flag = true;
 			System.out.println("Exception");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
 			//errorEvent=ErrorHandling.errorEventHighlight("Conversion was unsuccessful :(",	e, textarea, "|"+e.getString()+"|");
 		}
-		if(!trigger) ERRORStextarea.clear();
+		System.out.println("FLAG  "+flag);
+		if(!flag) {
+			ERRORStextarea.clear();
+		}
+
 	}
 
 	@FXML
@@ -623,7 +631,7 @@ public class MainController implements Initializable {
 	public void advancedOptions(ActionEvent event) throws Exception {
 		//save text area
 		save();
-		
+
 		Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml-files/advanced.fxml"));
