@@ -205,13 +205,6 @@ public class MainController implements Initializable {
 		loc = saver.showSaveDialog(stage);	//get file path specified by user
 		FileWriter write;
 		
-		
-//		if(to.getText()!=null && from.getText()!=null) {
-//			Integer TO = Integer.parseInt(to.getText()), FROM = Integer.parseInt(from.getText());
-//			for(int i = TO-1; i<FROM;i++) {
-//				timesigs[i]=MeasureTimeSig.getSelectionModel().getSelectedItem();
-//			}
-//		}
 
 		System.out.println("Measures");
 		for(int i=1;i<size;i++) {
@@ -275,12 +268,14 @@ public class MainController implements Initializable {
 
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
+		boolean trigger = false;
 		System.out.println("KEY EVENT TRIGGERED");
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
 		try{chain.TABtoPART();
 
 		} 
 		catch(LineErrorException e) {
+			trigger = true;
 			System.out.println("LINE ERROR EXCEPTION");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
@@ -292,12 +287,14 @@ public class MainController implements Initializable {
 
 		try{chain.INFOtoPARTWISE();} 
 		catch(Exception e) {
+			trigger = true;
 			System.out.println("Exception");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
 			//errorEvent=ErrorHandling.errorEventHighlight("Conversion was unsuccessful :(",	e, textarea, "|"+e.getString()+"|");
 		}
+		if(!trigger) ERRORStextarea.clear();
 	}
 
 	@FXML
@@ -659,5 +656,9 @@ public class MainController implements Initializable {
 	public void Close(ActionEvent event) {
 	    Stage stage = (Stage) close.getScene().getWindow();
 	    stage.close();
+	}
+	
+	public String getTextArea() {
+		return textarea.getText();
 	}
 }
