@@ -128,7 +128,7 @@ public class MainController implements Initializable {
 				});;
 			}
 			else textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
-
+			ERRORStextarea.clear();
 		}
 		//updateTimeSigsArray();
 
@@ -269,11 +269,15 @@ public class MainController implements Initializable {
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
 		System.out.println("KEY EVENT TRIGGERED");
+		boolean flag= false;
+
+			//loadArray();
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
 		try{chain.TABtoPART();
 
 		} 
 		catch(LineErrorException e) {
+			flag = true;
 			System.out.println("LINE ERROR EXCEPTION");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
@@ -285,10 +289,15 @@ public class MainController implements Initializable {
 
 		try{chain.INFOtoPARTWISE();} 
 		catch(Exception e) {
+			flag = true;
 			System.out.println("Exception");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
+		}
+		System.out.println("FLAG  "+flag);
+		if(!flag) {
+			ERRORStextarea.clear();
 		}
 	}
 
@@ -627,7 +636,7 @@ public class MainController implements Initializable {
 	}
 	@FXML
 	public void advancedOptions(ActionEvent event) throws Exception {
-		
+		save();
 		Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml-files/advanced.fxml"));

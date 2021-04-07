@@ -1,1 +1,1 @@
-C Major,44,TAB,Guitar,ABC,Lian,LOL
+C Major,44,TAB,Guitar,,,
