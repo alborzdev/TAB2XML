@@ -73,7 +73,7 @@ public class PartWriter {
 		else if(hType == null && hCharacter == null) {
 			tech = new Technical(string, fret, new PullOff(pNum, pType, pCharacter));
 		}
-		else {
+		else if(hType == null && hCharacter == null && pType == null && pCharacter == null) {
 			tech = new Technical(string, fret);
 		}
 		
