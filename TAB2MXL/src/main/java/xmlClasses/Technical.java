@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder={"string","fret"})
+@XmlType(propOrder={"string","fret", "hammerOn", "pullOff"})
 public class Technical {
 	private int string;
 	private int fret;
