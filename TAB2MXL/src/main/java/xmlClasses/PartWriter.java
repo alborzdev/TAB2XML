@@ -14,6 +14,9 @@ public class PartWriter {
 	private Part part;
 	private Measure currentMeasure;
 	private static int parts_created=0;
+	private Technical tech;
+	private Slur slur;
+	private Notations notations;
 	
 	//Lab change
 	//Constructor
@@ -60,8 +63,28 @@ public class PartWriter {
 //		currentMeasure.addNote( new ChordNote( duration, type, new Pitch( step, octave, alter), new Notations( new Technical(string, fret) ), voice ) );
 //	}
 	
-	public void nextAllNote( int duration, String type, String step, int octave, int alter, int string, int fret, int voice, String chord, String grace ) {
-		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave, alter ) , new Notations( new Technical( string, fret ) ), voice, chord, grace) );
+	public void nextAllNote( int duration, String type, String step, int octave, int alter, int string, int fret, int hNum, String hType, 
+							String hCharacter, int sNum, String sPlacement, String sType, int pNum, String pType, String pCharacter,
+							int voice, String chord, String grace) {
+		
+		if(pType == null && pCharacter == null) {
+			tech = new Technical(string, fret, new HammerOn(hNum, hType, hCharacter));
+		}
+		else if(hType == null && hCharacter == null) {
+			tech = new Technical(string, fret, new PullOff(pNum, pType, pCharacter));
+		}
+		else if(hType == null && hCharacter == null && pType == null && pCharacter == null) {
+			tech = new Technical(string, fret);
+		}
+		
+		if(sType == null) {
+			notations = new Notations(tech);
+		}
+		else {
+			notations = new Notations(tech, new Slur(sNum, sPlacement, sType));
+		}
+		
+		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave, alter ), notations, voice, chord, grace) );
 	}
 	
 	//Getter
