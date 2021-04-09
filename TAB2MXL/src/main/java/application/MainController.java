@@ -142,7 +142,6 @@ public class MainController implements Initializable {
 		File f = new File("TempD.txt");
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
-		System.out.println("measuresTEXTAREA "+tab);
 				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
 				System.out.println("size = "+TAB.size());
 				for(int i=0;i<TAB.size();i++) {
@@ -470,6 +469,7 @@ public class MainController implements Initializable {
 			alert.getDialogPane();
 			alert.showAndWait().ifPresent(response -> {
 				if(response == YES) {
+					//loadArray();
 					textarea.clear();
 					loader("database.txt","attributes.txt");
 				}
@@ -560,6 +560,7 @@ public class MainController implements Initializable {
 			conf.showAndWait(); 
 		}
 		else {
+			save();
 		FileWriter fw;
 		try {
 			{fw = new FileWriter("database.txt",false);
