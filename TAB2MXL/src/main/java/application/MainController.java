@@ -466,6 +466,12 @@ public class MainController implements Initializable {
 			alert.getDialogPane();
 			alert.showAndWait().ifPresent(response -> {
 				if(response == YES) {
+					try {
+						loadArray();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					textarea.clear();
 					try {
 						loader("database.txt","attributes.txt");
