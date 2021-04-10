@@ -535,7 +535,7 @@ public class MainController implements Initializable {
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
 		System.out.println("print selection:");
-		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
+		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(getTextArea())%10 ).listMeasures();
 		int i = measures.getSelectionModel().getSelectedIndex();
 			String [] t=TAB.get(i);
 			measuresTEXTAREA.clear();
