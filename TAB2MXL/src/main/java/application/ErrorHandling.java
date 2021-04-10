@@ -64,8 +64,8 @@ public class ErrorHandling {
 		for (int i = 0; i < tempArray.length; i++) {
 			System.out.println(tempArray[i] + " LINE " + i);
 		}
-		for (int i = 0; i < tempArray.length-1; i++) {
-			if((tempArray[i].toUpperCase().charAt(0) != '|') && (tempArray[i].toUpperCase().charAt(1) != '|')) {
+		for (int i = 0; i < tempArray.length - 6; i++) {
+			if((tempArray[i].toUpperCase().charAt(0) != '|') && (tempArray[i].charAt(1) != '|')) {
 				return 46;
 			}
 			if(tempArray[i+4].trim().isEmpty()) {
@@ -80,40 +80,51 @@ public class ErrorHandling {
 				lines = 6;
 				return 16;
 			}
-			if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+5].toUpperCase().charAt(0)
+			else if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+5].toUpperCase().charAt(0)
 					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+6].toUpperCase().charAt(0)) 
 			{
 				lines = 5;
 				return 25;
 			}
 			
-			if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+4].toUpperCase().charAt(0)
+			else if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+4].toUpperCase().charAt(0)
 					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+5].toUpperCase().charAt(0)) 
 			{
 				lines = 4;
 				return 34;
 			}
 			
-			if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+6].toUpperCase().charAt(0)
+			else if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+6].toUpperCase().charAt(0)
 					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+7].toUpperCase().charAt(0)) 
 			{
 				lines = 6;
 				return 16;
 			}
 			
-			/*
-			if (tempArray[i].toUpperCase().charAt(0) == (tempArray[i+1].toUpperCase().charAt(0)) 
+			
+			else if (tempArray[i].toUpperCase().charAt(0) == (tempArray[i+1].toUpperCase().charAt(0)) 
 					|| (tempArray[i+1].trim().isEmpty())) 
 			{
 				lines++;
 				break;
 			} 
-			*/
-			//lines++;
+			
+			lines++;
 	
 			//System.out.println(tempArray[i].toUpperCase().charAt(0) + "\n");
 		}
-		return 00;
+		if(lines == 6) {
+			return 16;
+		} 
+		else if(lines == 5) {
+			return 25;
+		}
+		else if(lines == 4) {
+			return 34;
+		} else {
+			return 00;
+		}
+		
 	}
 	
 }
