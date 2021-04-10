@@ -54,4 +54,66 @@ public class ErrorHandling {
 		return indices;
 	}
 	
+	public static int detectInstrument(String textArea) {
+		int lines = 0;
+		String[] tempArray;
+		String delimiter = "\n";
+		
+		textArea = textArea + "Z\n" + "X\n" + "Y\n" + "W\n" + "V\n" + "U\n";
+		tempArray = textArea.split(delimiter);
+		for (int i = 0; i < tempArray.length; i++) {
+			System.out.println(tempArray[i] + " LINE " + i);
+		}
+		for (int i = 0; i < tempArray.length-1; i++) {
+			if((tempArray[i].toUpperCase().charAt(0) != '|') && (tempArray[i].toUpperCase().charAt(1) != '|')) {
+				return 46;
+			}
+			if(tempArray[i+4].trim().isEmpty()) {
+				lines = 4;
+				return 34;
+			}
+			else if(tempArray[i+5].trim().isEmpty()) {
+				lines = 5;
+				return 25;
+			}
+			else if(tempArray[i+6].trim().isEmpty()) {
+				lines = 6;
+				return 16;
+			}
+			if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+5].toUpperCase().charAt(0)
+					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+6].toUpperCase().charAt(0)) 
+			{
+				lines = 5;
+				return 25;
+			}
+			
+			if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+4].toUpperCase().charAt(0)
+					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+5].toUpperCase().charAt(0)) 
+			{
+				lines = 4;
+				return 34;
+			}
+			
+			if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+6].toUpperCase().charAt(0)
+					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+7].toUpperCase().charAt(0)) 
+			{
+				lines = 6;
+				return 16;
+			}
+			
+			/*
+			if (tempArray[i].toUpperCase().charAt(0) == (tempArray[i+1].toUpperCase().charAt(0)) 
+					|| (tempArray[i+1].trim().isEmpty())) 
+			{
+				lines++;
+				break;
+			} 
+			*/
+			//lines++;
+	
+			//System.out.println(tempArray[i].toUpperCase().charAt(0) + "\n");
+		}
+		return 00;
+	}
+	
 }

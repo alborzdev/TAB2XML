@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -133,6 +134,7 @@ public class MainController implements Initializable {
 		//updateTimeSigsArray();
 
 	}
+
 	/**
 	 * 
 	 * @throws Exception
@@ -143,7 +145,7 @@ public class MainController implements Initializable {
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
 		System.out.println("measuresTEXTAREA "+tab);
-				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
+				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
 				System.out.println("size = "+TAB.size());
 				for(int i=0;i<TAB.size();i++) {
 					String [] t=TAB.get(i);
@@ -660,4 +662,9 @@ public class MainController implements Initializable {
 	    Stage stage = (Stage) close.getScene().getWindow();
 	    stage.close();
 	}
+	
+	public String getTextArea() {
+        return textarea.getText();
+    }
+	
 }
