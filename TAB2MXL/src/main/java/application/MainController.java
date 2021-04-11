@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -133,6 +134,7 @@ public class MainController implements Initializable {
 		//updateTimeSigsArray();
 
 	}
+
 	/**
 	 * 
 	 * @throws Exception
@@ -143,7 +145,8 @@ public class MainController implements Initializable {
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
 		System.out.println("measuresTEXTAREA "+tab);
-				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
+				System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
+				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
 				System.out.println("size = "+TAB.size());
 				for(int i=0;i<TAB.size();i++) {
 					String [] t=TAB.get(i);
@@ -204,13 +207,15 @@ public class MainController implements Initializable {
 		loc = saver.showSaveDialog(stage);	//get file path specified by user
 		FileWriter write;
 		
-		loadArray();
+		//loadArray();
 
 		System.out.println("Measures");
 		for(int i=0;i<size;i++) {
 			System.out.println(timesigs[i]);
 		}
-		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType());     	
+		int stafflines = ErrorHandling.detectInstrument(getTextArea());
+		
+		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType(), stafflines);     	
 
 		//CHAIN CALLS w/ ERROR HANDLING
 		boolean errorEvent = false;
@@ -550,7 +555,8 @@ public class MainController implements Initializable {
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
 		System.out.println("print selection:");
-		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
+		System.out.println("!!!!!!!!!!!!"+ErrorHandling.detectInstrument(getTextArea())%10);
+		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(getTextArea())%10 ).listMeasures();
 		int i = measures.getSelectionModel().getSelectedIndex();
 			String [] t=TAB.get(i);
 			measuresTEXTAREA.clear();
@@ -670,6 +676,7 @@ public class MainController implements Initializable {
 	    stage.close();
 	    saveArray();
 	}
+<<<<<<< HEAD
 	private void saveArray() throws IOException {
 		FileWriter fw;
 			fw = new FileWriter("timesigs.txt",false);
@@ -696,5 +703,11 @@ public class MainController implements Initializable {
 					i++;
 				}
 	}
+=======
+	
+	public String getTextArea() {
+        return textarea.getText();
+    }
+>>>>>>> branch 'dev' of https://github.com/alborzdev/2311-Project
 	
 }
