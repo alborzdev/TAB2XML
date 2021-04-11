@@ -54,7 +54,7 @@
          <left>
             <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" onKeyReleased="#updateTextArea" prefHeight="390.0" prefWidth="572.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa; -fx-prompt-text-fill: light grey;" unFocusColor="#a8c5d8" BorderPane.alignment="CENTER">
                <font>
-                  <Font name="Courier New" size="12.0" />
+                  <Font name="Courier New" size="10.0" />
                </font>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
