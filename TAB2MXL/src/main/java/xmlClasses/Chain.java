@@ -60,14 +60,7 @@ public class Chain {
 	int STAFFLINES;
 	
 	/**HARDCODED: 2D String array - represents the tuning octaves of the staff lines*/
-	String[][] TUNINGINFO = {
-			new String[] {"","2"},
-			new String[] {"","2"},
-			new String[] {"","3"},
-			new String[] {"","3"},
-			new String[] {"","3"},
-			new String[] {"","4"}
-	};
+	String[][] TUNINGINFO;
 	
 	/**HARDCODED: Divisions - Divisions works with duration to decide how many notes are in a measure(Derry knows)*/
 	int DIVISIONS = 4;
@@ -142,8 +135,7 @@ public class Chain {
 	//---STEP 1a - Parser Selection ---
 	
 	public void TABtoPART() throws Exception{
-		
-		//Stringed -> Step 1b
+
 		if (INSTRUMENT.equals("Guitar")) { TABtoPARTstringed(); }
 		else if(INSTRUMENT.equals("Bass")) { TABtoPARTstringed(); }
 		
@@ -165,17 +157,33 @@ public class Chain {
 		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIG/10,
 									TIMESIG%10, CLEF, LINE, VISIBLELINES);
 		
-		//Create TabReader
-		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
-
-		//Extract and pass tuning information
-		String[] tuning = TRv4.getTuning();
+		
+		//TUNING
+		//----------------------------------------------------------------------
+		TabReaderV4 Ttuning = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
+		Ttuning.readMeasure();
+		MeasureReaderV4 Mtuning = new MeasureReaderV4(Ttuning.getMeasure(), Ttuning.getTuning(), 4, 4);
+		
+		String[] StringTuning = Ttuning.getTuning();//string tunings
+		int[] OctaveTuning = Mtuning.getTuning();//octave tunings
+		
+		System.out.println("!!!!!!!!!!!!!!!!");
+		TUNINGINFO = new String[STAFFLINES%10][2];
+		
 		for(int i = 0; i < STAFFLINES%10; i++) {
-			TUNINGINFO[5-i][0] = tuning[i].toUpperCase();
+			TUNINGINFO[STAFFLINES%10-1-i][0] = StringTuning[i].toUpperCase();
+			TUNINGINFO[STAFFLINES%10-1-i][1] = OctaveTuning[i]+"";
+			System.out.println(TUNINGINFO[STAFFLINES%10-1-i][0]+" "+TUNINGINFO[STAFFLINES%10-1-i][1]);
 		}
+		
+		
 		AW.setTuning(TUNINGINFO);
 		Attributes ATT = AW.getAttributes();
-
+		//----------------------------------------------------------------------
+		
+		//Create TabReader
+		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
+		
 		//Creating current measure marker
 		int marker = 0;
 		
