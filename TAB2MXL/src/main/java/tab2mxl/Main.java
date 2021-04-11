@@ -29,7 +29,7 @@ public class Main {
 			TabReaderV4 tb = new TabReaderV4(file,6);
 			tb.readMeasure();
 			while(tb.hasNext()) {	
-				MeasureReaderV4 ms = new MeasureReaderV4(tb.getMeasure(),tb.getTuning(),4,4);
+				MeasureReaderV5 ms = new MeasureReaderV5(tb.getMeasure(),tb.getTuning(),4,4);
 				while(ms.hasNext()) {
 					ms.readNotes();
 					ms.getNotes();
