@@ -142,6 +142,7 @@ public class MainController implements Initializable {
 		File f = new File("TempD.txt");
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
+		System.out.println("measuresTEXTAREA "+tab);
 				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), 6).listMeasures();
 				System.out.println("size = "+TAB.size());
 				for(int i=0;i<TAB.size();i++) {
@@ -162,8 +163,7 @@ public class MainController implements Initializable {
 	public void changeMeasure(ActionEvent event) {
 		String s = MeasureTimeSig.getSelectionModel().getSelectedItem();
 		System.out.println(s);
-		if(!to.getText().isEmpty() && !from.getText().isEmpty()) {
-			System.out.println("here 167");
+		if(!to.getText().isEmpty() && !from.getText().isEmpty()) {		
 			Integer TO = Integer.parseInt(to.getText()), FROM = Integer.parseInt(from.getText());
 			if(TO>timesigs.length || FROM>timesigs.length || TO<=0 || FROM<=0 || TO<FROM) {
 				Alert conf = new Alert(AlertType.ERROR,  
@@ -204,9 +204,10 @@ public class MainController implements Initializable {
 		loc = saver.showSaveDialog(stage);	//get file path specified by user
 		FileWriter write;
 		
+		loadArray();
 
 		System.out.println("Measures");
-		for(int i=1;i<size;i++) {
+		for(int i=0;i<size;i++) {
 			System.out.println(timesigs[i]);
 		}
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType());     	
@@ -267,7 +268,6 @@ public class MainController implements Initializable {
 
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
-		boolean trigger = false;
 		System.out.println("KEY EVENT TRIGGERED");
 		boolean flag= false;
 
@@ -277,7 +277,6 @@ public class MainController implements Initializable {
 
 		} 
 		catch(LineErrorException e) {
-
 			flag = true;
 			System.out.println("LINE ERROR EXCEPTION");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
@@ -295,13 +294,11 @@ public class MainController implements Initializable {
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
-			//errorEvent=ErrorHandling.errorEventHighlight("Conversion was unsuccessful :(",	e, textarea, "|"+e.getString()+"|");
 		}
 		System.out.println("FLAG  "+flag);
 		if(!flag) {
 			ERRORStextarea.clear();
 		}
-
 	}
 
 	@FXML
@@ -350,8 +347,8 @@ public class MainController implements Initializable {
 		//		TimeSig.getItems().add("12/8");
 
 		InstrumentType.getItems().add("Guitar");
-		InstrumentType.getItems().add("Drums - not completely implemented");
-		InstrumentType.getItems().add("Bass - not completely implemented");
+		InstrumentType.getItems().add("Drums");
+		InstrumentType.getItems().add("Bass");
 		InstrumentType.getSelectionModel().select(0);
 
 		conversionType.getItems().add("Tab");
@@ -458,7 +455,7 @@ public class MainController implements Initializable {
 	private LinkedList<String> RECENTFILES= new LinkedList<String>();
 	Preferences pref;
 	@FXML
-	public void LOADRECENT(ActionEvent event)  {
+	public void LOADRECENT(ActionEvent event) throws IOException  {
 		//check if textarea is empty
 		if(textarea.getText().trim().length() != 0) {
 			ButtonType YES = new ButtonType("YES");
@@ -469,18 +466,34 @@ public class MainController implements Initializable {
 			alert.getDialogPane();
 			alert.showAndWait().ifPresent(response -> {
 				if(response == YES) {
-					//loadArray();
+					try {
+						loadArray();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					textarea.clear();
-					loader("database.txt","attributes.txt");
+					try {
+						loader("database.txt","attributes.txt");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-				if(response==NO) { loader("database.txt","attributes.txt");}
+				if(response==NO) { try {
+					loader("database.txt","attributes.txt");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
 			});;
 		}
 		else loader("database.txt","attributes.txt");
 
 	}
 
-	public void loader(String database, String attributes) {
+	private void loader(String database, String attributes) throws IOException {
+		loadArray();
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(database));
@@ -521,13 +534,12 @@ public class MainController implements Initializable {
 				if(parts[2].compareTo("TAB")==0) {conversionType.getSelectionModel().select(0);}
 				else conversionType.getSelectionModel().select(1);
 				InstrumentType.getSelectionModel().select(parts[3]);
-				//,"+getComposer()+","+getTitle()+","+getLyricist());
-				//					//if(parts.length>3)
-				//					if(!parts[4].isEmpty()) composer.setText(parts[4]);
-				//					if(!parts[5].isEmpty()) title.setText(parts[5]);
-				//					if(!parts[6].isEmpty()) lyricist.setText(parts[6]);
-
-				;		
+				if(parts.length>3) {
+					if(parts.length>4 && !parts[4].isEmpty()) composer.setText(parts[4]);
+					if(parts.length>5 && !parts[5].isEmpty()) title.setText(parts[5]);
+					if(parts.length>6 && !parts[6].isEmpty()) lyricist.setText(parts[6]);
+				}
+						
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -552,7 +564,8 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void saveChanges(ActionEvent event) {
+	public void saveChanges(ActionEvent event) throws IOException {
+		saveArray();
 		if(textarea.getText().isBlank() || textarea.getText().isEmpty()) {
 			Alert conf = new Alert(AlertType.ERROR,  
 					"Could not save changes"); 
@@ -560,7 +573,6 @@ public class MainController implements Initializable {
 			conf.showAndWait(); 
 		}
 		else {
-			save();
 		FileWriter fw;
 		try {
 			{fw = new FileWriter("database.txt",false);
@@ -630,9 +642,7 @@ public class MainController implements Initializable {
 	}
 	@FXML
 	public void advancedOptions(ActionEvent event) throws Exception {
-		//save text area
 		save();
-
 		Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml-files/advanced.fxml"));
@@ -652,22 +662,39 @@ public class MainController implements Initializable {
         updateTimeSigsArray();
 	}
 	
-	@FXML
-	public void disableSingle(ActionEvent event) {
-		boolean b = false;
-		if(measures.isDisabled()==b) {
-			b = !b;
-			measures.setDisable(b);
-		}
-	}
+
 	@FXML private Button close;
 	@FXML
-	public void Close(ActionEvent event) {
+	public void Close(ActionEvent event) throws IOException {
 	    Stage stage = (Stage) close.getScene().getWindow();
 	    stage.close();
+	    saveArray();
+	}
+	private void saveArray() throws IOException {
+		FileWriter fw;
+			fw = new FileWriter("timesigs.txt",false);
+
+			BufferedWriter bw = new BufferedWriter(fw); 
+			PrintWriter pw = new PrintWriter(bw); 
+			for(int i =0;i<size;i++)
+				pw.println(timesigs[i]);
+			pw.flush(); 
+			pw.close();
 	}
 	
-	public String getTextArea() {
-		return textarea.getText();
+	private void loadArray() throws IOException {
+		BufferedReader br;
+		
+			br = new BufferedReader(new FileReader("timesigs.txt"));
+			String line;
+			int i=0;
+				while ((line = br.readLine()) != null) {
+					System.out.println(line);
+					if(line.equals("34"))
+					timesigs[i]=34; 
+					else timesigs[i]=44;
+					i++;
+				}
 	}
+	
 }
