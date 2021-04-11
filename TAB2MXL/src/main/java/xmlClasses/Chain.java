@@ -122,7 +122,7 @@ public class Chain {
 	}
 	
 	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
-			int[] TIMESIGS, String KEY, String INSTRUMENT, String CLEF){
+			int[] TIMESIGS, String KEY, String INSTRUMENT, String CLEF, int STAFFLINES){
 
 		this.TAB=TAB;
 		this.TITLE=TITLE;
@@ -132,6 +132,7 @@ public class Chain {
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
 		this.CLEF=CLEF;
+		this.STAFFLINES=STAFFLINES;
 	}
 
 //####################################################################
@@ -143,8 +144,8 @@ public class Chain {
 	public void TABtoPART() throws Exception{
 		
 		//Stringed -> Step 1b
-		if (INSTRUMENT.equals("Guitar")) { TABtoPARTstringed(6); }
-		else if(INSTRUMENT.equals("Bass")) { TABtoPARTstringed(4); }
+		if (INSTRUMENT.equals("Guitar")) { TABtoPARTstringed(); }
+		else if(INSTRUMENT.equals("Bass")) { TABtoPARTstringed(); }
 		
 		//Drum -> Step 1c
 		else { TABtoPARTdrum(); }
@@ -152,10 +153,10 @@ public class Chain {
 	
 	//---STEP 1b - Stringed Parser ---
 	
-	private void TABtoPARTstringed( int STAFFLINES ) throws Exception{
+	private void TABtoPARTstringed() throws Exception{
 		
 		//Check for Sheet Music
-		int VISIBLELINES = STAFFLINES;
+		int VISIBLELINES = STAFFLINES%10;
 		if(!CLEF.equals("TAB")) {
 			VISIBLELINES = 5;
 		}
@@ -165,11 +166,11 @@ public class Chain {
 									TIMESIG%10, CLEF, LINE, VISIBLELINES);
 		
 		//Create TabReader
-		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES);
+		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
 
 		//Extract and pass tuning information
 		String[] tuning = TRv4.getTuning();
-		for(int i = 0; i < STAFFLINES; i++) {
+		for(int i = 0; i < STAFFLINES%10; i++) {
 			TUNINGINFO[5-i][0] = tuning[i].toUpperCase();
 		}
 		AW.setTuning(TUNINGINFO);

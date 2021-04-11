@@ -145,6 +145,7 @@ public class MainController implements Initializable {
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
 		System.out.println("measuresTEXTAREA "+tab);
+				System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(getTextArea())%10);
 				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
 				System.out.println("size = "+TAB.size());
 				for(int i=0;i<TAB.size();i++) {
@@ -214,12 +215,13 @@ public class MainController implements Initializable {
 //				timesigs[i]=MeasureTimeSig.getSelectionModel().getSelectedItem();
 //			}
 //		}
-
 		System.out.println("Measures");
 		for(int i=1;i<size;i++) {
 			System.out.println(timesigs[i]);
 		}
-		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType());     	
+		int stafflines = ErrorHandling.detectInstrument(getTextArea());
+		
+		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType(), stafflines);     	
 
 		//CHAIN CALLS w/ ERROR HANDLING
 		boolean errorEvent = false;
@@ -348,8 +350,8 @@ public class MainController implements Initializable {
 		//		TimeSig.getItems().add("12/8");
 
 		InstrumentType.getItems().add("Guitar");
-		InstrumentType.getItems().add("Drums - not completely implemented");
-		InstrumentType.getItems().add("Bass - not completely implemented");
+		InstrumentType.getItems().add("Drums");
+		InstrumentType.getItems().add("Bass");
 		InstrumentType.getSelectionModel().select(0);
 
 		conversionType.getItems().add("Tab");
@@ -535,6 +537,7 @@ public class MainController implements Initializable {
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
 		System.out.println("print selection:");
+		System.out.println("!!!!!!!!!!!!"+ErrorHandling.detectInstrument(getTextArea())%10);
 		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(getTextArea())%10 ).listMeasures();
 		int i = measures.getSelectionModel().getSelectedIndex();
 			String [] t=TAB.get(i);
