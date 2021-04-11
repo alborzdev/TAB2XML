@@ -73,20 +73,23 @@ public class MeasureReaderV5 {
 	
 	public List<String[]> getNotes() {
 		List<String[]> out = new ArrayList<String[]>();
-		int[] shifts = getFretsEnhanced(this.strColumn);
+		int[] shifts = getFretsExpanded(this.strColumn);
 		for(int i = 0; i<shifts.length; i++) {
 			if(shifts[i] >= 0) {
 				String[] stepAndOctave = calculateNoteandOctave(i,shifts[i]);
 				String alter = "0";
 				String accidental = "";
+				String grace = "";
 				
 				if(stepAndOctave[0].length() > 1) {
 					alter = "1";
 					accidental = "sharp";
 				}
-				//
-				//
-				//
+				
+				if(this.strColumn[i].charAt(0) == 'g') {
+					grace = "grace";
+				}
+
 				//System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
 				
 				String[] noteProperties = {
@@ -98,9 +101,9 @@ public class MeasureReaderV5 {
 						accidental,																			//accidental
 						""+(i+1),																					//string
 						""+shifts[i],																			//fret
-						slurStatus[i],
-						"",
-						""
+						slurStatus[i], //slur
+						grace, //grace note
+						""  
 				};
 				out.add(noteProperties);
 				
@@ -166,6 +169,11 @@ public class MeasureReaderV5 {
 			this.curr_col++;
 			while(this.isStrictEmpty(this.column) && this.hasNextColumn) { //note to self: strictempty => not a number || empty => is a dash || empty is more "strict" logically, but less strict musically
 				if(!this.isEmpty(this.column)) {
+					
+					if(this.columnHas(this.column, 'g')) {
+						break;
+					}
+					
 					for(int i=0; i<this.string_count; i++) {
 						if(this.column[i] != '-') {
 							this.strColumn[i] = this.strColumn[i] + this.column[i];
@@ -252,7 +260,7 @@ public class MeasureReaderV5 {
 		
 	}
 	
-	private int[] getFretsEnhanced(String[] column) {
+	private int[] getFretsExpanded(String[] column) {
 		int[] out = new int[string_count];
 		for(int i=0; i<string_count; i++) {
 			Matcher nOMat = nOPat.matcher(column[i]);
@@ -261,14 +269,23 @@ public class MeasureReaderV5 {
 				Boolean slur = false;
 				if(nOMat.matches()) { //purely numbers
 					out[i] = Integer.parseInt(column[i]);
+				}else if(column[i].charAt(0) == 'g') { //replace with regex if possible
+					//grace notes
+					String temp = column[i].substring(1, column[i].length()-1);
+					out[i] = Integer.parseInt(temp);
+					slur = true;	
+					
+					
 				}else if(column[i].charAt(column[i].length()-1) == 'p' || column[i].charAt(column[i].length()-1) == 'h') { //replace with regex if possible
+					//hammer on pull off
 					String temp = column[i].substring(0, column[i].length()-1);
 					out[i] = Integer.parseInt(temp);
 					slur = true;
+
 				}else {
 					out[i] = -1;
 				}
-				this.advanceSlurStatus(i, slur);
+				this.slurStatus = this.advanceConnectorStatus(slurStatus, i, slur);
 				
 			}catch(Exception e) {
 				out[i] = -1;
@@ -281,32 +298,33 @@ public class MeasureReaderV5 {
 		
 	}
 	
-	private void advanceSlurStatus(int string, boolean cont) {
-		if(slurStatus[string].equals("none")) {
+	private String[] advanceConnectorStatus(String[] connectorArray, int string, boolean cont) {
+		if(connectorArray[string].equals("none")) {
 			if(cont) {
-				slurStatus[string] = "start";
+				connectorArray[string] = "start";
 			}else {
 				//remain as none
 			}
-		}else if(slurStatus[string].equals("start")) {
+		}else if(connectorArray[string].equals("start")) {
 			if(cont) {
-				slurStatus[string] = "continue";
+				connectorArray[string] = "continue";
 			}else {
-				slurStatus[string] = "end";
+				connectorArray[string] = "end";
 			}
-		}else if(slurStatus[string].equals("end")) {
+		}else if(connectorArray[string].equals("end")) {
 			if(cont) {
-				slurStatus[string] = "start";
+				connectorArray[string] = "start";
 			}else {
-				slurStatus[string] = "none";
+				connectorArray[string] = "none";
 			}
 		}else { //slur is continue
 			if(cont) {
 				//remain as continue
 			}else {
-				slurStatus[string] = "end";
+				connectorArray[string] = "end";
 			}
 		}
+		return connectorArray;
 	}
 	
 	private boolean isEmpty(char[] column) {
@@ -385,7 +403,7 @@ public class MeasureReaderV5 {
 		this.octaves = baseOctaves;
 	}
 	
-	private int getTrueMeasureLength() {
+	private int getTrueMeasureLength1() {
 		int out = 1;
 		int counter = 0;
 		System.out.println(measure[3]);
@@ -404,6 +422,46 @@ public class MeasureReaderV5 {
 			counter ++;
 		}
 		System.out.println("DEBUG: true measure length: " + out);
+		return out;
+	}
+	
+	private int getTrueMeasureLength() {
+		int out = 1;
+		int counter = 0;
+		System.out.println(measure[3]);
+		while(counter < this.character_count && isStrictEmpty(getColumn(counter))) {		
+			System.out.print("0");
+			counter ++;
+		}
+		counter++;
+		while(counter < this.character_count) {	
+			if(!isStrictEmpty(getColumn(counter)) && !isStrictEmpty(getColumn(counter-1))) {
+				System.out.print("x");
+			}else if(columnHas(getColumn(counter-1), 'g')){
+				System.out.print("-");
+				while(counter < this.character_count && !isEmpty(getColumn(counter))) {
+					System.out.print("x");
+					counter++;
+				}
+				out ++;
+			}else {
+				System.out.print("-");
+				out ++;
+			}
+			counter ++;
+		}
+		System.out.println("DEBUG: true measure length: " + out);
+		return out;
+	}
+	
+	private boolean columnHas(char[] scrutinee, char compare) {
+		boolean out = false;
+		for(char ch : scrutinee) {
+			if(ch == compare) {
+				out = true;
+				break;
+			}
+		}
 		return out;
 	}
 	

@@ -50,6 +50,7 @@ public class Main {
 			System.out.println(e.toString());
 			e.printStackTrace();
 		}
+		
 	}
 	
 	private static void stringArrayDump(String arrayName, String[] in) {
