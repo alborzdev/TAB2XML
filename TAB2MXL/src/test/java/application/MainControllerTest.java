@@ -100,10 +100,11 @@ class MainControllerTest extends ApplicationTest{
     }
     
     @Test
-    public void Attributes() {
+    public void Attributes() throws InterruptedException {
     	TextField comp =find("#composer");
     	clickOn(comp);
     	comp.setText("Lian Attily");
+    	Thread.sleep(100);
     	assertEquals("Lian Attily", comp.getText());
     }
    
@@ -113,11 +114,6 @@ class MainControllerTest extends ApplicationTest{
     	
     }
     
-    @Test
-    public void ReqAtt() throws InterruptedException {
-    	clickOn("#UserManual");
-    	clickOn("exit");
-    }
     
     @Test
     public void export() throws InterruptedException {
@@ -172,6 +168,8 @@ class MainControllerTest extends ApplicationTest{
     public void testMenu() {
     	clickOn("#menu");
     	FxAssert.verifyThat("#menu", LabeledMatchers.hasText("File"));
+    	clickOn("#UserManual");
+    	clickOn("exit");
     }
     
     @Test
