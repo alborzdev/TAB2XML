@@ -191,6 +191,7 @@ public class MainController implements Initializable {
 			System.out.println("m="+m+" changing to "+timesigs[m]);
 		}
 	}
+
 	
 	/**
 	 * Lets user specify name and path of xml file
@@ -207,13 +208,13 @@ public class MainController implements Initializable {
 		loc = saver.showSaveDialog(stage);	//get file path specified by user
 		FileWriter write;
 		
-		//loadArray();
+		loadArray();
 
 		System.out.println("Measures");
 		for(int i=0;i<size;i++) {
 			System.out.println(timesigs[i]);
 		}
-		int stafflines = ErrorHandling.detectInstrument(getTextArea());
+		int stafflines = ErrorHandling.detectInstrument(textarea.getText());
 		
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType(), stafflines);     	
 
@@ -676,7 +677,6 @@ public class MainController implements Initializable {
 	    stage.close();
 	    saveArray();
 	}
-<<<<<<< HEAD
 	private void saveArray() throws IOException {
 		FileWriter fw;
 			fw = new FileWriter("timesigs.txt",false);
@@ -703,11 +703,9 @@ public class MainController implements Initializable {
 					i++;
 				}
 	}
-=======
 	
 	public String getTextArea() {
         return textarea.getText();
     }
->>>>>>> branch 'dev' of https://github.com/alborzdev/2311-Project
-	
+
 }
