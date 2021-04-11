@@ -145,7 +145,7 @@ public class MainController implements Initializable {
 		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
 		System.out.println("measuresTEXTAREA "+tab);
-				System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(getTextArea())%10);
+				System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
 				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
 				System.out.println("size = "+TAB.size());
 				for(int i=0;i<TAB.size();i++) {
