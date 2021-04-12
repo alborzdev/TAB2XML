@@ -594,7 +594,7 @@ public class MainController implements Initializable {
 			System.out.println("PRINTING SELECTION\n");
 			int fr = Integer.parseInt(from.getText()), TO = Integer.parseInt(to.getText());
 			measuresTEXTAREA.clear();
-			for(int i = fr; i<=TO; i++) {
+			for(int i = fr-1; i<=TO-1; i++) {
 				String [] t=TAB.get(i);
 				for(int j=0;j<t.length;j++)	{
 					System.out.println("FROM = "+fr+"   TO: "+TO);
@@ -603,7 +603,7 @@ public class MainController implements Initializable {
 					measuresTEXTAREA.appendText(t[j]);
 					measuresTEXTAREA.appendText("|\n");
 				}
-				System.out.println();
+				System.out.println("\n");
 			}
 		}
 	}
@@ -702,7 +702,7 @@ public class MainController implements Initializable {
         catch (IOException e) {
             e.printStackTrace();
         }
-        textarea.clear();
+        //textarea.clear();
         loader("tempD.txt","tempA.txt");
         System.out.println("613");
         updateTimeSigsArray();

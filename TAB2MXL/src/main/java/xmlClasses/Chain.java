@@ -405,7 +405,7 @@ public class Chain {
 				bassLine.clear();
 				TRv4.readMeasure();
 			}
-			DPW.getDrumPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
+			DPW.getDrumPart().getMeasure().get(DPW.getDrumPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

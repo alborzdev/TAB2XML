@@ -92,18 +92,18 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
-            <JFXComboBox fx:id="InstrumentType" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Instrument Type" style="-fx-background-color: #2e2d2d; -jfx-unfocus-color: white; -fx-prompt-text-fill: #e1dddd; -fx-text-fill: #e1dddd;" unFocusColor="#e1dddd">
+             <JFXComboBox fx:id="InstrumentType" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Instrument Type" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE">
                <VBox.margin>
                   <Insets bottom="20.0" top="20.0" />
                </VBox.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="KeySig" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="142.0" promptText="Key Signature" style="-fx-background-color: #2e2d2d; -jfx-unfocus-color: white; -fx-prompt-text-fill: #e1dddd;" unFocusColor="WHITE" />
-            <JFXComboBox fx:id="TimeSig" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Time Signature" style="-fx-background-color: #2e2d2d; -jfx-unfocus-color: white; -fx-prompt-text-fill: #e1dddd; -fx-text-fill: #e1dddd;" unFocusColor="WHITE">
+            <JFXComboBox fx:id="KeySig" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="142.0" promptText="Key Signature" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE" />
+            <JFXComboBox fx:id="TimeSig" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Time Signature" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE">
                <VBox.margin>
                   <Insets bottom="20.0" top="20.0" />
                </VBox.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="conversionType" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Convert to" style="-fx-background-color: #2e2d2d; -jfx-unfocus-color: white; -fx-prompt-text-fill: white; -fx-text-fill: #e1dddd;" unFocusColor="WHITE" />
+            <JFXComboBox fx:id="conversionType" focusColor="WHITE" labelFloat="true" prefHeight="25.0" prefWidth="143.0" promptText="Convert to" style="-fx-background-color: #a8c5d8; -jfx-unfocus-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE" />
             <Label prefHeight="58.0" prefWidth="140.0" text="Additional Attributes" textFill="#e7eaee">
                <font>
                   <Font name="Quicksand Medium" size="14.0" />
