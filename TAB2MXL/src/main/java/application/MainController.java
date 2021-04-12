@@ -555,10 +555,12 @@ public class MainController implements Initializable {
 
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
+		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(getTextArea())%10 ).listMeasures();
+
+		if(measures.getSelectionModel().getSelectedItem()!=null) {
 		System.out.println("print selection:");
 		System.out.println("!!!!!!!!!!!!"+ErrorHandling.detectInstrument(getTextArea())%10);
-		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(getTextArea())%10 ).listMeasures();
-		int i = measures.getSelectionModel().getSelectedIndex();
+			int i = measures.getSelectionModel().getSelectedIndex();
 			String [] t=TAB.get(i);
 			measuresTEXTAREA.clear();
 			for(int j=0;j<t.length;j++)	{
@@ -567,6 +569,21 @@ public class MainController implements Initializable {
 				measuresTEXTAREA.appendText(t[j]);
 				measuresTEXTAREA.appendText("|\n");
 			}
+		}
+		else if(to.getText()!=null && from.getText()!=null) {
+			System.out.println("PRINTING SELECTION\n");
+			int fr = Integer.parseInt(from.getText()), TO = Integer.parseInt(to.getText());
+			measuresTEXTAREA.clear();
+			for(int i = fr; i<TO; i++) {
+				String [] t=TAB.get(i);
+				for(int j=0;j<t.length;j++)	{
+					System.out.println(t[j]);
+					measuresTEXTAREA.appendText("|");
+					measuresTEXTAREA.appendText(t[j]);
+					measuresTEXTAREA.appendText("|\n");
+				}
+			}
+		}
 		
 	}
 	
