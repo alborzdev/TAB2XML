@@ -79,7 +79,7 @@ public class MeasureReaderV5 {
 				String[] stepAndOctave = calculateNoteandOctave(i,shifts[i]);
 				String alter = "0";
 				String accidental = "";
-				String grace = "";
+				String grace = null;
 				String slur = "0";
 				
 				if(stepAndOctave[0].length() > 1) {
@@ -88,7 +88,7 @@ public class MeasureReaderV5 {
 				}
 				
 				if(this.strColumn[i].charAt(0) == 'g') {
-					grace = "grace";
+					grace = "";
 				}
 				
 				if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'h') {
