@@ -229,7 +229,7 @@ public class Chain {
 		try {
 			TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), 6, 0);
 			System.out.println("USING TABV4 NOW !!!!!");
-			AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG / 10, TIMESIG % 10, "percussion", LINE, 6);
+			AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG / 10, TIMESIG % 10, "percussion", LINE, 5);
 			Attributes ATT = AW.getAttributes();
 
 			TRv4.readMeasure();
@@ -272,20 +272,20 @@ public class Chain {
 								System.out.println("Beam Note Added");
 								if (s[6].equals("o")) {
 									DPW.nextDrumNoteB(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up", beams);
+											Integer.parseInt(s[4]), s[3], s[8], beams);
 								} else {
 									DPW.nextDrumNoteBNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up", beams, s[6]);
+											Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
 								}
 							} else {
 								// Adds regular note iwht the DPW class
 								System.out.println("Non beam note");
 								if (s[6].equals("o")) {
 									DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up");
+											Integer.parseInt(s[4]), s[3], s[8]);
 								} else {
 									DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up", s[6]);
+											Integer.parseInt(s[4]), s[3], s[8], s[6]);
 								}
 							}
 							first = false;
@@ -311,20 +311,20 @@ public class Chain {
 								System.out.println("Beam Note Added");
 								if (s[6].equals("o")) {
 									DPW.nextDrumNoteBChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up", beams);
+											Integer.parseInt(s[4]), s[3], s[8], beams);
 								} else {
 									DPW.nextDrumNoteBNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up", beams, s[6]);
+											Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
 								}
 							} else {
 								// Adds regular note iwht the DPW class
 								System.out.println("Non beam note");
 								if (s[6].equals("o")) {
 									DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up");
+											Integer.parseInt(s[4]), s[3], s[8]);
 								} else {
 									DPW.nextDrumNoteNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], "up", s[6]);
+											Integer.parseInt(s[4]), s[3], s[8], s[6]);
 								}
 							}
 						}

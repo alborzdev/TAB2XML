@@ -241,6 +241,7 @@ public class DrumReader {
 		int forward = 0;
 		String beam = "";
 		String notehead = "o";
+		String stem = "";
 		boolean beamFlag;
 		boolean beamStarted = false;
 		
@@ -287,39 +288,42 @@ public class DrumReader {
 					System.out.println("DURATION ERROR");
 				}	
 				
+				
 				//checks if a beam is begining, continuing, ending, or doesn't exist
 				if(beamDur == duration) {
 					//there is room for beam to continue
-					if((this.curr_col + duration) < this.measure[row].length() && !this.drumKit.get(row).equals("BD") && !beamStarted) {
-						
+					if((this.curr_col + duration) < this.measure[row].length() && !instrument.equals("P1-I36") && !beamStarted) {						
 						beamFlag = false;
 						//goes through row looking for potential beam
 						for(int i = 0; i < this.measure.length; i ++) {
 							char note = this.measure[i].charAt((this.curr_col-1) + duration);
-							if((note == 'o' || note =='x') && this.drumKit.get(i) != "BD") {
+							if((note == 'o' || note =='x') && this.drumKit.get(i) != "BD" && instrumentMax.get(this.drumKit.get(i)) == beamDur) {
 								beamFlag = true;
 							}
 						}
 						
 						//checks for existing continues
 						//checks if the beam should continue or end
-						if(beamFlag) {
+						if(beamFlag && beamLen < 3) {
 							this.beamLen ++;
 							beam = "continue";
+							System.out.println("DEBUG: BEAM LENGTH: " + beamLen);
 						}else {
 							beam = "end";
 							this.beamDur = 0;
+							System.out.println("DEBUG: BEAM LENGTH: " + beamLen);
 						}
 						
 					}else{
 						beam = "end";
 						this.beamDur = 0;
+						System.out.println("DEBUG: BEAM LENGTH: " + beamLen);
 					}
 						
 				}else {
 					
 					//checks if a new beam should be created
-					if(((this.curr_col + duration) < this.measure[row].length()) && !this.drumKit.get(row).equals("BD") && !beamStarted) {
+					if(((this.curr_col + duration) < this.measure[row].length()) && !instrument.equals("P1-I36") && !beamStarted) {
 						beamFlag = false;
 						//goes through measure looking for potential beam
 						for(int i = 0; i < this.measure.length; i ++) {
@@ -332,7 +336,9 @@ public class DrumReader {
 						if(beamFlag) {
 							beam = "begin";
 							beamDur = duration;
+							beamLen = 1;
 							beamStarted = true;
+							System.out.println("DEBUG: BEAM LENGTH: " + beamLen);
 							System.out.println("BEAM STARTED AT COL " + (this.curr_col - 1));
 						}
 					}
@@ -361,6 +367,13 @@ public class DrumReader {
 				step = instrumentStep.get(instrument).substring(0, 1);
 				octave = Integer.parseInt(instrumentStep.get(instrument).substring(1));
 				
+				//makes stem down for base notes
+				if(instrument.equals("P1-I36")) {
+					stem = "down";
+				}else {
+					stem = "up";
+				}
+				
 				//Store all information for this note
 				String[] note = { step, // step of note
 						octave + "", // octave of note
@@ -369,7 +382,8 @@ public class DrumReader {
 						voice + "", // voice
 						type, 
 						notehead,
-						beam	};
+						beam	,
+						stem	};
 
 				notes.add(note);
 				
@@ -409,14 +423,14 @@ public class DrumReader {
 
 		//Max duration for supported instruments
 		instrumentMax.put("P1-I36", 8); //base drum 1
-		instrumentMax.put("P1-I39", 2); //snare drum;
+		instrumentMax.put("P1-I39", 1); //snare drum;
 		instrumentMax.put("P1-I43", 2); // closed high-hat
 		instrumentMax.put("P1-I47", 2); //open high-hat
 		instrumentMax.put("P1-152", 2); //ride cymbal
 		instrumentMax.put("P1-I50", 2); //crash cymbal
-		instrumentMax.put("P1-I48",2); //Low-Mid Tom
-		instrumentMax.put("P1-I46", 2); //low tom
-		instrumentMax.put("P1-I42", 2); //low floor tom
+		instrumentMax.put("P1-I48", 1); //Low-Mid Tom
+		instrumentMax.put("P1-I46", 1); //low tom
+		instrumentMax.put("P1-I42", 1); //low floor tom
 		
 		//Instrument display octave and step
 		instrumentStep.put("P1-I36", "F4"); //base drum 1
