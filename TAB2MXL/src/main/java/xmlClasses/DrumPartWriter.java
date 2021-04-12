@@ -57,9 +57,33 @@ public class DrumPartWriter {
 		
 	}
 	
+	//MODIFIED FOR CHORDS
 	//Create a note with a special note-head
 	public void nextDrumNoteNH(int duration, String type, String step, int octave, int voice, String instID, String stem, String notehead){
 		currentMeasure.addNote( new DrumNoteNH( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, notehead));
+		
+	}
+	
+	//Create Note with its Pitch object and adding it to the current measure.
+	public void nextDrumNoteChord(int duration, String type, String step, int octave, int voice, String instID, String stem ){
+		currentMeasure.addNote( new DrumNoteChord( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem));
+		
+	}
+	//Create a Note with a Beam
+	public void nextDrumNoteBChord(int duration, String type, String step, int octave, int voice, String instID, String stem, ArrayList<Beam> beam ){
+		currentMeasure.addNote( new DrumNoteBChord( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, beam));
+		
+	}
+		
+	//Create a Note with a Beam and a special note-head
+	public void nextDrumNoteBNHChord(int duration, String type, String step, int octave, int voice, String instID, String stem, ArrayList<Beam> beam, String notehead){
+		currentMeasure.addNote( new DrumNoteBNHChord( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, beam, notehead));
+		
+	}
+		
+	//Create a note with a special note-head
+	public void nextDrumNoteNHChord(int duration, String type, String step, int octave, int voice, String instID, String stem, String notehead){
+		currentMeasure.addNote( new DrumNoteNHChord( duration, type, new Unpitched( step, octave ), new Instrument(instID), voice, stem, notehead));
 		
 	}
 	
