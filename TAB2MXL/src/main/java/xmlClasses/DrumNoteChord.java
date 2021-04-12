@@ -4,13 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class DrumNoteChord extends DrumNote{
 		private String chord;
-		private String notehead;
 	
-		public DrumNoteChord() {
-			
-		}
-		public DrumNoteChord(int duration, String type, Unpitched unpitched, 
-				Instrument inst, int voice, String stem, String notehead) {
+		public DrumNoteChord(int duration, String type, Unpitched unpitched, Instrument inst, int voice, String stem) {
 			super(duration, type, unpitched, inst, voice, stem);
 			this.chord = "";
 		}
@@ -21,13 +16,5 @@ public class DrumNoteChord extends DrumNote{
 		}  
 		public void setChord(String chord) {  
 		    this.chord = chord;
-		}
-		
-		@XmlElement
-		public String getNotehead() {  
-		    return notehead;  
-		}  
-		public void setNotehead(String notehead) {  
-		    this.notehead = notehead;  
 		}
 }
