@@ -88,6 +88,7 @@ class MainControllerTest extends ApplicationTest{
     	clickOn("#InstrumentType");
     	assertEquals(3, combobox.getItems().size());
     }
+    
     @Test
     public void ConversionTypeCheck() {
     	ComboBox<String> combobox= find("#conversionType");
