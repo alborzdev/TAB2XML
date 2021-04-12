@@ -13,6 +13,7 @@ import javax.xml.bind.Marshaller;
 import test.DrumReader;
 import test.MeasureReaderV3;
 import test.MeasureReaderV4;
+import test.MeasureReaderV5;
 import test.TabReaderV2;
 import test.TabReaderV4;
 
@@ -190,7 +191,7 @@ public class Chain {
 		//String Note Parsing
 		TRv4.readMeasure();
 		while(TRv4.hasNext()) {
-			MeasureReaderV4 MRv4 = new MeasureReaderV4(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
 			if (marker>0) {
 				if(TIMESIGS[marker]!=TIMESIGS[marker-1]) {
 					ATT = new AttributeWriter( FIFTHS, DIVISIONS, TIMESIGS[marker]/10,
@@ -201,11 +202,11 @@ public class Chain {
 				}
 			}
 			PW.nextMeasure( ATT );//adds an empty measure
-			ATT=null;//removes all attributes after the first measrue
-			while(MRv4.hasNext()) {
-				MRv4.readNotes();
+			ATT=null;//removes all attributes after the first measure
+			while(MRv5.hasNext()) {
+				MRv5.readNotes();
 				String ChordNote = null;//makes notes chorded when they are not the first one
-				for(String[] s:MRv4.getNotes()) {
+				for(String[] s:MRv5.getNotes()) {
 					PW.nextAllNote( Integer.parseInt(s[0]), //duration
 									s[1],					//type
 									s[2],					//step
@@ -215,16 +216,16 @@ public class Chain {
 									Integer.parseInt(s[7]),	//fret
 									0,						//hNum
 									null,					//hType
-									null,					//hCharacter
-									0,						//sNum
+									"H",					//hCharacter
+									Integer.parseInt(s[8]),	//sNum
 									null,					//sPlacement
-									null,					//sType
+									s[9],					//sType
 									0,						//pNum
 									null,					//pType
-									null,					//pCharacter
+									"P",					//pCharacter
 									VOICE,					//voice
 									ChordNote,				//chord
-									GRACE					//grace
+									s[10]					//grace
 									);
 					ChordNote = "";
 				}
