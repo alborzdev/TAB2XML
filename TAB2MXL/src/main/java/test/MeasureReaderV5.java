@@ -67,7 +67,7 @@ public class MeasureReaderV5 {
 		
 		this.slurStatus = new String[this.string_count];
 		for(int i = 0; i<this.string_count; i++) {
-			this.slurStatus[i] = "none";
+			this.slurStatus[i] = null;
 		}
 	}
 	
@@ -80,6 +80,7 @@ public class MeasureReaderV5 {
 				String alter = "0";
 				String accidental = "";
 				String grace = "";
+				String slur = "0";
 				
 				if(stepAndOctave[0].length() > 1) {
 					alter = "1";
@@ -88,6 +89,12 @@ public class MeasureReaderV5 {
 				
 				if(this.strColumn[i].charAt(0) == 'g') {
 					grace = "grace";
+				}
+				
+				if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'h') {
+					slur = "1";
+				}else if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'p') {
+					slur = "1";
 				}
 
 				//System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
@@ -101,6 +108,7 @@ public class MeasureReaderV5 {
 						accidental,																			//accidental
 						""+(i+1),																					//string
 						""+shifts[i],																			//fret
+						slur,
 						slurStatus[i], //slur
 						grace, //grace note
 						""  
@@ -298,8 +306,8 @@ public class MeasureReaderV5 {
 		
 	}
 	
-	private String[] advanceConnectorStatus(String[] connectorArray, int string, boolean cont) {
-		if(connectorArray[string].equals("none")) {
+	private String[] advanceConnectorStatus1(String[] connectorArray, int string, boolean cont) {
+		if(connectorArray[string].equals(null)) {
 			if(cont) {
 				connectorArray[string] = "start";
 			}else {
@@ -309,9 +317,9 @@ public class MeasureReaderV5 {
 			if(cont) {
 				connectorArray[string] = "continue";
 			}else {
-				connectorArray[string] = "end";
+				connectorArray[string] = "stop";
 			}
-		}else if(connectorArray[string].equals("end")) {
+		}else if(connectorArray[string].equals("stop")) {
 			if(cont) {
 				connectorArray[string] = "start";
 			}else {
@@ -321,7 +329,36 @@ public class MeasureReaderV5 {
 			if(cont) {
 				//remain as continue
 			}else {
-				connectorArray[string] = "end";
+				connectorArray[string] = "stop";
+			}
+		}
+		return connectorArray;
+	}
+	
+	private String[] advanceConnectorStatus(String[] connectorArray, int string, boolean cont) {
+		if(connectorArray[string] == null) {
+			if(cont) {
+				connectorArray[string] = "start";
+			}else {
+				//remain as none
+			}
+		}else if(connectorArray[string].equals("start")) {
+			if(cont) {
+				connectorArray[string] = "continue";
+			}else {
+				connectorArray[string] = "stop";
+			}
+		}else if(connectorArray[string].equals("stop")) {
+			if(cont) {
+				connectorArray[string] = "start";
+			}else {
+				connectorArray[string] = null;
+			}
+		}else { //slur is continue
+			if(cont) {
+				//remain as continue
+			}else {
+				connectorArray[string] = "stop";
 			}
 		}
 		return connectorArray;
