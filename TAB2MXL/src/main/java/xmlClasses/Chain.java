@@ -225,6 +225,7 @@ public class Chain {
 	private void TABtoPARTdrum() {
 		System.out.println("DRUM DRUM DRUM");
 		int gap = 0;
+		ArrayList<String[]> bassLine = new ArrayList<String[]>();
 		
 		try {
 			TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), 6, 0);
@@ -243,96 +244,149 @@ public class Chain {
 				System.out.println("Set New measure");
 				while(DR.hasNext()) {
 					boolean first = true;
-					for(String [] s: DR.readNotes()) {						
-//						Console Output for Testing
-						System.out.println("Step" + s[0] + "Octave" + Integer.parseInt(s[1]) + "Duration"
-								+ Integer.parseInt(s[2]) + "Intrument" + s[3] + "Voice" + s[4] + "Type" + s[5]
-								+ "NoteHead" + s[6] + "Beam" + s[7]);
-
-						// checks if this note has a beam
-						if(first) {
-							if (!s[7].equals("")) {
-								//list to hold beams of this note
-								ArrayList<Beam> beams = new ArrayList<Beam>();
+					for(String [] s: DR.readNotes()) {	
+						
+						//saves bass notes for later
+						if(!s[3].equals("P1-I36")) {
+	//						Console Output for Testing
+							System.out.println("Step" + s[0] + "Octave" + Integer.parseInt(s[1]) + "Duration"
+									+ Integer.parseInt(s[2]) + "Intrument" + s[3] + "Voice" + s[4] + "Type" + s[5]
+									+ "NoteHead" + s[6] + "Beam" + s[7]);
 	
-								// checks if this note is a sixteenth or not
-								if (Integer.parseInt(s[2]) == 1) {
-									// adds two beams if this note is a sixteenth
-									Beam beam1 = new Beam(1, s[7]);
-									Beam beam2 = new Beam(2, s[7]);
-									beams.add(beam1);
-									beams.add(beam2);
-	
+							// checks if this note has a beam
+							if(first) {
+								if (!s[7].equals("")) {
+									//list to hold beams of this note
+									ArrayList<Beam> beams = new ArrayList<Beam>();
+		
+									// checks if this note is a sixteenth or not
+									if (Integer.parseInt(s[2]) == 1) {
+										// adds two beams if this note is a sixteenth
+										Beam beam1 = new Beam(1, s[7]);
+										Beam beam2 = new Beam(2, s[7]);
+										beams.add(beam1);
+										beams.add(beam2);
+		
+									} else {
+										Beam beam1 = new Beam(1, s[7]);
+										beams.add(beam1);
+									}
+		
+									// Adds the bean note using the DPW class
+									System.out.println("Beam Note Added");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNoteB(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams);
+									} else {
+										DPW.nextDrumNoteBNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
+									}
 								} else {
-									Beam beam1 = new Beam(1, s[7]);
-									beams.add(beam1);
+									// Adds regular note iwht the DPW class
+									System.out.println("Non beam note");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8]);
+									} else {
+										DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], s[6]);
+									}
 								}
-	
-								// Adds the bean note using the DPW class
-								System.out.println("Beam Note Added");
-								if (s[6].equals("o")) {
-									DPW.nextDrumNoteB(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8], beams);
+								first = false;
+							}else {
+								if (!s[7].equals("")) {
+									//list to hold beams of this note
+									ArrayList<Beam> beams = new ArrayList<Beam>();
+		
+									// checks if this note is a sixteenth or not
+									if (Integer.parseInt(s[2]) == 1) {
+										// adds two beams if this note is a sixteenth
+										Beam beam1 = new Beam(1, s[7]);
+										Beam beam2 = new Beam(2, s[7]);
+										beams.add(beam1);
+										beams.add(beam2);
+		
+									} else {
+										Beam beam1 = new Beam(1, s[7]);
+										beams.add(beam1);
+									}
+		
+									// Adds the bean note using the DPW class
+									System.out.println("Beam Note Added");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNoteBChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams);
+									} else {
+										DPW.nextDrumNoteBNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
+									}
 								} else {
-									DPW.nextDrumNoteBNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
-								}
-							} else {
-								// Adds regular note iwht the DPW class
-								System.out.println("Non beam note");
-								if (s[6].equals("o")) {
-									DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8]);
-								} else {
-									DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8], s[6]);
+									// Adds regular note iwht the DPW class
+									System.out.println("Non beam note");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8]);
+									} else {
+										DPW.nextDrumNoteNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], s[6]);
+									}
 								}
 							}
-							first = false;
 						}else {
-							if (!s[7].equals("")) {
-								//list to hold beams of this note
-								ArrayList<Beam> beams = new ArrayList<Beam>();
-	
-								// checks if this note is a sixteenth or not
-								if (Integer.parseInt(s[2]) == 1) {
-									// adds two beams if this note is a sixteenth
-									Beam beam1 = new Beam(1, s[7]);
-									Beam beam2 = new Beam(2, s[7]);
-									beams.add(beam1);
-									beams.add(beam2);
-	
-								} else {
-									Beam beam1 = new Beam(1, s[7]);
-									beams.add(beam1);
-								}
-	
-								// Adds the bean note using the DPW class
-								System.out.println("Beam Note Added");
-								if (s[6].equals("o")) {
-									DPW.nextDrumNoteBChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8], beams);
-								} else {
-									DPW.nextDrumNoteBNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
-								}
-							} else {
-								// Adds regular note iwht the DPW class
-								System.out.println("Non beam note");
-								if (s[6].equals("o")) {
-									DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8]);
-								} else {
-									DPW.nextDrumNoteNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
-											Integer.parseInt(s[4]), s[3], s[8], s[6]);
-								}
-							}
+							bassLine.add(s);
 						}
 					}
 				}
+				
+				//add all bass notes at the end
+				//goes back to beginning of the measure
+				DPW.nextBackup(16);
+				
+				for(String [] s: bassLine) {
+					if (!s[7].equals("")) {
+						//list to hold beams of this note
+						ArrayList<Beam> beams = new ArrayList<Beam>();
+
+						// checks if this note is a sixteenth or not
+						if (Integer.parseInt(s[2]) == 1) {
+							// adds two beams if this note is a sixteenth
+							Beam beam1 = new Beam(1, s[7]);
+							Beam beam2 = new Beam(2, s[7]);
+							beams.add(beam1);
+							beams.add(beam2);
+
+						} else {
+							Beam beam1 = new Beam(1, s[7]);
+							beams.add(beam1);
+						}
+
+						// Adds the bean note using the DPW class
+						System.out.println("Beam Note Added");
+						if (s[6].equals("o")) {
+							DPW.nextDrumNoteB(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8], beams);
+						} else {
+							DPW.nextDrumNoteBNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
+						}
+					} else {
+						// Adds regular note iwht the DPW class
+						System.out.println("Non beam note");
+						if (s[6].equals("o")) {
+							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8]);
+						} else {
+							DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8], s[6]);
+						}
+					}
+				}
+				
+				//clear bassLine
+				bassLine.clear();
 				TRv4.readMeasure();
 			}
-//			DPW.getDrumPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
+			DPW.getDrumPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

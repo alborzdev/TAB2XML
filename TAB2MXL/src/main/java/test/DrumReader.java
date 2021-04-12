@@ -363,16 +363,26 @@ public class DrumReader {
 					notehead = "x";
 				}
 				
+				//adjustment for Hi Hat
+				if(instrument.equals("P1-I43") && notehead != "x") {
+					//Open Hi Hat
+					instrument = "P1-I47";
+				}
+				
 				// changes un-pitched position of note using the instrument-step map
 				step = instrumentStep.get(instrument).substring(0, 1);
 				octave = Integer.parseInt(instrumentStep.get(instrument).substring(1));
 				
 				//makes stem down for base notes
 				if(instrument.equals("P1-I36")) {
+					//so bass notes can have a down stem
 					stem = "down";
+					//used to make bass notes not included for other beams
+					voice = 2;
 				}else {
 					stem = "up";
 				}
+				
 				
 				//Store all information for this note
 				String[] note = { step, // step of note
@@ -414,7 +424,7 @@ public class DrumReader {
 		instrumentIds.put("KD", "P1-I36"); //kick drum
 		instrumentIds.put("SD", "P1-I39"); //snare drum
 		instrumentIds.put("HH", "P1-I43"); //closed high hat, only when note-head is an X
-		instrumentIds.put("HHO", "P1-I47"); //open high hat 
+		instrumentIds.put("HO", "P1-I47"); //open high hat 
 		instrumentIds.put("RC", "P1-I52"); //ride cymbal
 		instrumentIds.put("CC", "P1-I50"); //crash cymbal
 		instrumentIds.put("HT", "P1-I48");// Low-Mid Tom
