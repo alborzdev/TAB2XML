@@ -224,7 +224,7 @@ public class DrumReader {
 	}
 	
 	/*
-	 * Reads one line of notes of a measure
+	 * Reads one column of notes of a measure
 	 * 
 	 * returns a list of String arrays containing information for one drum note
 	 */
@@ -397,11 +397,7 @@ public class DrumReader {
 
 				notes.add(note);
 				
-			}//else {
-//				forward++;
-//				System.out.println("Adding to forward, forward " + forward);
-//				
-//			}
+			}
 			
 			//skips index where this instrument is played
 			beam = "";
@@ -492,6 +488,7 @@ public class DrumReader {
 	
 	/*
 	 * Takes one horizontal line of notes from this.measure into this.row
+	 * Currently Unused
 	 */
 	protected void readRow() {
 		this.rows = new char[this.measure[0].length()];

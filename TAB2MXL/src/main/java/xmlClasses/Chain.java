@@ -321,7 +321,7 @@ public class Chain {
 												Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
 									}
 								} else {
-									// Adds regular note iwht the DPW class
+									// Adds regular note with the DPW class
 									System.out.println("Non beam note");
 									if (s[6].equals("o")) {
 										DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
@@ -370,7 +370,7 @@ public class Chain {
 									Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
 						}
 					} else {
-						// Adds regular note iwht the DPW class
+						// Adds regular note with the DPW class
 						System.out.println("Non beam note");
 						if (s[6].equals("o")) {
 							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
