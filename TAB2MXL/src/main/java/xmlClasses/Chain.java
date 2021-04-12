@@ -241,25 +241,20 @@ public class Chain {
 				ATT = null;
 				DR.setMeasure(TRv4.getMeasure());
 				System.out.println("Set New measure");
-				while (DR.hasNextRow()) {
+				while(DR.hasNext()) {
+					boolean first = true;
+					for(String [] s: DR.readNotes()) {						
+//						Console Output for Testing
+						System.out.println("Step" + s[0] + "Octave" + Integer.parseInt(s[1]) + "Duration"
+								+ Integer.parseInt(s[2]) + "Intrument" + s[3] + "Voice" + s[4] + "Type" + s[5]
+								+ "NoteHead" + s[6] + "Beam" + s[7]);
 
-					for (String[] s : DR.readNoteRow()) {
-						//Checks if there is a forward or a note
-						if (s[0].equals("forward")) {
-							//creates a forward with the DPW class
-							DPW.nextForward(Integer.parseInt(s[1]));
-						} else {
-							
-							//Console Output for Testing
-							System.out.println("Step" + s[0] + "Octave" + Integer.parseInt(s[1]) + "Duration"
-									+ Integer.parseInt(s[2]) + "Intrument" + s[3] + "Voice" + s[4] + "Type" + s[5]
-									+ "NoteHead" + s[6] + "Beam" + s[7]);
-
-							// checks if this note has a beam
+						// checks if this note has a beam
+						if(first) {
 							if (!s[7].equals("")) {
 								//list to hold beams of this note
 								ArrayList<Beam> beams = new ArrayList<Beam>();
-
+	
 								// checks if this note is a sixteenth or not
 								if (Integer.parseInt(s[2]) == 1) {
 									// adds two beams if this note is a sixteenth
@@ -267,12 +262,12 @@ public class Chain {
 									Beam beam2 = new Beam(2, s[7]);
 									beams.add(beam1);
 									beams.add(beam2);
-
+	
 								} else {
 									Beam beam1 = new Beam(1, s[7]);
 									beams.add(beam1);
 								}
-
+	
 								// Adds the bean note using the DPW class
 								System.out.println("Beam Note Added");
 								if (s[6].equals("o")) {
@@ -293,16 +288,54 @@ public class Chain {
 											Integer.parseInt(s[4]), s[3], "up", s[6]);
 								}
 							}
+							first = false;
+						}else {
+							if (!s[7].equals("")) {
+								//list to hold beams of this note
+								ArrayList<Beam> beams = new ArrayList<Beam>();
+	
+								// checks if this note is a sixteenth or not
+								if (Integer.parseInt(s[2]) == 1) {
+									// adds two beams if this note is a sixteenth
+									Beam beam1 = new Beam(1, s[7]);
+									Beam beam2 = new Beam(2, s[7]);
+									beams.add(beam1);
+									beams.add(beam2);
+	
+								} else {
+									Beam beam1 = new Beam(1, s[7]);
+									beams.add(beam1);
+								}
+	
+								// Adds the bean note using the DPW class
+								System.out.println("Beam Note Added");
+								if (s[6].equals("o")) {
+									DPW.nextDrumNoteBChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up", beams);
+								} else {
+									DPW.nextDrumNoteBNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up", beams, s[6]);
+								}
+							} else {
+								// Adds regular note iwht the DPW class
+								System.out.println("Non beam note");
+								if (s[6].equals("o")) {
+									DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up");
+								} else {
+									DPW.nextDrumNoteNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+											Integer.parseInt(s[4]), s[3], "up", s[6]);
+								}
+							}
 						}
 					}
-//					backup for next row
-					DPW.nextBackup(16);
 				}
 				TRv4.readMeasure();
 			}
 //			DPW.getDrumPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -333,12 +366,12 @@ public class Chain {
 		//Marshalling
 		try {
 			
-		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class); 
+		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class, DrumNoteNHChord.class, DrumNoteBChord.class, DrumNoteChord.class, DrumNoteBNHChord.class); 
 	    Marshaller marshallerObj = contextObj.createMarshaller(); 
 	    System.out.println("test 1");
 	    //adapter used to control measure marshaling
 	    EntryAdapter adapter = new EntryAdapter(contextObj);
-	    
+	     
 	    marshallerObj.setAdapter(adapter);
 	    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	    marshallerObj.setProperty("com.sun.xml.bind.xmlHeaders", "<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">");
