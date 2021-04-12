@@ -24,24 +24,24 @@ public class Main {
 		
 		
 		try {
-			File file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+			File file = new File(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
 			//File file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
 			TabReaderV4 tb = new TabReaderV4(file,6);
 			tb.readMeasure();
-//			while(tb.hasNext()) {	
-//				MeasureReaderV4 ms = new MeasureReaderV4(tb.getMeasure(),tb.getTuning(),4,4);
-//				while(ms.hasNext()) {
-//					ms.readNotes();
-//					ms.getNotes();
-//				}
-//				tb.readMeasure();
-//				//measure break
-//			}
-			List<String[]> list = tb.listMeasures();
-			System.out.println("DEBUG: Listing all measures after this point ##------------------------##");
-			for(String[] ms: list) {
-				stringArrayDump("measure",ms);
+			while(tb.hasNext()) {	
+				MeasureReaderV5 ms = new MeasureReaderV5(tb.getMeasure(),tb.getTuning(),4,4);
+				while(ms.hasNext()) {
+					ms.readNotes();
+					ms.getNotes();
+				}
+				tb.readMeasure();
+				//measure break
 			}
+//			List<String[]> list = tb.listMeasures();
+//			System.out.println("DEBUG: Listing all measures after this point ##------------------------##");
+//			for(String[] ms: list) {
+//				stringArrayDump("measure",ms);
+//			}
 		}catch(LineErrorException e) {
 			System.out.println(e.getMessage());
 			System.out.println(e.getLine());
@@ -50,6 +50,7 @@ public class Main {
 			System.out.println(e.toString());
 			e.printStackTrace();
 		}
+		
 	}
 	
 	private static void stringArrayDump(String arrayName, String[] in) {

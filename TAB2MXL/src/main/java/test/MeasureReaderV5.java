@@ -6,14 +6,14 @@ import java.util.regex.Pattern;
 
 import config.ConfigReader;
 
-public class MeasureReaderV4 {
+public class MeasureReaderV5 {
 	
 	//measure specific variables
 	ConfigReader cfg = ConfigReader.getConfig();
 	private String[] measure;
 	private int character_count, string_count, curr_col, ts_beats, ts_beatlength, trueMeasureLength, wNoteLength;
 	//note specific variables
-	private String[] strColumn;
+	private String[] strColumn, slurStatus; //assume that only hammeron/pulloff can slur => don't think u can slur any other way on guitar lmao
 	private char[] column;
 	private int noteLength;
 	// A# = Bb, also
@@ -30,12 +30,10 @@ public class MeasureReaderV4 {
 	//better way to decode notes
 
 	
-	protected MeasureReaderV4(String[] measure) { //basic instructor for testing do not use
+	protected MeasureReaderV5(String[] measure) { //basic instructor for testing do not use
 		this.measure = measure;
 		this.character_count = measure[0].length();
-
 		this.trueMeasureLength = this.floor2pow2(this.character_count);
-
 		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
 		this.ts_beats = 4;
 		this.ts_beatlength = 4;
@@ -43,7 +41,7 @@ public class MeasureReaderV4 {
 		curr_col = 0;
 	}
 	
-	public MeasureReaderV4(String[] measure, int beats, int beatlength) { //deprecated do not use
+	protected MeasureReaderV5(String[] measure, int beats, int beatlength) { //deprecated do not use
 		this.measure = measure;
 		this.character_count = measure[0].length();
 		this.trueMeasureLength = this.floor2pow2(this.character_count);
@@ -54,39 +52,51 @@ public class MeasureReaderV4 {
 		curr_col = 0;
 	}
 	
-	public MeasureReaderV4(String[] measure, String[] tuning, int beats, int beatlength) { 
+	public MeasureReaderV5(String[] measure, String[] tuning, int beats, int beatlength) { 
 		this.measure = measure;
 		this.character_count = measure[0].length();
-		
 		this.string_count = measure.length;
 		this.tuning = tuning;
 		this.ts_beats = beats;
 		this.ts_beatlength = beatlength;
 		this.hasNextColumn = true;
 		curr_col = 0;
-		
 		this.inferOctaves(tuning);
-		
 		this.trueMeasureLength = this.getTrueMeasureLength();
 		this.wNoteLength = this.ts_beatlength * (this.trueMeasureLength/this.ts_beats);
+		
+		this.slurStatus = new String[this.string_count];
+		for(int i = 0; i<this.string_count; i++) {
+			this.slurStatus[i] = null;
+		}
 	}
 	
 	public List<String[]> getNotes() {
 		List<String[]> out = new ArrayList<String[]>();
-		int[] shifts = getFrets(this.strColumn);
+		int[] shifts = getFretsExpanded(this.strColumn);
 		for(int i = 0; i<shifts.length; i++) {
 			if(shifts[i] >= 0) {
 				String[] stepAndOctave = calculateNoteandOctave(i,shifts[i]);
 				String alter = "0";
 				String accidental = "";
+				String grace = "";
+				String slur = "0";
 				
 				if(stepAndOctave[0].length() > 1) {
 					alter = "1";
 					accidental = "sharp";
 				}
-				//
-				//
-				//
+				
+				if(this.strColumn[i].charAt(0) == 'g') {
+					grace = "grace";
+				}
+				
+				if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'h') {
+					slur = "1";
+				}else if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'p') {
+					slur = "1";
+				}
+
 				//System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
 				
 				String[] noteProperties = {
@@ -97,12 +107,16 @@ public class MeasureReaderV4 {
 						alter,																				//alter
 						accidental,																			//accidental
 						""+(i+1),																					//string
-						""+shifts[i]																			//fret
+						""+shifts[i],																			//fret
+						slur,
+						slurStatus[i], //slur
+						grace, //grace note
+						""  
 				};
 				out.add(noteProperties);
 				
 				
-				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental)", noteProperties);
+				this.stringArrayDump("noteProperties, values are (duration, type, step, octave, alter, accidental,string,fret,slur,TBD,TBD)", noteProperties);
 				
 			}
 		}
@@ -152,13 +166,28 @@ public class MeasureReaderV4 {
 					}
 				}
 				this.readColumn(this.curr_col);
+				if(!this.isStrictEmpty(column)) {
+					break;
+				}
 			}
 			this.noteLength = counter + 1;
 			//------------------------------------------------------------------------------------
 			//continue reading empty columns to determine note length
 			this.readColumn(this.curr_col);
 			this.curr_col++;
-			while(this.isEmpty(this.column) && this.hasNextColumn) {
+			while(this.isStrictEmpty(this.column) && this.hasNextColumn) { //note to self: strictempty => not a number || empty => is a dash || empty is more "strict" logically, but less strict musically
+				if(!this.isEmpty(this.column)) {
+					
+					if(this.columnHas(this.column, 'g')) {
+						break;
+					}
+					
+					for(int i=0; i<this.string_count; i++) {
+						if(this.column[i] != '-') {
+							this.strColumn[i] = this.strColumn[i] + this.column[i];
+						}
+					}
+				}
 				this.readColumn(this.curr_col);
 				this.curr_col++;
 				this.noteLength ++;
@@ -239,31 +268,119 @@ public class MeasureReaderV4 {
 		
 	}
 	
-	private int[] getFretsEnhanced(String[] column) {
+	private int[] getFretsExpanded(String[] column) {
 		int[] out = new int[string_count];
 		for(int i=0; i<string_count; i++) {
-			Matcher noteMat = nOPat.matcher(column[i]);
+			Matcher nOMat = nOPat.matcher(column[i]);
+			
 			try {
-				if(column[i].length() <=2 ) { //length 1 or 2 - number or fail
-					out[i] = Integer.parseInt(column[i]);					
-				}else if(column[i].length() == 3){
+				Boolean slur = false;
+				if(nOMat.matches()) { //purely numbers
+					out[i] = Integer.parseInt(column[i]);
+				}else if(column[i].charAt(0) == 'g') { //replace with regex if possible
+					//grace notes
+					String temp = column[i].substring(1, column[i].length()-1);
+					out[i] = Integer.parseInt(temp);
+					slur = true;	
 					
 					
+				}else if(column[i].charAt(column[i].length()-1) == 'p' || column[i].charAt(column[i].length()-1) == 'h') { //replace with regex if possible
+					//hammer on pull off
+					String temp = column[i].substring(0, column[i].length()-1);
+					out[i] = Integer.parseInt(temp);
+					slur = true;
+
 				}else {
-					// TODO
+					out[i] = -1;
 				}
+				this.slurStatus = this.advanceConnectorStatus(slurStatus, i, slur);
+				
 			}catch(Exception e) {
 				out[i] = -1;
-			}		
+			}
+			
 		}
+		
+		//this.stringArrayDump("slurStatus", slurStatus);
 		return out;
 		
+	}
+	
+	private String[] advanceConnectorStatus1(String[] connectorArray, int string, boolean cont) {
+		if(connectorArray[string].equals(null)) {
+			if(cont) {
+				connectorArray[string] = "start";
+			}else {
+				//remain as none
+			}
+		}else if(connectorArray[string].equals("start")) {
+			if(cont) {
+				connectorArray[string] = "continue";
+			}else {
+				connectorArray[string] = "stop";
+			}
+		}else if(connectorArray[string].equals("stop")) {
+			if(cont) {
+				connectorArray[string] = "start";
+			}else {
+				connectorArray[string] = "none";
+			}
+		}else { //slur is continue
+			if(cont) {
+				//remain as continue
+			}else {
+				connectorArray[string] = "stop";
+			}
+		}
+		return connectorArray;
+	}
+	
+	private String[] advanceConnectorStatus(String[] connectorArray, int string, boolean cont) {
+		if(connectorArray[string] == null) {
+			if(cont) {
+				connectorArray[string] = "start";
+			}else {
+				//remain as none
+			}
+		}else if(connectorArray[string].equals("start")) {
+			if(cont) {
+				connectorArray[string] = "continue";
+			}else {
+				connectorArray[string] = "stop";
+			}
+		}else if(connectorArray[string].equals("stop")) {
+			if(cont) {
+				connectorArray[string] = "start";
+			}else {
+				connectorArray[string] = null;
+			}
+		}else { //slur is continue
+			if(cont) {
+				//remain as continue
+			}else {
+				connectorArray[string] = "stop";
+			}
+		}
+		return connectorArray;
 	}
 	
 	private boolean isEmpty(char[] column) {
 		boolean out = true;
 		for (char ch: column) {
 			if(ch != '-') {
+				out = false;
+				break;
+			}
+		}
+		return out;
+	}
+	
+	private boolean isStrictEmpty(char[] column) {
+		boolean out = true;
+		for (char ch: column) {
+			String character = "" + ch;
+			Matcher nOMat = nOPat.matcher(character);
+			if(nOMat.matches()) {
 				out = false;
 				break;
 			}
@@ -323,25 +440,65 @@ public class MeasureReaderV4 {
 		this.octaves = baseOctaves;
 	}
 	
-	private int getTrueMeasureLength() {
+	private int getTrueMeasureLength1() {
 		int out = 1;
 		int counter = 0;
-		//System.out.println(measure[3]);
-		while(counter < this.character_count && isEmpty(getColumn(counter))) {		
-			//System.out.print("0");
+		System.out.println(measure[3]);
+		while(counter < this.character_count && isStrictEmpty(getColumn(counter))) {		
+			System.out.print("0");
 			counter ++;
 		}
 		counter++;
 		while(counter < this.character_count) {	
-			if(!isEmpty(getColumn(counter)) && !isEmpty(getColumn(counter-1))) {
-				//System.out.print("x");
+			if(!isStrictEmpty(getColumn(counter)) && !isStrictEmpty(getColumn(counter-1))) {
+				System.out.print("x");
 			}else {
-				//System.out.print("-");
+				System.out.print("-");
 				out ++;
 			}
 			counter ++;
 		}
 		System.out.println("DEBUG: true measure length: " + out);
+		return out;
+	}
+	
+	private int getTrueMeasureLength() {
+		int out = 1;
+		int counter = 0;
+		System.out.println(measure[3]);
+		while(counter < this.character_count && isStrictEmpty(getColumn(counter))) {		
+			System.out.print("0");
+			counter ++;
+		}
+		counter++;
+		while(counter < this.character_count) {	
+			if(!isStrictEmpty(getColumn(counter)) && !isStrictEmpty(getColumn(counter-1))) {
+				System.out.print("x");
+			}else if(columnHas(getColumn(counter-1), 'g')){
+				System.out.print("-");
+				while(counter < this.character_count && !isEmpty(getColumn(counter))) {
+					System.out.print("x");
+					counter++;
+				}
+				out ++;
+			}else {
+				System.out.print("-");
+				out ++;
+			}
+			counter ++;
+		}
+		System.out.println("DEBUG: true measure length: " + out);
+		return out;
+	}
+	
+	private boolean columnHas(char[] scrutinee, char compare) {
+		boolean out = false;
+		for(char ch : scrutinee) {
+			if(ch == compare) {
+				out = true;
+				break;
+			}
+		}
 		return out;
 	}
 	

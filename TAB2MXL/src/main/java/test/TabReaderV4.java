@@ -19,7 +19,7 @@ public class TabReaderV4{
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
-	private String tabRegex="([a-z]|[A-Z])*\\|((-|[0-9]|x|o|X|O)+\\|)+";
+	private String tabRegex="([a-z]|[A-Z])*\\|((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+\\|)+"; //relaxed regex a bit to allow hammer-on/pull-off
 	private Pattern tabPat = Pattern.compile(tabRegex);
 	//regex explaination / tab format restrictions
 	//must start with tuning data
