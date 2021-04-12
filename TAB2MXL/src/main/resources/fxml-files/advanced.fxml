@@ -52,7 +52,7 @@
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
                         </JFXTextField>
-                        <JFXTextField fx:id="to" focusColor="WHITE" promptText="To measure" style="-fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
+                        <JFXTextField fx:id="to" focusColor="WHITE" onAction="#printSelection" onKeyTyped="#printSelection" promptText="To measure" style="-fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>

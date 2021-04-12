@@ -29,20 +29,20 @@
               <menus>
                 <Menu fx:id="menu" mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem onAction="#doExit" text="Exit">
+                    <MenuItem fx:id="exit" onAction="#doExit" text="Exit">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
-                        <MenuItem onAction="#doOpen" text="Upload file">
+                        <MenuItem fx:id="uploadMenu" onAction="#doOpen" text="Upload file">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#LOADRECENT" text="Open recent..." />
+                        <MenuItem fx:id="openrecent" mnemonicParsing="false" onAction="#LOADRECENT" text="Open recent..." />
                   </items>
                 </Menu>
-                  <Menu mnemonicParsing="false" text="Help">
+                  <Menu fx:id="Help" mnemonicParsing="false" text="Help">
                     <items>
                       <MenuItem fx:id="UserManual" mnemonicParsing="false" onAction="#UserManual" text="User Manual" />
                     </items>
