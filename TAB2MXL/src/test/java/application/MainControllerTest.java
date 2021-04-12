@@ -134,22 +134,15 @@ class MainControllerTest extends ApplicationTest{
     
     @Test
     public void TestTextArea() throws InterruptedException {
-    	BufferedReader br;
-		try {
-			br = new BufferedReader(new FileReader("testTab.txt"));
-			String line;
-			try {
-				while ((line = br.readLine()) != null) {
-					 System.out.println(line);
-					 textarea.appendText(line);
-					 textarea.appendText("\n");
-				 }
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+    	clickOn(textarea);
+    	String s = "e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "";
+    	textarea.appendText(s);
 		Thread.sleep(100);
 		textarea.deleteText(4, 8);
 		Thread.sleep(100);
