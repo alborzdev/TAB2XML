@@ -73,7 +73,7 @@ class MainControllerTest extends ApplicationTest{
     }
 
     @Test
-    public void when_Uploadbutton_is_clicked_FileChooser() {
+    public void TestUploadButton() {
         // when:
         clickOn(".button");
 
@@ -88,6 +88,7 @@ class MainControllerTest extends ApplicationTest{
     	clickOn("#InstrumentType");
     	assertEquals(3, combobox.getItems().size());
     }
+    
     @Test
     public void ConversionTypeCheck() {
     	ComboBox<String> combobox= find("#conversionType");
@@ -95,28 +96,30 @@ class MainControllerTest extends ApplicationTest{
     	assertEquals(2, combobox.getItems().size());
     	
     	combobox.getSelectionModel().select(0);
-    	
+    	assertEquals(combobox.getSelectionModel().getSelectedItem().equals("Tab"),true);
     	
     }
     
     @Test
-    public void Attributes() throws InterruptedException {
+    public void Attributes() {
     	TextField comp =find("#composer");
     	clickOn(comp);
     	comp.setText("Lian Attily");
-    	Thread.sleep(100);
     	assertEquals("Lian Attily", comp.getText());
     }
-   
+    
     @Test
-    public void Exit() {
-    	press(KeyCode.CONTROL).press(KeyCode.X).release(KeyCode.CONTROL).release(KeyCode.X);
-    	
+    public void TestMenuItems(){
+    	clickOn("#Help");
+    	clickOn("#UserManual");
+    	clickOn("#menu");
+    	clickOn("openrecent");
+    	clickOn("uploadMenu");
+    	clickOn("exit");
     }
     
-    
     @Test
-    public void export() throws InterruptedException {
+    public void TestExport() throws InterruptedException {
     	clickOn(textarea);
     	textarea.appendText("e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
     			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
@@ -125,14 +128,12 @@ class MainControllerTest extends ApplicationTest{
     			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
     			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
     			+ "");
-    	clickOn(export);
-    	Thread.sleep(10000);
-    	press(KeyCode.ENTER).release(KeyCode.ENTER);
+    	clickOn(export).type(KeyCode.C).press(KeyCode.ENTER).release(KeyCode.ENTER);
     	
     }
     
     @Test
-    public void testTextArea() throws InterruptedException {
+    public void TestTextArea() throws InterruptedException {
     	BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader("testTab.txt"));
@@ -157,7 +158,7 @@ class MainControllerTest extends ApplicationTest{
     }
     
     @Test
-    public void testSAVECHANGESBUTTON() {
+    public void TestEmptySaveChangesButton() {
     	Button sc = find("#savechanges");
     	clickOn(sc);
     	
@@ -165,15 +166,43 @@ class MainControllerTest extends ApplicationTest{
     }
     
     @Test
-    public void testMenu() {
+    public void TestMenu() {
     	clickOn("#menu");
     	FxAssert.verifyThat("#menu", LabeledMatchers.hasText("File"));
-    	clickOn("#UserManual");
-    	clickOn("exit");
     }
     
     @Test
-    public void emptySaveChanges() {
+    public void TestSaveChanges() {
+    	clickOn(textarea);
+    	String s = "e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "";
+    	textarea.appendText(s);
+    	clickOn("#savechanges");
+    	clickOn("menu");
+    	clickOn("openrecent");
+    	clickOn("YES");
+    	assertEquals(textarea.getText().equals(s), true);
+    }
+    
+    @Test
+    public void TestAdvancedSettings() {
+    	clickOn(textarea);
+    	JFXTextArea measures = find("#measuresTEXTAREA");
+    	String s = "e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "";
+    	textarea.appendText(s);
+    	clickOn("advanced").clickOn("#measures").clickOn("1").clickOn("#MeasureTimeSig").clickOn("3/4");
+    	assertEquals(measures.getText().isEmpty(),false);
     	
     }
 
