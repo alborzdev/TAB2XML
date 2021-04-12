@@ -17,7 +17,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="501.0" prefWidth="289.0">
                <children>
-                  <JFXTextArea fx:id="measuresTEXTAREA" editable="false" prefHeight="198.0" prefWidth="289.0" style="-fx-text-fill: #BCAB79; -fx-background-color: #315659;">
+                  <JFXTextArea fx:id="measuresTEXTAREA" editable="false" prefHeight="198.0" prefWidth="289.0" style="-fx-text-fill: white; -fx-background-color: #BCAB79;">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -32,7 +32,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="480.0" prefWidth="279.0">
                <children>
-                  <JFXComboBox fx:id="measures" onAction="#printSelection" prefHeight="25.0" prefWidth="332.0" promptText="Select specific measure" style="-fx-background-color: #BCAB79;">
+                  <JFXComboBox fx:id="measures" focusColor="WHITE" onAction="#printSelection" prefHeight="25.0" prefWidth="332.0" promptText="Select specific measure" style="-fx-background-color: #BCAB79;">
                      <VBox.margin>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
@@ -52,7 +52,7 @@
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
                         </JFXTextField>
-                        <JFXTextField fx:id="to" focusColor="WHITE" onAction="#printSelection" onKeyTyped="#printSelection" promptText="To measure" style="-fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
+                        <JFXTextField fx:id="to" focusColor="WHITE" onAction="#printIntervalSelection" onKeyTyped="#printIntervalSelection" promptText="To measure" style="-fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>

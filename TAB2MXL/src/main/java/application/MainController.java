@@ -32,6 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
@@ -83,6 +84,16 @@ public class MainController implements Initializable {
 	int size;
 	String tab;
 	Chain chain;
+	
+	private int detector() {
+		int DetectedIntrument = (ErrorHandling.detectInstrument( textarea.getText() )/10);
+        if(DetectedIntrument == 1) InstrumentType.getSelectionModel().select(0);//set guitar
+        else if(DetectedIntrument == 2 || DetectedIntrument == 3 ) InstrumentType.getSelectionModel().select(2);  //set bass
+        else if(DetectedIntrument == 4) InstrumentType.getSelectionModel().select(1);//set drums
+        //else return -1; //cannot detect intrument. Tell user to pick instrument and line count
+        return DetectedIntrument;
+	}
+	
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
 	 * @param event
@@ -130,6 +141,7 @@ public class MainController implements Initializable {
 			}
 			else textarea.appendText(tab2mxl.txtAnalyzing.analyze(file.toString()));
 			ERRORStextarea.clear();
+			detector();
 		}
 		//updateTimeSigsArray();
 
@@ -275,15 +287,11 @@ public class MainController implements Initializable {
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
 		System.out.println("KEY EVENT TRIGGERED");
-		boolean flag= false;
-
-			//loadArray();
-		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), getTimeSig(), getKey(), getType(),getConversionType());     	
-		try{chain.TABtoPART();
-
-		} 
+		int stafflines = ErrorHandling.detectInstrument(textarea.getText());
+		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType(), stafflines);     	
+		detector();
+		try{chain.TABtoPART();} 
 		catch(LineErrorException e) {
-			flag = true;
 			System.out.println("LINE ERROR EXCEPTION");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
@@ -295,16 +303,12 @@ public class MainController implements Initializable {
 
 		try{chain.INFOtoPARTWISE();} 
 		catch(Exception e) {
-			flag = true;
 			System.out.println("Exception");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
 		}
-		System.out.println("FLAG  "+flag);
-		if(!flag) {
-			ERRORStextarea.clear();
-		}
+
 	}
 
 	@FXML
@@ -335,6 +339,8 @@ public class MainController implements Initializable {
 		//textarea = new JFXTextArea();
 		//measuresTEXTAREA.clear();
 		KeySig.getItems().add("C Major");
+		
+		KeySig.setStyle("-fx-text-fill:  #e1dddd ;") ;
 		KeySig.getSelectionModel().select(0);
 		//		KeySig.getItems().add("G Major");
 		//		KeySig.getItems().add("D Major");
@@ -346,7 +352,9 @@ public class MainController implements Initializable {
 
 		TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
+		
 		TimeSig.getSelectionModel().select(1);
+		TimeSig.setStyle("-fx-text-fill:  white ;");
 		//		TimeSig.getItems().add("5/4");
 		//		TimeSig.getItems().add("6/8");
 		//		TimeSig.getItems().add("7/8");
@@ -355,14 +363,17 @@ public class MainController implements Initializable {
 		InstrumentType.getItems().add("Guitar");
 		InstrumentType.getItems().add("Drums");
 		InstrumentType.getItems().add("Bass");
+		InstrumentType.setStyle("-fx-text-fill: white ;");
 		InstrumentType.getSelectionModel().select(0);
 
 		conversionType.getItems().add("Tab");
 		conversionType.getItems().add("Sheet Music");
+		conversionType.setStyle("-fx-text-fill:  #e1dddd ;") ;
 		conversionType.getSelectionModel().select(0);
 
 		MeasureTimeSig.getItems().add("3/4");
 		MeasureTimeSig.getItems().add("4/4");
+	
 		try {
 			updateTimeSigsArray();
 		} catch (Exception e) {
@@ -492,10 +503,13 @@ public class MainController implements Initializable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}}
+				if(response==Cancel) {
+					return ;
+				}
 			});;
 		}
 		else loader("database.txt","attributes.txt");
-
+		detector();
 	}
 
 	private void loader(String database, String attributes) throws IOException {
@@ -555,36 +569,43 @@ public class MainController implements Initializable {
 
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
-		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(getTextArea())%10 ).listMeasures();
+		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
 
 		if(measures.getSelectionModel().getSelectedItem()!=null) {
 		System.out.println("print selection:");
-		System.out.println("!!!!!!!!!!!!"+ErrorHandling.detectInstrument(getTextArea())%10);
+		System.out.println("!!!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
 			int i = measures.getSelectionModel().getSelectedIndex();
 			String [] t=TAB.get(i);
 			measuresTEXTAREA.clear();
 			for(int j=0;j<t.length;j++)	{
-				System.out.println(t[j]);
+				System.out.println("HEREEEEE"+t[j]);
 				measuresTEXTAREA.appendText("|");
 				measuresTEXTAREA.appendText(t[j]);
 				measuresTEXTAREA.appendText("|\n");
 			}
 		}
-		else if(to.getText()!=null && from.getText()!=null) {
+		
+	}
+	
+	@FXML
+	public void printIntervalSelection(KeyEvent event) throws Exception {
+		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
+		if(to.getText()!=null && from.getText()!=null) {
 			System.out.println("PRINTING SELECTION\n");
 			int fr = Integer.parseInt(from.getText()), TO = Integer.parseInt(to.getText());
 			measuresTEXTAREA.clear();
-			for(int i = fr; i<TO; i++) {
+			for(int i = fr; i<=TO; i++) {
 				String [] t=TAB.get(i);
 				for(int j=0;j<t.length;j++)	{
+					System.out.println("FROM = "+fr+"   TO: "+TO);
 					System.out.println(t[j]);
 					measuresTEXTAREA.appendText("|");
 					measuresTEXTAREA.appendText(t[j]);
 					measuresTEXTAREA.appendText("|\n");
 				}
+				System.out.println();
 			}
 		}
-		
 	}
 	
 	@FXML
@@ -672,6 +693,7 @@ public class MainController implements Initializable {
             root = FXMLLoader.load(getClass().getResource("/fxml-files/advanced.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Advanced Options");
+    		stage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
             stage.setScene(new Scene(root, 450, 450));
             stage.show();
             // Hide this current window (if this is what you want)
@@ -719,6 +741,7 @@ public class MainController implements Initializable {
 					else timesigs[i]=44;
 					i++;
 				}
+			br.close();
 	}
 	
 	public String getTextArea() {
