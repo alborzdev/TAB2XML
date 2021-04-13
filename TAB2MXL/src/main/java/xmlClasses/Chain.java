@@ -192,8 +192,10 @@ public class Chain {
 		TRv4.readMeasure();
 		while(TRv4.hasNext()) {
 			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+			System.out.println(marker+" measure is "+TIMESIGS[marker]+"@@@@");
 			if (marker>0) {
 				if(TIMESIGS[marker]!=TIMESIGS[marker-1]) {
+					
 					ATT = new AttributeWriter( FIFTHS, DIVISIONS, TIMESIGS[marker]/10,
 							TIMESIGS[marker]%10, null, LINE, VISIBLELINES).getAttributes();
 				}
