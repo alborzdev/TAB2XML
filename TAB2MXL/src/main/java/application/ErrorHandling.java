@@ -65,22 +65,22 @@ public class ErrorHandling {
 			System.out.println(tempArray[i] + " LINE " + i);
 		}
 		int j = 0;
-		while(tempArray[j].trim() == "\n") {
+		while(tempArray[j].trim() == "") {
 			j++;
 		}
 		for (int i = j; i < tempArray.length - 6; i++) {
 			if((tempArray[i].toUpperCase().charAt(0) != '|') && (tempArray[i].charAt(1) != '|')) {
 				return 46;
 			}
-			if(tempArray[i+4].trim().isEmpty()) {
+			if(tempArray[i+4].trim().isEmpty() || tempArray[i+4].charAt(0) == ('Z')) {
 				lines = 4;
 				return 34;
 			}
-			else if(tempArray[i+5].trim().isEmpty()) {
+			else if(tempArray[i+5].trim().isEmpty()|| tempArray[i+5].charAt(0) == ('Z')) {
 				lines = 5;
 				return 25;
 			}
-			else if(tempArray[i+6].trim().isEmpty()) {
+			else if(tempArray[i+6].trim().isEmpty()|| tempArray[i+6].charAt(0) == ('Z')) {
 				lines = 6;
 				return 16;
 			}
