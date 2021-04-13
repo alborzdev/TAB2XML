@@ -67,21 +67,17 @@ public class PartWriter {
 							String hCharacter, int sNum, String sPlacement, String sType, int pNum, String pType, String pCharacter,
 							int voice, String chord, String grace) {
 		
-		if(pType == null && pCharacter == null) {
+		if(pType == null && hType != null && sType != null) {
 			tech = new Technical(string, fret, new HammerOn(hNum, hType, hCharacter));
+			notations = new Notations(tech, new Slur(sNum, sType, sPlacement));
 		}
-		else if(hType == null && hCharacter == null) {
+		else if(hType == null && pType != null && sType != null) {
 			tech = new Technical(string, fret, new PullOff(pNum, pType, pCharacter));
-		}
-		else if(hType == null && hCharacter == null && pType == null && pCharacter == null) {
-			tech = new Technical(string, fret);
-		}
-		
-		if(sType == null) {
-			notations = new Notations(tech);
+			notations = new Notations(tech, new Slur(sNum, sType, sPlacement));
 		}
 		else {
-			notations = new Notations(tech, new Slur(sNum, sPlacement, sType));
+			tech = new Technical(string, fret);
+			notations = new Notations(tech);
 		}
 		
 		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave, alter ), notations, voice, chord, grace) );
