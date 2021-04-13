@@ -7,7 +7,7 @@ public class DrumPartWriter {
 	private Measure currentMeasure;
 	private static int parts_created=0;
 	
-	DrumPartWriter(){
+	public DrumPartWriter(){
 		part = new Part("P"+(parts_created+1));
 	}
 	
