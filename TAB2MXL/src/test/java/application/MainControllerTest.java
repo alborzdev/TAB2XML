@@ -142,7 +142,7 @@ class MainControllerTest extends ApplicationTest{
     	textarea.appendText(s);
 		Thread.sleep(100);
 		textarea.deleteText(4, 8);
-		//Thread.sleep(100);
+		Thread.sleep(100);
 		clickOn(export);
 		//Thread.sleep(1000);
     }
