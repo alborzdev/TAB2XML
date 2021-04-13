@@ -79,7 +79,7 @@ public class ErrorHandling {
 			else if(tempArray[i+5].trim().isEmpty()|| tempArray[i+5].charAt(0) == ('Z')) {
 				lines = 5;
 				return 25;
-			}
+			} //test
 			else if(tempArray[i+6].trim().isEmpty()|| tempArray[i+6].charAt(0) == ('Z')) {
 				lines = 6;
 				return 16;
