@@ -51,6 +51,7 @@ public class MainController implements Initializable {
 
 	private Stage stage;
 	private File file;
+	private static boolean CHANGE = false;
 
 	@FXML
 	private JFXTextField from, to;
@@ -193,6 +194,7 @@ public class MainController implements Initializable {
 				System.out.println("m="+i+" changing to "+timesigs[i]);
 			}
 			}
+			
 		}
 		else if(measures.getSelectionModel().getSelectedItem()!=null){
 			int m = measures.getSelectionModel().getSelectedIndex();
@@ -202,6 +204,9 @@ public class MainController implements Initializable {
 
 			System.out.println("m="+m+" changing to "+timesigs[m]);
 		}
+		
+		CHANGE = true;
+		System.out.println("CHANGE 209 = "+CHANGE);
 	}
 
 	
@@ -219,8 +224,14 @@ public class MainController implements Initializable {
 		saver.getExtensionFilters().add(extFilter);
 		loc = saver.showSaveDialog(stage);	//get file path specified by user
 		FileWriter write;
-		
-		loadArray();
+		System.out.println("change = "+CHANGE);
+		System.out.println("gettimesigs = "+getTimeSig());
+		if(CHANGE)loadArray();
+		else {
+			for(int i=0;i<size;i++) {
+				timesigs[i]=getTimeSig();
+			}
+		}
 
 		System.out.println("Measures");
 		for(int i=0;i<size;i++) {
@@ -438,9 +449,10 @@ public class MainController implements Initializable {
 	//default = 4/4
 	public int getTimeSig() {
 		int indx = TimeSig.getSelectionModel().getSelectedIndex();
+		System.out.println("indx "+indx);
 		switch(indx) {
-		case 0: return 34;
-		case 1: return 44;
+		case 0: return 34; 
+		case 1: return 44; 
 		//case 2: return 54;
 		//case 3: return 68;
 		//case 4: return 78;

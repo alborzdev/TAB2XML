@@ -48,7 +48,7 @@
          </top></BorderPane>
       <BorderPane layoutX="466.0" layoutY="54.0" prefHeight="410.0" prefWidth="601.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="512.0" AnchorPane.topAnchor="54.0">
          <left>
-            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" onKeyReleased="#updateTextArea" prefHeight="390.0" prefWidth="572.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa; -fx-prompt-text-fill: light grey;" unFocusColor="#a8c5d8" BorderPane.alignment="CENTER">
+            <JFXTextArea fx:id="textarea" focusColor="#ececec" labelFloat="true" onInputMethodTextChanged="#updateTextArea" onKeyPressed="#updateTextArea" onKeyReleased="#updateTextArea" onKeyTyped="#updateTextArea" prefHeight="390.0" prefWidth="572.0" promptText="Upload text file or paste tab here" style="-fx-background-color: #bbe1fa; -fx-prompt-text-fill: light grey;" unFocusColor="#a8c5d8" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Courier New" size="10.0" />
                </font>
