@@ -64,7 +64,11 @@ public class ErrorHandling {
 		for (int i = 0; i < tempArray.length; i++) {
 			System.out.println(tempArray[i] + " LINE " + i);
 		}
-		for (int i = 0; i < tempArray.length - 6; i++) {
+		int j = 0;
+		while(tempArray[j].trim() == "\n") {
+			j++;
+		}
+		for (int i = j; i < tempArray.length - 6; i++) {
 			if((tempArray[i].toUpperCase().charAt(0) != '|') && (tempArray[i].charAt(1) != '|')) {
 				return 46;
 			}
