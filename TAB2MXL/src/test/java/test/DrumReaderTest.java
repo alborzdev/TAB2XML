@@ -26,143 +26,99 @@ class DrumReaderTest {
 		DrumReader drumReader = new DrumReader(measure);
 
 		ArrayList<String> testKit = new ArrayList<String>();
-		testKit.add("P1-150");
-		testKit.add("P1-147");
-		testKit.add("P1-139");
-		testKit.add("P1-151");
-		testKit.add("P1-149");
-		testKit.add("P1-136");
-//		assertLinesMatch(drumReader.getDrumKit(), testKit);
-		;
+		testKit.add("P1-I50");
+		testKit.add("P1-I43");
+		testKit.add("P1-I39");
+		testKit.add("P1-I48");
+		testKit.add("P1-I46");
+		testKit.add("P1-I36");
+		assertLinesMatch(testKit, drumReader.getDrumKit());	
 	}
 
-//	@Test
-//	void measureOutput() {
-//		try {
-//			List<String[]> notes = new ArrayList<String[]>();
-//			String output = "";
-//			String path = System.getProperty("user.dir") + "/drumTestTab.txt";
-//			TabReaderV2 tabReader = new TabReaderV2(path);
-//			tabReader.resetMeasure();// used to get drumkit
-//			tabReader.readMeasure();
-//			DrumReader drumReader = new DrumReader(tabReader.getMeasure());
-//
-//			for (int m = 0; m < 2; m++) {
-//				tabReader.readMeasure();
-//				drumReader.setMeasure(tabReader.getMeasure());
-//				while (drumReader.hasNext()) {
-//					notes = drumReader.readNote();
-//					try {
-//
-//						while (!notes.isEmpty()) {
-//							String[] notes1 = notes.get(0);
-//							for (int i = 0; i < notes1.length; i++) {
-//								output += notes1[i] + " ,";
-//							}
-//							output += "\n";
-//							notes.remove(0);
-//						}
-//					} catch (Exception e) {
-//						System.out.println(e.getMessage());
-//					}
-//
-//				}
-//			}
-//			System.out.println(output);
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-//	}
-	
-	
-	@Test 
-	void rowParsingTest(){
+	@Test
+	void profExample() {
 		String path = System.getProperty("user.dir") + "/drumTestTab.txt";
 		try {
 			File fTab = null;
 			fTab=new File(path);
-
 			TabReaderV4 TRv4 = new TabReaderV4(fTab, 6, 0);
-		System.out.println("USING TABV4 NOW !!!!!");
-		
-		
-		TRv4.readMeasure();
-		DrumReader DR = new DrumReader(TRv4.getMeasure());//assumed 4/4
-		
-		
-		TRv4.readMeasure();
-		while(TRv4.hasNext()) {
-
-            DR.setMeasure(TRv4.getMeasure());
-			while(DR.hasNextRow()) {
-			System.out.println("Went Through to Read Row");
 			
-			for(String[] s:DR.readNoteRow()) {
-				if(s[0].equals("forward")) {
-					System.out.println("FORWARD " + s[1]  + "");
-				}else {
-					System.out.println("Step"+s[0]+
-							"Octave"+Integer.parseInt(s[1])+
-							"Duration"+Integer.parseInt(s[2])+
-							"Intrument"+s[3]+
-							"Voice"+s[4]+
-							"Type"+s[5]+
-							"NoteHead"+s[6]+
-							"Beam"+s[7]);
-				}
-
-				}
-			}
-			TRv4.readMeasure();	
+			
+		}catch(Exception e) {
+			
 		}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 	
+	/* Checks the DrumReader class correctly parses the first measure of the
+	 * prof's given example shown below
+	 * 
+	 *  CC|x---------------|--------x-------|*
+	 *  HH|--x-x-x-x-x-x-x-|----------------|*
+	 *  SD|----o-------o---|oooo------------|*
+	 *  HT|----------------|----oo----------|*
+	 *  MT|----------------|------oo--------|*
+	 *  BD|o-------o-------|o-------o-------|*/
+	@Test
+	void profExampleTest() {
+		String path = System.getProperty("user.dir") + "/drumTestTab.txt";
+		try {
+			//Loads Drum Tab into a string array
+			File fTab = null;
+			fTab = new File(path);
+			TabReaderV4 TRv4 = new TabReaderV4(fTab, 6, 0);
+			TRv4.readMeasure();
+			String [] tab = TRv4.getMeasure();
+			
+			DrumReader DR = new DrumReader(tab);// assumed 4/4
+			TRv4.readMeasure();
+			tab = TRv4.getMeasure();
+			DR.setMeasure(tab);
+			
+			ArrayList<String[]> actualNotes = new ArrayList<String[]>();
+			ArrayList<String[]> notes = new ArrayList<String[]>();
 
-//	@Test
-//	void airTonightTest() {
-//		try {
-//			List<String[]> notes = new ArrayList<String[]>();
-//			String output = "";
-//			String path = System.getProperty("user.dir") + "/inTheAirTonight.txt";
-//			TabReaderV2 tabReader = new TabReaderV2(path);
-//			tabReader.resetMeasure();// used to get drumkit
-//			tabReader.readMeasure();
-//			DrumReader drumReader = new DrumReader(tabReader.getMeasure());
-//
-//			System.out.println("NOTES");
-//
-//			// goes through 3 measures
-//			for (int l = 0; l < 3; l++) {
-//
-//				tabReader.readMeasure();
-//				drumReader.setMeasure(tabReader.getMeasure());
-//				while (drumReader.hasNext()) {
-//					notes = drumReader.readNote();
-//					try {
-//						if (!notes.isEmpty()) {
-//							while (!notes.isEmpty()) {
-//								String[] notes1 = notes.get(0);
-//								for (int i = 0; i < notes1.length; i++) {
-//									output += notes1[i] + " ,";
-//								}
-//								output += "\n";
-//								notes.remove(0);
-//							}
-//						}
-//					} catch (Exception e) {
-//						System.out.println("OUTPUT ERROR");
-//						System.out.println(e.getMessage());
-//					}
-//
-//				}
-//			}
-//			System.out.println(output);
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-//	}
+			//Expected notes in the first measure
+			String [] note1 = {"A", "5", "2", "P1-I50", "1", "eighth", "x", "begin", "up"};
+			notes.add(note1);
+			String [] note2 = {"F", "4", "8", "P1-I36", "2", "half", "o", "", "down"};
+			notes.add(note2);
+			String [] note3 = {"G", "5", "2", "P1-I43", "1", "eighth", "x", "continue", "up"};
+			notes.add(note3);
+			String [] note4 = {"G", "5", "2", "P1-I43", "1", "eighth", "x", "continue", "up"};
+			notes.add(note4);
+			String [] note5 = {"C", "5", "1", "P1-I39", "1","16th", "o", "", "up"};
+			notes.add(note5);
+			String [] note6 = {"G", "5", "2", "P1-I43", "1", "eighth", "x", "end", "up"};
+			notes.add(note6);
+			String [] note7 = {"G", "5", "2", "P1-I43", "1", "eighth", "x", "begin", "up"};
+			notes.add(note7);
+			String [] note8 = {"F", "4", "8", "P1-I36", "2", "half", "o", "", "down"};
+			notes.add(note8);
+			String [] note9 = {"G", "5", "2", "P1-I43", "1", "eighth", "x", "continue", "up"};
+			notes.add(note9);
+			String [] note10 = {"G", "5", "2", "P1-I43", "1", "eighth", "x", "continue", "up"};
+			notes.add(note10);
+			String [] note11 = {"C", "5", "1", "P1-I39", "1", "16th", "o", "", "up"};
+			notes.add(note11);
+			String [] note12 = {"G", "5", "2", "P1-I43", "1", "eighth", "x", "end", "up"};
+			notes.add(note12);
+
+			//add all parsed notes in the first measure into a different array-list
+			while(DR.hasNext()) {
+				for(String [] s: DR.readNotes()) {
+					actualNotes.add(s);
+				}
+			}
+			
+			//check the values of each note
+			for(int i = 0; i < actualNotes.size(); i++) {
+				assertArrayEquals(notes.get(i), actualNotes.get(i));
+			}
+			
+		}catch (Exception e) {
+			
+		}
+	}
+
 }
