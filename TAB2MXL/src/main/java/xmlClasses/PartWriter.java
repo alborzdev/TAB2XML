@@ -67,15 +67,15 @@ public class PartWriter {
 							String hCharacter, int sNum, String sPlacement, String sType, int pNum, String pType, String pCharacter,
 							int voice, String chord, String grace) {
 		
-		if(pType == null && sType != null) {
+		if(pType == null && hType != null && sType != null) {
 			tech = new Technical(string, fret, new HammerOn(hNum, hType, hCharacter));
 			notations = new Notations(tech, new Slur(sNum, sType, sPlacement));
 		}
-		else if(hType == null && sType != null) {
+		else if(hType == null && pType != null && sType != null) {
 			tech = new Technical(string, fret, new PullOff(pNum, pType, pCharacter));
 			notations = new Notations(tech, new Slur(sNum, sType, sPlacement));
 		}
-		else if(hType == null && pType == null && sType == null) {
+		else {
 			tech = new Technical(string, fret);
 			notations = new Notations(tech);
 		}
