@@ -142,7 +142,8 @@ class MainControllerTest extends ApplicationTest{
     	textarea.appendText(s);
 		Thread.sleep(100);
 		textarea.deleteText(4, 8);
-		Thread.sleep(100);
+		clickOn(textarea).type(KeyCode.BACK_SPACE);
+		Thread.sleep(500);
 		clickOn(export);
 		//Thread.sleep(1000);
     }
@@ -158,15 +159,25 @@ class MainControllerTest extends ApplicationTest{
     @Test
     public void TestMenu() {
     	clickOn("#menu");
+ 
     	FxAssert.verifyThat("#menu", LabeledMatchers.hasText("File"));
-
-    	clickOn("#openrecent");
-    	clickOn("#uploadMenu");
-    	clickOn("#exit");
     }
-    
     @Test
-    public void TestSaveChanges() {
+    public void TestOpenRecentButton(){
+    	clickOn("#menu").clickOn("#openrecent");
+    }
+    @Test 
+    public void TestMoreMenuItems() {
+
+    	clickOn("#menu").clickOn("#uploadMenu");
+
+    }
+    @Test
+    public void TestExit() {
+    	clickOn("#menu").clickOn("#exit");
+    }
+    @Test
+    public void TestSaveChanges() throws InterruptedException {
     	clickOn(textarea);
     	String s = "e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
     			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
@@ -177,8 +188,8 @@ class MainControllerTest extends ApplicationTest{
     			+ "";
     	textarea.appendText(s);
     	clickOn("#savechanges");
-    	clickOn("#menu");
-    	clickOn("#openrecent").clickOn("YES");
+    	Thread.sleep(800);
+    	clickOn("#menu").clickOn("#openrecent").clickOn("Yes");
     	assertEquals(textarea.getText().equals(s), true);
     }
     
@@ -217,6 +228,21 @@ class MainControllerTest extends ApplicationTest{
     	clickOn("#from").type(KeyCode.DIGIT2);
     	clickOn("#to").type(KeyCode.DIGIT3).clickOn("#MeasureTimeSig").clickOn("4/4").clickOn("#close");
     	clickOn(export);
+    }
+    
+    @Test
+    public void LoadRecentOverwrite() {
+    	clickOn(textarea);
+    	
+    	String s = "e|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|\r\n"
+    			+ "B|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|\r\n"
+    			+ "G|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|\r\n"
+    			+ "D|-7-------6-------|-5-------5-------|-3---------------|-----------------|\r\n"
+    			+ "A|-----------------|-----------------|-----------------|-2-0-0---0---8-7-|\r\n"
+    			+ "E|-----------------|-----------------|-----------------|-----------------|\r\n"
+    			+ "";
+    	textarea.appendText(s);
+    	clickOn("#menu").clickOn("#openrecent").clickOn("Yes");
     }
 
 }
