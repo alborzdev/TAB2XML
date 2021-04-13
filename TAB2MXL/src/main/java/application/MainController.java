@@ -189,7 +189,7 @@ public class MainController implements Initializable {
 						timesigs[i]=44;
 					}
 				}
-				
+				System.out.println("TIMESIGS IN METHOD = "+timesigs);
 	}
 	@FXML
 	public void changeMeasure(ActionEvent event) {
@@ -242,13 +242,24 @@ public class MainController implements Initializable {
 		FileWriter write;
 		System.out.println("change = "+CHANGE);
 		System.out.println("gettimesigs = "+getTimeSig());
-		System.out.println("SIZE = "+size);
+		
 		if(CHANGE)loadArray();
 		else {
+			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
+			for(int i=0;i<TAB2.size();i++) {
+				String [] t=TAB2.get(i);
+				System.out.println("printing t String[]");
+				for(int j=0;j<t.length;j++)	
+					System.out.println(t[j]);
+			}
+			timesigs = new int[TAB2.size()];
+			size = TAB2.size();
 			for(int i=0;i<size;i++) {
+				measures.getItems().add(i+1);
 				timesigs[i]=getTimeSig();
 			}
 		}
+		System.out.println("SIZE = "+size);
 
 		System.out.println("Measures");
 		for(int i=0;i<size;i++) {
@@ -260,7 +271,6 @@ public class MainController implements Initializable {
 
 		//CHAIN CALLS w/ ERROR HANDLING
 		boolean errorEvent = false;
-
 		//T2P
 		try { chain.TABtoPART(); } 
 		catch ( LineErrorException e ) {
