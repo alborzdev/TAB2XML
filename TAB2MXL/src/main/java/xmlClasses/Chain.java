@@ -214,18 +214,18 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
-									1,						//hNum
-									null,					//hType
+									Integer.parseInt(s[8]),	//hNum
+									s[9],					//hType
 									"H",					//hCharacter
-									Integer.parseInt(s[8]),	//sNum
-									null,					//sPlacement
-									s[9],					//sType
-									1,						//pNum
-									null,					//pType
+									Integer.parseInt(s[10]),//sNum
+									"above",				//sPlacement
+									s[11],					//sType
+									Integer.parseInt(s[12]),//pNum
+									s[13],					//pType
 									"P",					//pCharacter
 									VOICE,					//voice
 									ChordNote,				//chord
-									s[10]					//grace
+									s[14]					//grace
 									);
 					ChordNote = "";
 				}
