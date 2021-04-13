@@ -91,9 +91,13 @@ public class MeasureReaderV5 {
 					grace = "";
 				}
 				
-				if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'h') {
-					slur = "1";
-				}else if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'p') {
+//				if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'h') {
+//					slur = "1";
+//				}else if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'p') {
+//					slur = "1";
+//				}
+				
+				if(this.slurStatus[i] != null) {
 					slur = "1";
 				}
 
