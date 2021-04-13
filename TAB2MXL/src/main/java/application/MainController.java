@@ -144,6 +144,22 @@ public class MainController implements Initializable {
 			ERRORStextarea.clear();
 			detector();
 		}
+		//if(CHANGE)loadArray();
+		if(size==0){
+			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
+			for(int i=0;i<TAB2.size();i++) {
+				String [] t=TAB2.get(i);
+				System.out.println("printing t String[]");
+				for(int j=0;j<t.length;j++)	
+					System.out.println(t[j]);
+			}
+			timesigs = new int[TAB2.size()];
+			size = TAB2.size();
+			for(int i=0;i<size;i++) {
+				measures.getItems().add(i+1);
+				timesigs[i]=getTimeSig();
+			}
+		}
 		//updateTimeSigsArray();
 
 	}
@@ -325,12 +341,31 @@ public class MainController implements Initializable {
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
 		System.out.println("KEY EVENT TRIGGERED");
+		boolean flag = false;
 		detector();
+		if(CHANGE)loadArray();
+		else if(size==0){
+			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
+			for(int i=0;i<TAB2.size();i++) {
+				String [] t=TAB2.get(i);
+				System.out.println("printing t String[]");
+				for(int j=0;j<t.length;j++)	
+					System.out.println(t[j]);
+			}
+			timesigs = new int[TAB2.size()];
+			size = TAB2.size();
+			for(int i=0;i<size;i++) {
+				measures.getItems().add(i+1);
+				timesigs[i]=getTimeSig();
+			}
+		}
 		int stafflines = ErrorHandling.detectInstrument(textarea.getText());
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType(), stafflines);     	
-		
+
+		System.out.println("FLAG before = "+flag);
 		try{chain.TABtoPART();} 
 		catch(LineErrorException e) {
+			flag = true;
 			System.out.println("LINE ERROR EXCEPTION");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
@@ -342,11 +377,15 @@ public class MainController implements Initializable {
 
 		try{chain.INFOtoPARTWISE();} 
 		catch(Exception e) {
+			flag = true;
 			System.out.println("Exception");
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
+			
 		}
+		System.out.println("FLAG after = "+flag);
+		if(!flag) ERRORStextarea.clear();
 
 	}
 
