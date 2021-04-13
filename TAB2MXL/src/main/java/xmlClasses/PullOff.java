@@ -2,7 +2,8 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-import com.sun.xml.txw2.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 public class PullOff {
 	private int number;
@@ -35,9 +36,9 @@ public class PullOff {
 	    this.type = type;  
 	}
 	
-	@XmlElement
+	@XmlElement(name="")
 	public String getChar() {  
-	    return type;  
+	    return character;  
 	}  
 	public void setChar(String character) {  
 	    this.character = character;  
