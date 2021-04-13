@@ -702,7 +702,7 @@ public class MainController implements Initializable {
         catch (IOException e) {
             e.printStackTrace();
         }
-        //textarea.clear();
+        textarea.clear();
         loader("tempD.txt","tempA.txt");
         System.out.println("613");
         updateTimeSigsArray();
