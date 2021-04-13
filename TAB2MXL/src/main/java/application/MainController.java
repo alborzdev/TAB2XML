@@ -81,8 +81,8 @@ public class MainController implements Initializable {
 	@FXML
 	private JFXTextArea measuresTEXTAREA = new JFXTextArea();
 
-	int []timesigs;
-	int size;
+	static int []timesigs;
+	private static int size;
 	String tab;
 	Chain chain;
 	
@@ -173,6 +173,22 @@ public class MainController implements Initializable {
 					measures.getItems().add(i+1);
 					timesigs[i]=44;
 				}
+				if(!textarea.getText().isEmpty()) {
+					List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
+					System.out.println("size = "+TAB.size());
+					for(int i=0;i<TAB2.size();i++) {
+						String [] t=TAB2.get(i);
+						System.out.println("printing t String[]");
+						for(int j=0;j<t.length;j++)	
+							System.out.println(t[j]);
+					}
+					timesigs = new int[TAB2.size()];
+					size = TAB2.size();
+					for(int i=0;i<size;i++) {
+						measures.getItems().add(i+1);
+						timesigs[i]=44;
+					}
+				}
 				
 	}
 	@FXML
@@ -226,6 +242,7 @@ public class MainController implements Initializable {
 		FileWriter write;
 		System.out.println("change = "+CHANGE);
 		System.out.println("gettimesigs = "+getTimeSig());
+		System.out.println("SIZE = "+size);
 		if(CHANGE)loadArray();
 		else {
 			for(int i=0;i<size;i++) {
@@ -298,9 +315,10 @@ public class MainController implements Initializable {
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
 		System.out.println("KEY EVENT TRIGGERED");
+		detector();
 		int stafflines = ErrorHandling.detectInstrument(textarea.getText());
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType(), stafflines);     	
-		detector();
+		
 		try{chain.TABtoPART();} 
 		catch(LineErrorException e) {
 			System.out.println("LINE ERROR EXCEPTION");
