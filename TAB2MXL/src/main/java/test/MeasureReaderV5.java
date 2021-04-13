@@ -13,7 +13,7 @@ public class MeasureReaderV5 {
 	private String[] measure;
 	private int character_count, string_count, curr_col, ts_beats, ts_beatlength, trueMeasureLength, wNoteLength;
 	//note specific variables
-	private String[] strColumn, slurStatus; //assume that only hammeron/pulloff can slur => don't think u can slur any other way on guitar lmao
+	private String[] strColumn, slurStatus, pSlur, hSlur; //assume that only hammeron/pulloff can slur => don't think u can slur any other way on guitar lmao
 	private char[] column;
 	private int noteLength;
 	// A# = Bb, also
@@ -66,8 +66,12 @@ public class MeasureReaderV5 {
 		this.wNoteLength = this.ts_beatlength * (this.trueMeasureLength/this.ts_beats);
 		
 		this.slurStatus = new String[this.string_count];
+		this.pSlur = new String[this.string_count];
+		this.hSlur = new String[this.string_count];
 		for(int i = 0; i<this.string_count; i++) {
 			this.slurStatus[i] = null;
+			this.pSlur[i] = null;
+			this.hSlur[i] = null;
 		}
 	}
 	
@@ -81,6 +85,10 @@ public class MeasureReaderV5 {
 				String accidental = "";
 				String grace = null;
 				String slur = "0";
+				String hslur = "0";
+				String pslur = "0";
+				
+				
 				
 				if(stepAndOctave[0].length() > 1) {
 					alter = "1";
@@ -91,14 +99,14 @@ public class MeasureReaderV5 {
 					grace = "";
 				}
 				
-//				if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'h') {
-//					slur = "1";
-//				}else if(this.strColumn[i].charAt(this.strColumn[i].length()-1) == 'p') {
-//					slur = "1";
-//				}
-				
 				if(this.slurStatus[i] != null) {
 					slur = "1";
+				}
+				if(this.hSlur[i] != null) {
+					hslur = "1";
+				}
+				if(this.pSlur[i] != null) {
+					pslur = "1";
 				}
 
 				//System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
@@ -112,8 +120,12 @@ public class MeasureReaderV5 {
 						accidental,																			//accidental
 						""+(i+1),																					//string
 						""+shifts[i],																			//fret
+						hslur,
+						hSlur[i],
 						slur,
 						slurStatus[i], //slur
+						pslur,
+						pSlur[i],
 						grace, //grace note
 						""  
 				};
@@ -279,6 +291,8 @@ public class MeasureReaderV5 {
 			
 			try {
 				Boolean slur = false;
+				Boolean pslur = false;
+				Boolean hslur = false;
 				if(nOMat.matches()) { //purely numbers
 					out[i] = Integer.parseInt(column[i]);
 				}else if(column[i].charAt(0) == 'g') { //replace with regex if possible
@@ -288,16 +302,25 @@ public class MeasureReaderV5 {
 					slur = true;	
 					
 					
-				}else if(column[i].charAt(column[i].length()-1) == 'p' || column[i].charAt(column[i].length()-1) == 'h') { //replace with regex if possible
+				}else if(column[i].charAt(column[i].length()-1) == 'p') { //replace with regex if possible
 					//hammer on pull off
 					String temp = column[i].substring(0, column[i].length()-1);
 					out[i] = Integer.parseInt(temp);
 					slur = true;
+					pslur = true;
 
+				}else if (column[i].charAt(column[i].length()-1) == 'h'){
+					String temp = column[i].substring(0, column[i].length()-1);
+					out[i] = Integer.parseInt(temp);
+					slur = true;
+					hslur = true;
+					
 				}else {
 					out[i] = -1;
 				}
-				this.slurStatus = this.advanceConnectorStatus(slurStatus, i, slur);
+				this.slurStatus = this.advanceConnectorStatus(this.slurStatus, i, slur);
+				this.pSlur = this.advanceConnectorStatus(this.pSlur, i, pslur);
+				this.hSlur = this.advanceConnectorStatus(this.hSlur, i, hslur);
 				
 			}catch(Exception e) {
 				out[i] = -1;
