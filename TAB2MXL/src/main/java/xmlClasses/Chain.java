@@ -13,6 +13,7 @@ import javax.xml.bind.Marshaller;
 import test.DrumReader;
 import test.MeasureReaderV3;
 import test.MeasureReaderV4;
+import test.MeasureReaderV5;
 import test.TabReaderV2;
 import test.TabReaderV4;
 
@@ -154,8 +155,8 @@ public class Chain {
 		}
 		
 		//Create AttributeWriter
-		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIG/10,
-									TIMESIG%10, CLEF, LINE, VISIBLELINES);
+		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIGS[0]/10,
+				TIMESIGS[0]%10, CLEF, LINE, VISIBLELINES);
 		
 		
 		//TUNING
@@ -190,22 +191,21 @@ public class Chain {
 		//String Note Parsing
 		TRv4.readMeasure();
 		while(TRv4.hasNext()) {
-			MeasureReaderV4 MRv4 = new MeasureReaderV4(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+			System.out.println(marker+" measure is "+TIMESIGS[marker]+"@@@@");
 			if (marker>0) {
 				if(TIMESIGS[marker]!=TIMESIGS[marker-1]) {
+					
 					ATT = new AttributeWriter( FIFTHS, DIVISIONS, TIMESIGS[marker]/10,
 							TIMESIGS[marker]%10, null, LINE, VISIBLELINES).getAttributes();
 				}
-				else {
-					
-				}
 			}
 			PW.nextMeasure( ATT );//adds an empty measure
-			ATT=null;//removes all attributes after the first measrue
-			while(MRv4.hasNext()) {
-				MRv4.readNotes();
+			ATT=null;//removes all attributes after the first measure
+			while(MRv5.hasNext()) {
+				MRv5.readNotes();
 				String ChordNote = null;//makes notes chorded when they are not the first one
-				for(String[] s:MRv4.getNotes()) {
+				for(String[] s:MRv5.getNotes()) {
 					PW.nextAllNote( Integer.parseInt(s[0]), //duration
 									s[1],					//type
 									s[2],					//step
@@ -213,18 +213,18 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
-									0,						//hNum
-									null,					//hType
-									null,					//hCharacter
-									0,						//sNum
-									null,					//sPlacement
-									null,					//sType
-									0,						//pNum
-									null,					//pType
-									null,					//pCharacter
+									Integer.parseInt(s[8]),	//hNum
+									s[9],					//hType
+									"H",					//hCharacter
+									Integer.parseInt(s[10]),//sNum
+									"above",				//sPlacement
+									s[11],					//sType
+									Integer.parseInt(s[12]),//pNum
+									s[13],					//pType
+									"P",					//pCharacter
 									VOICE,					//voice
 									ChordNote,				//chord
-									GRACE					//grace
+									s[14]					//grace
 									);
 					ChordNote = "";
 				}
