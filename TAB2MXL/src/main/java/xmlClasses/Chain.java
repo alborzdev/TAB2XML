@@ -214,13 +214,13 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
-									0,						//hNum
+									1,						//hNum
 									null,					//hType
 									"H",					//hCharacter
 									Integer.parseInt(s[8]),	//sNum
 									null,					//sPlacement
 									s[9],					//sType
-									0,						//pNum
+									1,						//pNum
 									null,					//pType
 									"P",					//pCharacter
 									VOICE,					//voice
