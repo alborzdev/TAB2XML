@@ -59,7 +59,7 @@ public class ErrorHandling {
 		String[] tempArray;
 		String delimiter = "\n";
 		
-		textArea = textArea + "Z\n" + "X\n" + "Y\n" + "W\n" + "V\n" + "U\n";
+		textArea = textArea + "\nZ\n" + "X\n" + "Y\n" + "W\n" + "V\n" + "U\n";
 		tempArray = textArea.split(delimiter);
 		for (int i = 0; i < tempArray.length; i++) {
 			System.out.println(tempArray[i] + " LINE " + i);
