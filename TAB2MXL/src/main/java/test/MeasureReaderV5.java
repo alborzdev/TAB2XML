@@ -295,22 +295,32 @@ public class MeasureReaderV5 {
 				Boolean hslur = false;
 				if(nOMat.matches()) { //purely numbers
 					out[i] = Integer.parseInt(column[i]);
-				}else if(column[i].charAt(0) == 'g') { //replace with regex if possible
-					//grace notes
-					String temp = column[i].substring(1, column[i].length()-1);
-					out[i] = Integer.parseInt(temp);
-					slur = true;	
-					
-					
+//				}else if(column[i].charAt(0) == 'g') { //replace with regex if possible
+//					//grace notes
+//					String temp = column[i].substring(1, column[i].length()-1);
+//					out[i] = Integer.parseInt(temp);
+//					slur = true;	
+//					
+//					
 				}else if(column[i].charAt(column[i].length()-1) == 'p') { //replace with regex if possible
 					//hammer on pull off
-					String temp = column[i].substring(0, column[i].length()-1);
+					String temp;
+					if(column[i].charAt(0) == 'g') {
+						temp = column[i].substring(1, column[i].length()-1);
+					}else {
+						temp = column[i].substring(0, column[i].length()-1);
+					}
 					out[i] = Integer.parseInt(temp);
 					slur = true;
 					pslur = true;
 
 				}else if (column[i].charAt(column[i].length()-1) == 'h'){
-					String temp = column[i].substring(0, column[i].length()-1);
+					String temp;
+					if(column[i].charAt(0) == 'g') {
+						temp = column[i].substring(1, column[i].length()-1);
+					}else {
+						temp = column[i].substring(0, column[i].length()-1);
+					}
 					out[i] = Integer.parseInt(temp);
 					slur = true;
 					hslur = true;
