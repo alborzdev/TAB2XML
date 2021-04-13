@@ -155,8 +155,8 @@ public class Chain {
 		}
 		
 		//Create AttributeWriter
-		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIG/10,
-									TIMESIG%10, CLEF, LINE, VISIBLELINES);
+		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIGS[0]/10,
+				TIMESIGS[0]%10, CLEF, LINE, VISIBLELINES);
 		
 		
 		//TUNING
@@ -198,9 +198,6 @@ public class Chain {
 					
 					ATT = new AttributeWriter( FIFTHS, DIVISIONS, TIMESIGS[marker]/10,
 							TIMESIGS[marker]%10, null, LINE, VISIBLELINES).getAttributes();
-				}
-				else {
-					
 				}
 			}
 			PW.nextMeasure( ATT );//adds an empty measure
