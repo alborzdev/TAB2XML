@@ -24,7 +24,7 @@ public class MeasureReaderV5 {
 	private String numbersOnlyRegex="([0-9])*";
 	private Pattern nOPat = Pattern.compile(numbersOnlyRegex);
 	private boolean hasNextColumn; //has next column?
-	private String repeatStatus;
+	private boolean[] repeatStatus;
 	private int repeatCount;
 	
 	//To do:
@@ -77,7 +77,9 @@ public class MeasureReaderV5 {
 			this.hSlur[i] = null;
 		}
 		
-		this.repeatStatus = "";
+		this.repeatStatus = new boolean[2];
+		this.repeatStatus[0] = false;
+		this.repeatStatus[1] = false;
 		this.checkRepeatStatus();
 		
 		this.trueMeasureLength = this.getTrueMeasureLength();
@@ -236,7 +238,7 @@ public class MeasureReaderV5 {
 		return this.octaves;
 	}
 	
-	public String getRepeatStatus() {
+	public boolean[] getRepeatStatus() {
 		return this.repeatStatus;
 	}
 	
@@ -568,7 +570,7 @@ public class MeasureReaderV5 {
 		if(this.columnHas(temp, '*')) { //check for repeat symbol at beginning
 			// cut first column out?
 			System.out.println("DEBUG: start of repeated section");
-			this.repeatStatus = this.repeatStatus + "start";
+			this.repeatStatus[0] = true;
 			for(int i=0; i<this.string_count; i++) {
 				this.measure[i] = this.measure[i].substring(1,this.measure[i].length());
 			}
@@ -582,7 +584,7 @@ public class MeasureReaderV5 {
 		if(this.columnHas(temp, '*')) { //check for repeat symbol at end
 			// cut last columns out?
 			System.out.println("DEBUG: end of repeated section");
-			this.repeatStatus = this.repeatStatus + "end";
+			this.repeatStatus[1] = true;
 			int count = this.character_count;
 			while(!(this.measure[0].charAt(count) == '-')) {
 				count --;
