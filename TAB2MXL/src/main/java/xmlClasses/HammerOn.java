@@ -2,6 +2,7 @@ package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
@@ -9,9 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 public class HammerOn {
 	private int number;
 	private String type;
-	@XmlValue
 	private String character;
-	
 	
 	public HammerOn() {
 	}
@@ -38,7 +37,7 @@ public class HammerOn {
 	    this.type = type;  
 	}
 	
-
+	@XmlValue
 	public String getChar() {  
 	    return character;  
 	}  

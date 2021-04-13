@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlValue;
 public class PullOff {
 	private int number;
 	private String type;
-	@XmlValue
 	private String character;
 	
 	
@@ -37,7 +36,7 @@ public class PullOff {
 	public void setType(String type) {  
 	    this.type = type;  
 	}
-	
+	@XmlValue
 	public String getChar() {  
 	    return character;  
 	}  
