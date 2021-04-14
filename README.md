@@ -39,12 +39,14 @@ _________________
 [![Screenshot-2021-04-13-225341.jpg](https://i.postimg.cc/dtHHLY9Q/Screenshot-2021-04-13-225341.jpg)](https://postimg.cc/ppjY6373)
 
 ## Documentation
-[Software Requirements.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Software%20Requirements%20Document.docx) ||  
-[Software Requirements.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Software%20Requirements%20Document.pdf) ||   
-[User Manual.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Group1_UserManual%20(1).docx) ||  
-[User Manual.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/User%20Manual.pdf) ||  
-[Testing Document.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Testing%20Document.docx) ||  
-[Testing Document.pdf](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Testing%20Document.pdf) ||  
+[Software Requirements.docx](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/Software%20Requirements%20Document%20Group%201.docx) ||  
+[Software Requirements.pdf](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/Software%20Requirements%20Document%20Group%201.pdf) ||   
+[User Manual.docx](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/Group1_UserManual.docx) ||  
+[User Manual.pdf](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/Group1_UserManual.pdf) ||  
+[Testing Document.docx](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/Testing%20Document%20Group%201.docx) ||  
+[Testing Document.pdf](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/Testing%20Document%20Group%201.pdf) ||  
+[Design Document.docx](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/System%20Design%20Document%20Group%201.docx) ||
+[Design Document.pdf](https://github.com/alborzdev/2311-Project/blob/master/TAB2MXL/Documentation/System%20Design%20Document%20Group%201.pdf) ||
 
 ## Group 1 contributors: 
 Lian Attily, Alborz Gharabaghi, Robert Mealey, Derui Liu, Isaiah Linares
