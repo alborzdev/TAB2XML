@@ -598,11 +598,18 @@ public class MeasureReaderV5 {
 			}
 			
 			String repeats = this.measure[0].substring(count, this.measure[0].length());
+			
+			while(repeats.charAt(0) == '-') {
+				repeats = repeats.substring(1, repeats.length());
+			}
+			
 			System.out.println("DEBUG: counted repeats " + repeats);
 			for(int i=0; i<this.string_count; i++) {
 				this.measure[i] = this.measure[i].substring(0,count);
 			}
 			this.stringArrayDump("measure", measure);
+					
+			this.repeatCount = Integer.parseInt(repeats);
 			this.character_count = count;
 			
 		}
