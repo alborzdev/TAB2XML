@@ -45,15 +45,15 @@ public class TabReaderV5{
 	//every measure must be the same length
 	private boolean eof;
 	
-	protected TabReaderV5() throws Exception { //basic, config-driven constructor for easy testing - replace with parameter driven version in future
-		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
-		this.file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
-		this.eof = false;
-		// measures start at 1, index 0 exists - but is reserved for tuning data
-		this.next_tabLine = 0;
-		this.curr_measure = 1;
-		this.evaluateLine();
-	}
+//	protected TabReaderV5() throws Exception { //basic, config-driven constructor for easy testing - replace with parameter driven version in future
+//		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
+//		this.file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
+//		this.eof = false;
+//		// measures start at 1, index 0 exists - but is reserved for tuning data
+//		this.next_tabLine = 0;
+//		this.curr_measure = 1;
+//		this.evaluateLine();
+//	}
 	
 	public TabReaderV5(File file, int string_count) throws Exception { //basic, parameter-driven constructor
 		this.string_count = string_count;
