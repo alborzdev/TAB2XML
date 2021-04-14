@@ -12,6 +12,7 @@ public class Measure {
 	private ArrayList<Entry> entries;
 	private Barline barline;
 	private Backup backup;
+	private Direction direction;
 	
 	public Measure() {
 		
@@ -116,5 +117,12 @@ public class Measure {
 		this.barline = barline;
 	}
 	
+	@XmlElement
+	public Direction getDirection() {
+		return direction;
+	}
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
 
 }
