@@ -40,6 +40,14 @@ public class PartWriter {
 		currentMeasure=new Measure(part.getMeasure().size()+1, new Attributes(divisions, new Key(fifths), new Time(beats, beat_type), new Clef(sign, line) ) );
 		part.addMeasure(currentMeasure);
 	}
+	public void nextBarline(String location, String style, String direction ){
+		currentMeasure.addBarline( new Barline(location, style, direction));
+	}
+	
+	//Create a forward to go forward a certain duration in the time-line of notes
+	public void nextDirection(String placement, String words ){
+		currentMeasure.addDirection( new Direction(placement, words));
+	}
 	
 //	//Create Note with its Pitch object and adding it to the current measure.
 //	public void nextNote(int duration, String type, String step, int octave, int string, int fret, int voice){

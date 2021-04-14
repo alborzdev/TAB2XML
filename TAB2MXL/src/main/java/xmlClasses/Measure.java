@@ -93,7 +93,21 @@ public class Measure {
 		e.setValue(f);
 		this.entries.add(e);
 	}
-
+	public void addBarline(Barline b) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("barline");
+		e.setValue(b);
+		this.entries.add(e);
+	}
+	public void addDirection(Direction d) {
+		//Entry  object to hold object and name of measure entry
+		Entry e = new Entry();
+		e.setName("direction");
+		e.setValue(d);
+		this.entries.add(e);
+	}
+		
 	@XmlElement
 	public Barline getBarline() {
 		return barline;
