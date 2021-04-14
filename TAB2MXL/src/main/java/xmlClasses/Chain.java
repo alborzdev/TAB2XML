@@ -251,7 +251,7 @@ public class Chain {
 			
 			//ending repeat
 			if (MRv5.getRepeatStatus()[1]) {
-				PW.nextBarline("right", "heavy-light", "backward");
+				PW.nextBarline("right", "light-heavy", "backward");
 				DIRECTION.setDirectionType( new DirectionType( "Repeat "+MRv5.getRepeatCount()+" times" ) );
 			}
 			
