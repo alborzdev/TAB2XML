@@ -1,1 +1,1 @@
-C Major,44,TAB,Bass,,,
+C Major,44,TAB,Guitar,,,
