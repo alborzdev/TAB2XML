@@ -34,6 +34,7 @@ public class ChainTests {
 	
 	@BeforeEach
     public void setUp() throws Exception {
+		int TIMESIGS[]= {44};
         Random r = new Random();
         randomfret=r.nextInt(10);
         
@@ -43,7 +44,7 @@ public class ChainTests {
         "D|-----------------|\n"+
         "A|-----------------|\n"+
         "E|-"+randomfret+"---------------|";
-        chain = new Chain(TAB,"First Song", "Queen B", "Ludwig van Beethoven", 44,"C major","Guitar","TAB");
+        chain = new Chain(TAB,"First Song", "Queen B", "Ludwig van Beethoven", TIMESIGS,"C major","Guitar","TAB", 6);
     }
 
     @Test
@@ -56,7 +57,21 @@ public class ChainTests {
     public void testChainT2P() throws Exception {
     	chain.TABtoPART();
     	
-    	assertEquals("E", chain.getTuning()[0][0]);
-    	
+    	assertEquals("E", chain.getTuning()[0][0]);	
+    }
+    
+    @Test
+    public void testLyricist() {
+    	assertEquals(chain.getLyricist(), "Queen B");
+    }
+    
+    @Test
+    public void testComposer() {
+    	assertEquals(chain.getComposer(), "Ludwig van Beethoven");
+    }
+    
+    @Test
+    public void testStaffLines() {
+    	assertEquals(chain.getStaffLines(), 6);
     }
 }
