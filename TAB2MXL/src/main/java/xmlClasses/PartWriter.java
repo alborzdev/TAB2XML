@@ -45,7 +45,7 @@ public class PartWriter {
 	}
 	
 	//Create a forward to go forward a certain duration in the time-line of notes
-	public void nextDirection(Direction d ){
+	public void nextDirection(Direction d){
 		currentMeasure.addDirection(d);
 	}
 	

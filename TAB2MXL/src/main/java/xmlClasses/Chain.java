@@ -209,7 +209,8 @@ public class Chain {
 			//start of a repeat
 			if (MRv5.getRepeatStatus()[0]) {
 				PW.nextBarline("left", "heavy-light", "forward");
-				PW.nextDirection("above", "repeat");
+				DIRECTION = new Direction();
+				PW.nextDirection(DIRECTION);
 			}
 			
 			
@@ -240,9 +241,13 @@ public class Chain {
 					ChordNote = "";
 				}
 				
-				MRv5.getRepeatStatus();
+				//ending repeat
+				if (MRv5.getRepeatStatus()[1]) {
+					PW.nextBarline("right", "heavy-light", "backward");
+					DIRECTION.setDirectionType( new DirectionType( "Repeat "+MRv5.getRepeatCount()+" times" ) );
+				}
 				
-				MRv5.getRepeatCount();
+				
 			}
 			
 			//inside while( TRv4.hasNext() )
