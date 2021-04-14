@@ -45,8 +45,8 @@ public class PartWriter {
 	}
 	
 	//Create a forward to go forward a certain duration in the time-line of notes
-	public void nextDirection(String placement, String words ){
-		currentMeasure.addDirection( new Direction(placement, words));
+	public void nextDirection(Direction d ){
+		currentMeasure.addDirection(d);
 	}
 	
 //	//Create Note with its Pitch object and adding it to the current measure.
