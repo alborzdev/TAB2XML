@@ -108,21 +108,5 @@ public class Measure {
 		e.setValue(d);
 		this.entries.add(e);
 	}
-		
-	@XmlElement
-	public Barline getBarline() {
-		return barline;
-	}
-	public void setBarline(Barline barline) {
-		this.barline = barline;
-	}
-	
-	@XmlElement
-	public Direction getDirection() {
-		return direction;
-	}
-	public void setDirection(Direction direction) {
-		this.direction = direction;
-	}
 
 }

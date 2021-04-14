@@ -255,7 +255,7 @@ public class Chain {
 			marker++;
 		}
 		//HARDCODED
-		PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy")); 
+		//PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).nextBarline(new Barline("right", "light-heavy")); 
 	}
 	
 	//---STEP 1c - Drum Parser --- TO BE CLEANED
@@ -458,7 +458,7 @@ public class Chain {
 		//Marshalling
 		try {
 			
-		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class, DrumNoteNHChord.class, DrumNoteBChord.class, DrumNoteChord.class, DrumNoteBNHChord.class); 
+		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class, DrumNoteNHChord.class, DrumNoteBChord.class, DrumNoteChord.class, DrumNoteBNHChord.class, Barline.class, Direction.class, DirectionType.class, Repeat.class); 
 	    Marshaller marshallerObj = contextObj.createMarshaller(); 
 	    System.out.println("test 1");
 	    //adapter used to control measure marshaling
