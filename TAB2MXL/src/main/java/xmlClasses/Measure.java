@@ -108,5 +108,9 @@ public class Measure {
 		e.setValue(d);
 		this.entries.add(e);
 	}
+	
+	public void addEntry(Entry e) {
+		this.entries.add(e);
+	}
 
 }

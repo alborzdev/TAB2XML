@@ -207,8 +207,6 @@ public class Chain {
 			PW.nextMeasure( ATT );//adds an empty measure
 			ATT=null;//removes all attributes after the first measure
 			
-			System.out.println( "###"+MRv5.getRepeatStatus()[0]+MRv5.getRepeatStatus()[1] );
-			
 			//start of a repeat
 			if (MRv5.getRepeatStatus()[0]) {
 				PW.nextBarline("left", "heavy-light", "forward");
@@ -244,15 +242,13 @@ public class Chain {
 					ChordNote = "";
 				}
 				
+				//ending repeat
+				if (MRv5.getRepeatStatus()[1]) {
+					PW.nextBarline("right", "heavy-light", "backward");
+					DIRECTION.setDirectionType( new DirectionType( "Repeat "+MRv5.getRepeatCount()+" times" ) );
+				}
 				
 				
-				
-			}
-			
-			//ending repeat
-			if (MRv5.getRepeatStatus()[1]) {
-				PW.nextBarline("right", "heavy-light", "backward");
-				DIRECTION.setDirectionType( new DirectionType( "Repeat "+MRv5.getRepeatCount()+" times" ) );
 			}
 			
 			//inside while( TRv4.hasNext() )

@@ -49,6 +49,10 @@ public class PartWriter {
 		currentMeasure.addDirection(d);
 	}
 	
+	public void nextEntry(Entry e) {
+		currentMeasure.addEntry(e);
+	}
+	
 //	//Create Note with its Pitch object and adding it to the current measure.
 //	public void nextNote(int duration, String type, String step, int octave, int string, int fret, int voice){
 //		currentMeasure.addNote( new Note( duration, type, new Pitch( step, octave ), new Notations( new Technical(string, fret) ), voice) );
