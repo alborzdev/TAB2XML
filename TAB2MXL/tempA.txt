@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-C Major,44,TAB,Bass,,,
-=======
-C Major,34,TAB,Guitar,,,
->>>>>>> branch 'dev' of https://github.com/alborzdev/2311-Project
+C Major,44,TAB,Guitar,,,

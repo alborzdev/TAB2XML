@@ -228,6 +228,9 @@ public class Chain {
 									);
 					ChordNote = "";
 				}
+				
+				MRv5.getRepeatStatus();
+				MRv5.getRepeatCount();
 			}
 			
 			//inside while( TRv4.hasNext() )
