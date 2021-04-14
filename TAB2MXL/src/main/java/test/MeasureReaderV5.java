@@ -23,7 +23,9 @@ public class MeasureReaderV5 {
 	private String[] lengths = {"whole","half","quarter","eighth","16th", "32nd", "64th", "128th"};
 	private String numbersOnlyRegex="([0-9])*";
 	private Pattern nOPat = Pattern.compile(numbersOnlyRegex);
-	boolean hasNextColumn; //has next column?
+	private boolean hasNextColumn; //has next column?
+	private boolean[] repeatStatus;
+	private int repeatCount;
 	
 	//To do:
 	//change type of column to string, read multiple columns for double digit frets
@@ -54,7 +56,7 @@ public class MeasureReaderV5 {
 	
 	public MeasureReaderV5(String[] measure, String[] tuning, int beats, int beatlength) { 
 		this.measure = measure;
-		this.character_count = measure[0].length();
+		this.character_count = measure[1].length();
 		this.string_count = measure.length;
 		this.tuning = tuning;
 		this.ts_beats = beats;
@@ -62,8 +64,9 @@ public class MeasureReaderV5 {
 		this.hasNextColumn = true;
 		curr_col = 0;
 		this.inferOctaves(tuning);
-		this.trueMeasureLength = this.getTrueMeasureLength();
-		this.wNoteLength = this.ts_beatlength * (this.trueMeasureLength/this.ts_beats);
+		
+//		this.trueMeasureLength = this.getTrueMeasureLength();
+//		this.wNoteLength = this.ts_beatlength * (this.trueMeasureLength/this.ts_beats);
 		
 		this.slurStatus = new String[this.string_count];
 		this.pSlur = new String[this.string_count];
@@ -73,6 +76,15 @@ public class MeasureReaderV5 {
 			this.pSlur[i] = null;
 			this.hSlur[i] = null;
 		}
+		
+		this.repeatStatus = new boolean[2];
+		this.repeatStatus[0] = false;
+		this.repeatStatus[1] = false;
+		this.checkRepeatStatus();
+		
+		this.trueMeasureLength = this.getTrueMeasureLength();
+		this.wNoteLength = this.ts_beatlength * (this.trueMeasureLength/this.ts_beats);
+		System.out.println("DEBUG: wholenotelength: " + this.wNoteLength);
 	}
 	
 	public List<String[]> getNotes() {
@@ -226,6 +238,14 @@ public class MeasureReaderV5 {
 		return this.octaves;
 	}
 	
+	public boolean[] getRepeatStatus() {
+		return this.repeatStatus;
+	}
+	
+	public int getRepeatCount() {
+		return this.repeatCount;
+	}
+	
 	private String[] calculateNoteandOctave(int string, int fret){
 		System.out.println("DEBUG: calculating note and octave for string: " + string + " fret: " + fret);
 		String baseNote = this.tuning[string];
@@ -258,12 +278,14 @@ public class MeasureReaderV5 {
 	private String getType() {
 		double rawlength = (double)(this.wNoteLength)/(this.noteLength);
 		double index = Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)));
-		double roundedlength = this.trueMeasureLength/Math.pow(2, index);
+		double roundedlength = this.wNoteLength/Math.pow(2, index -1);
+		System.out.println("DEBUG: raw: " + rawlength);
+		System.out.println("DEBUG: index: " + index);
 		System.out.println("DEBUG: roundedlength: " + roundedlength);
 		
 		//original rounded down
 		String out = lengths[(int)index];
-		if(this.noteLength == roundedlength * 4 / 3 && index > 0) {
+		if(this.noteLength == roundedlength * 2 / 3 && index > 0) {
 			//triplet flag
 			out = lengths[(int)index -1];
 		}
@@ -503,7 +525,7 @@ public class MeasureReaderV5 {
 		int out = 1;
 		int counter = 0;
 		System.out.println(measure[3]);
-		while(counter < this.character_count && isStrictEmpty(getColumn(counter))) {		
+		while(counter < this.character_count && isEmpty(getColumn(counter))) {		
 			System.out.print("0");
 			counter ++;
 		}
@@ -513,11 +535,11 @@ public class MeasureReaderV5 {
 				System.out.print("x");
 			}else if(columnHas(getColumn(counter-1), 'g')){
 				System.out.print("-");
+				out ++;
 				while(counter < this.character_count && !isEmpty(getColumn(counter))) {
 					System.out.print("x");
 					counter++;
 				}
-				out ++;
 			}else {
 				System.out.print("-");
 				out ++;
@@ -537,6 +559,47 @@ public class MeasureReaderV5 {
 			}
 		}
 		return out;
+	}
+	
+	private void checkRepeatStatus() {
+		System.out.println("DEBUG: checking for repeats");
+		char[] temp = new char[this.string_count];
+		for(int i=0; i<this.string_count; i++) {
+			temp[i] = this.measure[i].charAt(0);
+		}
+		if(this.columnHas(temp, '*')) { //check for repeat symbol at beginning
+			// cut first column out?
+			System.out.println("DEBUG: start of repeated section");
+			this.repeatStatus[0] = true;
+			for(int i=0; i<this.string_count; i++) {
+				this.measure[i] = this.measure[i].substring(1,this.measure[i].length());
+			}
+			this.stringArrayDump("measure", measure);
+			this.character_count --;
+		}
+		
+		for(int i=0; i<this.string_count; i++) {
+			temp[i] = this.measure[i].charAt(this.character_count-1);
+		}
+		if(this.columnHas(temp, '*')) { //check for repeat symbol at end
+			// cut last columns out?
+			System.out.println("DEBUG: end of repeated section");
+			this.repeatStatus[1] = true;
+			int count = this.character_count;
+			while(!(this.measure[0].charAt(count) == '-')) {
+				count --;
+			}
+			count ++;
+			String repeats = this.measure[0].substring(count, this.measure[0].length());
+			System.out.println("DEBUG: counted repeats " + repeats);
+			for(int i=0; i<this.string_count; i++) {
+				this.measure[i] = this.measure[i].substring(0,count);
+			}
+			this.stringArrayDump("measure", measure);
+			this.character_count = count;
+			
+		}
+		System.out.println("DEBUG: final measure length " + this.character_count);
 	}
 	
 	private int floor2pow2(int in) { //round down to power of 2, useful to determine "true measure length" that would be inflated by double digit frets

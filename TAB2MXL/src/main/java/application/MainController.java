@@ -45,6 +45,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import test.LineErrorException;
 import test.TabReaderV4;
+import test.TabReaderV5;
 import xmlClasses.Chain;
 
 public class MainController implements Initializable {
@@ -146,7 +147,7 @@ public class MainController implements Initializable {
 		}
 		//if(CHANGE)loadArray();
 		if(size==0){
-			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
+			List<String[]> TAB2 = new TabReaderV5( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
 			for(int i=0;i<TAB2.size();i++) {
 				String [] t=TAB2.get(i);
 				System.out.println("printing t String[]");
@@ -175,7 +176,7 @@ public class MainController implements Initializable {
 
 		System.out.println("measuresTEXTAREA "+tab);
 		System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
-		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
+		List<String[]> TAB = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
 		System.out.println("size = "+TAB.size());
 		for(int i=0;i<TAB.size();i++) {
 			String [] t=TAB.get(i);
@@ -190,7 +191,7 @@ public class MainController implements Initializable {
 			timesigs[i]=44;
 		}
 		if(!textarea.getText().isEmpty()) {
-			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
+			List<String[]> TAB2 = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
 			System.out.println("size = "+TAB.size());
 			for(int i=0;i<TAB2.size();i++) {
 				String [] t=TAB2.get(i);
@@ -261,7 +262,7 @@ public class MainController implements Initializable {
 
 		if(CHANGE)loadArray();
 		else {
-			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
+			List<String[]> TAB2 = new TabReaderV5( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
 			for(int i=0;i<TAB2.size();i++) {
 				String [] t=TAB2.get(i);
 				System.out.println("printing t String[]");
@@ -345,7 +346,7 @@ public class MainController implements Initializable {
 		detector();
 		if(CHANGE)loadArray();
 		else if(size==0){
-			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
+			List<String[]> TAB2 = new TabReaderV5( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
 			for(int i=0;i<TAB2.size();i++) {
 				String [] t=TAB2.get(i);
 				System.out.println("printing t String[]");
@@ -649,7 +650,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
-		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
+		List<String[]> TAB = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
 
 		if(measures.getSelectionModel().getSelectedItem()!=null) {
 			System.out.println("print selection:");
@@ -669,7 +670,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	public void printIntervalSelection(KeyEvent event) throws Exception {
-		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
+		List<String[]> TAB = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
 		if(to.getText()!=null && from.getText()!=null) {
 			System.out.println("PRINTING SELECTION\n");
 			int fr = Integer.parseInt(from.getText()), TO = Integer.parseInt(to.getText());

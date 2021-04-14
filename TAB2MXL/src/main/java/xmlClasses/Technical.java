@@ -44,14 +44,14 @@ public class Technical {
 	    this.fret = fret;  
 	}  
 	
-	@XmlElement
+	@XmlElement(name="hammer-on")
 	public HammerOn getHammerOn() {  
 	    return hammerOn;  
 	}  
 	public void setHammerOn(HammerOn hammerOn) {  
 	    this.hammerOn = hammerOn;  
 	}  
-	@XmlElement
+	@XmlElement(name="pull-off")
 	public PullOff getPullOff() {  
 	    return pullOff;  
 	}  
