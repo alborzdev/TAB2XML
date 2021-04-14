@@ -1,9 +1,9 @@
 package xmlClasses;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
-import com.sun.xml.txw2.annotation.XmlAttribute;
-import com.sun.xml.txw2.annotation.XmlElement;
 
 public class Direction {
 	private String placement;
@@ -25,7 +25,7 @@ public class Direction {
 	public void setPlacement(String placement) {  
 	    this.placement = placement;  
 	}
-	@XmlElement
+	@XmlElement(name="direction-type")
 	public DirectionType getDirectionType() {
 		return dt;
 	}

@@ -26,7 +26,7 @@ public class Main {
 		try {
 			File file = new File(cfg.getAttr("hotcrossbuns_path")+cfg.getAttr("hotcrossbuns_file"));
 			//File file = new File(cfg.getAttr("test_path")+cfg.getAttr("test_file"));
-			TabReaderV4 tb = new TabReaderV4(file,6);
+			TabReaderV5 tb = new TabReaderV5(file,6);
 			tb.readMeasure();
 			while(tb.hasNext()) {	
 				MeasureReaderV5 ms = new MeasureReaderV5(tb.getMeasure(),tb.getTuning(),4,4);

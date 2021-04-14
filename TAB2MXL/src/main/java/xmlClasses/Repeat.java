@@ -1,6 +1,6 @@
 package xmlClasses;
 
-import com.sun.xml.txw2.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAttribute;
 
 public class Repeat {
 	private String direction;

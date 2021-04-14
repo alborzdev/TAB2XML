@@ -16,6 +16,7 @@ import test.MeasureReaderV4;
 import test.MeasureReaderV5;
 import test.TabReaderV2;
 import test.TabReaderV4;
+import test.TabReaderV5;
 
 public class Chain {
 	
@@ -164,9 +165,9 @@ public class Chain {
 		
 		//TUNING
 		//----------------------------------------------------------------------
-		TabReaderV4 Ttuning = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
+		TabReaderV5 Ttuning = new TabReaderV5(stringToFile(TAB), STAFFLINES%10);
 		Ttuning.readMeasure();
-		MeasureReaderV4 Mtuning = new MeasureReaderV4(Ttuning.getMeasure(), Ttuning.getTuning(), 4, 4);
+		MeasureReaderV5 Mtuning = new MeasureReaderV5(Ttuning.getMeasure(), Ttuning.getTuning(), 4, 4);
 		
 		String[] StringTuning = Ttuning.getTuning();//string tunings
 		int[] OctaveTuning = Mtuning.getTuning();//octave tunings
@@ -186,15 +187,15 @@ public class Chain {
 		//----------------------------------------------------------------------
 		
 		//Create TabReader
-		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
+		TabReaderV5 TRv5 = new TabReaderV5(stringToFile(TAB), STAFFLINES%10);
 		
 		//Creating current measure marker
 		int marker = 0;
 		
 		//String Note Parsing
-		TRv4.readMeasure();
-		while(TRv4.hasNext()) {
-			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+		TRv5.readMeasure();
+		while(TRv5.hasNext()) {
+			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv5.getMeasure(), TRv5.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
 			System.out.println(marker+" measure is "+TIMESIGS[marker]+"@@@@");
 			if (marker>0) {
 				if(TIMESIGS[marker]!=TIMESIGS[marker-1]) {
@@ -205,6 +206,8 @@ public class Chain {
 			}
 			PW.nextMeasure( ATT );//adds an empty measure
 			ATT=null;//removes all attributes after the first measure
+			
+			System.out.println( "###"+MRv5.getRepeatStatus()[0]+MRv5.getRepeatStatus()[1] );
 			
 			//start of a repeat
 			if (MRv5.getRepeatStatus()[0]) {
@@ -241,21 +244,23 @@ public class Chain {
 					ChordNote = "";
 				}
 				
-				//ending repeat
-				if (MRv5.getRepeatStatus()[1]) {
-					PW.nextBarline("right", "heavy-light", "backward");
-					DIRECTION.setDirectionType( new DirectionType( "Repeat "+MRv5.getRepeatCount()+" times" ) );
-				}
+				
 				
 				
 			}
 			
+			//ending repeat
+			if (MRv5.getRepeatStatus()[1]) {
+				PW.nextBarline("right", "heavy-light", "backward");
+				DIRECTION.setDirectionType( new DirectionType( "Repeat "+MRv5.getRepeatCount()+" times" ) );
+			}
+			
 			//inside while( TRv4.hasNext() )
-			TRv4.readMeasure();
+			TRv5.readMeasure();
 			marker++;
 		}
 		//HARDCODED
-		PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy")); 
+		//PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).nextBarline(new Barline("right", "light-heavy")); 
 	}
 	
 	//---STEP 1c - Drum Parser --- TO BE CLEANED
@@ -458,7 +463,7 @@ public class Chain {
 		//Marshalling
 		try {
 			
-		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class, DrumNoteNHChord.class, DrumNoteBChord.class, DrumNoteChord.class, DrumNoteBNHChord.class); 
+		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class, DrumNoteNHChord.class, DrumNoteBChord.class, DrumNoteChord.class, DrumNoteBNHChord.class, Barline.class, Direction.class, DirectionType.class, Repeat.class); 
 	    Marshaller marshallerObj = contextObj.createMarshaller(); 
 	    System.out.println("test 1");
 	    //adapter used to control measure marshaling
