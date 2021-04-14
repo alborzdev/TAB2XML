@@ -587,10 +587,16 @@ public class MeasureReaderV5 {
 			System.out.println("DEBUG: end of repeated section");
 			this.repeatStatus[1] = true;
 			int count = this.character_count;
-			while(!(this.measure[0].charAt(count) == '-') || this.isStrictEmpty(this.getColumn(count))) {
+			while(!(this.measure[0].charAt(count) == '-')) {
 				count --;
 			}
-			count ++;
+			
+			if(this.columnHas(this.getColumn(count),'*')) {
+				
+			}else {
+				count ++;
+			}
+			
 			String repeats = this.measure[0].substring(count, this.measure[0].length());
 			System.out.println("DEBUG: counted repeats " + repeats);
 			for(int i=0; i<this.string_count; i++) {
