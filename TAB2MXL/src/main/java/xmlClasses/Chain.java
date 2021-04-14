@@ -16,6 +16,7 @@ import test.MeasureReaderV4;
 import test.MeasureReaderV5;
 import test.TabReaderV2;
 import test.TabReaderV4;
+import test.TabReaderV5;
 
 public class Chain {
 	
@@ -164,9 +165,9 @@ public class Chain {
 		
 		//TUNING
 		//----------------------------------------------------------------------
-		TabReaderV4 Ttuning = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
+		TabReaderV5 Ttuning = new TabReaderV5(stringToFile(TAB), STAFFLINES%10);
 		Ttuning.readMeasure();
-		MeasureReaderV4 Mtuning = new MeasureReaderV4(Ttuning.getMeasure(), Ttuning.getTuning(), 4, 4);
+		MeasureReaderV5 Mtuning = new MeasureReaderV5(Ttuning.getMeasure(), Ttuning.getTuning(), 4, 4);
 		
 		String[] StringTuning = Ttuning.getTuning();//string tunings
 		int[] OctaveTuning = Mtuning.getTuning();//octave tunings
@@ -186,15 +187,15 @@ public class Chain {
 		//----------------------------------------------------------------------
 		
 		//Create TabReader
-		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES%10);
+		TabReaderV5 TRv5 = new TabReaderV5(stringToFile(TAB), STAFFLINES%10);
 		
 		//Creating current measure marker
 		int marker = 0;
 		
 		//String Note Parsing
-		TRv4.readMeasure();
-		while(TRv4.hasNext()) {
-			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv4.getMeasure(), TRv4.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+		TRv5.readMeasure();
+		while(TRv5.hasNext()) {
+			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv5.getMeasure(), TRv5.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
 			System.out.println(marker+" measure is "+TIMESIGS[marker]+"@@@@");
 			if (marker>0) {
 				if(TIMESIGS[marker]!=TIMESIGS[marker-1]) {
@@ -251,7 +252,7 @@ public class Chain {
 			}
 			
 			//inside while( TRv4.hasNext() )
-			TRv4.readMeasure();
+			TRv5.readMeasure();
 			marker++;
 		}
 		//HARDCODED
