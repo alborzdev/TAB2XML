@@ -589,7 +589,7 @@ public class MeasureReaderV5 {
 			System.out.println("DEBUG: end of repeated section");
 			this.repeatStatus[1] = true;
 			int count = this.character_count;
-			while(!(this.measure[0].charAt(count) == '-')) {
+			while(!(this.measure[0].charAt(count) == '-') || this.isStrictEmpty(this.getColumn(count))) {
 				count --;
 			}
 			count ++;
