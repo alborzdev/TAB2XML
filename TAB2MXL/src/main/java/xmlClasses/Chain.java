@@ -230,6 +230,7 @@ public class Chain {
 				}
 				
 				MRv5.getRepeatStatus();
+				
 				MRv5.getRepeatCount();
 			}
 			
