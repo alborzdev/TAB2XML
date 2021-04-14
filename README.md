@@ -12,9 +12,31 @@ To get started, clone the master branch and run the application as a `Gradle` pr
 `File → Properties → Java Compiler → Compiler Compliance Level → 15`
 ![alt text](https://i.imgur.com/RNibyJy.jpg)
 
-Please refer to the User Manual for a step-by-step guide on how to install and run the software.
+Please refer to the User Manual for a step-by-step guide on how to install and run the software. If you ever need to refer back to the user manual after running the software, you can do so by clicking on *Help* in the menu bar and then *User Manual*
+_________________
+1. Once you run the software successfuly, you will be welcomed with this main window:
 
+[![Screenshot-2021-04-13-223306.jpg](https://i.postimg.cc/sXTftxpC/Screenshot-2021-04-13-223306.jpg)](https://postimg.cc/qhCdKkb1)
 
+_________________
+2. you may choose to paste a tab or upload a *.txt* file and change the attributes if you wish:
+
+[![Screenshot-2021-04-13-223602.jpg](https://i.postimg.cc/6qSWpPjH/Screenshot-2021-04-13-223602.jpg)](https://postimg.cc/xNvDs6SH)
+
+_________________
+3. You may also change one or more measures' time signatures by clicking on "advanced options".
+
+[![Screenshot-2021-04-13-223915.jpg](https://i.postimg.cc/gcBkswzv/Screenshot-2021-04-13-223915.jpg)](https://postimg.cc/yWcHY8Sd)
+
+_________________
+4. Our software also allows you to save changes and load the saved file later this session or during another session.
+
+[![Screenshot-2021-04-13-224934.jpg](https://i.postimg.cc/3xxsc1tN/Screenshot-2021-04-13-224934.jpg)](https://postimg.cc/xcBpkvDV)
+
+_________________
+## Sample Input Tab and the Converted Ouput in MuseScore
+[![ABABA.jpg](https://i.postimg.cc/Wb3SRycB/ABABA.jpg)](https://postimg.cc/hhkVTpjs)
+[![Screenshot-2021-04-13-225341.jpg](https://i.postimg.cc/dtHHLY9Q/Screenshot-2021-04-13-225341.jpg)](https://postimg.cc/ppjY6373)
 
 ## Documentation
 [Software Requirements.docx](https://github.com/alborzdev/2311-Project/blob/dev/TAB2MXL/Documentation/Software%20Requirements%20Document.docx) ||  
