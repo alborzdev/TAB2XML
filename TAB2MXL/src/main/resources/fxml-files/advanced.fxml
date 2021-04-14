@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="339.0" prefWidth="599.0" style="-fx-background-color: #343434;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <children>
+      <HBox layoutX="249.0" layoutY="109.0" prefHeight="500.0" prefWidth="599.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="501.0" prefWidth="289.0">
+               <children>
+                  <JFXTextArea fx:id="measuresTEXTAREA" editable="false" focusColor="WHITE" prefHeight="198.0" prefWidth="289.0" style="-fx-text-fill: #343434; -fx-background-color: #BCAB79;" unFocusColor="WHITE">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Courier New" size="12.0" />
+                     </font>
+                  </JFXTextArea>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="15.0" right="10.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="480.0" prefWidth="279.0">
+               <children>
+                  <JFXComboBox fx:id="measures" focusColor="WHITE" onAction="#printSelection" prefHeight="25.0" prefWidth="332.0" promptText="Select specific measure" style="-fx-background-color: #BCAB79;">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <Label text="or select multiple measures" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets bottom="2.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Italic" size="9.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="38.0" prefWidth="272.0">
+                     <children>
+                        <JFXTextField fx:id="from" focusColor="WHITE" promptText="From measure" style="-fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </JFXTextField>
+                        <JFXTextField fx:id="to" focusColor="WHITE" onAction="#printIntervalSelection" onKeyTyped="#printIntervalSelection" promptText="To measure" style="-fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </JFXTextField>
+                     </children>
+                  </HBox>
+                  <JFXComboBox fx:id="MeasureTimeSig" focusColor="WHITE" onAction="#changeMeasure" prefHeight="25.0" prefWidth="287.0" promptText="Change time signature" style="-fx-background-color: white; -fx-prompt-text-fill: #BCAB79; -fx-text-fill: #BCAB79;">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <JFXButton fx:id="close" buttonType="RAISED" onAction="#Close" text="Done" textFill="WHITE">
+                     <font>
+                        <Font name="Quicksand Regular" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

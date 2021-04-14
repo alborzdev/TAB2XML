@@ -13,8 +13,10 @@ import javax.xml.bind.Marshaller;
 import test.DrumReader;
 import test.MeasureReaderV3;
 import test.MeasureReaderV4;
+import test.MeasureReaderV5;
 import test.TabReaderV2;
 import test.TabReaderV4;
+import test.TabReaderV5;
 
 public class Chain {
 	
@@ -60,14 +62,7 @@ public class Chain {
 	int STAFFLINES;
 	
 	/**HARDCODED: 2D String array - represents the tuning octaves of the staff lines*/
-	String[][] TUNINGINFO = {
-			new String[] {"","2"},
-			new String[] {"","2"},
-			new String[] {"","3"},
-			new String[] {"","3"},
-			new String[] {"","3"},
-			new String[] {"","4"}
-	};
+	String[][] TUNINGINFO;
 	
 	/**HARDCODED: Divisions - Divisions works with duration to decide how many notes are in a measure(Derry knows)*/
 	int DIVISIONS = 4;
@@ -86,6 +81,9 @@ public class Chain {
 	
 	/**This ArrayList shows the drum kit*/
 	ArrayList<String> DK;
+	
+	/**This Holds the direction for the current repeat*/
+	Direction DIRECTION;
 
 	//---xml Object Writers---
 	
@@ -122,7 +120,7 @@ public class Chain {
 	}
 	
 	public Chain(	String TAB, String TITLE, String LYRICIST, String COMPOSER,
-			int[] TIMESIGS, String KEY, String INSTRUMENT, String CLEF){
+			int[] TIMESIGS, String KEY, String INSTRUMENT, String CLEF, int STAFFLINES){
 
 		this.TAB=TAB;
 		this.TITLE=TITLE;
@@ -132,6 +130,7 @@ public class Chain {
 		this.KEY=KEY;
 		this.INSTRUMENT=INSTRUMENT;
 		this.CLEF=CLEF;
+		this.STAFFLINES=STAFFLINES;
 	}
 
 //####################################################################
@@ -141,10 +140,9 @@ public class Chain {
 	//---STEP 1a - Parser Selection ---
 	
 	public void TABtoPART() throws Exception{
-		
-		//Stringed -> Step 1b
-		if (INSTRUMENT.equals("Guitar")) { TABtoPARTstringed(6); }
-		else if(INSTRUMENT.equals("Bass")) { TABtoPARTstringed(4); }
+
+		if (INSTRUMENT.equals("Guitar")) { TABtoPARTstringed(); }
+		else if(INSTRUMENT.equals("Bass")) { TABtoPARTstringed(); }
 		
 		//Drum -> Step 1c
 		else { TABtoPARTdrum(); }
@@ -152,39 +150,75 @@ public class Chain {
 	
 	//---STEP 1b - Stringed Parser ---
 	
-	private void TABtoPARTstringed( int STAFFLINES ) throws Exception{
+	private void TABtoPARTstringed() throws Exception{
 		
 		//Check for Sheet Music
-		int VISIBLELINES = STAFFLINES;
+		int VISIBLELINES = STAFFLINES%10;
 		if(!CLEF.equals("TAB")) {
 			VISIBLELINES = 5;
 		}
 		
 		//Create AttributeWriter
-		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIG/10,
-									TIMESIG%10, CLEF, LINE, VISIBLELINES);
+		AW = new AttributeWriter(	FIFTHS, DIVISIONS, TIMESIGS[0]/10,
+				TIMESIGS[0]%10, CLEF, LINE, VISIBLELINES);
 		
-		//Create TabReader
-		TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), STAFFLINES);
-
-		//Extract and pass tuning information
-		String[] tuning = TRv4.getTuning();
-		for(int i = 0; i < STAFFLINES; i++) {
-			TUNINGINFO[5-i][0] = tuning[i].toUpperCase();
+		
+		//TUNING
+		//----------------------------------------------------------------------
+		TabReaderV5 Ttuning = new TabReaderV5(stringToFile(TAB), STAFFLINES%10);
+		Ttuning.readMeasure();
+		MeasureReaderV5 Mtuning = new MeasureReaderV5(Ttuning.getMeasure(), Ttuning.getTuning(), 4, 4);
+		
+		String[] StringTuning = Ttuning.getTuning();//string tunings
+		int[] OctaveTuning = Mtuning.getTuning();//octave tunings
+		
+		System.out.println("!!!!!!!!!!!!!!!!");
+		TUNINGINFO = new String[STAFFLINES%10][2];
+		
+		for(int i = 0; i < STAFFLINES%10; i++) {
+			TUNINGINFO[STAFFLINES%10-1-i][0] = StringTuning[i].toUpperCase();
+			TUNINGINFO[STAFFLINES%10-1-i][1] = OctaveTuning[i]+"";
+			System.out.println(TUNINGINFO[STAFFLINES%10-1-i][0]+" "+TUNINGINFO[STAFFLINES%10-1-i][1]);
 		}
+		
+		
 		AW.setTuning(TUNINGINFO);
 		Attributes ATT = AW.getAttributes();
+		//----------------------------------------------------------------------
+		
+		//Create TabReader
+		TabReaderV5 TRv5 = new TabReaderV5(stringToFile(TAB), STAFFLINES%10);
+		
+		//Creating current measure marker
+		int marker = 0;
 		
 		//String Note Parsing
-		TRv4.readMeasure();
-		while(TRv4.hasNext()) {
-			MeasureReaderV4 MRv4 = new MeasureReaderV4(TRv4.getMeasure(), TRv4.getTuning(), TIMESIG/10, TIMESIG%10);
+		TRv5.readMeasure();
+		while(TRv5.hasNext()) {
+			MeasureReaderV5 MRv5 = new MeasureReaderV5(TRv5.getMeasure(), TRv5.getTuning(), TIMESIGS[marker]/10, TIMESIGS[marker]%10);
+			System.out.println(marker+" measure is "+TIMESIGS[marker]+"@@@@");
+			if (marker>0) {
+				if(TIMESIGS[marker]!=TIMESIGS[marker-1]) {
+					
+					ATT = new AttributeWriter( FIFTHS, DIVISIONS, TIMESIGS[marker]/10,
+							TIMESIGS[marker]%10, null, LINE, VISIBLELINES).getAttributes();
+				}
+			}
 			PW.nextMeasure( ATT );//adds an empty measure
-			ATT=null;//removes all attributes after the first measrue
-			while(MRv4.hasNext()) {
-				MRv4.readNotes();
+			ATT=null;//removes all attributes after the first measure
+			
+			//start of a repeat
+			if (MRv5.getRepeatStatus()[0]) {
+				PW.nextBarline("left", "heavy-light", "forward");
+				DIRECTION = new Direction();
+				PW.nextDirection(DIRECTION);
+			}
+			
+			
+			while(MRv5.hasNext()) {
+				MRv5.readNotes();
 				String ChordNote = null;//makes notes chorded when they are not the first one
-				for(String[] s:MRv4.getNotes()) {
+				for(String[] s:MRv5.getNotes()) {
 					PW.nextAllNote( Integer.parseInt(s[0]), //duration
 									s[1],					//type
 									s[2],					//step
@@ -192,81 +226,211 @@ public class Chain {
 									Integer.parseInt(s[4]),	//alter
 									Integer.parseInt(s[6]),	//string
 									Integer.parseInt(s[7]),	//fret
+									Integer.parseInt(s[8]),	//hNum
+									s[9],					//hType
+									"H",					//hCharacter
+									Integer.parseInt(s[10]),//sNum
+									"above",				//sPlacement
+									s[11],					//sType
+									Integer.parseInt(s[12]),//pNum
+									s[13],					//pType
+									"P",					//pCharacter
 									VOICE,					//voice
 									ChordNote,				//chord
-									GRACE					//grace
+									s[14]					//grace
 									);
 					ChordNote = "";
 				}
+				
+				//ending repeat
+				if (MRv5.getRepeatStatus()[1]) {
+					PW.nextBarline("right", "heavy-light", "backward");
+					DIRECTION.setDirectionType( new DirectionType( "Repeat "+MRv5.getRepeatCount()+" times" ) );
+				}
+				
+				
 			}
 			
 			//inside while( TRv4.hasNext() )
-			TRv4.readMeasure();
+			TRv5.readMeasure();
+			marker++;
 		}
 		//HARDCODED
-		PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy")); 
+		//PW.getPart().getMeasure().get(PW.getPart().getMeasure().size()-1).nextBarline(new Barline("right", "light-heavy")); 
 	}
 	
 	//---STEP 1c - Drum Parser --- TO BE CLEANED
 	
-	private void TABtoPARTdrum(){
+	private void TABtoPARTdrum() {
 		System.out.println("DRUM DRUM DRUM");
+		int gap = 0;
+		ArrayList<String[]> bassLine = new ArrayList<String[]>();
 		
-		TabReaderV2 TRv2 = new TabReaderV2(stringToFile(TAB).toString());
-		
-		
-		
-		AttributeWriter AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG/10, TIMESIG%10, "percussion", LINE, STAFFLINES);
-		AW.setTuning(TUNINGINFO);//use derry tuning info
-		Attributes ATT = AW.getAttributes();
-		
-		TRv2.resetMeasure();
-		TRv2.readMeasure();
-		DrumReader DR = new DrumReader(TRv2.getMeasure());//assumed 4/4
-		DK = DR.getDrumKit();// - needed scorepartwise
-		while(TRv2.hasNext()) {
-			System.out.println("I'M RIGHT HERE");
-			DPW.nextMeasure(ATT);
-			ATT=null;
-			TRv2.readMeasure();
-            DR.setMeasure(TRv2.getMeasure());
-			while(DR.hasNext()) {
-				
-				boolean firstNoteAdded = false;
-				for(String[] s:DR.readNote()) {
-					System.out.println("Step"+s[0]+
-										"Octave"+Integer.parseInt(s[1])+
-										"Duration"+Integer.parseInt(s[2])+
-										"Intrument"+s[3]+
-										"Voice"+s[4]+
-										"Type"+s[5]+
-										"NoteHead"+s[6]);
-					if(firstNoteAdded) {
-						System.out.println("Chorded note");
-//						if(s[6].equals("o")) {
-//							System.out.println("Make a note chord without note head");
-//						}
-//						else {
-						DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
-						//}
+		try {
+			TabReaderV4 TRv4 = new TabReaderV4(stringToFile(TAB), 6, 0);
+			System.out.println("USING TABV4 NOW !!!!!");
+			AW = new AttributeWriter(FIFTHS, DIVISIONS, TIMESIG / 10, TIMESIG % 10, "percussion", LINE, 5);
+			Attributes ATT = AW.getAttributes();
+
+			TRv4.readMeasure();
+			DrumReader DR = new DrumReader(TRv4.getMeasure());// assumed 4/4
+			DK = DR.getDrumKit();// - needed scorepartwise
+			TRv4.readMeasure();
+			while (TRv4.hasNext()) {
+				DPW.nextMeasure(ATT);
+				ATT = null;
+				DR.setMeasure(TRv4.getMeasure());
+				System.out.println("Set New measure");
+				while(DR.hasNext()) {
+					boolean first = true;
+					for(String [] s: DR.readNotes()) {	
 						
-					}
-					else {
-						System.out.println("Non chorded note");
-						if(s[6].equals("o")) {
-							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up");
+						//saves bass notes for later
+						if(!s[3].equals("P1-I36")) {
+	//						Console Output for Testing
+							System.out.println("Step" + s[0] + "Octave" + Integer.parseInt(s[1]) + "Duration"
+									+ Integer.parseInt(s[2]) + "Intrument" + s[3] + "Voice" + s[4] + "Type" + s[5]
+									+ "NoteHead" + s[6] + "Beam" + s[7]);
+	
+							// checks if this note has a beam
+							if(first) {
+								if (!s[7].equals("")) {
+									//list to hold beams of this note
+									ArrayList<Beam> beams = new ArrayList<Beam>();
+		
+									// checks if this note is a sixteenth or not
+									if (Integer.parseInt(s[2]) == 1) {
+										// adds two beams if this note is a sixteenth
+										Beam beam1 = new Beam(1, s[7]);
+										Beam beam2 = new Beam(2, s[7]);
+										beams.add(beam1);
+										beams.add(beam2);
+		
+									} else {
+										Beam beam1 = new Beam(1, s[7]);
+										beams.add(beam1);
+									}
+		
+									// Adds the bean note using the DPW class
+									System.out.println("Beam Note Added");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNoteB(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams);
+									} else {
+										DPW.nextDrumNoteBNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
+									}
+								} else {
+									// Adds regular note iwht the DPW class
+									System.out.println("Non beam note");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8]);
+									} else {
+										DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], s[6]);
+									}
+								}
+								first = false;
+							}else {
+								if (!s[7].equals("")) {
+									//list to hold beams of this note
+									ArrayList<Beam> beams = new ArrayList<Beam>();
+		
+									// checks if this note is a sixteenth or not
+									if (Integer.parseInt(s[2]) == 1) {
+										// adds two beams if this note is a sixteenth
+										Beam beam1 = new Beam(1, s[7]);
+										Beam beam2 = new Beam(2, s[7]);
+										beams.add(beam1);
+										beams.add(beam2);
+		
+									} else {
+										Beam beam1 = new Beam(1, s[7]);
+										beams.add(beam1);
+									}
+		
+									// Adds the bean note using the DPW class
+									System.out.println("Beam Note Added");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNoteBChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams);
+									} else {
+										DPW.nextDrumNoteBNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
+									}
+								} else {
+									// Adds regular note with the DPW class
+									System.out.println("Non beam note");
+									if (s[6].equals("o")) {
+										DPW.nextDrumNoteChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8]);
+									} else {
+										DPW.nextDrumNoteNHChord(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+												Integer.parseInt(s[4]), s[3], s[8], s[6]);
+									}
+								}
+							}
+						}else {
+							bassLine.add(s);
 						}
-						else {
-							DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]), Integer.parseInt(s[4]), s[3], "up", s[6]);
-						}
-						firstNoteAdded = true;
 					}
-					
 				}
+				
+				//add all bass notes at the end
+				//goes back to beginning of the measure
+				DPW.nextBackup(16);
+				
+				for(String [] s: bassLine) {
+					if (!s[7].equals("")) {
+						//list to hold beams of this note
+						ArrayList<Beam> beams = new ArrayList<Beam>();
+
+						// checks if this note is a sixteenth or not
+						if (Integer.parseInt(s[2]) == 1) {
+							// adds two beams if this note is a sixteenth
+							Beam beam1 = new Beam(1, s[7]);
+							Beam beam2 = new Beam(2, s[7]);
+							beams.add(beam1);
+							beams.add(beam2);
+
+						} else {
+							Beam beam1 = new Beam(1, s[7]);
+							beams.add(beam1);
+						}
+
+						// Adds the bean note using the DPW class
+						System.out.println("Beam Note Added");
+						if (s[6].equals("o")) {
+							DPW.nextDrumNoteB(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8], beams);
+						} else {
+							DPW.nextDrumNoteBNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8], beams, s[6]);
+						}
+					} else {
+						// Adds regular note with the DPW class
+						System.out.println("Non beam note");
+						if (s[6].equals("o")) {
+							DPW.nextDrumNote(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8]);
+						} else {
+							DPW.nextDrumNoteNH(Integer.parseInt(s[2]), s[5], s[0], Integer.parseInt(s[1]),
+									Integer.parseInt(s[4]), s[3], s[8], s[6]);
+						}
+					}
+				}
+				
+				//clear bassLine
+				bassLine.clear();
+				TRv4.readMeasure();
 			}
-			
+			//DPW.getDrumPart().getMeasure().get(DPW.getDrumPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
-			
+
 	}
 	
 	//---STEP 2 - Passing Parsing ---
@@ -279,7 +443,12 @@ public class Chain {
 		
 		//Drums
 		else {
+			try {
 			SPW = new ScorePartwiseWriter(TITLE, LYRICIST, COMPOSER, DPW.getDrumPart(), DK);
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+				System.out.println("SCOREPARTWISEWRITER ERROR");
+			}
 		}
 		
 	}
@@ -288,23 +457,35 @@ public class Chain {
 	public void MARSHtoXML() throws Exception{  
 	    
 		//Marshalling
-		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class); 
-		
-	    Marshaller marshallerObj = contextObj.createMarshaller();  
-	    
+		try {
+			
+		JAXBContext contextObj = JAXBContext.newInstance(Score_Partwise.class, Instrument.class, Unpitched.class, Entry.class, DrumNoteNH.class, DrumNoteB.class, DrumNote.class, DrumNoteBNH.class, Note.class, Forward.class, Backup.class, DrumNoteNHChord.class, DrumNoteBChord.class, DrumNoteChord.class, DrumNoteBNHChord.class, Barline.class, Direction.class, DirectionType.class, Repeat.class); 
+	    Marshaller marshallerObj = contextObj.createMarshaller(); 
+	    System.out.println("test 1");
+	    //adapter used to control measure marshaling
+	    EntryAdapter adapter = new EntryAdapter(contextObj);
+	     
+	    marshallerObj.setAdapter(adapter);
 	    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
+	    marshallerObj.setProperty("com.sun.xml.bind.xmlHeaders", "<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">");
+
 	    
+	    System.out.println("SPW: " + SPW.getScore_Partwise().getPart().getMeasure().get(0).getNote().get(0).getName());
+	    marshallerObj.marshal(SPW.getScore_Partwise(), SW);
 	    //Print final output to console
 	    System.out.println(SW.toString());
 	
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 
 //####################################################################
 //########################### HELPERS ################################
 //####################################################################
-	private File stringToFile(String tab) {
+	public static File stringToFile(String tab) {
 
 		File f = null;
 		

@@ -39,7 +39,7 @@ public static String mxlMaker() throws Exception{
     ArrayList <Note> notes = new ArrayList <Note>();
     //notes.add(new Note(4, "whole", pi));
     
-    Measure m = new Measure(1, att, notes);
+    Measure m = new Measure();
     ArrayList <Measure> measures = new ArrayList<Measure>();
     measures.add(m);
     Part p = new Part("P1", measures);

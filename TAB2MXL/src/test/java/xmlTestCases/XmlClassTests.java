@@ -1,6 +1,5 @@
 package xmlTestCases;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -9,9 +8,14 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.sun.xml.fastinfoset.util.DuplicateAttributeVerifier.Entry;
+
 import xmlClasses.Attributes;
 import xmlClasses.Chain;
 import xmlClasses.Clef;
+import xmlClasses.Creator;
+import xmlClasses.DrumPartWriter;
+import xmlClasses.Identification;
 import xmlClasses.Instrument;
 import xmlClasses.Key;
 import xmlClasses.Measure;
@@ -19,12 +23,16 @@ import xmlClasses.Notations;
 import xmlClasses.Note;
 import xmlClasses.Part;
 import xmlClasses.PartWriter;
+import xmlClasses.Part_List;
 import xmlClasses.Pitch;
 import xmlClasses.ScorePartwiseWriter;
+import xmlClasses.Score_Part;
+import xmlClasses.Score_Partwise;
 import xmlClasses.StaffDetails;
 import xmlClasses.StaffTuning;
 import xmlClasses.Technical;
 import xmlClasses.Time;
+import xmlClasses.Work;
 
 public class XmlClassTests {
 	
@@ -38,6 +46,7 @@ public class XmlClassTests {
 	private Measure measure;
 	private Measure measure2;
 	private StaffDetails sd;
+	private Attributes att;
 	
 	private Chain chain;
 	private int randomfret;
@@ -48,11 +57,28 @@ public class XmlClassTests {
         p = new Pitch("C", 4, 0);
         n = new Note(4, "quarter", p);
         nots = new Notations(new Technical(1,1));
-
+        Technical tech = new Technical();
         n2 = new Note(4, "quarter", p, nots, voice, null,  null);
         part = new Part();
         part2 = new Part("1");
+        Key k = new Key(0);
+        Time t = new Time(4, 4);
+        Clef c = new Clef("G", 2);
+        Attributes att2 = new Attributes(1, k, t, c);
+        Measure m = new Measure();
+        ArrayList <Measure> measures = new ArrayList<Measure>();
+        measures.add(m);
+        Part p = new Part("P1", measures);
+        Score_Part sp = new Score_Part("P1", "Music");
+        Part_List pl = new Part_List(sp); 
+        ArrayList <Creator> creators = new ArrayList<Creator>();
+        creators.add(new Creator("composer", "Aidan Mozart")); 
+        creators.add(new Creator("lyricist", "Its ya boy")); 
+        Identification id = new Identification(creators);
+        		
+        Work w = new Work("Hot cross BUNS");
         
+        Score_Partwise spw = new Score_Partwise(3.1, pl, p, id, w);  
         Random r = new Random();
         randomfret=r.nextInt(10);
         
@@ -118,12 +144,11 @@ public class XmlClassTests {
     	assertTrue(measure.getNumber() == 1);
     	assertNotNull(measure.getNumber());
     	
-    	Measure measureTwo = new Measure(1, new Attributes(), new ArrayList<Note>());
+    	//changed to work with new measure entries
+    	Measure measureTwo = new Measure(1, new Attributes());
     	assertNull(measureTwo.getAttributes().getClef());
     	assertNotNull(measureTwo.getNote());
-    	measureTwo.getNote().add(new Note());
-    	measureTwo.getNote().get(0).setDuration(1);
-    	assertEquals(1, measureTwo.getNote().get(0).getDuration());
+    	measureTwo.addNote(new Note(1, ""));
     	
     	assertNotEquals(measure, measure2);
     	
@@ -164,8 +189,10 @@ public class XmlClassTests {
      * ensures that all arguments are properly set in a ScorePartwise
      */
     public void testSPW() {
+    	ArrayList<String> drumKit = new ArrayList();
+    	drumKit.add("Bass Kick");
     	ScorePartwiseWriter SPW = new ScorePartwiseWriter("Title", "LYRICIST" , "COMPOSER", part);
-    	ScorePartwiseWriter SPW2 = new ScorePartwiseWriter("Title", "LYRICIST" , "COMPOSER", part);
+    	ScorePartwiseWriter SPW2 = new ScorePartwiseWriter("Title", "LYRICIST" , "COMPOSER", part, drumKit);
     	assertNotEquals(SPW, SPW2);
     	
     	assertEquals("Title", SPW.getScore_Partwise().getWork().getWorkTitle());
@@ -182,6 +209,7 @@ public class XmlClassTests {
      * ensures that all arguments are properly set in a ScorePartwise
      */
     public void testPW() {
+    	att = new Attributes();
     	PartWriter PW = new PartWriter();
     	PartWriter PW2 = new PartWriter();
     	assertNotEquals(PW, PW2);
@@ -191,5 +219,32 @@ public class XmlClassTests {
     	assertNotEquals(PW.getPart().getID(), PW2.getPart().getID());
     	
     	PW.nextMeasure();
+    	PW.nextMeasure(att);
+    	PW.nextMeasure(0, 0, 0, 0, "TAB", 0);
+    	
+    }
+    @Test
+    /**
+     * Testing the Drum Part writer
+     * ensures that all arguments are properly set in a DrumPart
+     */
+    public void testDPW() {
+    	att = new Attributes();
+    	DrumPartWriter DPW = new DrumPartWriter();
+    	DrumPartWriter DPW2 = new DrumPartWriter();
+    	assertNotEquals(DPW, DPW2);
+    	
+    	assertNotEquals(DPW.getDrumPart(), DPW2.getDrumPart());
+    	DPW.nextBackup(16);
+    	DPW.nextForward(16);
+    	
+    	DPW.nextMeasure();
+    	DPW.nextMeasure(att);
+    	DPW.nextDrumNote(0, "Type", "Test", 0, 0, "Test", "Test");
+    	assertEquals(DPW.getDrumPart().getMeasure().get(0).getAttributes(), att);
+    	
+    	
+    	
+    	
     }
 }

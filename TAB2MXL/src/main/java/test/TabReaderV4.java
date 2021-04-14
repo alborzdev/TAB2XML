@@ -19,7 +19,7 @@ public class TabReaderV4{
 	private String[][] tabLine;
 	private String[] measure, tuning;
 	private String measureDelimiterRegex="\\|";
-	private String tabRegex="([a-z]|[A-Z])*\\|((-|[0-9]|x|o|X|O)+\\|)+";
+	private String tabRegex="([a-z]|[A-Z])*\\|((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+\\|)+"; //relaxed regex a bit to allow hammer-on/pull-off
 	private Pattern tabPat = Pattern.compile(tabRegex);
 	//regex explaination / tab format restrictions
 	//must start with tuning data
@@ -52,6 +52,7 @@ public class TabReaderV4{
 		this.evaluateLine();
 	}
 	
+
 //	public TabReaderV4(String contents, int string_count) throws Exception { //basic, parameter-driven constructor
 //		this.string_count = string_count;
 //		this.eof = false;
@@ -73,12 +74,28 @@ public class TabReaderV4{
 //		
 //	}
 //	
+
+	/*
+	 * Overloaded constructor used by DrumReader so the fist line of Drum parts can be read
+	 */
+	public TabReaderV4(File file, int string_count, int measure) throws Exception { //basic, parameter-driven constructor
+		this.string_count = string_count;
+		this.file = file;
+		this.eof = false;
+		// measures start at 1, index 0 exists - but is reserved for tuning data
+		this.next_tabLine = 0;
+		this.curr_measure = 0;
+		this.scanLine = 0;
+		this.evaluateLine();
+	}
+
 	
 	public void readMeasure() throws Exception {
-		//System.out.println("DEBUG: curr_measure: "+curr_measure);
+		//System.out.println("DEBUG: curr_measure: "+curr_measure + "LINE LENGTH: " + tabLine[0].length);
 		if(curr_measure >= tabLine[0].length) {
 			curr_measure = 1;
 			System.out.println("DEBUG: end of line, reading next line");
+			System.out.println("DEBUG: reading measures from line: " + this.next_tabLine);
 			evaluateLine();
 			readMeasure();
 		}else if(eof){
@@ -89,7 +106,7 @@ public class TabReaderV4{
 				measure[i] = tabLine[i][curr_measure];
 			}
 			System.out.println("DEBUG: measure read: ");
-			this.stringArrayDump("measure",this.measure);
+			//this.stringArrayDump("measure",this.measure);
 			curr_measure ++;
 		}
 	}
@@ -103,7 +120,7 @@ public class TabReaderV4{
 	}
 	
 	
-	public void evaluateLine() throws Exception {
+	private void evaluateLine() throws Exception {
 		//new and improved, allows for inconsistent lengths + spacing + starting points
 		System.out.println("DEBUG: evaluating line: "+next_tabLine);
 		try {
@@ -155,7 +172,6 @@ public class TabReaderV4{
 			}
 			
 			
-			
 			//dump what is read
 			stringArrayDump("unbroken-tabLine(uTab) "+this.next_tabLine, uTab);
 			
@@ -165,6 +181,7 @@ public class TabReaderV4{
 			for(int i=0; i<this.string_count; i++) {
 				bTab[i] = uTab[i].split(this.measureDelimiterRegex);
 			}
+	
 			//sanity checks
 			// same number of measures in each line
 			int measures = bTab[0].length;
@@ -173,6 +190,7 @@ public class TabReaderV4{
 					throw new LineErrorException("Bad content: number of measures in line " + (this.scanLine + i) + " is different from the line above", this.scanLine + i, uTab[i]);
 				}
 			}
+			
 			// same lengths for each simultameous measure
 			for(int i=0; i<bTab[0].length; i++) {
 				int measureLength = bTab[0][i].length();
@@ -243,15 +261,19 @@ public class TabReaderV4{
 			this.scanLine = 0;
 			this.curr_measure = 1; // start from the top
 			this.eof = false;
+			this.evaluateLine();
 			List<String[]> out = new ArrayList<String[]>();
 			this.readMeasure();
 			while(this.hasNext()){
 				out.add(this.measure);
 				this.readMeasure();
 			}
-			this.next_tabLine = 0;
+			System.out.println("DEBUG: finished listing measures, returning to top of file!");
+			this.next_tabLine = 0; //return to the top
+			this.scanLine = 0;
 			this.curr_measure = 1;
 			this.eof = false;
+			this.evaluateLine();
 			return out;
 		}catch(Exception e) {
 			System.out.println("DEBUG: something went wrong trying to list all measures");
@@ -272,4 +294,5 @@ public class TabReaderV4{
 			System.out.println(in[i]);
 		}
 	}
+	
 }

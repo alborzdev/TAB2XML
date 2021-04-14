@@ -54,4 +54,81 @@ public class ErrorHandling {
 		return indices;
 	}
 	
+	public static int detectInstrument(String textArea) {
+		int lines = 0;
+		String[] tempArray;
+		String delimiter = "\n";
+		
+		textArea = textArea + "\nZ\n" + "X\n" + "Y\n" + "W\n" + "V\n" + "U\n";
+		tempArray = textArea.split(delimiter);
+		for (int i = 0; i < tempArray.length; i++) {
+			System.out.println(tempArray[i] + " LINE " + i);
+		}
+		int j = 0;
+		while(tempArray[j].trim() == "") {
+			j++;
+		}
+		for (int i = j; i < tempArray.length - 6; i++) {
+			if((tempArray[i].toUpperCase().charAt(0) != '|') && (tempArray[i].charAt(1) != '|')) {
+				return 46;
+			}
+			if(tempArray[i+4].trim().isEmpty() || tempArray[i+4].charAt(0) == ('Z')) {
+				lines = 4;
+				return 34;
+			}
+			else if(tempArray[i+5].trim().isEmpty()|| tempArray[i+5].charAt(0) == ('Z')) {
+				lines = 5;
+				return 25;
+			} //test
+			else if(tempArray[i+6].trim().isEmpty()|| tempArray[i+6].charAt(0) == ('Z')) {
+				lines = 6;
+				return 16;
+			}
+			else if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+5].toUpperCase().charAt(0)
+					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+6].toUpperCase().charAt(0)) 
+			{
+				lines = 5;
+				return 25;
+			}
+			
+			else if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+4].toUpperCase().charAt(0)
+					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+5].toUpperCase().charAt(0)) 
+			{
+				lines = 4;
+				return 34;
+			}
+			
+			else if (tempArray[i].toUpperCase().charAt(0) == tempArray[i+6].toUpperCase().charAt(0)
+					&& tempArray[i+1].toUpperCase().charAt(0) == tempArray[i+7].toUpperCase().charAt(0)) 
+			{
+				lines = 6;
+				return 16;
+			}
+			
+			
+			else if (tempArray[i].toUpperCase().charAt(0) == (tempArray[i+1].toUpperCase().charAt(0)) 
+					|| (tempArray[i+1].trim().isEmpty())) 
+			{
+				lines++;
+				break;
+			} 
+			
+			lines++;
+	
+			//System.out.println(tempArray[i].toUpperCase().charAt(0) + "\n");
+		}
+		if(lines == 6) {
+			return 16;
+		} 
+		else if(lines == 5) {
+			return 25;
+		}
+		else if(lines == 4) {
+			return 34;
+		} else {
+			return 00;
+		}
+		
+	}
+	
 }

@@ -1,21 +1,29 @@
 package xmlClasses;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+
 
 public class Barline {
 	private String location;
 	private String barStyle;
+	private String direction;
+	private Repeat repeat;
 	
 	public Barline() {
 		
 	}
-	
 	public Barline(String loc, String bs) {
 		this.location = loc;
 		this.barStyle = bs;
 	}
+	public Barline(String loc, String bs, String direction) {
+		this.location = loc;
+		this.barStyle = bs;
+		this.repeat = new Repeat(direction);
+	}
 	
-	@XmlElement
+	@XmlAttribute
 	public String getLocation() {  
 	    return location;  
 	}  
@@ -29,6 +37,14 @@ public class Barline {
 	}  
 	public void setBarStyle(String bs) {  
 	    this.barStyle = bs;  
+	}
+	
+	@XmlElement(name="repeat")
+	public Repeat getRepeat() {  
+	    return repeat;  
+	}  
+	public void setRepeat(Repeat repeat) {  
+	    this.repeat = repeat;  
 	}
 			
 }

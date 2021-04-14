@@ -1,6 +1,8 @@
 package test;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import config.ConfigReader;
 
@@ -18,7 +20,9 @@ public class MeasureReaderV4 {
 	private String[] tuning = {"E","B","G","D","A","E"};
 	private String[] scale = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
 	private int[] octaves = {4,3,3,3,2,2};
-	private String[] lengths = {"whole","half","quarter","eighth","sixteenth", "thirty-second", "sixty-fourth", "one-hundred-twenty-eighth"};
+	private String[] lengths = {"whole","half","quarter","eighth","16th", "32nd", "64th", "128th"};
+	private String numbersOnlyRegex="([0-9])*";
+	private Pattern nOPat = Pattern.compile(numbersOnlyRegex);
 	boolean hasNextColumn; //has next column?
 	
 	//To do:
@@ -83,11 +87,11 @@ public class MeasureReaderV4 {
 				//
 				//
 				//
-				System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
+				//System.out.println((int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength))));
 				
 				String[] noteProperties = {
 						""+this.noteLength,																	//raw duration
-						lengths[(int)Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)))],				//type
+						this.getType(),				//type
 						""+stepAndOctave[0].charAt(0),																	//step
 						stepAndOctave[1],																				//octave
 						alter,																				//alter
@@ -121,19 +125,36 @@ public class MeasureReaderV4 {
 				this.strColumn[i] = "" + this.column[i];
 			}
 			//check if the next column has notes - allows for double-digit frets
+			//------------------------------------------------------------------------------------
+//			this.readColumn(this.curr_col);
+//			this.curr_col++;
+//			if(!this.isEmpty(this.column)) {
+//				for(int i=0; i<this.string_count; i++) {
+//					//append only non-dash characters
+//					if(this.column[i] != '-') {
+//						this.strColumn[i] = this.strColumn[i] + this.column[i];
+//					}
+//				}
+//				this.noteLength = 1;
+//			}else {
+//				this.noteLength = 2;
+//			}
+			//read until there are no more empty columns - to get 2 or 3 length "notes"
+			int counter = 0;
 			this.readColumn(this.curr_col);
-			this.curr_col++;
-			if(!this.isEmpty(this.column)) {
+			while(!this.isEmpty(this.column) && this.hasNextColumn) {
+				counter ++;
+				this.curr_col++;
 				for(int i=0; i<this.string_count; i++) {
 					//append only non-dash characters
 					if(this.column[i] != '-') {
 						this.strColumn[i] = this.strColumn[i] + this.column[i];
 					}
 				}
-				this.noteLength = 1;
-			}else {
-				this.noteLength = 2;
+				this.readColumn(this.curr_col);
 			}
+			this.noteLength = counter + 1;
+			//------------------------------------------------------------------------------------
 			//continue reading empty columns to determine note length
 			this.readColumn(this.curr_col);
 			this.curr_col++;
@@ -189,14 +210,51 @@ public class MeasureReaderV4 {
 		
 	}
 	
-	private int[] getFrets(String[] Column) {
+	private String getType() {
+		double rawlength = (double)(this.wNoteLength)/(this.noteLength);
+		double index = Math.ceil(this.log2((double)(this.wNoteLength)/(this.noteLength)));
+		double roundedlength = this.trueMeasureLength/Math.pow(2, index);
+		System.out.println("DEBUG: roundedlength: " + roundedlength);
+		
+		//original rounded down
+		String out = lengths[(int)index];
+		if(this.noteLength == roundedlength * 4 / 3 && index > 0) {
+			//triplet flag
+			out = lengths[(int)index -1];
+		}
+		
+		return out;
+	}
+	
+	private int[] getFrets(String[] column) {
 		int[] out = new int[string_count];
 		for(int i=0; i<string_count; i++) {
 			try {
-				out[i] = Integer.parseInt(Column[i]);
+				out[i] = Integer.parseInt(column[i]);
 			}catch(NumberFormatException e) {
 				out[i] = -1;
 			}
+		}
+		return out;
+		
+	}
+	
+	private int[] getFretsEnhanced(String[] column) {
+		int[] out = new int[string_count];
+		for(int i=0; i<string_count; i++) {
+			Matcher noteMat = nOPat.matcher(column[i]);
+			try {
+				if(column[i].length() <=2 ) { //length 1 or 2 - number or fail
+					out[i] = Integer.parseInt(column[i]);					
+				}else if(column[i].length() == 3){
+					
+					
+				}else {
+					// TODO
+				}
+			}catch(Exception e) {
+				out[i] = -1;
+			}		
 		}
 		return out;
 		
