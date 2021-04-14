@@ -166,12 +166,6 @@ class MainControllerTest extends ApplicationTest{
     public void TestOpenRecentButton(){
     	clickOn("#menu").clickOn("#openrecent");
     }
-    @Test 
-    public void TestMoreMenuItems() {
-
-    	clickOn("#menu").clickOn("#uploadMenu");
-
-    }
     @Test
     public void TestExit() {
     	clickOn("#menu").clickOn("#exit");

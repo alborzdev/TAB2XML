@@ -87,6 +87,10 @@ public class MainController implements Initializable {
 	String tab;
 	Chain chain;
 
+	/**
+	 * Detects the tab type (instrument type)
+	 * @returns the index of the detected instrument 
+	 */
 	private int detector() {
 		int DetectedIntrument = (ErrorHandling.detectInstrument( textarea.getText() )/10);
 		if(DetectedIntrument == 1) InstrumentType.getSelectionModel().select(0);//set guitar
@@ -166,7 +170,8 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * 
+	 * Updates the array of time signatures for each measure. This is called when the tab input is provided to initialize
+	 * the time signature to 4/4 and set the size of the array to the number of measures
 	 * @throws Exception
 	 */
 	public void updateTimeSigsArray() throws Exception {
@@ -174,8 +179,7 @@ public class MainController implements Initializable {
 		File f = new File("TempD.txt");
 		tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
-		System.out.println("measuresTEXTAREA "+tab);
-		System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
+		//if we are in the advanced options FXML file do this:
 		List<String[]> TAB = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
 		System.out.println("size = "+TAB.size());
 		for(int i=0;i<TAB.size();i++) {
@@ -190,9 +194,11 @@ public class MainController implements Initializable {
 			measures.getItems().add(i+1);
 			timesigs[i]=44;
 		}
+
+		//If we are in the main fxml, initialize like this:
 		if(!textarea.getText().isEmpty()) {
-			List<String[]> TAB2 = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
-			System.out.println("size = "+TAB.size());
+			List<String[]> TAB2 = new TabReaderV5( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
+			System.out.println("size = "+TAB2.size());
 			for(int i=0;i<TAB2.size();i++) {
 				String [] t=TAB2.get(i);
 				System.out.println("printing t String[]");
@@ -206,12 +212,16 @@ public class MainController implements Initializable {
 				timesigs[i]=44;
 			}
 		}
-		System.out.println("TIMESIGS IN METHOD = "+timesigs);
 	}
+	/**
+	 * This method updates the time signature of a measure or more when its chosen from the combo box
+	 * @param event
+	 */
 	@FXML
 	public void changeMeasure(ActionEvent event) {
 		String s = MeasureTimeSig.getSelectionModel().getSelectedItem();
 		System.out.println(s);
+		//If there is an interval of measures to change do this:
 		if(!to.getText().isEmpty() && !from.getText().isEmpty()) {		
 			Integer TO = Integer.parseInt(to.getText()), FROM = Integer.parseInt(from.getText());
 			if(TO>timesigs.length || FROM>timesigs.length || TO<=0 || FROM<=0 || TO<FROM) {
@@ -229,6 +239,7 @@ public class MainController implements Initializable {
 			}
 
 		}
+		//If we are only changing the time signature of one measure do this:
 		else if(measures.getSelectionModel().getSelectedItem()!=null){
 			int m = measures.getSelectionModel().getSelectedIndex();
 			if(s.compareTo("3/4")==0)
@@ -237,14 +248,14 @@ public class MainController implements Initializable {
 
 			System.out.println("m="+m+" changing to "+timesigs[m]);
 		}
-
+		//flag so that we do NOT reset the time signatures when exporting
 		CHANGE = true;
 		System.out.println("CHANGE 209 = "+CHANGE);
 	}
 
 
 	/**
-	 * Lets user specify name and path of xml file
+	 * Lets user specify name and path of xml file and exports an xml file
 	 * @param event
 	 * @throws Exception 
 	 */
@@ -260,7 +271,9 @@ public class MainController implements Initializable {
 		System.out.println("change = "+CHANGE);
 		System.out.println("gettimesigs = "+getTimeSig());
 
+		//this indicates that certain measures' time signature changed so load from the database txt that holds the info
 		if(CHANGE)loadArray();
+
 		else {
 			List<String[]> TAB2 = new TabReaderV5( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
 			for(int i=0;i<TAB2.size();i++) {
@@ -337,8 +350,17 @@ public class MainController implements Initializable {
 				e.printStackTrace();	}
 		}
 	}
+	@FXML
+	public void resetTime() {
+		CHANGE = false;
+	}
 
-
+	/**
+	 * updates the errors and warnings text area every time there is a change
+	 * Mainly catches exception from Chain
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	public void updateTextArea(KeyEvent event) throws Exception {
 		System.out.println("KEY EVENT TRIGGERED");
@@ -414,30 +436,16 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//measuresTEXTAREA = new JFXTextArea();
-		//textarea = new JFXTextArea();
-		//measuresTEXTAREA.clear();
+
 		KeySig.getItems().add("C Major");
 
 		KeySig.setStyle("-fx-text-fill:  #e1dddd ;") ;
 		KeySig.getSelectionModel().select(0);
-		//		KeySig.getItems().add("G Major");
-		//		KeySig.getItems().add("D Major");
-		//		KeySig.getItems().add("A Major");
-		//		KeySig.getItems().add("E Major");
-		//		KeySig.getItems().add("B Major");
-		//		KeySig.getItems().add("F# Major");
-		//		KeySig.getItems().add("C# Major");
-
 		TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
 
 		TimeSig.getSelectionModel().select(1);
 		TimeSig.setStyle("-fx-text-fill:  white ;");
-		//		TimeSig.getItems().add("5/4");
-		//		TimeSig.getItems().add("6/8");
-		//		TimeSig.getItems().add("7/8");
-		//		TimeSig.getItems().add("12/8");
 
 		InstrumentType.getItems().add("Guitar");
 		InstrumentType.getItems().add("Drums");
@@ -506,10 +514,6 @@ public class MainController implements Initializable {
 			System.out.println("selected key sig "+s);
 		}
 		else {s= "C Major";
-		//AlertType type = AlertType.WARNING; 
-		//Alert alert = new Alert(type, "Required Information missing"); 
-		//alert.getDialogPane().setContentText("Key Signature empty (default = C Major)"); 
-		//alert.showAndWait();
 		}
 
 		return s;
@@ -521,10 +525,6 @@ public class MainController implements Initializable {
 		switch(indx) {
 		case 0: return 34; 
 		case 1: return 44; 
-		//case 2: return 54;
-		//case 3: return 68;
-		//case 4: return 78;
-		//case 5: return 128;
 		default: return 44;
 		}
 	}
@@ -551,6 +551,11 @@ public class MainController implements Initializable {
 
 	private LinkedList<String> RECENTFILES= new LinkedList<String>();
 	Preferences pref;
+	/**
+	 * Loads the most recently saved tab and its attributes from the database.txt and attributes.txt files
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void LOADRECENT(ActionEvent event) throws IOException  {
 		//check if textarea is empty
@@ -593,6 +598,12 @@ public class MainController implements Initializable {
 		loadArray();
 	}
 
+	/**
+	 * Method that does the actual loading to the main GUI given the file paths
+	 * @param database
+	 * @param attributes
+	 * @throws IOException
+	 */
 	private void loader(String database, String attributes) throws IOException {
 		loadArray();
 		BufferedReader br;
@@ -648,6 +659,11 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Prints a single selected measure from the combo box in the advanced options controller
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	public void printSelection(ActionEvent event) throws Exception {
 		List<String[]> TAB = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
@@ -668,6 +684,11 @@ public class MainController implements Initializable {
 
 	}
 
+	/**
+	 * Prints a range of selected measure from the combo box in the advanced options controller
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	public void printIntervalSelection(KeyEvent event) throws Exception {
 		List<String[]> TAB = new TabReaderV5( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
@@ -689,6 +710,11 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Saves the current tab file and all of its attributes into *.txt files
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void saveChanges(ActionEvent event) throws IOException {
 		saveArray();
@@ -740,6 +766,9 @@ public class MainController implements Initializable {
 
 		}
 	}
+	/*
+	 * Saves the text area into a temporaty txt file before opening the advanced options window
+	 */
 	private void save() {
 		FileWriter fw;
 		try {
@@ -766,6 +795,10 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		} 
 	}
+
+	/*
+	 * Displays the advanced options window
+	 */
 	@FXML
 	public void advancedOptions(ActionEvent event) throws Exception {
 		save();
@@ -789,7 +822,9 @@ public class MainController implements Initializable {
 		updateTimeSigsArray();
 	}
 
-
+	/**
+	 * Closes the advanced options window
+	 */
 	@FXML private Button close;
 	@FXML
 	public void Close(ActionEvent event) throws IOException {
@@ -797,6 +832,9 @@ public class MainController implements Initializable {
 		stage.close();
 		saveArray();
 	}
+	/*
+	 *Saves the individual measures' time signatures into a txt file
+	 */
 	private void saveArray() throws IOException {
 		FileWriter fw;
 		fw = new FileWriter("timesigs.txt",false);
@@ -810,7 +848,9 @@ public class MainController implements Initializable {
 		pw.flush(); 
 		pw.close();
 	}
-
+	/*
+	 * Loads the individual measures' time signatures from a txt file
+	 */
 	private void loadArray() throws IOException {
 		BufferedReader br;
 
@@ -828,6 +868,7 @@ public class MainController implements Initializable {
 		CHANGE = true;
 	}
 
+	//text area getter
 	public String getTextArea() {
 		return textarea.getText();
 	}
