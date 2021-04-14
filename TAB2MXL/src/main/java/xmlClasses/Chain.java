@@ -80,6 +80,9 @@ public class Chain {
 	
 	/**This ArrayList shows the drum kit*/
 	ArrayList<String> DK;
+	
+	/**This Holds the direction for the current repeat*/
+	Direction DIRECTION;
 
 	//---xml Object Writers---
 	
@@ -202,6 +205,14 @@ public class Chain {
 			}
 			PW.nextMeasure( ATT );//adds an empty measure
 			ATT=null;//removes all attributes after the first measure
+			
+			//start of a repeat
+			if (MRv5.getRepeatStatus()[0]) {
+				PW.nextBarline("left", "heavy-light", "forward");
+				PW.nextDirection("above", "repeat");
+			}
+			
+			
 			while(MRv5.hasNext()) {
 				MRv5.readNotes();
 				String ChordNote = null;//makes notes chorded when they are not the first one
@@ -408,7 +419,7 @@ public class Chain {
 				bassLine.clear();
 				TRv4.readMeasure();
 			}
-			DPW.getDrumPart().getMeasure().get(DPW.getDrumPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
+			//DPW.getDrumPart().getMeasure().get(DPW.getDrumPart().getMeasure().size()-1).setBarline(new Barline("right", "light-heavy"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
