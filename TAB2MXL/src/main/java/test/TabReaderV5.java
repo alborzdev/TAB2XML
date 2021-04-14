@@ -22,10 +22,12 @@ public class TabReaderV5{
 	private String tabRegex="([a-z]|[A-Z])*\\|((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+\\|)+"; //relaxed regex a bit to allow hammer-on/pull-off
 	private String tabRegexFL="([a-z]|[A-Z])*\\|("
 			+ "(((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+\\|)+)|"
+			+ "(\\|-((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+\\|))+|"
 			+ "(\\|-((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+-[0-9]+\\|))+"
 			+ ")+";
 	private String tabRegexSL="([a-z]|[A-Z])*\\|("
 			+ "(((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+\\|)+)|"
+			+ "(\\|(\\*|-)((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+(\\*|-)))+"
 			+ "(\\|(\\*|-)((-|[0-9]|(g[0-9]+(h|p)[0-9]+)|h|p|x|o|X|O)+(\\*|-)\\|\\|))+"
 			+ ")+";
 	private String numbersOnlyRegex="([0-9])*";

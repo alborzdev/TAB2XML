@@ -81,7 +81,10 @@ public class MeasureReaderV5 {
 		this.checkRepeatStatus();
 		
 		this.trueMeasureLength = this.getTrueMeasureLength();
-		this.wNoteLength = this.ts_beatlength * (this.trueMeasureLength/this.ts_beats);
+		this.wNoteLength = (int) ((double)this.ts_beatlength * ((double)this.trueMeasureLength/(double)this.ts_beats));
+		if(this.wNoteLength < 1) {
+			this.wNoteLength = 1;
+		}
 		System.out.println("DEBUG: wholenotelength: " + this.wNoteLength);
 	}
 	
