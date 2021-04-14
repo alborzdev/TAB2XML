@@ -17,7 +17,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="501.0" prefWidth="289.0">
                <children>
-                  <JFXTextArea fx:id="measuresTEXTAREA" editable="false" focusColor="WHITE" prefHeight="198.0" prefWidth="289.0" style="-fx-text-fill: white; -fx-background-color: #BCAB79;" unFocusColor="WHITE">
+                  <JFXTextArea fx:id="measuresTEXTAREA" editable="false" focusColor="WHITE" prefHeight="198.0" prefWidth="289.0" style="-fx-text-fill: #343434; -fx-background-color: #BCAB79;" unFocusColor="WHITE">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
