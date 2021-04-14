@@ -28,31 +28,29 @@ public class MeasureReaderV5 {
 	private int repeatCount;
 	
 	//To do:
-	//change type of column to string, read multiple columns for double digit frets
-	//better way to decode notes
 
 	
-	protected MeasureReaderV5(String[] measure) { //basic instructor for testing do not use
-		this.measure = measure;
-		this.character_count = measure[0].length();
-		this.trueMeasureLength = this.floor2pow2(this.character_count);
-		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
-		this.ts_beats = 4;
-		this.ts_beatlength = 4;
-		this.hasNextColumn = true;
-		curr_col = 0;
-	}
-	
-	protected MeasureReaderV5(String[] measure, int beats, int beatlength) { //deprecated do not use
-		this.measure = measure;
-		this.character_count = measure[0].length();
-		this.trueMeasureLength = this.floor2pow2(this.character_count);
-		this.string_count = measure.length;
-		this.ts_beats = beats;
-		this.ts_beatlength = beatlength;
-		this.hasNextColumn = true;
-		curr_col = 0;
-	}
+//	protected MeasureReaderV5(String[] measure) { //basic instructor for testing do not use
+//		this.measure = measure;
+//		this.character_count = measure[0].length();
+//		this.trueMeasureLength = this.floor2pow2(this.character_count);
+//		this.string_count = Integer.parseInt(cfg.getAttr("string_count"));
+//		this.ts_beats = 4;
+//		this.ts_beatlength = 4;
+//		this.hasNextColumn = true;
+//		curr_col = 0;
+//	}
+//	
+//	protected MeasureReaderV5(String[] measure, int beats, int beatlength) { //deprecated do not use
+//		this.measure = measure;
+//		this.character_count = measure[0].length();
+//		this.trueMeasureLength = this.floor2pow2(this.character_count);
+//		this.string_count = measure.length;
+//		this.ts_beats = beats;
+//		this.ts_beatlength = beatlength;
+//		this.hasNextColumn = true;
+//		curr_col = 0;
+//	}
 	
 	public MeasureReaderV5(String[] measure, String[] tuning, int beats, int beatlength) { 
 		this.measure = measure;
@@ -296,18 +294,18 @@ public class MeasureReaderV5 {
 		return out;
 	}
 	
-	private int[] getFrets(String[] column) {
-		int[] out = new int[string_count];
-		for(int i=0; i<string_count; i++) {
-			try {
-				out[i] = Integer.parseInt(column[i]);
-			}catch(NumberFormatException e) {
-				out[i] = -1;
-			}
-		}
-		return out;
-		
-	}
+//	private int[] getFrets(String[] column) {
+//		int[] out = new int[string_count];
+//		for(int i=0; i<string_count; i++) {
+//			try {
+//				out[i] = Integer.parseInt(column[i]);
+//			}catch(NumberFormatException e) {
+//				out[i] = -1;
+//			}
+//		}
+//		return out;
+//		
+//	}
 	
 	private int[] getFretsExpanded(String[] column) {
 		int[] out = new int[string_count];
@@ -368,34 +366,34 @@ public class MeasureReaderV5 {
 		
 	}
 	
-	private String[] advanceConnectorStatus1(String[] connectorArray, int string, boolean cont) {
-		if(connectorArray[string].equals(null)) {
-			if(cont) {
-				connectorArray[string] = "start";
-			}else {
-				//remain as none
-			}
-		}else if(connectorArray[string].equals("start")) {
-			if(cont) {
-				connectorArray[string] = "continue";
-			}else {
-				connectorArray[string] = "stop";
-			}
-		}else if(connectorArray[string].equals("stop")) {
-			if(cont) {
-				connectorArray[string] = "start";
-			}else {
-				connectorArray[string] = "none";
-			}
-		}else { //slur is continue
-			if(cont) {
-				//remain as continue
-			}else {
-				connectorArray[string] = "stop";
-			}
-		}
-		return connectorArray;
-	}
+//	private String[] advanceConnectorStatus1(String[] connectorArray, int string, boolean cont) {
+//		if(connectorArray[string].equals(null)) {
+//			if(cont) {
+//				connectorArray[string] = "start";
+//			}else {
+//				//remain as none
+//			}
+//		}else if(connectorArray[string].equals("start")) {
+//			if(cont) {
+//				connectorArray[string] = "continue";
+//			}else {
+//				connectorArray[string] = "stop";
+//			}
+//		}else if(connectorArray[string].equals("stop")) {
+//			if(cont) {
+//				connectorArray[string] = "start";
+//			}else {
+//				connectorArray[string] = "none";
+//			}
+//		}else { //slur is continue
+//			if(cont) {
+//				//remain as continue
+//			}else {
+//				connectorArray[string] = "stop";
+//			}
+//		}
+//		return connectorArray;
+//	}
 	
 	private String[] advanceConnectorStatus(String[] connectorArray, int string, boolean cont) {
 		if(connectorArray[string] == null) {
@@ -502,27 +500,27 @@ public class MeasureReaderV5 {
 		this.octaves = baseOctaves;
 	}
 	
-	private int getTrueMeasureLength1() {
-		int out = 1;
-		int counter = 0;
-		System.out.println(measure[3]);
-		while(counter < this.character_count && isStrictEmpty(getColumn(counter))) {		
-			System.out.print("0");
-			counter ++;
-		}
-		counter++;
-		while(counter < this.character_count) {	
-			if(!isStrictEmpty(getColumn(counter)) && !isStrictEmpty(getColumn(counter-1))) {
-				System.out.print("x");
-			}else {
-				System.out.print("-");
-				out ++;
-			}
-			counter ++;
-		}
-		System.out.println("DEBUG: true measure length: " + out);
-		return out;
-	}
+//	private int getTrueMeasureLength1() {
+//		int out = 1;
+//		int counter = 0;
+//		System.out.println(measure[3]);
+//		while(counter < this.character_count && isStrictEmpty(getColumn(counter))) {		
+//			System.out.print("0");
+//			counter ++;
+//		}
+//		counter++;
+//		while(counter < this.character_count) {	
+//			if(!isStrictEmpty(getColumn(counter)) && !isStrictEmpty(getColumn(counter-1))) {
+//				System.out.print("x");
+//			}else {
+//				System.out.print("-");
+//				out ++;
+//			}
+//			counter ++;
+//		}
+//		System.out.println("DEBUG: true measure length: " + out);
+//		return out;
+//	}
 	
 	private int getTrueMeasureLength() {
 		int out = 1;
@@ -605,9 +603,9 @@ public class MeasureReaderV5 {
 		System.out.println("DEBUG: final measure length " + this.character_count);
 	}
 	
-	private int floor2pow2(int in) { //round down to power of 2, useful to determine "true measure length" that would be inflated by double digit frets
-		return (int) Math.floor(Math.log(in)/Math.log(2));
-	}
+//	private int floor2pow2(int in) { //round down to power of 2, useful to determine "true measure length" that would be inflated by double digit frets
+//		return (int) Math.floor(Math.log(in)/Math.log(2));
+//	}
 	
 	private double log2 (double in) {
 		double out = (Math.log(in) / Math.log(2));
