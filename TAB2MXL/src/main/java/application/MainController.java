@@ -77,7 +77,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private JFXTextArea textarea;
-	
+
 	@FXML
 	private JFXTextArea measuresTEXTAREA = new JFXTextArea();
 
@@ -85,16 +85,16 @@ public class MainController implements Initializable {
 	private static int size;
 	String tab;
 	Chain chain;
-	
+
 	private int detector() {
 		int DetectedIntrument = (ErrorHandling.detectInstrument( textarea.getText() )/10);
-        if(DetectedIntrument == 1) InstrumentType.getSelectionModel().select(0);//set guitar
-        else if(DetectedIntrument == 2 || DetectedIntrument == 3 ) InstrumentType.getSelectionModel().select(2);  //set bass
-        else if(DetectedIntrument == 4) InstrumentType.getSelectionModel().select(1);//set drums
-        //else return -1; //cannot detect intrument. Tell user to pick instrument and line count
-        return DetectedIntrument;
+		if(DetectedIntrument == 1) InstrumentType.getSelectionModel().select(0);//set guitar
+		else if(DetectedIntrument == 2 || DetectedIntrument == 3 ) InstrumentType.getSelectionModel().select(2);  //set bass
+		else if(DetectedIntrument == 4) InstrumentType.getSelectionModel().select(1);//set drums
+		//else return -1; //cannot detect intrument. Tell user to pick instrument and line count
+		return DetectedIntrument;
 	}
-	
+
 	/**
 	 * This method allows Open/Upload button to select a .txt file and display it in text area
 	 * @param event
@@ -171,41 +171,41 @@ public class MainController implements Initializable {
 	public void updateTimeSigsArray() throws Exception {
 		//NEW TIME SIGNATURE ARRAYS
 		File f = new File("TempD.txt");
-		 tab = tab2mxl.txtAnalyzing.analyze(f.toString());
+		tab = tab2mxl.txtAnalyzing.analyze(f.toString());
 
 		System.out.println("measuresTEXTAREA "+tab);
-				System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
-				List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
-				System.out.println("size = "+TAB.size());
-				for(int i=0;i<TAB.size();i++) {
-					String [] t=TAB.get(i);
-					System.out.println("printing t String[]");
-					for(int j=0;j<t.length;j++)	
-						System.out.println(t[j]);
-				}
-				timesigs = new int[TAB.size()];
-				size = TAB.size();
-				for(int i=0;i<size;i++) {
-					measures.getItems().add(i+1);
-					timesigs[i]=44;
-				}
-				if(!textarea.getText().isEmpty()) {
-					List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
-					System.out.println("size = "+TAB.size());
-					for(int i=0;i<TAB2.size();i++) {
-						String [] t=TAB2.get(i);
-						System.out.println("printing t String[]");
-						for(int j=0;j<t.length;j++)	
-							System.out.println(t[j]);
-					}
-					timesigs = new int[TAB2.size()];
-					size = TAB2.size();
-					for(int i=0;i<size;i++) {
-						measures.getItems().add(i+1);
-						timesigs[i]=44;
-					}
-				}
-				System.out.println("TIMESIGS IN METHOD = "+timesigs);
+		System.out.println("!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
+		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
+		System.out.println("size = "+TAB.size());
+		for(int i=0;i<TAB.size();i++) {
+			String [] t=TAB.get(i);
+			System.out.println("printing t String[]");
+			for(int j=0;j<t.length;j++)	
+				System.out.println(t[j]);
+		}
+		timesigs = new int[TAB.size()];
+		size = TAB.size();
+		for(int i=0;i<size;i++) {
+			measures.getItems().add(i+1);
+			timesigs[i]=44;
+		}
+		if(!textarea.getText().isEmpty()) {
+			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10).listMeasures();
+			System.out.println("size = "+TAB.size());
+			for(int i=0;i<TAB2.size();i++) {
+				String [] t=TAB2.get(i);
+				System.out.println("printing t String[]");
+				for(int j=0;j<t.length;j++)	
+					System.out.println(t[j]);
+			}
+			timesigs = new int[TAB2.size()];
+			size = TAB2.size();
+			for(int i=0;i<size;i++) {
+				measures.getItems().add(i+1);
+				timesigs[i]=44;
+			}
+		}
+		System.out.println("TIMESIGS IN METHOD = "+timesigs);
 	}
 	@FXML
 	public void changeMeasure(ActionEvent event) {
@@ -219,14 +219,14 @@ public class MainController implements Initializable {
 				conf.setContentText("Please enter a valid range.");
 				conf.showAndWait(); 
 			}else {
-			for(int i = FROM-1; i<TO;i++) {
-				if(s.compareTo("3/4")==0)
-					timesigs[i]=34;
-				else timesigs[i]=44;
-				System.out.println("m="+i+" changing to "+timesigs[i]);
+				for(int i = FROM-1; i<TO;i++) {
+					if(s.compareTo("3/4")==0)
+						timesigs[i]=34;
+					else timesigs[i]=44;
+					System.out.println("m="+i+" changing to "+timesigs[i]);
+				}
 			}
-			}
-			
+
 		}
 		else if(measures.getSelectionModel().getSelectedItem()!=null){
 			int m = measures.getSelectionModel().getSelectedIndex();
@@ -236,12 +236,12 @@ public class MainController implements Initializable {
 
 			System.out.println("m="+m+" changing to "+timesigs[m]);
 		}
-		
+
 		CHANGE = true;
 		System.out.println("CHANGE 209 = "+CHANGE);
 	}
 
-	
+
 	/**
 	 * Lets user specify name and path of xml file
 	 * @param event
@@ -258,7 +258,7 @@ public class MainController implements Initializable {
 		FileWriter write;
 		System.out.println("change = "+CHANGE);
 		System.out.println("gettimesigs = "+getTimeSig());
-		
+
 		if(CHANGE)loadArray();
 		else {
 			List<String[]> TAB2 = new TabReaderV4( Chain.stringToFile( textarea.getText() ), ErrorHandling.detectInstrument(textarea.getText())%10).listMeasures();
@@ -282,7 +282,7 @@ public class MainController implements Initializable {
 			System.out.println(timesigs[i]);
 		}
 		int stafflines = ErrorHandling.detectInstrument(textarea.getText());
-		
+
 		chain = new Chain(textarea.getText(), getTitle(), getLyricist(),getComposer(), timesigs, getKey(), getType(),getConversionType(), stafflines);     	
 
 		//CHAIN CALLS w/ ERROR HANDLING
@@ -370,9 +370,9 @@ public class MainController implements Initializable {
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
-			ErrorHandling.errorEventHighlight(
-					"Conversion was unsuccessful :(",
-					e, textarea, "|"+e.getString()+"|");
+			//			ErrorHandling.errorEventHighlight(
+			//					"Conversion was unsuccessful :(",
+			//					e, textarea, "|"+e.getString()+"|");
 		}
 
 		try{chain.INFOtoPARTWISE();} 
@@ -382,7 +382,7 @@ public class MainController implements Initializable {
 			ERRORStextarea.setStyle("-fx-text-fill: red ;") ;
 			ERRORStextarea.clear();
 			ERRORStextarea.appendText(e.getMessage());
-			
+
 		}
 		System.out.println("FLAG after = "+flag);
 		if(!flag) ERRORStextarea.clear();
@@ -417,7 +417,7 @@ public class MainController implements Initializable {
 		//textarea = new JFXTextArea();
 		//measuresTEXTAREA.clear();
 		KeySig.getItems().add("C Major");
-		
+
 		KeySig.setStyle("-fx-text-fill:  #e1dddd ;") ;
 		KeySig.getSelectionModel().select(0);
 		//		KeySig.getItems().add("G Major");
@@ -430,7 +430,7 @@ public class MainController implements Initializable {
 
 		TimeSig.getItems().add("3/4");
 		TimeSig.getItems().add("4/4");
-		
+
 		TimeSig.getSelectionModel().select(1);
 		TimeSig.setStyle("-fx-text-fill:  white ;");
 		//		TimeSig.getItems().add("5/4");
@@ -451,7 +451,7 @@ public class MainController implements Initializable {
 
 		MeasureTimeSig.getItems().add("3/4");
 		MeasureTimeSig.getItems().add("4/4");
-	
+
 		try {
 			updateTimeSigsArray();
 		} catch (Exception e) {
@@ -589,6 +589,7 @@ public class MainController implements Initializable {
 		}
 		else loader("database.txt","attributes.txt");
 		detector();
+		loadArray();
 	}
 
 	private void loader(String database, String attributes) throws IOException {
@@ -638,7 +639,7 @@ public class MainController implements Initializable {
 					if(parts.length>5 && !parts[5].isEmpty()) title.setText(parts[5]);
 					if(parts.length>6 && !parts[6].isEmpty()) lyricist.setText(parts[6]);
 				}
-						
+
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -651,8 +652,8 @@ public class MainController implements Initializable {
 		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
 
 		if(measures.getSelectionModel().getSelectedItem()!=null) {
-		System.out.println("print selection:");
-		System.out.println("!!!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
+			System.out.println("print selection:");
+			System.out.println("!!!!!!!!!!!!"+ErrorHandling.detectInstrument(tab)%10);
 			int i = measures.getSelectionModel().getSelectedIndex();
 			String [] t=TAB.get(i);
 			measuresTEXTAREA.clear();
@@ -663,9 +664,9 @@ public class MainController implements Initializable {
 				measuresTEXTAREA.appendText("|\n");
 			}
 		}
-		
+
 	}
-	
+
 	@FXML
 	public void printIntervalSelection(KeyEvent event) throws Exception {
 		List<String[]> TAB = new TabReaderV4( Chain.stringToFile( tab ), ErrorHandling.detectInstrument(tab)%10 ).listMeasures();
@@ -686,7 +687,7 @@ public class MainController implements Initializable {
 			}
 		}
 	}
-	
+
 	@FXML
 	public void saveChanges(ActionEvent event) throws IOException {
 		saveArray();
@@ -697,46 +698,46 @@ public class MainController implements Initializable {
 			conf.showAndWait(); 
 		}
 		else {
-		FileWriter fw;
-		try {
-			{fw = new FileWriter("database.txt",false);
+			FileWriter fw;
+			try {
+				{fw = new FileWriter("database.txt",false);
 
-			BufferedWriter bw = new BufferedWriter(fw); 
-			PrintWriter pw = new PrintWriter(bw); 
-			pw.println(textarea.getText());
-			pw.flush(); 
-			pw.close();}
+				BufferedWriter bw = new BufferedWriter(fw); 
+				PrintWriter pw = new PrintWriter(bw); 
+				pw.println(textarea.getText());
+				pw.flush(); 
+				pw.close();}
 
-			//save attributes
-			fw = new FileWriter("attributes.txt",false);
+				//save attributes
+				fw = new FileWriter("attributes.txt",false);
 
-			BufferedWriter bw = new BufferedWriter(fw); 
-			PrintWriter pw = new PrintWriter(bw); 
-			pw.println(getKey()+","+getTimeSig()+","+getConversionType()+","+getType()+","+getComposer()+","+getTitle()+","+getLyricist());
+				BufferedWriter bw = new BufferedWriter(fw); 
+				PrintWriter pw = new PrintWriter(bw); 
+				pw.println(getKey()+","+getTimeSig()+","+getConversionType()+","+getType()+","+getComposer()+","+getTitle()+","+getLyricist());
 
-			pw.flush(); 
-			pw.close();
+				pw.flush(); 
+				pw.close();
 
 
-			RECENTFILES.add(textarea.getText());
-			if(RECENTFILES.get(0)!=null) {
-				Alert conf = new Alert(AlertType.CONFIRMATION,  
-						""); 
-				conf.setContentText("CHANGES SAVED");
-				conf.showAndWait(); 
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			if(RECENTFILES.get(0)!=null) {
-				Alert conf = new Alert(AlertType.ERROR,  
-						"Could not save changes"); 
-				conf.setContentText("SOMETHING WENT WRONG");
-				conf.showAndWait(); 
-			}
-		} 
+				RECENTFILES.add(textarea.getText());
+				if(RECENTFILES.get(0)!=null) {
+					Alert conf = new Alert(AlertType.CONFIRMATION,  
+							""); 
+					conf.setContentText("CHANGES SAVED");
+					conf.showAndWait(); 
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				if(RECENTFILES.get(0)!=null) {
+					Alert conf = new Alert(AlertType.ERROR,  
+							"Could not save changes"); 
+					conf.setContentText("SOMETHING WENT WRONG");
+					conf.showAndWait(); 
+				}
+			} 
 
-	}
+		}
 	}
 	private void save() {
 		FileWriter fw;
@@ -768,63 +769,66 @@ public class MainController implements Initializable {
 	public void advancedOptions(ActionEvent event) throws Exception {
 		save();
 		Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml-files/advanced.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Advanced Options");
-    		stage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
-            stage.setScene(new Scene(root, 450, 450));
-            stage.show();
-            // Hide this current window (if this is what you want)
-           // ((Node)(event.getSource())).getScene().getWindow().hide();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        textarea.clear();
-        loader("tempD.txt","tempA.txt");
-        System.out.println("613");
-        updateTimeSigsArray();
+		try {
+			root = FXMLLoader.load(getClass().getResource("/fxml-files/advanced.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("Advanced Options");
+			stage.getIcons().add(new Image("https://icons-for-free.com/iconfiles/png/512/music+icon-1320184414432119131.png"));
+			stage.setScene(new Scene(root, 450, 450));
+			stage.show();
+			// Hide this current window (if this is what you want)
+			// ((Node)(event.getSource())).getScene().getWindow().hide();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		//textarea.clear();
+		//loader("tempD.txt","tempA.txt");
+		System.out.println("613");
+		updateTimeSigsArray();
 	}
-	
+
 
 	@FXML private Button close;
 	@FXML
 	public void Close(ActionEvent event) throws IOException {
-	    Stage stage = (Stage) close.getScene().getWindow();
-	    stage.close();
-	    saveArray();
+		Stage stage = (Stage) close.getScene().getWindow();
+		stage.close();
+		saveArray();
 	}
 	private void saveArray() throws IOException {
 		FileWriter fw;
-			fw = new FileWriter("timesigs.txt",false);
+		fw = new FileWriter("timesigs.txt",false);
 
-			BufferedWriter bw = new BufferedWriter(fw); 
-			PrintWriter pw = new PrintWriter(bw); 
-			for(int i =0;i<size;i++)
-				pw.println(timesigs[i]);
-			pw.flush(); 
-			pw.close();
+		BufferedWriter bw = new BufferedWriter(fw); 
+		PrintWriter pw = new PrintWriter(bw); 
+		for(int i =0;i<size;i++) {
+			pw.println(timesigs[i]);
+			System.out.println("saving into file -> "+timesigs[i]);	
+		}
+		pw.flush(); 
+		pw.close();
 	}
-	
+
 	private void loadArray() throws IOException {
 		BufferedReader br;
-		
-			br = new BufferedReader(new FileReader("timesigs.txt"));
-			String line;
-			int i=0;
-				while ((line = br.readLine()) != null) {
-					System.out.println(line);
-					if(line.equals("34"))
-					timesigs[i]=34; 
-					else timesigs[i]=44;
-					i++;
-				}
-			br.close();
+
+		br = new BufferedReader(new FileReader("timesigs.txt"));
+		String line;
+		int i=0;
+		while ((line = br.readLine()) != null) {
+			System.out.println("loading - > "+line);
+			if(line.equals("34"))
+				timesigs[i]=34; 
+			else timesigs[i]=44;
+			i++;
+		}
+		br.close();
+		CHANGE = true;
 	}
-	
+
 	public String getTextArea() {
-        return textarea.getText();
-    }
+		return textarea.getText();
+	}
 
 }
