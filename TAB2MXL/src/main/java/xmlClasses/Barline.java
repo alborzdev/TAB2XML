@@ -13,7 +13,10 @@ public class Barline {
 	public Barline() {
 		
 	}
-	
+	public Barline(String loc, String bs) {
+		this.location = loc;
+		this.barStyle = bs;
+	}
 	public Barline(String loc, String bs, String direction) {
 		this.location = loc;
 		this.barStyle = bs;
